@@ -7,9 +7,17 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    
+    "start": "npm run  launch --workspaces=back ",
+    "proyect":"turbo dev",
+    "back": "cd  apps/back && npm run dev ",
+    "front": "cd apps/front && npm run dev "
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC"
+  "workspaces": [
+    "apps/back",
+    "apps/front"
+  ],
+  "license": "ISC",
+  "devDependencies": {
+    "turbo": "^1.11.2"
+  }
 }
