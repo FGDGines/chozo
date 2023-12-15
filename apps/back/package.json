@@ -1,0 +1,17 @@
+{
+  "name": "chozo_back",
+  "version": "0.0.1",
+  "main": "index.js",
+  "scripts": {
+    "dev":"nodemon app.js",
+    "start":"npm run launch", 
+    "launch":"node  app.js"
+  }, 
+  "license": "ISC",  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2"
+  }
+  
+
+}
