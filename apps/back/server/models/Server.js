@@ -1,6 +1,7 @@
 const express = require('express')
 const cors = require('cors')
-
+const morgan = require("morgan");
+const {conex} = require('./DbConex');
 
 class Server {
     constructor(arg) {
@@ -21,7 +22,7 @@ class Server {
         // Lectura y parseo del Body
         this.app.use(express.json())
         this.app.use(express.urlencoded({ extended: true }))
-
+        this.app.use(morgan("dev"));
         // File Upload
         // Agregar a preferencia (Multer / File-Upload / etc)
         
@@ -35,7 +36,9 @@ class Server {
 
     async upDB() {
         // Aqui se conecta con la base de datos
-    }
+    };
+
+
 
     routes() {
         // Aquí se ponen las rutas básica
@@ -46,15 +49,16 @@ class Server {
         //Aquí se ponen las rutas API.
 
 
-    }
+    };
 
     run() {
         this.app.listen(this.__port, () => {
             console.log(`Server running on port ${this.__port}`)
         })
-    }
+    };
 
-}
+   
+};
 
 
-module.exports = Server 
+module.exports = Server; 
