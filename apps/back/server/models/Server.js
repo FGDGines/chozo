@@ -8,9 +8,15 @@ class Server {
         this.__port = arg
         this.app = express()
         this.middleares()
+        this.paths = {
+            departamentos:   '/api/departamentos',
+            ciudades:        '/api/ciudades',
+            terceros:        '/api/terceros',
+        }
         this.upDB()
         this.routes()
         this.run()
+
     }
 
     middleares() {
@@ -47,7 +53,9 @@ class Server {
         })
 
         //Aquí se ponen las rutas API.
-
+        this.app.use(this.paths.departamentos, require('../routes/api/departamentos.js'));
+        this.app.use(this.paths.ciudades, require('../routes/api/ciudades.js'));
+        this.app.use(this.paths.terceros, require('../routes/api/terceros.js'));
 
     };
 
