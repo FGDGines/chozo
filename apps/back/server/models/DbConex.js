@@ -10,6 +10,13 @@ const tipotercerosModels = require("./TipoTerceros");
 const tipodocumentosModels = require("./TipoDocumentos");
 const agenciasModels = require("./Agencias");
 const proveedoresModels = require('./Proveedores');
+const lineasModels = require("./Lineas");
+const sublineasModels = require("./Sublineas");
+const gruposModels = require("./Grupos");
+const unidadesModels = require("./Unidades");
+const marcasModels = require("./Marcas");
+const articulosModels = require("./Articulos");
+const pucModels = require("./Puc");
 
 
 //cargamos los datos de conexion a la BD
@@ -30,6 +37,13 @@ tipodocumentosModels(sequelize);
 tipotercerosModels(sequelize);
 agenciasModels(sequelize);
 proveedoresModels(sequelize);
+lineasModels(sequelize);
+sublineasModels(sequelize);
+gruposModels(sequelize);
+unidadesModels(sequelize);
+marcasModels(sequelize);
+articulosModels(sequelize);
+pucModels(sequelize);
 
 const {terceros,
        paises,
@@ -38,7 +52,14 @@ const {terceros,
        tipodocumentos,
        tipoterceros,
        agencias_transporte,
-       proveedores} = sequelize.models;
+       proveedores,
+       lineas,
+       sublineas,
+       grupos,
+       unidades,
+       marcas,
+       articulos,
+       puc} = sequelize.models;
 
 //definimos las relaciones
 paises.hasMany(departamentos, {foreignKey: 'pais_id', sourceKey: 'id'});
@@ -52,6 +73,18 @@ terceros.belongsTo(tipoterceros, {foreignKey: 'tipotercero_id', targetKey: 'id'}
 proveedores.belongsTo(terceros, {foreignKey: 'tercero_id', targetKey: 'id'});
 agencias_transporte.belongsTo(terceros, {foreignKey: 'tercero_id', targetKey: 'id'});
 proveedores.belongsTo(agencias_transporte, {foreignKey: 'agencia_id', targetKey: 'id'});
+
+lineas.hasMany(sublineas, {foreignKey: 'linea_id', sourceKey: 'id'});
+sublineas.belongsTo(lineas, {foreignKey: 'linea_id', targetKey: 'id'});
+sublineas.hasMany(grupos, {foreignKey: 'sublinea_id', sourceKey: 'id'});
+grupos.belongsTo(sublineas, {foreignKey: 'sublinea_id', targetKey: 'id'});
+grupos.hasMany(articulos, {foreignKey: 'grupo_id', sourceKey: 'id'});
+articulos.belongsTo(grupos, {foreignKey: 'grupo_id', targetKey: 'id'});
+articulos.belongsTo(marcas, {foreignKey: 'marca_id', targetKey: 'id'});
+articulos.belongsTo(unidades, {foreignKey: 'unidad_id', targetKey: 'id'});
+sublineas.belongsTo(puc, {foreignKey: 'pucinventario_id', targetKey: 'id'});
+sublineas.belongsTo(puc, {foreignKey: 'pucingresos_id', targetKey: 'id'});
+sublineas.belongsTo(puc, {foreignKey: 'puccostoventa_id', targetKey: 'id'});
 
 async function testConnection() {
     try {
@@ -74,5 +107,12 @@ module.exports = {
    tipoterceros,
    agencias_transporte,
    proveedores,
+   lineas,
+   sublineas,
+   grupos,
+   unidades,
+   marcas,
+   articulos,
+   puc,
    conex: sequelize,
 };

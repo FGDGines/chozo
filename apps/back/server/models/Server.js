@@ -12,6 +12,14 @@ class Server {
             departamentos:   '/api/departamentos',
             ciudades:        '/api/ciudades',
             terceros:        '/api/terceros',
+            agencias:        '/api/agencias',
+            proveedores:     '/api/proveedores',
+            lineas:          '/api/lineas',
+            sublineas:       '/api/sublineas',
+            grupos:          '/api/grupos',
+            marcas:          '/api/marcas',
+            unidades:        '/api/unidades',
+            articulos:       '/api/articulos',
         }
         this.upDB()
         this.routes()
@@ -56,7 +64,14 @@ class Server {
         this.app.use(this.paths.departamentos, require('../routes/api/departamentos.js'));
         this.app.use(this.paths.ciudades, require('../routes/api/ciudades.js'));
         this.app.use(this.paths.terceros, require('../routes/api/terceros.js'));
-
+        this.app.use(this.paths.agencias, require('../routes/api/agencias.js'));
+        this.app.use(this.paths.proveedores, require('../routes/api/proveedores.js'));
+        this.app.use(this.paths.lineas, require('../routes/api/lineas.js'));
+        this.app.use(this.paths.sublineas, require('../routes/api/sublineas.js'));
+        this.app.use(this.paths.grupos, require('../routes/api/grupos.js'));
+        this.app.use(this.paths.marcas, require('../routes/api/marcas.js'));
+        this.app.use(this.paths.unidades, require('../routes/api/unidades.js'));
+        this.app.use(this.paths.articulos, require('../routes/api/articulos.js'));
     };
 
     run() {

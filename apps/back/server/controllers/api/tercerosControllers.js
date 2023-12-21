@@ -28,8 +28,17 @@ const addTercero = async(datos) => {
    return grabado;      
 };
 
+const updateTercero = async(datos, id) => {
+   const {ter_documento, ter_tercero, ter_apellidos, ter_nombres, ter_direccion, ter_telefono,
+      ter_email, ter_celular, ciudad_id, tipodocumento_id, tipotercero_id} = datos;
+   const idTer = Number(id);
+   const result = await terceros.update(datos, {where: {id: idTer}});
+   return result;     
+};
+
 module.exports = {
     getTerceros,
     getTerceroById,
-    addTercero
+    addTercero,
+    updateTercero
 }
