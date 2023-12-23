@@ -36,6 +36,15 @@ function Sales() {
     setValue(newValue);
   };
 
+  const handleDeleteFromCart = (index) => {
+    const updatedCart = [...shoppingCart];
+    const deletedItem = updatedCart.splice(index, 1)[0];
+
+    setShoppingCart(updatedCart);
+    setTotalQuantity(totalQuantity - deletedItem.cantidad);
+    setTotalAmount(totalAmount - deletedItem.total);
+  };
+
   const onSuggestionsFetchRequested = ({ value }) => {
     setSuggestions(getSuggestions(value));
   };
@@ -171,14 +180,41 @@ function Sales() {
             </div>
           </div>
 
-          <ShoppingCartTable shoppingCart={shoppingCart} />
+          <ShoppingCartTable
+            shoppingCart={shoppingCart}
+            onDeleteFromCart={handleDeleteFromCart}
+          />
 
           <div
             id="totales"
             className="flex flex-row justify-end gap-10 w-full px-2 absolute bottom-1 "
           >
-            <div>Total de Productos: {totalQuantity}</div>
-            <div>Total de la Compra: ${totalAmount.toFixed(2)}</div>
+            <div className="flex flex-col justify-end items-end">
+              <div className="flex flex-row gap-10">
+                <div>Total de Productos: {totalQuantity}</div>
+                <div className="flex flex-col justify-center items-start">
+                  <div>
+                    Descuento{" "}
+                    <input
+                      type="number"
+                      className="ml-3 w-[70px] border border-1 border-black rounded-lg"
+                    />
+                  </div>
+                  <div>Impuestos</div>
+                  <div className="text-2xl">
+                    Total: ${totalAmount.toFixed(2)}
+                  </div>
+                </div>
+              </div>
+              <div>
+                <button className="bg-red-600 text-gray-100 py-2 px-5 m-3 rounded-2xl">
+                  Borrar todo
+                </button>
+                <button className="bg-green-600 text-gray-100 py-2 px-5 m-3 rounded-2xl">
+                  VENDER
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
