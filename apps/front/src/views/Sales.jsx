@@ -16,6 +16,8 @@ function Sales() {
   const [quantity, setQuantity] = useState(1);
   const [shoppingCart, setShoppingCart] = useState([]);
   const [totalQuantity, setTotalQuantity] = useState(0);
+  // const [totalImp, setTotalImp] = useState(0);
+
   const [totalAmount, setTotalAmount] = useState(0);
   const [selectedPaymentMethod, setSelectedPaymentMethod] =
     useState("Efectivo");
@@ -69,12 +71,14 @@ function Sales() {
         nombre: selectedProduct.nombre,
         marca: selectedProduct.marca,
         precio: selectedProduct.precio,
+        impuesto: selectedProduct.impuesto,
         cantidad: quantity,
         total: selectedProduct.precio * quantity,
       };
 
       setShoppingCart([...shoppingCart, newItem]);
       setTotalQuantity(totalQuantity + parseInt(quantity, 10));
+
       setTotalAmount(totalAmount + newItem.total);
 
       setValue("");
@@ -123,7 +127,10 @@ function Sales() {
     console.log("descuento", newDesc);
   };
   console.log("metodo de pago", selectedPaymentMethod);
-  // aca seteo el estilo del input BUSCAR
+
+  const handleTotalImp = () => {};
+
+  // aca seteo el estilo del input dropdown BUSCAR
   const theme = {
     container: {
       position: "relative",
@@ -273,7 +280,7 @@ function Sales() {
                       onChange={handleDescuento}
                     />
                   </div>
-                  <div>Impuestos</div>
+                  <div>Impuestos {}</div>
                   {descuento ? (
                     <div className="text-2xl">
                       Total: ${((1 - descuento / 100) * totalAmount).toFixed(2)}{" "}

@@ -25,7 +25,7 @@ const ShoppingCartTable = ({ shoppingCart, onDeleteFromCart }) => {
             <th className="border p-2 w-[5%] -translate-y-1  text-white bg-customBlue">
               ID
             </th>
-            <th className="border p-2 w-[46%] -translate-y-1 text-white bg-customBlue">
+            <th className="border p-2 w-[41%] -translate-y-1 text-white bg-customBlue">
               Descripción
             </th>
             <th className="border p-2 w-[15%] -translate-y-1 text-white bg-customBlue">
@@ -36,6 +36,9 @@ const ShoppingCartTable = ({ shoppingCart, onDeleteFromCart }) => {
             </th>
             <th className="border p-2 w-[10%] -translate-y-1 text-white bg-customBlue">
               Precio Unitario
+            </th>
+            <th className="border p-2 w-[5%] -translate-y-1 text-white bg-customBlue">
+              Imp{" "}
             </th>
             <th className="border p-2 w-[20%] -translate-y-1 text-white bg-customBlue">
               Total
@@ -57,6 +60,7 @@ const ShoppingCartTable = ({ shoppingCart, onDeleteFromCart }) => {
               <td className="border px-2 text-center">
                 ${item.precio.toFixed(2)}
               </td>
+              <td className="border px-2 text-left">{item.impuesto}</td>
               <td className="border p-2 text-center">
                 ${item.total.toFixed(2)}
               </td>
