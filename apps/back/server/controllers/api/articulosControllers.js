@@ -1,4 +1,5 @@
-const {articulos, grupos, marcas, unidades} = require("../../models/DbConex");
+const {articulos, grupos, marcas, unidades, conex} = require("../../models/DbConex");
+
 
 //devuelve todos los articulos
 const getArticulos = async() => {
@@ -28,6 +29,14 @@ const getArticuloById = async(id) => {
 //agrega un nuevo articulo
 const addArticulo = async(datos) => {
    const {art_detalles, art_referencia, grupo_id} = datos;
+   const buscado = await articulos.findAll({
+      where: { 
+         art_detalles,
+         art_referencia,
+         grupo_id
+       }
+   });
+   if(buscado.length) return buscado;
    const registro = await articulos.create(datos);
    return registro;
 };
@@ -39,6 +48,19 @@ const updateArticulo = async(datos, id) => {
    return registro;
 };
 
+//buscar un articulo por el nombre
+const findArticulo = async(datos) => {
+   const {art_detalles, art_referencia, grupo_id} = datos;
+   articulos.findAll({
+      where: {
+        [conex.and]: [
+          { art_detalles },
+          { art_referencia },
+          {grupo_id}
+        ]
+      }
+    });
+};
 
 module.exports = {
    getArticulos,

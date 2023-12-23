@@ -16,8 +16,7 @@ const getUnidadById = async(id) => {
 
 //creacion de una unidad nueva
 const addUnidad = async(datos) => {
-   const [registro, created] = await unidades.findOrCreate(
-         {where: {uni_detalles}});
+   const registro = await unidades.create(datos);
    return registro;      
 };
 

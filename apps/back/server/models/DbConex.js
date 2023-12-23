@@ -17,6 +17,14 @@ const unidadesModels = require("./Unidades");
 const marcasModels = require("./Marcas");
 const articulosModels = require("./Articulos");
 const pucModels = require("./Puc");
+const carteraxpagarModels = require('./CarteraxPagar');
+const contableModels = require('./Contable');
+const existenciasModels = require('./Existencias');
+const itemcontableModels = require('./ItemContable');
+const itempedidosModels = require('./ItemPedidos');
+const kardexModels = require('./Kardex');
+const pedidosModels = require('./Pedidos');
+const fuentesModels = require('./Fuentes');
 
 
 //cargamos los datos de conexion a la BD
@@ -44,6 +52,14 @@ unidadesModels(sequelize);
 marcasModels(sequelize);
 articulosModels(sequelize);
 pucModels(sequelize);
+carteraxpagarModels(sequelize);
+contableModels(sequelize);
+existenciasModels(sequelize);
+itemcontableModels(sequelize);
+itempedidosModels(sequelize);
+kardexModels(sequelize);
+pedidosModels(sequelize);
+fuentesModels(sequelize);
 
 const {terceros,
        paises,
@@ -59,7 +75,15 @@ const {terceros,
        unidades,
        marcas,
        articulos,
-       puc} = sequelize.models;
+       puc,
+       carteraxpagar,
+       contable,
+       existencias,
+       itemcontable,
+       itempedidos,
+       kardex,
+       pedidos,
+       fuentes} = sequelize.models;
 
 //definimos las relaciones
 paises.hasMany(departamentos, {foreignKey: 'pais_id', sourceKey: 'id'});
@@ -85,6 +109,28 @@ articulos.belongsTo(unidades, {foreignKey: 'unidad_id', targetKey: 'id'});
 sublineas.belongsTo(puc, {foreignKey: 'pucinventario_id', targetKey: 'id'});
 sublineas.belongsTo(puc, {foreignKey: 'pucingresos_id', targetKey: 'id'});
 sublineas.belongsTo(puc, {foreignKey: 'puccostoventa_id', targetKey: 'id'});
+
+terceros.hasMany(carteraxpagar, {foreignKey: 'tercero_id', sourceKey: 'id'});
+carteraxpagar.belongsTo(terceros, {foreignKey: 'tercero_id', targetKey: 'id'});
+carteraxpagar.belongsTo(contable, {foreignKey: 'contable_id', targetKey: 'id'});
+carteraxpagar.belongsTo(fuentes, {foreignKey: 'fuente_id', targetKey: 'id'});
+contable.belongsTo(fuentes, {foreignKey: 'fuente_id', targetKey: 'id'});
+contable.belongsTo(terceros, {foreignKey: 'tercero_id', targetKey: 'id'});
+contable.hasMany(itemcontable, {foreignKey: 'contable_id', sourceKey: 'id'});
+itemcontable.belongsTo(contable, {foreignKey: 'contable_id', targetKey: 'id'});
+itemcontable.belongsTo(terceros, {foreignKey: 'tercero_id', targetKey: 'id'});
+itemcontable.belongsTo(fuentes, {foreignKey: 'fuente_id', targetKey: 'id'});
+itemcontable.belongsTo(puc, {foreignKey: 'puc_id', targetKey: 'id'});
+
+pedidos.hasMany(itempedidos, {foreignKey: 'pedido_id', sourceKey: 'id'});
+proveedores.hasMany(pedidos, {foreignKey: 'proveedor_id', sourceKey: 'id'});
+pedidos.belongsTo(proveedores, {foreignKey: 'proveedor_id', targetKey: 'id'});
+itempedidos.belongsTo(articulos, {foreignKey: 'articulo_id', targetKey: 'id'});
+itempedidos.belongsTo(pedidos, {foreignKey: 'pedido_id', targetKey: 'id'});
+kardex.belongsTo(contable, {foreignKey: 'contable_id', targetKey: 'id'});
+kardex.belongsTo(articulos, {foreignKey: 'articulo_id', targetKey: 'id'});
+existencias.belongsTo(articulos, {foreignKey: 'articulo_id', targetKey: 'id'});
+
 
 async function testConnection() {
     try {
@@ -114,5 +160,13 @@ module.exports = {
    marcas,
    articulos,
    puc,
+   carteraxpagar,
+   contable,
+   existencias,
+   fuentes,
+   itemcontable,
+   itempedidos,
+   kardex, 
+   pedidos,
    conex: sequelize,
 };
