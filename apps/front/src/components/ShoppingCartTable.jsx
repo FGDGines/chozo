@@ -19,7 +19,7 @@ const ShoppingCartTable = ({ shoppingCart, onDeleteFromCart }) => {
 
   return (
     <div
-      className="overflow-x-auto w-full mt-[50px] pl-2s text-sm max-h-[330px] overflow-y-auto relative"
+      className="overflow-x-auto w-full mt-[50px] pl-2s text-sm max-h-[260px] overflow-y-auto relative"
       ref={tableContainerRef}
     >
       <table className="border-collapse border border-gray-300 rounded-xl w-full">
