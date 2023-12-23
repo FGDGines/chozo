@@ -9,6 +9,13 @@ export default {
       colors: {
         customBlue: '#5272F2',
       },
+      fontFamily: {
+        'SFMedium': ['SFMedium'],
+        'SFHeavy': ['SFHeavy'],
+        'SFRegular': ['SFRegular'],
+
+
+      },
     },
   },
   plugins: [],
