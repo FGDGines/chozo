@@ -17,17 +17,23 @@ function Sales() {
   const [shoppingCart, setShoppingCart] = useState([]);
   const [totalQuantity, setTotalQuantity] = useState(0);
   const [totalAmount, setTotalAmount] = useState(0);
+  const [selectedPaymentMethod, setSelectedPaymentMethod] =
+    useState("Efectivo");
+  const [descuento, setDescuento] = useState(0);
 
   const inputBuscarRef = useRef(null);
   const inputCantidadRef = useRef(null);
 
   const getSuggestions = (inputValue) => {
     const inputValueLower = inputValue.toLowerCase();
-    return productos.filter(
+    const filteredSuggestions = productos.filter(
       (producto) =>
         producto.nombre.toLowerCase().includes(inputValueLower) ||
         String(producto.id).includes(inputValueLower)
     );
+    const limitedSuggestions = filteredSuggestions.slice(0, 8);
+
+    return limitedSuggestions;
   };
 
   const getSuggestionValue = (suggestion) => suggestion.nombre;
@@ -56,10 +62,12 @@ function Sales() {
   };
 
   const handleAddToCart = () => {
+    console.log("SELECTED PRODUCT", selectedProduct);
     if (selectedProduct) {
       const newItem = {
         id: selectedProduct.id,
         nombre: selectedProduct.nombre,
+        marca: selectedProduct.marca,
         precio: selectedProduct.precio,
         cantidad: quantity,
         total: selectedProduct.precio * quantity,
@@ -77,6 +85,12 @@ function Sales() {
     }
   };
 
+  const handleClearCart = () => {
+    setShoppingCart([]);
+    setTotalQuantity(0);
+    setTotalAmount(0);
+  };
+
   const handleKeyDown = (event) => {
     if (event.key === "Enter") {
       event.preventDefault();
@@ -90,6 +104,25 @@ function Sales() {
       handleAddToCart();
     }
   };
+
+  const handlePaymentMethod = (method) => {
+    if (method === "Efectivo") {
+      setSelectedPaymentMethod("Efectivo");
+    }
+    if (method === "Tarjeta") {
+      setSelectedPaymentMethod("Tarjeta");
+    }
+    if (method === "A cuenta") {
+      setSelectedPaymentMethod("A cuenta");
+    }
+  };
+
+  const handleDescuento = (event) => {
+    const newDesc = parseInt(event.target.value, 10);
+    setDescuento(newDesc);
+    console.log("descuento", newDesc);
+  };
+  console.log("metodo de pago", selectedPaymentMethod);
   // aca seteo el estilo del input BUSCAR
   const theme = {
     container: {
@@ -186,32 +219,81 @@ function Sales() {
           />
 
           <div
-            id="totales"
-            className="flex flex-row justify-end gap-10 w-full px-2 absolute bottom-1 "
+            id="div inferior"
+            className="flex flex-row justify-between gap-10 w-full px-2 absolute bottom-1 "
           >
+            <div className="flex flex-col gap-3  items-center">
+              <div>Seleccionar metodo de pago</div>
+              <div
+                id="Botones Metodos De Pago"
+                className="flex flex-row gap-2 justify-around items-center "
+              >
+                <button
+                  onClick={() => handlePaymentMethod("Efectivo")}
+                  className={`border-2 border-customBlue rounded-2xl px-2 py-1 ${
+                    selectedPaymentMethod === "Efectivo"
+                      ? "bg-customBlue text-white"
+                      : ""
+                  }`}
+                >
+                  Efectivo
+                </button>
+                <button
+                  onClick={() => handlePaymentMethod("Tarjeta")}
+                  className={`border-2 border-customBlue rounded-2xl px-2 py-1 ${
+                    selectedPaymentMethod === "Tarjeta"
+                      ? "bg-customBlue text-white"
+                      : ""
+                  }`}
+                >
+                  Tarjeta
+                </button>
+                <button
+                  onClick={() => handlePaymentMethod("A cuenta")}
+                  className={`border-2 border-customBlue rounded-2xl px-2 py-1 ${
+                    selectedPaymentMethod === "A cuenta"
+                      ? "bg-customBlue text-white"
+                      : ""
+                  }`}
+                >
+                  A cuenta
+                </button>
+              </div>
+            </div>{" "}
             <div className="flex flex-col justify-end items-end">
               <div className="flex flex-row gap-10">
                 <div>Total de Productos: {totalQuantity}</div>
-                <div className="flex flex-col justify-center items-start">
+                <div className="flex flex-row gap-7 justify-center items-start">
                   <div>
                     Descuento{" "}
                     <input
                       type="number"
                       className="ml-3 w-[70px] border border-1 border-black rounded-lg"
+                      value={descuento}
+                      onChange={handleDescuento}
                     />
                   </div>
                   <div>Impuestos</div>
-                  <div className="text-2xl">
-                    Total: ${totalAmount.toFixed(2)}
-                  </div>
+                  {descuento ? (
+                    <div className="text-2xl">
+                      Total: ${((1 - descuento / 100) * totalAmount).toFixed(2)}{" "}
+                    </div>
+                  ) : (
+                    <div className="text-2xl">
+                      Total: ${totalAmount.toFixed(2)}{" "}
+                    </div>
+                  )}
                 </div>
               </div>
               <div>
-                <button className="bg-red-600 text-gray-100 py-2 px-5 m-3 rounded-2xl">
+                <button
+                  onClick={handleClearCart}
+                  className="border-[3px] border-customBlue text-gray-900 py-2 px-5 m-3 rounded-2xl hover:bg-gray-300 hover:border-gray-300 transition"
+                >
                   Borrar todo
                 </button>
-                <button className="bg-green-600 text-gray-100 py-2 px-5 m-3 rounded-2xl">
-                  VENDER
+                <button className="bg-customBlue border-[3px] border-customBlue text-gray-100 py-2 px-5 m-3 rounded-2xl hover:bg-blue-800 hover:border-blue-800 transition">
+                  CONFIRMAR
                 </button>
               </div>
             </div>

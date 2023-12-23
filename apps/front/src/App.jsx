@@ -1,10 +1,10 @@
 import React from "react";
-import { Routes, Route, useNavigate } from "react-router-dom";
-import Home from "./Views/Home";
-import Sales from "./Views/Sales";
-import Accounting from "./Views/Accounting";
-import Providers from "./Views/Providers";
-import Purchases from "./Views/Purchases";
+import { Routes, Route } from "react-router-dom";
+import Home from "./views/Home";
+import Sales from "./views/Sales";
+import Accounting from "./views/Accounting";
+import Providers from "./views/Providers";
+import Purchases from "./views/Purchases";
 import Stock from "./views/Stock";
 import SideBar from "./components/SideBar";
 

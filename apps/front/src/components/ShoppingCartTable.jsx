@@ -1,21 +1,15 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import { MdDelete } from "react-icons/md";
 
 const ShoppingCartTable = ({ shoppingCart, onDeleteFromCart }) => {
   const tableContainerRef = useRef(null);
-  const tableBodyRef = useRef(null);
-  const [selectedRow, setSelectedRow] = useState(null);
 
   useEffect(() => {
-    if (tableContainerRef.current && tableBodyRef.current) {
-      const totalHeight = tableBodyRef.current.scrollHeight;
+    if (tableContainerRef.current) {
+      const totalHeight = tableContainerRef.current.scrollHeight;
       tableContainerRef.current.scrollTop = totalHeight;
     }
   }, [shoppingCart]);
-
-  const handleRowMouseEnter = (index) => {
-    setSelectedRow(index);
-  };
 
   return (
     <div
@@ -31,13 +25,16 @@ const ShoppingCartTable = ({ shoppingCart, onDeleteFromCart }) => {
             <th className="border p-2 w-[5%] -translate-y-1  text-white bg-customBlue">
               ID
             </th>
-            <th className="border p-2 w-[53%] -translate-y-1 text-white bg-customBlue">
+            <th className="border p-2 w-[46%] -translate-y-1 text-white bg-customBlue">
               Descripción
             </th>
-            <th className="border p-2 w-[5%] -translate-y-1 text-white bg-customBlue">
+            <th className="border p-2 w-[15%] -translate-y-1 text-white bg-customBlue">
+              Marca
+            </th>
+            <th className="border p-2 w-[2%] -translate-y-1 text-white bg-customBlue">
               Cantidad
             </th>
-            <th className="border p-2 w-[15%] -translate-y-1 text-white bg-customBlue">
+            <th className="border p-2 w-[10%] -translate-y-1 text-white bg-customBlue">
               Precio Unitario
             </th>
             <th className="border p-2 w-[20%] -translate-y-1 text-white bg-customBlue">
@@ -48,18 +45,14 @@ const ShoppingCartTable = ({ shoppingCart, onDeleteFromCart }) => {
             </th>
           </tr>
         </thead>
-        <tbody ref={tableBodyRef}>
+        <tbody>
           {shoppingCart.map((item, index) => (
-            <tr
-              key={item.id}
-              className={`${
-                selectedRow === index ? "bg-gray-200" : ""
-              } transition-all`}
-              onMouseEnter={() => handleRowMouseEnter(index)}
-            >
+            <tr key={index} className="transition-all hover:bg-gray-200">
               <td className="border px-2 text-center">{index + 1}</td>
               <td className="border px-2 text-center">{item.id}</td>
               <td className="border px-2 text-left">{item.nombre}</td>
+              <td className="border px-2 text-left">{item.marca}</td>
+
               <td className="border px-2 text-center">{item.cantidad}</td>
               <td className="border px-2 text-center">
                 ${item.precio.toFixed(2)}
