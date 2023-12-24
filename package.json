@@ -21,6 +21,7 @@
     "turbo": "^1.11.2"
   },
   "dependencies": {
-    "react-autosuggest": "^10.1.0"
+    "react-autosuggest": "^10.1.0",
+    "react-select": "^5.8.0"
   }
 }

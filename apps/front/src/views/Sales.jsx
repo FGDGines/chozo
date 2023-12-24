@@ -28,7 +28,7 @@ function Sales() {
 
   const getSuggestions = (inputValue) => {
     const inputValueLower = inputValue.toLowerCase();
-    const filteredSuggestions = productos.filter(
+    const filteredSuggestions = productos.productos.filter(
       (producto) =>
         producto.nombre.toLowerCase().includes(inputValueLower) ||
         String(producto.id).includes(inputValueLower)

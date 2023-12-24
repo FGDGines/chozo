@@ -1,4 +1,4 @@
-[
+{"productos" : [
   { "id": 1, "nombre": "Arroz x1kg", "precio": 2.5, "cantidad": 3, "total": 7.5, "marca": "MarcaA", "impuesto": 0.2 },
   { "id": 2, "nombre": "Huevo", "precio": 0.5, "cantidad": 12, "total": 6, "marca": "MarcaB", "impuesto": 0.05 },
   { "id": 3, "nombre": "Fideo tirabuzon x500g", "precio": 1.2, "cantidad": 2, "total": 2.4, "marca": "MarcaC", "impuesto": 0.1 },
@@ -24,4 +24,111 @@
   { "id": 23, "nombre": "Vino tinto malbec x750ml", "precio": 7.0, "cantidad": 1, "total": 7.0, "marca": "MarcaW", "impuesto": 0.4 },
   { "id": 24, "nombre": "Papel Higiénico x80mts blanco", "precio": 1.5, "cantidad": 4, "total": 6.0, "marca": "MarcaX", "impuesto": 0.18 },
   { "id": 25, "nombre": "Tornillo muy grande ", "precio": 0.1, "cantidad": 30, "total": 3.0, "marca": "MarcaY", "impuesto": 0.05 }
+],
+"user":[
+  { "id": 1, "nombre": "German Montenegro", "DNI":37810144 },
+  { "id": 2, "nombre": "Paul Martinez", "DNI":88888888 }
+
+],
+"clientes": [
+  { "id": 3, "nombre": "María González", "DNI": 444444444, "condicion de venta": "Tarjeta" },
+  { "id": 4, "nombre": "Roberto Fernández", "DNI": 555555555, "condicion de venta": "Efectivo" },
+  { "id": 5, "nombre": "Ana Martínez", "DNI": 666666666, "condicion de venta": "Cheque" },
+  { "id": 6, "nombre": "Pedro Sánchez", "DNI": 777777777, "condicion de venta": "Tarjeta" },
+  { "id": 7, "nombre": "Luisa Ramírez", "DNI": 888888888, "condicion de venta": "Efectivo" },
+  { "id": 8, "nombre": "Carlos López", "DNI": 999999999, "condicion de venta": "Cheque" },
+  { "id": 9, "nombre": "Laura Rodríguez", "DNI": 111111111, "condicion de venta": "Tarjeta" },
+  { "id": 10, "nombre": "Diego García", "DNI": 222222222, "condicion de venta": "Efectivo" },
+  { "id": 11, "nombre": "Silvia Pérez", "DNI": 333333333, "condicion de venta": "Cheque" },
+  { "id": 12, "nombre": "Jorge Martín", "DNI": 444444445, "condicion de venta": "Tarjeta" },
+  { "id": 13, "nombre": "Carmen Díaz", "DNI": 555555556, "condicion de venta": "Efectivo" },
+  { "id": 14, "nombre": "Manuel Torres", "DNI": 666666667, "condicion de venta": "Cheque" },
+  { "id": 15, "nombre": "Isabel Vargas", "DNI": 777777778, "condicion de venta": "Tarjeta" },
+  { "id": 16, "nombre": "Fernando Cáceres", "DNI": 888888889, "condicion de venta": "Efectivo" },
+  { "id": 17, "nombre": "Natalia Silva", "DNI": 999999990, "condicion de venta": "Cheque" },
+  { "id": 18, "nombre": "Martín Pérez", "DNI": 111111112, "condicion de venta": "Tarjeta" },
+  { "id": 19, "nombre": "Gabriela López", "DNI": 222222223, "condicion de venta": "Efectivo" },
+  { "id": 20, "nombre": "Hernán González", "DNI": 333333334, "condicion de venta": "Cheque" }
+],
+"ventas": [
+  {
+    "id": 1,
+    "fecha": "23/12/2023",
+    "cliente": {
+      "id": 3,
+      "nombre": "María González",
+      "DNI": 444444444,
+      "condicion de venta": "Tarjeta"
+    },
+    "productos": [
+      { "id": 1, "cantidad": 2 },
+      { "id": 5, "cantidad": 1 },
+      { "id": 10, "cantidad": 3 }
+    ]
+  },
+  {
+    "id": 2,
+    "fecha": "23/12/2023",
+    "cliente": {
+      "id": 4,
+      "nombre": "Roberto Fernández",
+      "DNI": 555555555,
+      "condicion de venta": "Efectivo"
+    },
+    "productos": [
+      { "id": 2, "cantidad": 5 },
+      { "id": 7, "cantidad": 2 },
+      { "id": 12, "cantidad": 1 }
+    ]
+  },
+  {
+    "id": 3,
+    "fecha": "23/12/2023",
+    "cliente": {
+      "id": 5,
+      "nombre": "Ana Martínez",
+      "DNI": 666666666,
+      "condicion de venta": "Cheque"
+    },
+    "productos": [
+      { "id": 3, "cantidad": 1 },
+      { "id": 6, "cantidad": 3 },
+      { "id": 15, "cantidad": 2 }
+    ]
+  },
+  {
+    "id": 4,
+    "fecha": "23/12/2023",
+    "cliente": {
+      "id": 6,
+      "nombre": "Pedro Sánchez",
+      "DNI": 777777777,
+      "condicion de venta": "Tarjeta"
+    },
+    "productos": [
+      { "id": 8, "cantidad": 1 },
+      { "id": 10, "cantidad": 2 },
+      { "id": 16, "cantidad": 1 }
+    ]
+  },
+  {
+    "id": 5,
+    "fecha": "23/12/2023",
+    "cliente": {
+      "id": 7,
+      "nombre": "Luisa Ramírez",
+      "DNI": 888888888,
+      "condicion de venta": "Efectivo"
+    },
+    "productos": [
+      { "id": 11, "cantidad": 2 },
+      { "id": 14, "cantidad": 4 },
+      { "id": 20, "cantidad": 1 }
+    ]
+  }
 ]
+
+
+}
+
+

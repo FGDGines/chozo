@@ -6,6 +6,7 @@ import Accounting from "./views/Accounting";
 import Providers from "./views/Providers";
 import Purchases from "./views/Purchases";
 import Stock from "./views/Stock";
+import Sell from "./views/Sell";
 import SideBar from "./components/SideBar";
 
 function App() {
@@ -19,6 +20,14 @@ function App() {
           element={
             <MainLayout showSidebar={true}>
               <Sales />
+            </MainLayout>
+          }
+        />
+        <Route
+          path="/sell"
+          element={
+            <MainLayout showSidebar={true}>
+              <Sell />
             </MainLayout>
           }
         />
