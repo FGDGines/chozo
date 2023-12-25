@@ -1,15 +1,31 @@
 const express = require('express')
 const cors = require('cors')
-
+const morgan = require("morgan");
+const {conex} = require('./DbConex');
 
 class Server {
     constructor(arg) {
         this.__port = arg
         this.app = express()
         this.middleares()
+        this.paths = {
+            departamentos:   '/api/departamentos',
+            ciudades:        '/api/ciudades',
+            terceros:        '/api/terceros',
+            agencias:        '/api/agencias',
+            proveedores:     '/api/proveedores',
+            lineas:          '/api/lineas',
+            sublineas:       '/api/sublineas',
+            grupos:          '/api/grupos',
+            marcas:          '/api/marcas',
+            unidades:        '/api/unidades',
+            articulos:       '/api/articulos',
+            pedidos:         '/api/pedidos',
+        }
         this.upDB()
         this.routes()
         this.run()
+
     }
 
     middleares() {
@@ -21,7 +37,7 @@ class Server {
         // Lectura y parseo del Body
         this.app.use(express.json())
         this.app.use(express.urlencoded({ extended: true }))
-
+        this.app.use(morgan("dev"));
         // File Upload
         // Agregar a preferencia (Multer / File-Upload / etc)
         
@@ -35,7 +51,9 @@ class Server {
 
     async upDB() {
         // Aqui se conecta con la base de datos
-    }
+    };
+
+
 
     routes() {
         // Aquí se ponen las rutas básica
@@ -44,17 +62,28 @@ class Server {
         })
 
         //Aquí se ponen las rutas API.
-
-
-    }
+        this.app.use(this.paths.departamentos, require('../routes/api/departamentos.js'));
+        this.app.use(this.paths.ciudades, require('../routes/api/ciudades.js'));
+        this.app.use(this.paths.terceros, require('../routes/api/terceros.js'));
+        this.app.use(this.paths.agencias, require('../routes/api/agencias.js'));
+        this.app.use(this.paths.proveedores, require('../routes/api/proveedores.js'));
+        this.app.use(this.paths.lineas, require('../routes/api/lineas.js'));
+        this.app.use(this.paths.sublineas, require('../routes/api/sublineas.js'));
+        this.app.use(this.paths.grupos, require('../routes/api/grupos.js'));
+        this.app.use(this.paths.marcas, require('../routes/api/marcas.js'));
+        this.app.use(this.paths.unidades, require('../routes/api/unidades.js'));
+        this.app.use(this.paths.articulos, require('../routes/api/articulos.js'));
+        this.app.use(this.paths.pedidos, require('../routes/api/pedidos.js'));
+    };
 
     run() {
         this.app.listen(this.__port, () => {
             console.log(`Server running on port ${this.__port}`)
         })
-    }
+    };
 
-}
+   
+};
 
 
-module.exports = Server 
+module.exports = Server; 

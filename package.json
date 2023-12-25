@@ -8,7 +8,7 @@
   "main": "index.js",
   "scripts": {
     "start": "npm run  launch --workspaces=back ",
-    "proyect":"turbo dev",
+    "proyect": "turbo dev",
     "back": "cd  apps/back && npm run dev ",
     "front": "cd apps/front && npm run dev "
   },
@@ -19,5 +19,9 @@
   "license": "ISC",
   "devDependencies": {
     "turbo": "^1.11.2"
+  },
+  "dependencies": {
+    "react-autosuggest": "^10.1.0",
+    "react-select": "^5.8.0"
   }
 }

@@ -1,43 +1,80 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React from "react";
+import { Routes, Route } from "react-router-dom";
+import Home from "./views/Home";
+import Sales from "./views/Sales";
+import Accounting from "./views/Accounting";
+import Providers from "./views/Providers";
+import Purchases from "./views/Purchases";
+import Stock from "./views/Stock";
+import Sell from "./views/Sell";
+import SideBar from "./components/SideBar";
 
 function App() {
-    const [count, setCount] = useState(0)
-
-    return (
-        <>
-            <div>
-                <a href="https://vitejs.dev" target="">
-                    <img src={viteLogo} className="logo" alt="Vite logo" />
-                </a>
-                <a href="https://react.dev" target="">
-                    <img src={reactLogo} className="logo react" alt="React logo" />
-                </a>
-            </div>
-            <h1>Vite + React</h1>
-            <div className="card">
-                <button onClick={() => setCount((count) => count + 1)}>
-                    count is {count}
-                </button>
-                <p>
-                    Edit <code>src/App.jsx</code> and save to test HMR
-                </p>
-            </div>
-            <p className="read-the-docs">
-                Click on the Vite and React logos to learn more
-            </p>
-            <button onClick={() => {
-                fetch('/api/v1/hola')
-                    .then(res => res.json())
-                    .then(data => alert(data.msg))
-            }}>
-                Fetch
-            </button>
-
-        </>
-    )
+  return (
+    <div className="flex">
+      <Routes>
+        <Route path="/" element={<MainLayout showSidebar={false} />} />
+        <Route path="/home" element={<Home />} />
+        <Route
+          path="/sales"
+          element={
+            <MainLayout showSidebar={true}>
+              <Sales />
+            </MainLayout>
+          }
+        />
+        <Route
+          path="/sell"
+          element={
+            <MainLayout showSidebar={true}>
+              <Sell />
+            </MainLayout>
+          }
+        />
+        <Route
+          path="/accounting"
+          element={
+            <MainLayout showSidebar={true}>
+              <Accounting />
+            </MainLayout>
+          }
+        />
+        <Route
+          path="/providers"
+          element={
+            <MainLayout showSidebar={true}>
+              <Providers />
+            </MainLayout>
+          }
+        />
+        <Route
+          path="/purchases"
+          element={
+            <MainLayout showSidebar={true}>
+              <Purchases />
+            </MainLayout>
+          }
+        />
+        <Route
+          path="/stock"
+          element={
+            <MainLayout showSidebar={true}>
+              <Stock />
+            </MainLayout>
+          }
+        />
+      </Routes>
+    </div>
+  );
 }
 
-export default App
+function MainLayout({ children, showSidebar }) {
+  return (
+    <>
+      {showSidebar && <SideBar />}
+      <div className="flex-1  ">{children}</div>
+    </>
+  );
+}
+
+export default App;
