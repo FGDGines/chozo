@@ -21,6 +21,7 @@ class Server {
             unidades:        '/api/unidades',
             articulos:       '/api/articulos',
             pedidos:         '/api/pedidos',
+            carteraxpagar:   '/api/carteraxpagar',
         }
         this.upDB()
         this.routes()
@@ -74,6 +75,7 @@ class Server {
         this.app.use(this.paths.unidades, require('../routes/api/unidades.js'));
         this.app.use(this.paths.articulos, require('../routes/api/articulos.js'));
         this.app.use(this.paths.pedidos, require('../routes/api/pedidos.js'));
+        this.app.use(this.paths.carteraxpagar, require('../routes/api/carteraxpagar.js'));
     };
 
     run() {

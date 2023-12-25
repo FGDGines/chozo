@@ -1,5 +1,5 @@
 const {pedidos, itempedidos, articulos, consecutivos, parametros,
-       proveedores, agencias_transporte} = require("../../models/DbConex");
+       proveedores, agencias_transporte, terceros} = require("../../models/DbConex");
 
 //devuelve todos los pedidos existentes
 const getPedidos = async() =>{
@@ -56,7 +56,7 @@ const addPedido = async(datos) => {
       };
       const regGrabado = await itempedidos.create(registro);
    });
-   
+
    //actualizamos el consecutivo de los pedidos
    const consecu = await consecutivos.findOne({where: {fuente_id: fuente, conse_anual: anual}})
    const newConse = consecu.conse_ultimograbado + 1;
@@ -64,7 +64,71 @@ const addPedido = async(datos) => {
    return pedido;
 };
 
+//devuelve un pedido por su ID
+const getPedidoById = async(id) =>{
+   const idP = Number(id);
+   const pedido = await pedidos.findByPk(idP, {
+      include: [
+        {model: proveedores, attributes: { exclude: ['createdAt','updatedAt']},
+           include: [{model: terceros, attributes: { exclude: ['createdAt','updatedAt']} }]
+        },
+        {model: itempedidos, attributes: { exclude: ['createdAt','updatedAt']},
+           include: [{model: articulos, attributes: { exclude: ['createdAt','updatedAt']}}]
+        },
+      ]
+   });
+   return pedido;   
+};
+
+//anular un pedido
+const anulaPedido = async(id) => {
+   const idP = Number(id);
+   const pedido = await pedidos.findByPk(idP);
+   if(pedido.ped_anulado) return {mensaje: "Pedido ya se encuentra anulado"};
+   if(pedido.ped_estado == 1) return {mensaje: "Pedido ya fue facturado"};
+   const anula = await pedidos.update({ped_anulado: 1}, {where: {id: idP}});
+   await itempedidos.update({ite_anulado: 1}, {where: {pedido_id: idP}});
+   return anula;
+};
+
+//modificar un pedido
+const updatePedido = async(datos, id) => {
+    const idP = Number(id);
+    const {fecha, valor, solicitante, items} = datos;
+    const pedido = await pedidos.findByPk(idP);
+    if(pedido.ped_anulado) return {mensaje: "Pedido ya se encuentra anulado"};
+    if(pedido.ped_estado == 1) return {mensaje: "Pedido ya fue facturado"};
+
+    const newDatos = {
+        ped_fecha: new Date(fecha),
+        ped_valor: valor,
+        ped_solicitante: solicitante
+    };
+
+    //actualizamos la tabla de pedidos
+    const edita = await pedidos.update(newDatos, {where: {id: idP}});
+
+    //borramos los items anteriores del pedido
+    await itempedidos.destroy({where: {pedido_id: idP}});
+
+    //agregamos los nuevos registros del pedido
+    items.forEach(async(ele) => {
+       const registro = {
+          ite_cantidad: ele.cantidad,
+          ite_impuesto: ele.impuesto,
+          ite_preciocosto: ele.valoruni,
+          pedido_id: pedido.id,
+          articulo_id: ele.articulo_id,
+       };
+       const regGrabado = await itempedidos.create(registro);
+    });
+    return edita;
+ };
+
 module.exports = {
     getPedidos,
     addPedido,
+    getPedidoById,
+    anulaPedido,
+    updatePedido,
 }

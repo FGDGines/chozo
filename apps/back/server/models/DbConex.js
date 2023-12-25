@@ -25,8 +25,9 @@ const itempedidosModels = require('./ItemPedidos');
 const kardexModels = require('./Kardex');
 const pedidosModels = require('./Pedidos');
 const fuentesModels = require('./Fuentes');
-const consecutivosModel = require('./Consecutivos');
+const consecutivosModels = require('./Consecutivos');
 const parametrosModels = require('./Parametros');
+const item_carteraxpagarModels = require('./ItemCarteraxPagar');
 
 
 //cargamos los datos de conexion a la BD
@@ -62,8 +63,9 @@ itempedidosModels(sequelize);
 kardexModels(sequelize);
 pedidosModels(sequelize);
 fuentesModels(sequelize);
-consecutivosModel(sequelize);
+consecutivosModels(sequelize);
 parametrosModels(sequelize);
+item_carteraxpagarModels(sequelize);
 
 const {terceros,
        paises,
@@ -89,6 +91,7 @@ const {terceros,
        pedidos,
        fuentes,
        consecutivos,
+       item_carteraxpagar,
        parametros} = sequelize.models;
 
 //definimos las relaciones
@@ -139,6 +142,8 @@ existencias.belongsTo(articulos, {foreignKey: 'articulo_id', targetKey: 'id'});
 fuentes.hasMany(consecutivos, {foreignKey: 'fuente_id', sourceKey: 'id'});
 consecutivos.belongsTo(fuentes, {foreignKey: 'fuente_id', targetKey: 'id'});
 
+carteraxpagar.hasMany(item_carteraxpagar, {foreignKey: 'carteraxp_id', sourceKey: 'id'});
+item_carteraxpagar.belongsTo(carteraxpagar, {foreignKey: 'carteraxp_id', targetKey: 'id'});
 
 async function testConnection() {
     try {
@@ -178,5 +183,6 @@ module.exports = {
    pedidos,
    consecutivos,
    parametros,
+   item_carteraxpagar,
    conex: sequelize,
 };
