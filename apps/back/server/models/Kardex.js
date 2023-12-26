@@ -19,12 +19,12 @@ module.exports = (sequelize) => {
             allowNull: false,
         },
         kar_preciocosto: {
-            type: DataTypes.DOUBLE,
+            type: DataTypes.DOUBLE(12,2),
             defaultValue: 0,
             allowNull: false,
         },
         kar_valorunitario: {
-            type: DataTypes.DOUBLE,
+            type: DataTypes.DOUBLE(12,2),
             defaultValue: 0,
         },
         kar_anulado: {

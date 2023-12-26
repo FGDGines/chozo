@@ -17,7 +17,7 @@ module.exports = (sequelize) => {
             allowNull: false,
         },
         con_valor: {
-            type: DataTypes.DOUBLE,
+            type: DataTypes.DOUBLE(14,2),
             defaultValue: 0,
         },
         con_detalles: {

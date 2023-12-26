@@ -21,27 +21,27 @@ module.exports = (sequelize) => {
             allowNull: false,
         },
         cxp_bruto: {
-            type: DataTypes.DOUBLE,
+            type: DataTypes.DOUBLE(12,2),
             defaultValue: 0,
             allowNull: false,
         },
         cxp_impuesto: {
-            type: DataTypes.DOUBLE,
+            type: DataTypes.DOUBLE(12,2),
             defaultValue: 0,
             allowNull: false,
         },
         cxp_total: {
-            type: DataTypes.DOUBLE,
+            type: DataTypes.DOUBLE(12,2),
             defaultValue: 0,
             allowNull: false,
         },
         cxp_retenciones: {
-            type: DataTypes.DOUBLE,
+            type: DataTypes.DOUBLE(12,2),
             defaultValue: 0,
             allowNull: false,
         },
         cxp_abonos: {
-            type: DataTypes.DOUBLE,
+            type: DataTypes.DOUBLE(12,2),
             defaultValue: 0,
             allowNull: false,
         },

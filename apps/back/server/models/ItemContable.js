@@ -17,12 +17,12 @@ module.exports = (sequelize) => {
             allowNull: false,
         },
         ite_debito: {
-            type: DataTypes.DOUBLE,
+            type: DataTypes.DOUBLE(14,2),
             defaultValue: 0,
             allowNull: false,
         },
         ite_credito: {
-            type: DataTypes.DOUBLE,
+            type: DataTypes.DOUBLE(14,2),
             defaultValue: 0,
             allowNull: false,
         },  

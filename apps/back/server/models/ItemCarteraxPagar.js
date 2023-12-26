@@ -14,7 +14,7 @@ module.exports = (sequelize) => {
             allowNull: false,
         },
         ite_cantidad: {
-            type: DataTypes.DOUBLE,
+            type: DataTypes.DOUBLE(12,2),
             defaultValue: 0,
             allowNull: false,
         },

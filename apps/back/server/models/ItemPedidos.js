@@ -14,12 +14,12 @@ module.exports = (sequelize) => {
             defaultValue: 0,
         },
         ite_impuesto: {
-            type: DataTypes.DOUBLE,
+            type: DataTypes.DOUBLE(12,2),
             allowNull: false,
             defaultValue: 0,
         },
         ite_preciocosto: {
-            type: DataTypes.DOUBLE,
+            type: DataTypes.DOUBLE(12,2),
             allowNull: false,
             defaultValue: 0,
         },

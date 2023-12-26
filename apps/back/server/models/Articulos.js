@@ -25,11 +25,11 @@ module.exports = (sequelize) => {
             allowNull: true,
         },
         art_ultimocosto: {
-            type: DataTypes.DOUBLE,
+            type: DataTypes.DOUBLE(12,2),
             defaultValue: 0,
         },
         art_costopromedio: {
-            type: DataTypes.DOUBLE,
+            type: DataTypes.DOUBLE(12,2),
             defaultValue: 0,
         },
         art_factorconversion: {
@@ -37,7 +37,7 @@ module.exports = (sequelize) => {
             defaultValue: 1,
         },
         art_precioventa: {
-            type: DataTypes.DOUBLE,
+            type: DataTypes.DOUBLE(12,2),
             defaultValue: 0,
         },
         art_impuestoventa: {
