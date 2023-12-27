@@ -28,6 +28,15 @@ const fuentesModels = require('./Fuentes');
 const consecutivosModels = require('./Consecutivos');
 const parametrosModels = require('./Parametros');
 const item_carteraxpagarModels = require('./ItemCarteraxPagar');
+const cajasModels = require('./Cajas');
+const carteraxcobrarModels = require('./CarteraxCobrar');
+const cuentasbancariasModels = require('./CuentasBancarias');
+const formasdepagoModels = require('./FormasDePago');
+const itemscarteraxcobrarModels = require('./ItemCarteraxCobrar');
+const itemsformapagoModels = require('./ItemsFormaPago');
+const itemstesoreriaModels = require('./ItemsTesoreria');
+const tesoreriaModels = require('./Tesoreria');
+const usuariosModels = require('./Usuarios');
 
 
 //cargamos los datos de conexion a la BD
@@ -66,32 +75,33 @@ fuentesModels(sequelize);
 consecutivosModels(sequelize);
 parametrosModels(sequelize);
 item_carteraxpagarModels(sequelize);
+cajasModels(sequelize);
+carteraxcobrarModels(sequelize);
+cuentasbancariasModels(sequelize);
+formasdepagoModels(sequelize);
+itemscarteraxcobrarModels(sequelize);
+itemsformapagoModels(sequelize);
+itemstesoreriaModels(sequelize);
+tesoreriaModels(sequelize);
+usuariosModels(sequelize);
 
-const {terceros,
-       paises,
-       departamentos,
-       ciudades,
-       tipodocumentos,
-       tipoterceros,
-       agencias_transporte,
-       proveedores,
-       lineas,
-       sublineas,
-       grupos,
-       unidades,
-       marcas,
-       articulos,
-       puc,
-       carteraxpagar,
-       contable,
-       existencias,
-       itemcontable,
-       itempedidos,
-       kardex,
-       pedidos,
-       fuentes,
-       consecutivos,
-       item_carteraxpagar,
+const {terceros,               paises,
+       departamentos,          ciudades,
+       tipodocumentos,         tipoterceros,
+       agencias_transporte,    proveedores,
+       lineas,                 sublineas,
+       grupos,                 unidades,
+       marcas,                 articulos,
+       puc,                    carteraxpagar,
+       contable,               existencias,
+       itemcontable,           itempedidos,
+       kardex,                 pedidos,
+       fuentes,                consecutivos,
+       item_carteraxpagar,     cajas,
+       carteraxcobrar,         cuentas_bancarias,
+       formasdepago,           items_carteraxcobrar,
+       items_formasdepago,     items_tesoreria,
+       tesoreria,              usuarios,
        parametros} = sequelize.models;
 
 //definimos las relaciones
@@ -130,6 +140,10 @@ itemcontable.belongsTo(contable, {foreignKey: 'contable_id', targetKey: 'id'});
 itemcontable.belongsTo(terceros, {foreignKey: 'tercero_id', targetKey: 'id'});
 itemcontable.belongsTo(fuentes, {foreignKey: 'fuente_id', targetKey: 'id'});
 itemcontable.belongsTo(puc, {foreignKey: 'puc_id', targetKey: 'id'});
+usuarios.hasMany(contable, {foreignKey: 'usuario_id', sourceKey: 'id'});
+contable.belongsTo(usuarios, {foreignKey: 'usuario_id', targetKey: 'id'});
+usuarios.hasMany(itemcontable, {foreignKey: 'usuario_id', sourceKey: 'id'});
+itemcontable.belongsTo(usuarios, {foreignKey: 'usuario_id', targetKey: 'id'});
 
 pedidos.hasMany(itempedidos, {foreignKey: 'pedido_id', sourceKey: 'id'});
 proveedores.hasMany(pedidos, {foreignKey: 'proveedor_id', sourceKey: 'id'});
@@ -145,6 +159,28 @@ consecutivos.belongsTo(fuentes, {foreignKey: 'fuente_id', targetKey: 'id'});
 carteraxpagar.hasMany(item_carteraxpagar, {foreignKey: 'carteraxp_id', sourceKey: 'id'});
 item_carteraxpagar.belongsTo(carteraxpagar, {foreignKey: 'carteraxp_id', targetKey: 'id'});
 
+usuarios.hasMany(cajas, {foreignKey: 'usuario_id', sourceKey: 'id'});
+cajas.belongsTo(usuarios, {foreignKey: 'usuario_id', targetKey: 'id'});
+cajas.belongsTo(puc, {foreignKey: 'puc_id', targetKey: 'id'});
+
+terceros.hasMany(carteraxcobrar, {foreignKey: 'tercero_id', sourceKey: 'id'});
+carteraxcobrar.belongsTo(terceros, {foreignKey: 'tercero_id', targetKey: 'id'});
+carteraxcobrar.belongsTo(contable, {foreignKey: 'contable_id', targetKey: 'id'});
+carteraxcobrar.hasMany(items_carteraxcobrar, {foreignKey: 'cartera_id', sourceKey: 'id'});
+items_carteraxcobrar.belongsTo(carteraxcobrar, {foreignKey: 'cartera_id', targetKey: 'id'});
+
+cuentas_bancarias.belongsTo(puc, {foreignKey: 'puc_id', targetKey: 'id'});
+items_formasdepago.belongsTo(formasdepago, {foreignKey: 'formapago_id', targetKey: 'id'});
+contable.hasMany(formasdepago, {foreignKey: 'contable_id', sourceKey: 'id'});
+formasdepago.belongsTo(contable, {foreignKey: 'contable_id', targetKey: 'id'});
+items_formasdepago.belongsTo(usuarios, {foreignKey: 'usuario_id', targetKey: 'id'});
+
+tesoreria.belongsTo(contable, {foreignKey: 'contable_id', targetKey: 'id'});
+cajas.hasMany(tesoreria, {foreignKey: 'caja_id', sourceKey: 'id'});
+tesoreria.belongsTo(cajas, {foreignKey: 'caja_id', targetKey: 'id'});
+tesoreria.hasMany(items_tesoreria, {foreignKey: 'tesoreria_id', sourceKey: 'id'});
+items_tesoreria.belongsTo(tesoreria, {foreignKey: 'tesoreria_id', targetKey: 'id'});
+
 async function testConnection() {
     try {
         await sequelize.authenticate();
@@ -158,31 +194,23 @@ async function testConnection() {
 testConnection();
 
 module.exports = {
-   terceros, 
-   paises,
-   departamentos,
-   ciudades,
-   tipodocumentos,
-   tipoterceros,
-   agencias_transporte,
-   proveedores,
-   lineas,
-   sublineas,
-   grupos,
-   unidades,
-   marcas,
-   articulos,
-   puc,
-   carteraxpagar,
-   contable,
-   existencias,
-   fuentes,
-   itemcontable,
-   itempedidos,
-   kardex, 
-   pedidos,
-   consecutivos,
-   parametros,
-   item_carteraxpagar,
+   terceros,                   paises,
+   departamentos,              ciudades,
+   tipodocumentos,             tipoterceros,
+   agencias_transporte,        proveedores,
+   lineas,                     sublineas,
+   grupos,                     unidades,
+   marcas,                     articulos,
+   puc,                        carteraxpagar,
+   contable,                   existencias,
+   fuentes,                    itemcontable,
+   itempedidos,                kardex, 
+   pedidos,                    consecutivos,
+   parametros,                 item_carteraxpagar,
+   cajas,                      carteraxcobrar,
+   cuentas_bancarias,          formasdepago,
+   items_carteraxcobrar,       items_formasdepago,
+   items_tesoreria,            tesoreria,
+   usuarios,
    conex: sequelize,
 };
