@@ -36,7 +36,7 @@ function SideBar() {
           <RiMoneyDollarCircleFill
             className={` text-[30px] rounded-[50%] text-white ${
               activeView === "sales"
-                ? " bg-customBlueOpacity pb-1 pt-1 text-indigo-300"
+                ? " bg-customBlueOpacity pb-1 pt-1 text-gray-700"
                 : "text-white hover:scale-105 transition"
             }`}
           />
