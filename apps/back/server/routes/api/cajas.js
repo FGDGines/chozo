@@ -1,12 +1,12 @@
 const express = require("express");
-const {getUsuarios, getUsuarioById,
-       addUsuario, editaUsuario} = require("../../controllers/api/usuariosControllers");
+const {getCajas, getCajaById,
+       addCaja, editaCaja} = require("../../controllers/api/cajasControllers");
 const server = express();
 
-//consulta todos los usuarios del sistema
+//consulta todas las cajas del sistema
 server.get('/', async(req, res) => {
     try {
-        const result = await getUsuarios();
+        const result = await getCajas();
         res.status(200).json(result);
     } catch (error) {
         console.log(error.message);
@@ -14,11 +14,11 @@ server.get('/', async(req, res) => {
     }
 });
 
-//consulta usuario por el id
+//consulta caja por el id
 server.get('/:id', async(req, res) => {
     const {id} = req.params;
     try {
-        const result = await getUsuarioById(id);
+        const result = await getCajaById(id);
         res.status(200).json(result);
     } catch (error) {
         console.log(error.message);
@@ -26,11 +26,11 @@ server.get('/:id', async(req, res) => {
     }
 });
 
-//crea un nuevo usuario
+//crea una nueva caja
 server.post('/', async(req, res) => {
    const datos = req.body; 
    try {
-        const result = await addUsuario(datos);
+        const result = await addCaja(datos);
         res.status(200).json(result); 
    } catch (error) {
         console.log(error.message);
@@ -38,12 +38,12 @@ server.post('/', async(req, res) => {
    }
 });
 
-//modifica un usuario
+//modifica una caja
 server.put('/:id', async(req, res) => {
     const datos = req.body; 
     const {id} = req.params;
     try {
-         const result = await editaUsuario(datos, id);
+         const result = await editaCaja(datos, id);
          res.status(200).json(result); 
     } catch (error) {
          console.log(error.message);

@@ -22,6 +22,9 @@ class Server {
             articulos:       '/api/articulos',
             pedidos:         '/api/pedidos',
             carteraxpagar:   '/api/carteraxpagar',
+            tokens:          '/basic/tokens',
+            usuarios:        '/api/usuarios',
+            cajas:           '/api/cajas',
         }
         this.upDB()
         this.routes()
@@ -60,7 +63,8 @@ class Server {
         // Aquí se ponen las rutas básica
         this.app.get('/api/v1/hola', (req, res)=>{
             res.status(200).json({msg:"Hola Mundo"})
-        })
+        });
+        this.app.use(this.paths.tokens, require('../routes/basic/jsonWebToken.js'));
 
         //Aquí se ponen las rutas API.
         this.app.use(this.paths.departamentos, require('../routes/api/departamentos.js'));
@@ -76,6 +80,8 @@ class Server {
         this.app.use(this.paths.articulos, require('../routes/api/articulos.js'));
         this.app.use(this.paths.pedidos, require('../routes/api/pedidos.js'));
         this.app.use(this.paths.carteraxpagar, require('../routes/api/carteraxpagar.js'));
+        this.app.use(this.paths.usuarios, require('../routes/api/usuarios.js'));
+        this.app.use(this.paths.cajas, require('../routes/api/cajas.js'));
     };
 
     run() {

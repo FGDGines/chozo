@@ -168,6 +168,9 @@ carteraxcobrar.belongsTo(terceros, {foreignKey: 'tercero_id', targetKey: 'id'});
 carteraxcobrar.belongsTo(contable, {foreignKey: 'contable_id', targetKey: 'id'});
 carteraxcobrar.hasMany(items_carteraxcobrar, {foreignKey: 'cartera_id', sourceKey: 'id'});
 items_carteraxcobrar.belongsTo(carteraxcobrar, {foreignKey: 'cartera_id', targetKey: 'id'});
+cajas.hasMany(carteraxcobrar, {foreignKey: 'caja_id', sourceKey: 'id'});
+carteraxcobrar.belongsTo(cajas, {foreignKey: 'caja_id', targetKey: 'id'});
+
 
 cuentas_bancarias.belongsTo(puc, {foreignKey: 'puc_id', targetKey: 'id'});
 items_formasdepago.belongsTo(formasdepago, {foreignKey: 'formapago_id', targetKey: 'id'});
@@ -180,6 +183,7 @@ cajas.hasMany(tesoreria, {foreignKey: 'caja_id', sourceKey: 'id'});
 tesoreria.belongsTo(cajas, {foreignKey: 'caja_id', targetKey: 'id'});
 tesoreria.hasMany(items_tesoreria, {foreignKey: 'tesoreria_id', sourceKey: 'id'});
 items_tesoreria.belongsTo(tesoreria, {foreignKey: 'tesoreria_id', targetKey: 'id'});
+usuarios.belongsTo(terceros, {foreignKey: 'tercero_id', targetKey: 'id'});
 
 async function testConnection() {
     try {
