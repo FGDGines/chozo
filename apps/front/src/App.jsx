@@ -1,13 +1,17 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 import Home from "./views/Home";
-import Sales from "./views/Sales";
-import Accounting from "./views/Accounting";
-import Providers from "./views/Providers";
-import Purchases from "./views/Purchases";
-import Stock from "./views/Stock";
-import Sell from "./views/Sell";
+import Sales from "./views/Sales/Sales";
+import Accounting from "./views/Accounting/Accounting";
+import Providers from "./views/Purchases/Providers";
+import Shopping from "./views/Purchases/Shopping";
+import Stock from "./views/Stock/Stock";
+import Sell from "./views/Sales/Sell";
 import SideBar from "./components/SideBar";
+import Customers from "./views/Sales/Customers";
+import Buy from "./views/Purchases/Buy";
+import CreateProduct from "./views/Stock/CreateProduct";
+import CreateProvider from "./views/Purchases/CreateProvider";
 
 function App() {
   return (
@@ -32,10 +36,34 @@ function App() {
           }
         />
         <Route
+          path="/buy"
+          element={
+            <MainLayout showSidebar={true}>
+              <Buy />
+            </MainLayout>
+          }
+        />
+        <Route
+          path="/shopping"
+          element={
+            <MainLayout showSidebar={true}>
+              <Shopping />
+            </MainLayout>
+          }
+        />
+        <Route
           path="/accounting"
           element={
             <MainLayout showSidebar={true}>
               <Accounting />
+            </MainLayout>
+          }
+        />
+        <Route
+          path="/customers"
+          element={
+            <MainLayout showSidebar={true}>
+              <Customers />
             </MainLayout>
           }
         />
@@ -47,19 +75,28 @@ function App() {
             </MainLayout>
           }
         />
-        <Route
-          path="/purchases"
-          element={
-            <MainLayout showSidebar={true}>
-              <Purchases />
-            </MainLayout>
-          }
-        />
+
         <Route
           path="/stock"
           element={
             <MainLayout showSidebar={true}>
               <Stock />
+            </MainLayout>
+          }
+        />
+        <Route
+          path="/createProduct"
+          element={
+            <MainLayout showSidebar={true}>
+              <CreateProduct />
+            </MainLayout>
+          }
+        />
+        <Route
+          path="/createProvider"
+          element={
+            <MainLayout showSidebar={true}>
+              <CreateProvider />
             </MainLayout>
           }
         />

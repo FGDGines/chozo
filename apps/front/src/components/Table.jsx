@@ -1,4 +1,7 @@
 import React, { useState } from "react";
+import { FaArrowRight } from "react-icons/fa";
+import { FaArrowLeft } from "react-icons/fa";
+
 import {
   getCoreRowModel,
   useReactTable,
@@ -7,22 +10,13 @@ import {
   getSortedRowModel,
   getFilteredRowModel,
 } from "@tanstack/react-table";
-import data from "../../data.json";
 
-function SellTable() {
-  const columns = [
-    { header: "n° fact", accessorKey: "id" },
-    { header: "fecha", accessorKey: "fecha" },
-    { header: "cliente", accessorKey: "cliente" },
-    { header: "total", accessorKey: "montoTotal" },
-    { header: "a cuenta", accessorKey: "aCuenta" },
-  ];
-
+function Table({ data, columns, name }) {
   const [sorting, setSorting] = useState([]);
   const [filtering, setFiltering] = useState("");
 
   const table = useReactTable({
-    data: data.ventas,
+    data: data,
     columns,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
@@ -35,15 +29,16 @@ function SellTable() {
     onSortingChange: setSorting,
     onGlobalFilterChange: setFiltering,
   });
+
   return (
     <div className="ml-[100px] font-SFRegular">
-      <div>Listado de ventas</div>
+      <div className="text-[35px]">Listado de {name}</div>
       <input
         type="text"
         value={filtering}
         onChange={(e) => setFiltering(e.target.value)}
       />
-      <table className="border-collapse border border-gray-300 rounded-xl w-full">
+      <table className="border-collapse border border-gray-300 w-full">
         <thead className="sticky top-0  text-gray-200 bg-customBlue">
           {table.getHeaderGroups().map((headerGroup) => (
             <tr key={headerGroup.id} className="bg-custoBlue">
@@ -86,14 +81,35 @@ function SellTable() {
           ))}
         </tbody>
       </table>
-      <button onClick={() => table.setPageIndex(0)}>1</button>
-      <button onClick={() => table.previousPage()}>Anterior</button>
-      <button onClick={() => table.nextPage()}>Siguiente</button>
-      <button onClick={() => table.setPageIndex(table.getPageCount() - 1)}>
-        {table.getPageCount()}
-      </button>
+      <div className="p-2 flex justify-center items-center">
+        <button
+          className="px-3 py-0.5 bg-customBlue rounded-md text-gray-100 mx-1 hover:scale-105 transition "
+          onClick={() => table.setPageIndex(0)}
+        >
+          1
+        </button>
+        <button
+          className="px-3 py-1.5 bg-customBlue rounded-md text-gray-100 mx-1 hover:scale-105 transition "
+          onClick={() => table.previousPage()}
+        >
+          <FaArrowLeft />
+        </button>
+        <button
+          className="px-3 py-1.5 bg-customBlue rounded-md text-gray-100 mx-1 hover:scale-105 transition "
+          onClick={() => table.nextPage()}
+        >
+          {" "}
+          <FaArrowRight />
+        </button>
+        <button
+          className="px-3 py-0.5 bg-customBlue rounded-md text-gray-100 mx-1 hover:scale-105 transition "
+          onClick={() => table.setPageIndex(table.getPageCount() - 1)}
+        >
+          {table.getPageCount()}
+        </button>
+      </div>
     </div>
   );
 }
 
-export default SellTable;
+export default Table;
