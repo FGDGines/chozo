@@ -28,7 +28,7 @@ function Home() {
 
         <Link
           className="p-4 w-[150px] text-lg font-bold flex justify-center items-center rounded-3xl bg-blue-500 hover:scale-105 transition text-gray-100 duration-300"
-          to="/purchases"
+          to="/shopping"
         >
           Compras
         </Link>
