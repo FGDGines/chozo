@@ -175,7 +175,7 @@ carteraxcobrar.belongsTo(cajas, {foreignKey: 'caja_id', targetKey: 'id'});
 cuentas_bancarias.belongsTo(puc, {foreignKey: 'puc_id', targetKey: 'id'});
 items_formasdepago.belongsTo(formasdepago, {foreignKey: 'formapago_id', targetKey: 'id'});
 contable.hasMany(formasdepago, {foreignKey: 'contable_id', sourceKey: 'id'});
-formasdepago.belongsTo(contable, {foreignKey: 'contable_id', targetKey: 'id'});
+items_formasdepago.belongsTo(contable, {foreignKey: 'contable_id', targetKey: 'id'});
 items_formasdepago.belongsTo(usuarios, {foreignKey: 'usuario_id', targetKey: 'id'});
 
 tesoreria.belongsTo(contable, {foreignKey: 'contable_id', targetKey: 'id'});

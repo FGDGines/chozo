@@ -45,7 +45,7 @@ const devuelveConsecutivo = async(anual, fuente) => {
  
 //agrega un registro de cartera de pedidos
 const addCarteraPedidos = async(datos) => {
-   const {fecha, vence, bruto, impuesto, total, retencion, tercero_id, items} = datos;
+   const {fecha, vence, bruto, impuesto, total, retencion, tercero_id, items, codUsuario} = datos;
    const fechaC = new Date(fecha);
    const fechaV = new Date(vence);
    const anual = fechaC.getFullYear();
@@ -59,7 +59,7 @@ const addCarteraPedidos = async(datos) => {
 
    //invocamos la funcion que grabara la contabilidad
 
-   const contab = await grabaContable(fuente, num, fechaC, tercero_id, items, total);
+   const contab = await grabaContable(fuente, num, fechaC, tercero_id, items, total, codUsuario);
    console.log("Contabilidad Grabada");
 
    //grabamos registro en la tabla de carteraxpagar
@@ -143,7 +143,7 @@ const addCarteraPedidos = async(datos) => {
 };
 
 //esta funcion grabara el comprobante contable
-const grabaContable = async(fuente, num, fechaC, tercero_id, items, total) => {
+const grabaContable = async(fuente, num, fechaC, tercero_id, items, total, codUsuario) => {
    //inicialmente grabamos en la tabla contable
    const registro = {
       con_numero: num,
@@ -152,6 +152,7 @@ const grabaContable = async(fuente, num, fechaC, tercero_id, items, total) => {
       con_detalles: 'Facturacion de Pedido de Proveedores',
       fuente_id: fuente,
       tercero_id,
+      usuario_id: codUsuario,
    };
    const newRegistro = await contable.create(registro);
    console.log("Cabecera contable grabada")
