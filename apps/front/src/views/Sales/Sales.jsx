@@ -1,8 +1,8 @@
 import React, { useState, useRef } from "react";
 import Autosuggest from "react-autosuggest";
-import productos from "../../data.json";
-import ShoppingCartTable from "../components/ShoppingCartTable";
-import HeaderSale from "../components/HeaderSale";
+import productos from "../../../data.json";
+import ShoppingCartTable from "../../components/ShoppingCartTable";
+import HeaderSale from "../../components/HeaderSale";
 
 function Sales() {
   const today = new Date();

@@ -6,57 +6,108 @@ import { MdHome } from "react-icons/md";
 
 function SideBar() {
   const location = useLocation();
-  const [activeView, setActiveView] = useState("sales");
+  const [activeView, setActiveView] = useState("home");
 
   useEffect(() => {
     const currentView = location.pathname.split("/").pop();
-    setActiveView(currentView || "sales");
+    setActiveView(currentView || "home");
   }, [location.pathname]);
+
+  const views = {
+    home: [{ icon: <MdHome />, text: "Inicio", to: "/home" }],
+    sales: [
+      { icon: <MdHome />, text: "Inicio", to: "/home" },
+      { icon: <RiMoneyDollarCircleFill />, text: "Vender", to: "/sales" },
+      { icon: <FcStatistics />, text: "Ventas", to: "/sell" },
+      { icon: <FcStatistics />, text: "Clientes", to: "/customers" },
+    ],
+    sell: [
+      { icon: <MdHome />, text: "Inicio", to: "/home" },
+      { icon: <RiMoneyDollarCircleFill />, text: "Vender", to: "/sales" },
+      { icon: <FcStatistics />, text: "Ventas", to: "/sell" },
+      { icon: <FcStatistics />, text: "Clientes", to: "/customers" },
+    ],
+    customers: [
+      { icon: <MdHome />, text: "Inicio", to: "/home" },
+      { icon: <RiMoneyDollarCircleFill />, text: "Vender", to: "/sales" },
+      { icon: <FcStatistics />, text: "Ventas", to: "/sell" },
+      { icon: <FcStatistics />, text: "Clientes", to: "/customers" },
+    ],
+    shopping: [
+      { icon: <MdHome />, text: "Inicio", to: "/home" },
+      { icon: <RiMoneyDollarCircleFill />, text: "Comprar", to: "/buy" },
+      { icon: <FcStatistics />, text: "Compras", to: "/shopping" },
+      { icon: <FcStatistics />, text: "Proveedores", to: "/providers" },
+    ],
+    buy: [
+      { icon: <MdHome />, text: "Inicio", to: "/home" },
+      { icon: <RiMoneyDollarCircleFill />, text: "Comprar", to: "/buy" },
+      { icon: <FcStatistics />, text: "Compras", to: "/shopping" },
+      { icon: <FcStatistics />, text: "Proveedores", to: "/providers" },
+    ],
+    providers: [
+      { icon: <MdHome />, text: "Inicio", to: "/home" },
+      {
+        icon: <RiMoneyDollarCircleFill />,
+        text: "Proveedores",
+        to: "/providers",
+      },
+      { icon: <FcStatistics />, text: "Crear nuevo", to: "/createProvider" },
+    ],
+    createProvider: [
+      { icon: <MdHome />, text: "Inicio", to: "/home" },
+      {
+        icon: <RiMoneyDollarCircleFill />,
+        text: "Proveedores",
+        to: "/providers",
+      },
+      { icon: <FcStatistics />, text: "Crear nuevo", to: "/createProvider" },
+    ],
+    stock: [
+      { icon: <MdHome />, text: "Inicio", to: "/home" },
+      { icon: <RiMoneyDollarCircleFill />, text: "Stock", to: "/stock" },
+      { icon: <FcStatistics />, text: "Crear nuevo", to: "/createProduct" },
+    ],
+    createProduct: [
+      { icon: <MdHome />, text: "Inicio", to: "/home" },
+      { icon: <RiMoneyDollarCircleFill />, text: "Stock", to: "/stock" },
+      { icon: <FcStatistics />, text: "Crear nuevo", to: "/createProduct" },
+    ],
+  };
 
   const handleSetActiveView = (view) => {
     setActiveView(view);
   };
 
+  // ...
+
+  const currentViewItems = views[activeView] || [];
+
   return (
     <div className="z-10 fixed ml-1 flex flex-col justify-center gap-10 items-center w-[65px] min-h-[97%] max-h-screen bg-customBlue text-black rounded-l-[40px] rounded-r-[40px] shadow-lg overflow-auto">
-      <Link to="/home" onClick={() => handleSetActiveView("sales")}>
-        <div className="flex items-center justify-center flex-col">
-          <MdHome
-            className={` text-[25px] rounded-[50%] text-white ${
-              activeView === "home"
-                ? " bg-customBlueOpacity pb-1 pt-1 text-indigo-300"
-                : "text-white hover:scale-105 transition"
-            }`}
-          />
-          <span className="text-sm text-white">Inicio</span>
-        </div>
-      </Link>
-      <Link to="/sales" onClick={() => handleSetActiveView("sales")}>
-        <div className="flex items-center justify-center flex-col">
-          <RiMoneyDollarCircleFill
-            className={` text-[30px] rounded-[50%] text-white ${
-              activeView === "sales"
-                ? " bg-customBlueOpacity pb-1 pt-1 text-indigo-300"
-                : "text-white hover:scale-105 transition"
-            }`}
-          />
-          <span className="text-sm text-white">Vender</span>
-        </div>
-      </Link>
-
-      <Link to="/sell" onClick={() => handleSetActiveView("sell")}>
-        <div className="flex items-center justify-center flex-col">
-          <FcStatistics
-            className={` text-[25px] rounded-[50%] text-white ${
-              activeView === "sell"
-                ? " bg-customBlueOpacity pb-1 pt-1 text-indigo-300"
-                : "text-white hover:scale-105 transition"
-            }`}
-          />
-          <span className="text-sm text-white">Ventas</span>
-        </div>
-      </Link>
+      {currentViewItems.map((item, index) => (
+        <Link
+          to={item.to}
+          key={index}
+          onClick={() => handleSetActiveView(activeView)}
+        >
+          <div className="flex items-center justify-center flex-col">
+            {item.icon}
+            <span
+              className={`text-sm text-white ${
+                activeView === item.to
+                  ? "bg-customBlueOpacity pb-1 pt-1 text-gray-800"
+                  : "text-white hover:scale-105 transition"
+              }`}
+            >
+              {item.text}
+            </span>
+          </div>
+        </Link>
+      ))}
     </div>
+
+    // ...
   );
 }
 

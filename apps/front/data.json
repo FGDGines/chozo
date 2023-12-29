@@ -1,29 +1,29 @@
 {"productos" : [
-  { "id": 1, "nombre": "Arroz x1kg", "precio": 2.5, "cantidad": 3, "total": 7.5, "marca": "MarcaA", "impuesto": 0.2 },
-  { "id": 2, "nombre": "Huevo", "precio": 0.5, "cantidad": 12, "total": 6, "marca": "MarcaB", "impuesto": 0.05 },
-  { "id": 3, "nombre": "Fideo tirabuzon x500g", "precio": 1.2, "cantidad": 2, "total": 2.4, "marca": "MarcaC", "impuesto": 0.1 },
-  { "id": 4, "nombre": "Leche larga vida x1lts", "precio": 1.8, "cantidad": 1, "total": 1.8, "marca": "MarcaD", "impuesto": 0.15 },
-  { "id": 5, "nombre": "Pan lactal", "precio": 1.0, "cantidad": 2, "total": 2.0, "marca": "MarcaE", "impuesto": 0.08 },
-  { "id": 6, "nombre": "Pollo", "precio": 5.0, "cantidad": 1, "total": 5.0, "marca": "MarcaF", "impuesto": 0.3 },
-  { "id": 7, "nombre": "Manzana roja", "precio": 0.8, "cantidad": 6, "total": 4.8, "marca": "MarcaG", "impuesto": 0.07 },
-  { "id": 8, "nombre": "Cereal sin azucar x600gr", "precio": 3.5, "cantidad": 1, "total": 3.5, "marca": "MarcaH", "impuesto": 0.25 },
-  { "id": 9, "nombre": "Queso azul media pieza", "precio": 2.2, "cantidad": 1, "total": 2.2, "marca": "MarcaI", "impuesto": 0.18 },
-  { "id": 10, "nombre": "Yogur vasito con cereales", "precio": 1.0, "cantidad": 4, "total": 4.0, "marca": "MarcaJ", "impuesto": 0.1 },
-  { "id": 11, "nombre": "Galletas dulces x500g color rojo", "precio": 1.5, "cantidad": 3, "total": 4.5, "marca": "MarcaK", "impuesto": 0.12 },
-  { "id": 12, "nombre": "Café torrado en grano", "precio": 4.0, "cantidad": 1, "total": 4.0, "marca": "MarcaL", "impuesto": 0.2 },
-  { "id": 13, "nombre": "Martillo grande rojo", "precio": 8.5, "cantidad": 1, "total": 8.5, "marca": "MarcaM", "impuesto": 0.5 },
-  { "id": 14, "nombre": "Tomate en lata x500g", "precio": 1.0, "cantidad": 5, "total": 5.0, "marca": "MarcaN", "impuesto": 0.1 },
-  { "id": 15, "nombre": "Aceite de girasol x900ml", "precio": 3.0, "cantidad": 2, "total": 6.0, "marca": "MarcaO", "impuesto": 0.15 },
-  { "id": 16, "nombre": "Lápiz azul largo", "precio": 0.3, "cantidad": 10, "total": 3.0, "marca": "MarcaP", "impuesto": 0.05 },
-  { "id": 17, "nombre": "Destornillador rojo grande", "precio": 5.0, "cantidad": 1, "total": 5.0, "marca": "MarcaQ", "impuesto": 0.3 },
-  { "id": 18, "nombre": "Papa", "precio": 0.6, "cantidad": 8, "total": 4.8, "marca": "MarcaR", "impuesto": 0.08 },
-  { "id": 19, "nombre": "Detergente para platos amarillo", "precio": 2.8, "cantidad": 1, "total": 2.8, "marca": "MarcaS", "impuesto": 0.2 },
-  { "id": 20, "nombre": "Cuchillo", "precio": 6.0, "cantidad": 1, "total": 6.0, "marca": "MarcaT", "impuesto": 0.35 },
-  { "id": 21, "nombre": "Zanahoria", "precio": 0.5, "cantidad": 6, "total": 3.0, "marca": "MarcaU", "impuesto": 0.07 },
-  { "id": 22, "nombre": "Arandela grande para tornillo grande", "precio": 0.2, "cantidad": 20, "total": 4.0, "marca": "MarcaV", "impuesto": 0.1 },
-  { "id": 23, "nombre": "Vino tinto malbec x750ml", "precio": 7.0, "cantidad": 1, "total": 7.0, "marca": "MarcaW", "impuesto": 0.4 },
-  { "id": 24, "nombre": "Papel Higiénico x80mts blanco", "precio": 1.5, "cantidad": 4, "total": 6.0, "marca": "MarcaX", "impuesto": 0.18 },
-  { "id": 25, "nombre": "Tornillo muy grande ", "precio": 0.1, "cantidad": 30, "total": 3.0, "marca": "MarcaY", "impuesto": 0.05 }
+  { "id": 1, "nombre": "Arroz x1kg", "precio": 2.5, "stock": 3,  "marca": "MarcaA", "impuesto": 0.2 },
+  { "id": 2, "nombre": "Huevo", "precio": 0.5, "stock": 12, "marca": "MarcaB", "impuesto": 0.05 },
+  { "id": 3, "nombre": "Fideo tirabuzon x500g", "precio": 1.2, "stock": 2,  "marca": "MarcaC", "impuesto": 0.1 },
+  { "id": 4, "nombre": "Leche larga vida x1lts", "precio": 1.8, "stock": 1,  "marca": "MarcaD", "impuesto": 0.15 },
+  { "id": 5, "nombre": "Pan lactal", "precio": 1.0, "stock": 2,  "marca": "MarcaE", "impuesto": 0.08 },
+  { "id": 6, "nombre": "Pollo", "precio": 5.0, "stock": 1,  "marca": "MarcaF", "impuesto": 0.3 },
+  { "id": 7, "nombre": "Manzana roja", "precio": 0.8, "stock": 6,  "marca": "MarcaG", "impuesto": 0.07 },
+  { "id": 8, "nombre": "Cereal sin azucar x600gr", "precio": 3.5, "stock": 1,  "marca": "MarcaH", "impuesto": 0.25 },
+  { "id": 9, "nombre": "Queso azul media pieza", "precio": 2.2, "stock": 1,  "marca": "MarcaI", "impuesto": 0.18 },
+  { "id": 10, "nombre": "Yogur vasito con cereales", "precio": 1.0, "stock": 4,  "marca": "MarcaJ", "impuesto": 0.1 },
+  { "id": 11, "nombre": "Galletas dulces x500g color rojo", "precio": 1.5, "stock": 3,  "marca": "MarcaK", "impuesto": 0.12 },
+  { "id": 12, "nombre": "Café torrado en grano", "precio": 4.0, "stock": 1,  "marca": "MarcaL", "impuesto": 0.2 },
+  { "id": 13, "nombre": "Martillo grande rojo", "precio": 8.5, "stock": 1,  "marca": "MarcaM", "impuesto": 0.5 },
+  { "id": 14, "nombre": "Tomate en lata x500g", "precio": 1.0, "stock": 5,  "marca": "MarcaN", "impuesto": 0.1 },
+  { "id": 15, "nombre": "Aceite de girasol x900ml", "precio": 3.0, "stock": 2,  "marca": "MarcaO", "impuesto": 0.15 },
+  { "id": 16, "nombre": "Lápiz azul largo", "precio": 0.3, "stock": 10,  "marca": "MarcaP", "impuesto": 0.05 },
+  { "id": 17, "nombre": "Destornillador rojo grande", "precio": 5.0, "stock": 1,  "marca": "MarcaQ", "impuesto": 0.3 },
+  { "id": 18, "nombre": "Papa", "precio": 0.6, "stock": 8,  "marca": "MarcaR", "impuesto": 0.08 },
+  { "id": 19, "nombre": "Detergente para platos amarillo", "precio": 2.8, "stock": 1,  "marca": "MarcaS", "impuesto": 0.2 },
+  { "id": 20, "nombre": "Cuchillo", "precio": 6.0, "stock": 1,  "marca": "MarcaT", "impuesto": 0.35 },
+  { "id": 21, "nombre": "Zanahoria", "precio": 0.5, "stock": 6,  "marca": "MarcaU", "impuesto": 0.07 },
+  { "id": 22, "nombre": "Arandela grande para tornillo grande", "precio": 0.2, "stock": 20,  "marca": "MarcaV", "impuesto": 0.1 },
+  { "id": 23, "nombre": "Vino tinto malbec x750ml", "precio": 7.0, "stock": 1,  "marca": "MarcaW", "impuesto": 0.4 },
+  { "id": 24, "nombre": "Papel Higiénico x80mts blanco", "precio": 1.5, "stock": 4,  "marca": "MarcaX", "impuesto": 0.18 },
+  { "id": 25, "nombre": "Tornillo muy grande ", "precio": 0.1, "stock": 30,  "marca": "MarcaY", "impuesto": 0.05 }
 ],
 "user":[
   { "id": 1, "nombre": "German Montenegro", "DNI":37810144 },
@@ -54,79 +54,217 @@
   {
     "id": 1,
     "fecha": "23/12/2023",
-    "cliente": {
-      "id": 3,
-      "nombre": "María González",
-      "DNI": 444444444,
-      "condicion de venta": "Tarjeta"
-    },
-    "productos": [
-      { "id": 1, "cantidad": 2 },
-      { "id": 5, "cantidad": 1 },
-      { "id": 10, "cantidad": 3 }
-    ]
+    "cliente": "María González",
+    "aCuenta": 75.60,
+    "montoTotal": 150.25
   },
   {
     "id": 2,
     "fecha": "23/12/2023",
-    "cliente": {
-      "id": 4,
-      "nombre": "Roberto Fernández",
-      "DNI": 555555555,
-      "condicion de venta": "Efectivo"
-    },
-    "productos": [
-      { "id": 2, "cantidad": 5 },
-      { "id": 7, "cantidad": 2 },
-      { "id": 12, "cantidad": 1 }
-    ]
+    "cliente": "Roberto Fernández",
+    "aCuenta": 90.20,
+    "montoTotal": 120.50
   },
   {
     "id": 3,
     "fecha": "23/12/2023",
-    "cliente": {
-      "id": 5,
-      "nombre": "Ana Martínez",
-      "DNI": 666666666,
-      "condicion de venta": "Cheque"
-    },
-    "productos": [
-      { "id": 3, "cantidad": 1 },
-      { "id": 6, "cantidad": 3 },
-      { "id": 15, "cantidad": 2 }
-    ]
+    "cliente": "Ana Martínez",
+    "aCuenta": 55.80,
+    "montoTotal": 180.75
   },
   {
     "id": 4,
     "fecha": "23/12/2023",
-    "cliente": {
-      "id": 6,
-      "nombre": "Pedro Sánchez",
-      "DNI": 777777777,
-      "condicion de venta": "Tarjeta"
-    },
-    "productos": [
-      { "id": 8, "cantidad": 1 },
-      { "id": 10, "cantidad": 2 },
-      { "id": 16, "cantidad": 1 }
-    ]
+    "cliente": "Pedro Sánchez",
+    "aCuenta": 70.40,
+    "montoTotal": 130.90
   },
   {
     "id": 5,
     "fecha": "23/12/2023",
-    "cliente": {
-      "id": 7,
-      "nombre": "Luisa Ramírez",
-      "DNI": 888888888,
-      "condicion de venta": "Efectivo"
-    },
-    "productos": [
-      { "id": 11, "cantidad": 2 },
-      { "id": 14, "cantidad": 4 },
-      { "id": 20, "cantidad": 1 }
-    ]
+    "cliente": "Luisa Ramírez",
+    "aCuenta": 85.90,
+    "montoTotal": 155.80
+  },
+  {
+    "id": 6,
+    "fecha": "24/12/2023",
+    "cliente": "Laura Rodríguez",
+    "aCuenta": 60.30,
+    "montoTotal": 110.50
+  },
+  {
+    "id": 7,
+    "fecha": "24/12/2023",
+    "cliente": "Javier Pérez",
+    "aCuenta": 75.80,
+    "montoTotal": 165.25
+  },
+  {
+    "id": 8,
+    "fecha": "24/12/2023",
+    "cliente": "Carmen García",
+    "aCuenta": 95.40,
+    "montoTotal": 140.90
+  },
+  {
+    "id": 9,
+    "fecha": "25/12/2023",
+    "cliente": "Francisco López",
+    "aCuenta": 80.60,
+    "montoTotal": 120.75
+  },
+  {
+    "id": 10,
+    "fecha": "25/12/2023",
+    "cliente": "Isabel Martín",
+    "aCuenta": 65.20,
+    "montoTotal": 180.50
+  },
+  {
+    "id": 11,
+    "fecha": "26/12/2023",
+    "cliente": "Miguel Ángel Soto",
+    "aCuenta": 75.50,
+    "montoTotal": 160.25
+  },
+  {
+    "id": 12,
+    "fecha": "26/12/2023",
+    "cliente": "Raquel Jiménez",
+    "aCuenta": 85.20,
+    "montoTotal": 130.50
+  },
+  {
+    "id": 13,
+    "fecha": "27/12/2023",
+    "cliente": "Antonio Ruiz",
+    "aCuenta": 60.80,
+    "montoTotal": 170.75
+  },
+  {
+    "id": 14,
+    "fecha": "27/12/2023",
+    "cliente": "Sofía Moreno",
+    "aCuenta": 70.40,
+    "montoTotal": 145.90
+  },
+  {
+    "id": 15,
+    "fecha": "28/12/2023",
+    "cliente": "Carlos Gómez",
+    "aCuenta": 90.60,
+    "montoTotal": 110.50
+  },
+  {
+    "id": 16,
+    "fecha": "28/12/2023",
+    "cliente": "Elena Castillo",
+    "aCuenta": 55.20,
+    "montoTotal": 180.25
+  },
+  {
+    "id": 17,
+    "fecha": "29/12/2023",
+    "cliente": "Juan Hernández",
+    "aCuenta": 75.90,
+    "montoTotal": 160.50
+  },
+  {
+    "id": 18,
+    "fecha": "29/12/2023",
+    "cliente": "Natalia Díaz",
+    "aCuenta": 65.40,
+    "montoTotal": 140.75
+  },
+  {
+    "id": 19,
+    "fecha": "30/12/2023",
+    "cliente": "Lorenzo Vargas",
+    "aCuenta": 80.20,
+    "montoTotal": 120.90
+  },
+  {
+    "id": 20,
+    "fecha": "30/12/2023",
+    "cliente": "Marina Torres",
+    "aCuenta": 85.60,
+    "montoTotal": 155.75
+  },
+  {
+    "id": 21,
+    "fecha": "01/01/2024",
+    "cliente": "Marta Herrera",
+    "aCuenta": 70.80,
+    "montoTotal": 130.25
+  },
+  {
+    "id": 22,
+    "fecha": "01/01/2024",
+    "cliente": "Alejandro Ramírez",
+    "aCuenta": 85.20,
+    "montoTotal": 160.50
+  },
+  {
+    "id": 23,
+    "fecha": "02/01/2024",
+    "cliente": "Beatriz Molina",
+    "aCuenta": 60.40,
+    "montoTotal": 140.75
+  },
+  {
+    "id": 24,
+    "fecha": "02/01/2024",
+    "cliente": "David Santos",
+    "aCuenta": 75.60,
+    "montoTotal": 120.90
+  },
+  {
+    "id": 25,
+    "fecha": "03/01/2024",
+    "cliente": "Cristina Serrano",
+    "aCuenta": 90.60,
+    "montoTotal": 155.75
+  },
+  {
+    "id": 26,
+    "fecha": "03/01/2024",
+    "cliente": "Francisco Gil",
+    "aCuenta": 65.80,
+    "montoTotal": 130.25
+  },
+  {
+    "id": 27,
+    "fecha": "04/01/2024",
+    "cliente": "Sara Paredes",
+    "aCuenta": 80.20,
+    "montoTotal": 160.50
+  },
+  {
+    "id": 28,
+    "fecha": "04/01/2024",
+    "cliente": "José Moreno",
+    "aCuenta": 55.40,
+    "montoTotal": 140.75
+  },
+  {
+    "id": 29,
+    "fecha": "05/01/2024",
+    "cliente": "Lucía Vila",
+    "aCuenta": 70.60,
+    "montoTotal": 120.90
+  },
+  {
+    "id": 30,
+    "fecha": "05/01/2024",
+    "cliente": "Andrés Ríos",
+    "aCuenta": 85.80,
+    "montoTotal": 155.75
   }
 ]
+
+
+
 
 
 }
