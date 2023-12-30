@@ -3,6 +3,12 @@ import { RiMoneyDollarCircleFill } from "react-icons/ri";
 import { FcStatistics } from "react-icons/fc";
 import { Link, useLocation } from "react-router-dom";
 import { MdHome } from "react-icons/md";
+import { FaPeopleGroup } from "react-icons/fa6";
+import { MdAddShoppingCart } from "react-icons/md";
+import { SlPeople } from "react-icons/sl";
+import { IoPersonAdd } from "react-icons/io5";
+import { LuPackage } from "react-icons/lu";
+import { LuPackagePlus } from "react-icons/lu";
 
 function SideBar() {
   const location = useLocation();
@@ -19,59 +25,59 @@ function SideBar() {
       { icon: <MdHome />, text: "Inicio", to: "/home" },
       { icon: <RiMoneyDollarCircleFill />, text: "Vender", to: "/sales" },
       { icon: <FcStatistics />, text: "Ventas", to: "/sell" },
-      { icon: <FcStatistics />, text: "Clientes", to: "/customers" },
+      { icon: <FaPeopleGroup />, text: "Clientes", to: "/customers" },
     ],
     sell: [
       { icon: <MdHome />, text: "Inicio", to: "/home" },
       { icon: <RiMoneyDollarCircleFill />, text: "Vender", to: "/sales" },
       { icon: <FcStatistics />, text: "Ventas", to: "/sell" },
-      { icon: <FcStatistics />, text: "Clientes", to: "/customers" },
+      { icon: <FaPeopleGroup />, text: "Clientes", to: "/customers" },
     ],
     customers: [
       { icon: <MdHome />, text: "Inicio", to: "/home" },
       { icon: <RiMoneyDollarCircleFill />, text: "Vender", to: "/sales" },
       { icon: <FcStatistics />, text: "Ventas", to: "/sell" },
-      { icon: <FcStatistics />, text: "Clientes", to: "/customers" },
+      { icon: <FaPeopleGroup />, text: "Clientes", to: "/customers" },
     ],
     shopping: [
       { icon: <MdHome />, text: "Inicio", to: "/home" },
-      { icon: <RiMoneyDollarCircleFill />, text: "Comprar", to: "/buy" },
+      { icon: <MdAddShoppingCart />, text: "Comprar", to: "/buy" },
       { icon: <FcStatistics />, text: "Compras", to: "/shopping" },
-      { icon: <FcStatistics />, text: "Proveedores", to: "/providers" },
+      { icon: <SlPeople />, text: "Proveedores", to: "/providers" },
     ],
     buy: [
       { icon: <MdHome />, text: "Inicio", to: "/home" },
-      { icon: <RiMoneyDollarCircleFill />, text: "Comprar", to: "/buy" },
+      { icon: <MdAddShoppingCart />, text: "Comprar", to: "/buy" },
       { icon: <FcStatistics />, text: "Compras", to: "/shopping" },
-      { icon: <FcStatistics />, text: "Proveedores", to: "/providers" },
+      { icon: <SlPeople />, text: "Proveedores", to: "/providers" },
     ],
     providers: [
       { icon: <MdHome />, text: "Inicio", to: "/home" },
       {
-        icon: <RiMoneyDollarCircleFill />,
+        icon: <SlPeople />,
         text: "Proveedores",
         to: "/providers",
       },
-      { icon: <FcStatistics />, text: "Crear nuevo", to: "/createProvider" },
+      { icon: <IoPersonAdd />, text: "Nuevo", to: "/createProvider" },
     ],
     createProvider: [
       { icon: <MdHome />, text: "Inicio", to: "/home" },
       {
-        icon: <RiMoneyDollarCircleFill />,
+        icon: <SlPeople />,
         text: "Proveedores",
         to: "/providers",
       },
-      { icon: <FcStatistics />, text: "Crear nuevo", to: "/createProvider" },
+      { icon: <IoPersonAdd />, text: "Nuevo", to: "/createProvider" },
     ],
     stock: [
       { icon: <MdHome />, text: "Inicio", to: "/home" },
-      { icon: <RiMoneyDollarCircleFill />, text: "Stock", to: "/stock" },
-      { icon: <FcStatistics />, text: "Crear nuevo", to: "/createProduct" },
+      { icon: <LuPackage />, text: "Stock", to: "/stock" },
+      { icon: <LuPackagePlus />, text: "Nuevo", to: "/createProduct" },
     ],
     createProduct: [
       { icon: <MdHome />, text: "Inicio", to: "/home" },
-      { icon: <RiMoneyDollarCircleFill />, text: "Stock", to: "/stock" },
-      { icon: <FcStatistics />, text: "Crear nuevo", to: "/createProduct" },
+      { icon: <LuPackage />, text: "Stock", to: "/stock" },
+      { icon: <LuPackagePlus />, text: "Nuevo", to: "/createProduct" },
     ],
   };
 
@@ -79,10 +85,7 @@ function SideBar() {
     setActiveView(view);
   };
 
-  // ...
-
   const currentViewItems = views[activeView] || [];
-
   return (
     <div className="z-10 fixed ml-1 flex flex-col justify-center gap-10 items-center w-[65px] min-h-[97%] max-h-screen bg-customBlue text-black rounded-l-[40px] rounded-r-[40px] shadow-lg overflow-auto">
       {currentViewItems.map((item, index) => (
@@ -91,23 +94,35 @@ function SideBar() {
           key={index}
           onClick={() => handleSetActiveView(activeView)}
         >
-          <div className="flex items-center justify-center flex-col">
-            {item.icon}
-            <span
+          <div className="flex font-SFMedium items-center justify-center flex-col">
+            <div
               className={`text-sm text-white ${
-                activeView === item.to
-                  ? "bg-customBlueOpacity pb-1 pt-1 text-gray-800"
-                  : "text-white hover:scale-105 transition"
+                "/" + activeView === item.to
+                  ? "bg-red-600 text-[25px] p-2 rounded-[40px] text-gray-800" // vista actual
+                  : " text-[25px] p-2 hover:scale-125 transition" // iconos de otras opciones de vista
               }`}
             >
-              {item.text}
+              {item.icon}
+            </div>
+
+            {console.log("item", item)}
+            {console.log("activeView", activeView)}
+
+            <span
+              className={`text-white mx-1  ${
+                item.text.length > 6 ? "text-xs" : "text-xs"
+              } tracking-wider`}
+            >
+              {item.text.split("").map((letra, index) => (
+                <span key={index} className="inline-block">
+                  {letra}
+                </span>
+              ))}
             </span>
           </div>
         </Link>
       ))}
     </div>
-
-    // ...
   );
 }
 
