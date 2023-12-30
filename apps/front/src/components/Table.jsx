@@ -37,8 +37,10 @@ function Table({ data, columns, name }) {
         type="text"
         value={filtering}
         onChange={(e) => setFiltering(e.target.value)}
+        className="bg-gray-300 rounded-xl my-1 pl-3 "
+        placeholder="Buscar"
       />
-      <table className="border-collapse border border-gray-300 w-full">
+      <table className="border-collapse border border-gray-300 w-full min-h-[430px]">
         <thead className="sticky top-0  text-gray-200 bg-customBlue">
           {table.getHeaderGroups().map((headerGroup) => (
             <tr key={headerGroup.id} className="bg-custoBlue">
