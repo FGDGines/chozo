@@ -1,5 +1,6 @@
-const {carteraxcobrar, items_carteraxcobrar, unidades, grupos,
-       contable, itemcontable, articulos, parametros, sublineas, existencias,
+const {carteraxcobrar, items_carteraxcobrar, unidades, consecutivos,
+       contable, itemcontable, articulos, parametros, grupos,
+       sublineas, existencias, cuentas_bancarias,
        kardex, formasdepago, cajas, terceros, items_formasdepago} = require("../../models/DbConex");
 
 //consulta todas las cuentas x cobrar generadas
@@ -27,11 +28,12 @@ const getCarteraxCaja = async(id) => {
  //consulta cartera x un id
 const getCarteraById = async(id) => {
     const idC = Number(id);
-    const result = await carteraxcobrar.findAll({where: {id: idC}},{
+    const result = await carteraxcobrar.findByPk(idC, {
        include: [
           {model: terceros, attributes: { exclude: ['createdAt','updatedAt']}},
           {model: cajas, attributes: { exclude: ['createdAt','updatedAt']}},
           {model: items_carteraxcobrar, attributes: { exclude: ['createdAt','updatedAt']}},
+          {model: contable, attributes: { exclude: ['createdAt','updatedAt']}},
        ]
     });
     return result;
@@ -80,10 +82,10 @@ const addCartera = async(datos) => {
 
    //capturamos en el parametro "008" predefinido el id de la forma de pago credito tabla formapagos
    const parametro1 = await parametros.findOne({where: {para_codigo: '008'}});
-   const fpag_credito = Number(parametro.para_valor);
+   const fpag_credito = Number(parametro1.para_valor);
   
    //invocamos la funcion que grabara la contabilidad
-   const contab = await grabaContable(fuente, num, fechaC, terceroid, items, fpagos, total, metodopago, cajaid);
+   const contab = await grabaContable(fuente, num, fechaC, terceroid, items, fpagos, total, impuesto, metodopago, codUsuario, cajaid);
    console.log("Contabilidad Grabada");
 
    //totalizamos los abonos segun las formas de pago enviadas
@@ -104,7 +106,7 @@ const addCartera = async(datos) => {
       cxc_bruto: bruto,
       cxc_impuesto: impuesto,
       cxc_valor: total,
-      cxc_retenciones: retencion,
+      cxc_retenciones: 0,
       cxc_abonos: abonos,
       cxc_metodopago: metodopago,
       fuente_id: fuente,
@@ -126,9 +128,11 @@ const addCartera = async(datos) => {
          ite_impuesto: ele.impuesto,
          ite_preciocosto: ele.preciocosto,
          ite_cantidad: ele.cantidad,
-         cartera_id: newReg.id,
+         cartera_id: grabado.id,
       };
       await items_carteraxcobrar.create(citem);
+      console.log("Items de cartera actualizado");
+
       //grabamos la informacion en el kardex
       const kitem = {
          kar_salidas: ele.cantidad,
@@ -140,14 +144,15 @@ const addCartera = async(datos) => {
          articulo_id: idArt,
       };
       await kardex.create(kitem);
-      console.log("kardex grabada");
+      console.log("kardex actualizado");
+
       //afectamos las existencias
-      const existencia = {exi_cantidad: ele.cantidad, articulo_id: idArt,};
+      const existencia = {exi_cantidad: 0 - ele.cantidad, articulo_id: idArt,};
       const reg_exi = await existencias.findOne({where: { articulo_id: idArt }});
       if(!reg_exi) {
          await existencias.create(existencia);
       } else {
-         const newcantidad = reg_exi.exi_cantidad - element.cantidad;
+         const newcantidad = reg_exi.exi_cantidad - ele.cantidad;
          await existencias.update({exi_cantidad: newcantidad}, {where: {id: reg_exi.id}});
       };
       console.log("existencias actualizadas");
@@ -159,12 +164,13 @@ const addCartera = async(datos) => {
          ite_fecha: fechaV,
          cuentabanco_id: ele.ctabancoid,
          ite_valor: ele.valor,
-         formapago_id: ele.idFormaPago,
+         formapago_id: ele.idformapago,
          usuario_id: codUsuario,
          contable_id: contab.id,
       };
       await items_formasdepago.create(citem);
    });
+   console.log("Formas de pago actualizadas");
 
    //actualizamos el consecutivo de cartera x cobrar
    const consecu = await consecutivos.findOne({where: {fuente_id: fuente, conse_anual: anual}})
@@ -177,7 +183,7 @@ const addCartera = async(datos) => {
 
 
 //esta funcion grabara el comprobante contable
-const grabaContable = async(fuente, num, fechaC, terceroid, items, fpagos, total) => {
+const grabaContable = async(fuente, num, fechaC, terceroid, items, fpagos, total, impuesto, metodopago, codUsuario, cajaid) => {
    //inicialmente grabamos en la tabla contable
    const registro = {
       con_numero: num,
@@ -186,105 +192,78 @@ const grabaContable = async(fuente, num, fechaC, terceroid, items, fpagos, total
       con_detalles: 'Factura de ventas',
       fuente_id: fuente,
       tercero_id: terceroid,
+      usuario_id: codUsuario,
    };
    const newRegistro = await contable.create(registro);
    console.log("Cabecera contable grabada")
 
    //grabamos los itemscontables
-   let array1 = [];
-   let array2 = [];
+
    items.forEach(async(ele) => {
       let idArt = Number(ele.articuloId);
       const xreg = await articulos.findByPk(idArt, {
-         include: [{model: grupos, attributes: {include: [{model: sublineas}]}}]
+         include: [{model: grupos}]
       });
-      const puc1 = xreg.grupo.sublinea.pucinventario_id;
-      const puc2 = xreg.grupo.sublinea.pucingresos_id;
-      const puc3 = xreg.grupo.sublinea.puccostoventa_id;
-
-      //agrupamos en array1 por el puc2 (cuenta de ingresos)
-      let hallado = false;
-      array1.map(function(dato) {
-         if(dato.puc == puc2) {
-            hallado = true;
-            dato.valor+= items.valoruni * items.cantidad;
-         };
-         return dato;
-      });
-      if(!hallado) array1.push({puc: puc2, valor: items.valoruni * items.cantidad});
-
-      //agrupamos en array2 por el puc1 (cuenta de inventario contra costo de venta)
-      hallado = false;
-      array2.map(function(dato) {
-         if(dato.pucInv == puc1) {
-            hallado = true;
-            dato.valor+= items.preciocosto * items.cantidad;
-         };
-         return dato;
-      });
-      if(!hallado) array2.push({pucInv: puc1, pucCV: puc3, valor: items.preciocosto * items.cantidad});   
-   });
-
-   //procedemos a contabilizar los ingresos agrupados
-   array1.forEach(async(e) => {
-      const citem = {
+      const sublin = await sublineas.findByPk(xreg.grupo.sublinea_id);
+      const puc1 = sublin.pucinventario_id;
+      const puc2 = sublin.pucingresos_id;
+      const puc3 = sublin.puccostoventa_id;
+      let citem = {
          ite_numero: num,
          ite_fecha: fechaC,
-         ite_credito: e.valor,
+         ite_credito: ele.valoruni*ele.cantidad,
          ite_debito: 0,
-         ite_detalles: `Ingresos por factura de venta}`,
+         ite_detalles: 'Ingresos por factura de venta',
          contable_id: newRegistro.id,
          fuente_id: fuente,
-         puc_id: e.puc,
+         puc_id: puc2,
          tercero_id: terceroid,
+         usuario_id: codUsuario,
+      };
+      await itemcontable.create(citem); 
+      citem = {
+         ite_numero: num,
+         ite_fecha: fechaC,
+         ite_debito: ele.preciocosto*ele.cantidad,
+         ite_credito: 0,
+         ite_detalles: 'Costo de venta',
+         contable_id: newRegistro.id,
+         fuente_id: fuente,
+         puc_id: puc3,
+         tercero_id: terceroid,
+         usuario_id: codUsuario,
+      };
+      await itemcontable.create(citem);
+      citem = {
+         ite_numero: num,
+         ite_fecha: fechaC,
+         ite_credito: ele.preciocosto*ele.cantidad,
+         ite_debito: 0,
+         ite_detalles: 'Salida de Mercancia por Venta',
+         contable_id: newRegistro.id,
+         fuente_id: fuente,
+         puc_id: puc3,
+         tercero_id: terceroid,
+         usuario_id: codUsuario,
       };
       await itemcontable.create(citem);
    });
 
-   //procedemos a contabilizar los costos de venta
-   array2.forEach(async(e) => {
-         const citem1 = {
-            ite_numero: num,
-            ite_fecha: fechaC,
-            ite_debito: e.valor,
-            ite_credito: 0,
-            ite_detalles: `Costos de venta}`,
-            contable_id: newRegistro.id,
-            fuente_id: fuente,
-            puc_id: e.pucCV,
-            tercero_id: terceroid,
-         };
-         await itemcontable.create(citem1);
-         const citem2 = {
-            ite_numero: num,
-            ite_fecha: fechaC,
-            ite_credito: e.valor,
-            ite_debito: 0,
-            ite_detalles: `Costos de venta}`,
-            contable_id: newRegistro.id,
-            fuente_id: fuente,
-            puc_id: e.pucInv,
-            tercero_id: terceroid,
-         };
-         await itemcontable.create(citem2);
-   });
-
-   console.log("Items contables grabados");
-
    //grabamos el item contable de total impuesto
-   if(suma_impuesto>0) {
+   if(impuesto>0) {
       const parametro = await parametros.findOne({where: {para_codigo: '006'}});
       const cta = Number(parametro.para_valor);
       const citem = {
         ite_numero: num,
         ite_fecha: fechaC,
         ite_debito: 0,
-        ite_credito: suma_impuesto,
+        ite_credito: impuesto,
         ite_detalles: 'Impuesto a las Ventas',
         contable_id: newRegistro.id,
         fuente_id: fuente,
         puc_id: cta,
         tercero_id: terceroid,
+        usuario_id: codUsuario,
       };
       await itemcontable.create(citem);     
    };
@@ -303,21 +282,32 @@ const grabaContable = async(fuente, num, fechaC, terceroid, items, fpagos, total
         fuente_id: fuente,
         puc_id: cta,
         tercero_id: terceroid,
+        usuario_id: codUsuario,
       };
       await itemcontable.create(citem);  
    } else {
       //metodo pago contado, recorremos el array de formas de pago
+      const cuecaja = await cajas.findByPk(cajaid);
+      const parametro = await parametros.findOne({where: {para_codigo: '007'}});
+      const ctacredito = Number(parametro.para_valor);
       fpagos.forEach(async(ele) => {
+         const fpag = await formasdepago.findByPk(ele.idformapago);
+         const codban = await cuentas_bancarias.findByPk(ele.ctabancoid);
+
+         const cuen = fpag.fpag_manejabanco == 1 
+             ?codban.puc_id : fpag.fpag_manejabanco == 2 
+                 ? cuecaja.puc_id : ctacredito ;
          const citem = {
             ite_numero: num,
             ite_fecha: fechaC,
             ite_debito: ele.valor,
             ite_credito: 0,
-            ite_detalles: ele.detalles,
+            ite_detalles: fpag.fpag_detalles,
             contable_id: newRegistro.id,
             fuente_id: fuente,
-            puc_id: ele.cuenta,
+            puc_id: cuen,
             tercero_id: terceroid,
+            usuario_id: codUsuario,
           };
           await itemcontable.create(citem);           
       });
@@ -328,7 +318,40 @@ const grabaContable = async(fuente, num, fechaC, terceroid, items, fpagos, total
 };
 
 
+//anulacion de una factura
+const anulaCartera = async(id) => {
+   const idC = Number(id);
+   const cartera = await carteraxcobrar.findByPk(idC);
+   if(cartera.cxc_abonos > 0 && cartera.cxc_metodopago == 2) {
+       throw Error("Factura presenta abonos");
+   };
+   if(cartera.cxc_anulada == 1) {
+       throw Error("Factura ya se encuentra anulada");
+   };
+   const grabado = await carteraxcobrar.update({cxc_anulada: 1}, {where: {id: idC}});
+   await items_carteraxcobrar.update({ite_anulado: 1}, {where: {cartera_id: idC}});
+   await kardex.update({kar_anulado: 1}, {where: {contable_id: cartera.contable_id}});
+   await items_formasdepago.update({ite_anulado: 1}, {where: {contable_id: cartera.contable_id}});
+   await contable.update({con_anulado: 1}, {where: {id: cartera.contable_id}});
+   await itemcontable.update({ite_anulado: 1}, {where: {contable_id: cartera.contable_id}});
+   //volvemos a actualizar las existencias
+   const items = await items_carteraxcobrar.findAll({where: {cartera_id: idC}});
+   items.forEach(async(ele) => {
+      const reg_exi = await existencias.findOne({where: {articulo_id: ele.codigo_id}});
+      if(reg_exi) {
+         const newcantidad = reg_exi.exi_cantidad + ele.ite_cantidad;
+         await existencias.update({exi_cantidad: newcantidad}, {where: {id: reg_exi.id}});
+      };   
+   });
+   return grabado;
+};
+
 
 module.exports = {
-
+   getCartera,
+   getCarteraById,
+   getCarteraByTerceroId,
+   getCarteraxCaja,
+   addCartera,
+   anulaCartera,
 };

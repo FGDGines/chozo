@@ -9,22 +9,25 @@ class Server {
         this.app = express()
         this.middleares()
         this.paths = {
-            departamentos:   '/api/departamentos',
-            ciudades:        '/api/ciudades',
-            terceros:        '/api/terceros',
-            agencias:        '/api/agencias',
-            proveedores:     '/api/proveedores',
-            lineas:          '/api/lineas',
-            sublineas:       '/api/sublineas',
-            grupos:          '/api/grupos',
-            marcas:          '/api/marcas',
-            unidades:        '/api/unidades',
-            articulos:       '/api/articulos',
-            pedidos:         '/api/pedidos',
-            carteraxpagar:   '/api/carteraxpagar',
-            tokens:          '/basic/tokens',
-            usuarios:        '/api/usuarios',
-            cajas:           '/api/cajas',
+            departamentos:     '/api/departamentos',
+            ciudades:          '/api/ciudades',
+            terceros:          '/api/terceros',
+            agencias:          '/api/agencias',
+            proveedores:       '/api/proveedores',
+            lineas:            '/api/lineas',
+            sublineas:         '/api/sublineas',
+            grupos:            '/api/grupos',
+            marcas:            '/api/marcas',
+            unidades:          '/api/unidades',
+            articulos:         '/api/articulos',
+            pedidos:           '/api/pedidos',
+            carteraxpagar:     '/api/carteraxpagar',
+            tokens:            '/basic/tokens',
+            usuarios:          '/api/usuarios',
+            cajas:             '/api/cajas',
+            carteraxcobrar:    '/api/carteraxcobrar',
+            formasdepago:      '/api/formasdepago',
+            cuentasbancarias:  '/api/cuentasbancarias',
         }
         this.upDB()
         this.routes()
@@ -82,6 +85,9 @@ class Server {
         this.app.use(this.paths.carteraxpagar, require('../routes/api/carteraxpagar.js'));
         this.app.use(this.paths.usuarios, require('../routes/api/usuarios.js'));
         this.app.use(this.paths.cajas, require('../routes/api/cajas.js'));
+        this.app.use(this.paths.carteraxcobrar, require('../routes/api/carteraxcobrar.js'));
+        this.app.use(this.paths.formasdepago, require('../routes/api/formasdepago.js'));
+        this.app.use(this.paths.cuentasbancarias, require('../routes/api/cuentasbancarias.js'));
     };
 
     run() {
