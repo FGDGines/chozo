@@ -13,7 +13,7 @@ module.exports = (sequelize) => {
             allowNull: false,
         },
         ite_tipo: {
-            type: DataTypes.TINYINT,
+            type: DataTypes.TINYINT(1),
             defaultValue: 1,
         },
         carteraxcobrar_id: {

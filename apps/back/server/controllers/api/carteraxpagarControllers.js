@@ -12,6 +12,7 @@ const getCartera = async() => {
    return result;
 };
 
+
 //devuelve un registro de cartera por el id
 const getCarteraById = async(id) => {
    const idC = Number(id); 

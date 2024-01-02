@@ -8,12 +8,7 @@ module.exports = (sequelize) => {
             primaryKey: true,
             autoIncrement: true
         },
-        tes_debitos: {
-            type: DataTypes.DOUBLE(14,2),
-            allowNull: false,
-            defaultValue: 0,
-        },
-        tes_creditos: {
+        tes_valor: {
             type: DataTypes.DOUBLE(14,2),
             allowNull: false,
             defaultValue: 0,
@@ -21,6 +16,10 @@ module.exports = (sequelize) => {
         tes_fecha: {
             type: DataTypes.DATE,
             allowNull: false,
+        },
+        tes_detalles: {
+           type: DataTypes.STRING,
+           allowNull: true,
         },
         cuentabancaria_id: {
             type: DataTypes.BIGINT,

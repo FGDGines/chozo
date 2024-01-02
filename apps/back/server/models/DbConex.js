@@ -183,6 +183,8 @@ cajas.hasMany(tesoreria, {foreignKey: 'caja_id', sourceKey: 'id'});
 tesoreria.belongsTo(cajas, {foreignKey: 'caja_id', targetKey: 'id'});
 tesoreria.hasMany(items_tesoreria, {foreignKey: 'tesoreria_id', sourceKey: 'id'});
 items_tesoreria.belongsTo(tesoreria, {foreignKey: 'tesoreria_id', targetKey: 'id'});
+tesoreria.belongsTo(terceros, {foreignKey: 'tercero_id', targetKey: 'id'});
+tesoreria.belongsTo(fuentes, {foreignKey: 'fuente_id', targetKey: 'id'});
 usuarios.belongsTo(terceros, {foreignKey: 'tercero_id', targetKey: 'id'});
 
 async function testConnection() {
