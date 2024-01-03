@@ -21,10 +21,22 @@ const getUsuarioById = async(id) => {
    return result;
 };
 
+//devuelve los datos del login de un usuario
+const loginUser = async(datos) => {
+   const {usu_nombre, usu_password} = datos;
+   const user = usu_nombre;
+   const passw = usu_password;
+   const result = await usuarios.findOne({where: {usu_nombre: user}});
+   if(!result) throw Error("Usuario Inexistente");
+   if(result.usu_activo == 0) throw Error("Usuario Inactivo");
+   if(result.usu_password !== passw) throw Error("Clave Invalida");
+   return result;
+};
+
 //crea nuevo usuario
 const addUsuario = async(datos) => {
-   const {nombre, clave, admin, idtercero} = datos;
-   const idter = Number(idtercero);
+   const {usu_nombre, usu_password, usu_admin, tercero_id} = datos;
+   const idter = Number(tercero_id);
    //buscamos si el idtercero existe
    const tercero = await terceros.findByPk(idter);
    if(!tercero) throw Error("idTercero Inexistente en la BD");
@@ -33,8 +45,8 @@ const addUsuario = async(datos) => {
    if(usuario) throw Error("Tercero ya existente como usuario");
    //creamos el usuario
    const newUsu = {
-      usu_nombre: nombre,
-      usu_password: clave,
+      usu_nombre,
+      usu_password,
       usu_admin: admin,
       tercero_id: idter,
    };
@@ -44,7 +56,11 @@ const addUsuario = async(datos) => {
 
 //modifica usuario
 const editaUsuario = async(datos, id) => {
-    const {nombre, clave, admin, activo} = datos;
+    const {usu_nombre, usu_password, usu_admin, usu_activo} = datos;
+    const nombre = usu_nombre;
+    const clave = usu_password;
+    const admin = Number(usu_admin);
+    const activo = Number(usu_activo);
     const idU = Number(id);
     const result = await usuarios.update({
         usu_nombre: nombre,
@@ -59,4 +75,5 @@ module.exports = {
    getUsuarioById,
    addUsuario,
    editaUsuario,
+   loginUser,
 };

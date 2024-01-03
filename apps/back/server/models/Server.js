@@ -29,6 +29,7 @@ class Server {
             formasdepago:      '/api/formasdepago',
             cuentasbancarias:  '/api/cuentasbancarias',
             tesoreria:         '/api/tesoreria',
+            puc:               '/api/puc',
         }
         this.upDB()
         this.routes()
@@ -90,6 +91,7 @@ class Server {
         this.app.use(this.paths.formasdepago, require('../routes/api/formasdepago.js'));
         this.app.use(this.paths.cuentasbancarias, require('../routes/api/cuentasbancarias.js'));
         this.app.use(this.paths.tesoreria, require('../routes/api/tesoreria.js'));
+        this.app.use(this.paths.puc, require('../routes/api/puc.js'));
     };
 
     run() {

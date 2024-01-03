@@ -1,4 +1,7 @@
 const express = require("express");
+const { check } = require('express-validator')
+const { validarCampos }  = require('../../middlewares/validar-campos')
+
 const {getUnidades, getUnidadById,
        addUnidad, updateUnidad} = require("../../controllers/api/unidadesControllers");
 const server = express();
@@ -28,7 +31,11 @@ server.get('/:id', async(req, res) => {
  });
 
  //crea una nueva unidad
- server.post('/', async(req, res) => {
+ server.post('/', 
+    [ check('uni_abreviatura', 'La abreviatura de la unidad es obligatoria').not().isEmpty() ,validarCampos] , 
+    [ check('uni_detalles', 'El detalle de la unidad es obligatorio').not().isEmpty() ,validarCampos] ,
+    async(req, res) => {
+
     const datos = req.body;
     try {
         const result = await addUnidad(datos);
