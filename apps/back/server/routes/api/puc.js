@@ -2,8 +2,8 @@ const express = require("express");
 const { check } = require('express-validator')
 const { validarCampos }  = require('../../middlewares/validar-campos')
 
-const {getPuc, getCuentaByCodigo,
-       getCuentaById, addCuenta} = require("../../controllers/api/pucControllers");
+const {getPuc, getCuentaByCodigo, updateCuenta,
+       getCuentaById, addCuenta, deleteCuenta} = require("../../controllers/api/pucControllers");
 const server = express();
 
 
@@ -24,6 +24,60 @@ server.get('/', async(req, res) => {
      }
 });
 
+//devuelve una cuenta por su id
+server.get('/:id', async(req, res) => {
+   const {id} = req.params; 
+   try {
+       const result = await getCuentaById(id);
+       res.status(200).json(result);
+   } catch (error) {
+       console.log(error.message);
+       res.status(500).json({message: error.message});   
+   }
+});
 
+//AGREGA NUEVA CUENTA
+server.post('/', 
+    [ check('puc_codigo', 'El codigo de la cuenta es obligatorio').not().isEmpty() ,validarCampos] ,
+    [ check('puc_cuenta', 'El nombre de la cuenta es obligatorio').not().isEmpty() ,validarCampos] ,
+    async(req, res) => {
+    const datos = req.body;
+    try {
+        const result = await addCuenta(datos);
+        res.status(200).json(result);
+    } catch (error) {
+        console.log(error.message);
+        res.status(500).json({message: error.message});   
+    }
+ });
+
+ //edita una CUENTA
+server.put('/:id', 
+   [ check('puc_codigo', 'El codigo de la cuenta es obligatorio').not().isEmpty() ,validarCampos] ,
+   [ check('puc_cuenta', 'El nombre de la cuenta es obligatorio').not().isEmpty() ,validarCampos] ,
+   async(req, res) => {
+   const datos = req.body;
+   const {id} = req.params;
+   try {
+       const result = await updateCuenta(datos, id);
+       res.status(200).json(result);
+   } catch (error) {
+       console.log(error.message);
+       res.status(500).json({message: error.message});   
+   }
+});
+
+//eliminar una cuenta
+server.delete('/:id', async(req, res) => {
+    const {id} = req.params; 
+    try {
+        const result = await deleteCuenta(id);
+        res.status(200).json(result);
+    } catch (error) {
+        console.log(error.message);
+        res.status(500).json({message: error.message});   
+    }
+ });
+ 
 
 module.exports = server;

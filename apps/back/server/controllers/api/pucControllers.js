@@ -1,4 +1,4 @@
-const {puc} = require("../../models/DbConex");
+const {puc, itemcontable} = require("../../models/DbConex");
  
 //devuelve el plan de cuentas completo
 const getPuc = async() => {
@@ -40,39 +40,69 @@ const addCuenta = async(datos) => {
    const sgru = puc_codigo.substring(0,2);
    const may = puc_codigo.substring(0,4);
    const scta = puc_codigo.substring(0,6);
+
    //buscamos si existe la cuenta de grupo
-   let cuenta = puc.findOne({where: {puc_codigo: grup}});
+   let cuenta = await puc.findOne({where: {puc_codigo: grup}});
    if(!cuenta) {
-      const result = agregaCuenta(grup, cuen_grupo, 1);
+      const result = await agregaCuenta(grup, cuen_grupo, 1);
       if(result.error) throw Error("No se pudo crear cuenta de Grupos");
-   };   
+   }; 
+  
    //buscamos si existe la cuenta del subgrupo
-   cuenta = puc.findOne({where: {puc_codigo: sgru}});
+   cuenta = await puc.findOne({where: {puc_codigo: sgru}});
    if(!cuenta) {
-       const result = agregaCuenta(sgru, cuen_subgrupo, 2);
+       const result = await agregaCuenta(sgru, cuen_subgrupo, 2);
        if(result.error) throw Error("No se pudo crear cuenta de Subgrupos");
    };    
    //buscamos si existe la cuenta mayor
-   cuenta = puc.findOne({where: {puc_codigo: may}});
+   cuenta = await puc.findOne({where: {puc_codigo: may}});
    if(!cuenta) {
-       const result = agregaCuenta(may, cuen_mayor, 3);
+       const result = await agregaCuenta(may, cuen_mayor, 3);
        if(result.error) throw Error("No se pudo crear cuenta Mayor");
    };    
    //buscamos si existe la cuenta de la subcuenta
-   cuenta = puc.findOne({where: {puc_codigo: scta}});
+   cuenta = await puc.findOne({where: {puc_codigo: scta}});
    if(!cuenta) {
-       const result = agregaCuenta(scta, cuen_subcuenta, 4);
+       const result = await agregaCuenta(scta, cuen_subcuenta, 4);
        if(result.error) throw Error("No se pudo crear subcuenta");
    };    
    //buscamos si existe la auxiliar
-   cuenta = puc.findOne({where: {puc_codigo: aux}});
+   cuenta = await puc.findOne({where: {puc_codigo: aux}});
    if(!cuenta) {
-      const cuenta = agregaCuenta(aux, naux, 5);
-      if(cuenta.error) throw Error("No se pudo crear cuenta Auxiliar");
-      return cuenta;
+      const xcuenta = await agregaCuenta(aux, naux, 5);
+      if(xcuenta.error) throw Error("No se pudo crear cuenta Auxiliar");
+      return xcuenta;
    } else {
       return cuenta;
    };   
+};
+
+//modificar una cuenta existente
+const updateCuenta = async(datos, id) => {
+   const {puc_codigo, puc_cuenta} = datos;
+   const idP = Number(id);
+   const cuenta = await puc.findByPk(idP);
+   const L = puc_codigo.length;
+   if(cuenta.puc_nivel == 1 && L !== 1) throw Error("Codigo debe tener 1 Digito");
+   if(cuenta.puc_nivel == 2 && L !== 2) throw Error("Codigo debe tener 2 Digitos");
+   if(cuenta.puc_nivel == 3 && L !== 4) throw Error("Codigo debe tener 4 Digitos");
+   if(cuenta.puc_nivel == 4 && L !== 6) throw Error("Codigo debe tener 6 Digitos");
+   if(cuenta.puc_nivel == 5 && (L < 8 || L > 9)) throw Error("Codigo debe tener 8 o 9 Digitos");
+   const result = await puc.update({puc_codigo,puc_cuenta}, {where: {id: idP}});
+   return result;
+};
+
+//eliminar una cuenta
+const deleteCuenta = async(id) => {
+    const idP = Number(id);
+    const cuenta = await puc.findByPk(idP);
+    //buscamos si existen registros contables con esa cuenta
+    if(cuenta.puc_nivel == 5) {
+        const contab = await itemcontable.findOne({where: {puc_id: idP}});
+        if(contab) throw Error("Esta cuenta tiene registros contables");
+    };
+    const result = await puc.destroy({where: {id: idP}});
+    return result;
 };
 
 module.exports = {
@@ -80,4 +110,6 @@ module.exports = {
    getCuentaByCodigo,
    getCuentaById,
    addCuenta,
+   updateCuenta,
+   deleteCuenta,
 };
