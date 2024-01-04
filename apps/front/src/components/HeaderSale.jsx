@@ -1,19 +1,33 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Select from "react-select";
 import data from "../../data.json";
 import { IoPersonAdd } from "react-icons/io5";
 import logo from "../assets/logo/elChozo.png";
 
-const Header = ({ formattedDate }) => {
+const Header = ({ formattedDate, infoHeader }) => {
   const [selectedClient, setSelectedClient] = useState(null);
   const [selectedUser, setSelectedUser] = useState(null);
+  const [isSale, setIsSale] = useState([]);
 
   console.log("cliente seleccionado", selectedClient);
+  console.log("INFO HEADER 1", infoHeader);
 
-  const optionsClient = data.clientes.map((cliente) => ({
-    value: cliente.id,
-    label: cliente.nombre + " " + cliente.DNI,
-  }));
+  useEffect(() => {
+    if (infoHeader.isViewSale) {
+      console.log("INFO HEADER 2", infoHeader);
+      const optionsClient = data.clientes.map((cliente) => ({
+        value: cliente.id,
+        label: cliente.nombre + " " + cliente.DNI,
+      }));
+      setIsSale(optionsClient);
+    } else {
+      const optionsProvider = data.proveedores.map((proveedor) => ({
+        value: proveedor.id,
+        label: proveedor.nombre + " " + proveedor.NIF,
+      }));
+      setIsSale(optionsProvider);
+    }
+  }, [infoHeader.isViewSale]);
 
   const optionsUser = data.user.map((user) => ({
     value: user.id,
@@ -30,24 +44,28 @@ const Header = ({ formattedDate }) => {
   return (
     <div className="pl-2 flex flex-row w-full justify-between items-center pr-5">
       <div>
-        <h2 className="text-[30px] font-SFMedium">Pedido de venta</h2>
+        <h2 className="text-[30px] font-SFMedium">{infoHeader.title}</h2>
         <div className="text-gray-500 mt-1">
           Fecha de la orden: {formattedDate}
         </div>
-        <div className="text-gray-500 mt-1">Punto de venta: Dirección</div>
+        {infoHeader.showInfo ? (
+          ""
+        ) : (
+          <div className="text-gray-500 mt-1">Punto de venta: Dirección</div>
+        )}
       </div>
       <div>
         <img src={logo} className="w-[200px]" alt="" />
       </div>
       <div className="flex flex-col gap-3 justify-center items-end w-[30%]">
         <div className="flex flex-row items-center gap-3">
-          Cajero
+          {infoHeader.person1}
           <Select
             value={selectedUser}
             onChange={handleUserChange}
             options={optionsUser}
             isSearchable
-            placeholder="Seleccione un cliente..."
+            placeholder="Seleccione un usuario..."
             className=" w-[250px]"
           />
         </div>
@@ -55,11 +73,11 @@ const Header = ({ formattedDate }) => {
           <button>
             <IoPersonAdd className="text-sky-500 text-lg" />
           </button>
-          Cliente
+          {infoHeader.person2}
           <Select
             value={selectedClient}
             onChange={handleClientChange}
-            options={optionsClient}
+            options={isSale}
             isSearchable
             placeholder="Seleccione un cliente..."
             className="w-[250px]"

@@ -10,6 +10,13 @@ function Sales() {
     today.getMonth() + 1
   }/${today.getFullYear()}`;
 
+  const infoHeader = {
+    title: "Pedido de venta",
+    person1: "Cajero",
+    person2: "Cliente",
+    isViewSale: true,
+  };
+
   const [value, setValue] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState(null);
@@ -168,7 +175,7 @@ function Sales() {
   return (
     <>
       <div className="ml-[80px] font-SFRegular h-screen w-[92%] flex flex-col">
-        <HeaderSale formattedDate={formattedDate} />
+        <HeaderSale formattedDate={formattedDate} infoHeader={infoHeader} />
         <div className="text-lg ml-2 mt-5">Pedido</div>
 
         <div
@@ -221,6 +228,7 @@ function Sales() {
           </div>
 
           <ShoppingCartTable
+            infoHeader={infoHeader}
             shoppingCart={shoppingCart}
             onDeleteFromCart={handleDeleteFromCart}
           />

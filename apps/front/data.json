@@ -50,6 +50,20 @@
   { "id": 19, "nombre": "Gabriela López", "DNI": 222222223, "condicion de venta": "Efectivo" },
   { "id": 20, "nombre": "Hernán González", "DNI": 333333334, "condicion de venta": "Cheque" }
 ],
+"proveedores": [
+  { "id": 1, "nombre": "Proveedor A", "NIF": "A12345678" },
+  { "id": 2, "nombre": "Proveedor B", "NIF": "B87654321" },
+  { "id": 3, "nombre": "Proveedor C", "NIF": "C56789012" },
+  { "id": 4, "nombre": "Proveedor D", "NIF": "D34567890" },
+  { "id": 5, "nombre": "Proveedor E", "NIF": "E23456789" },
+  { "id": 6, "nombre": "Proveedor F", "NIF": "F78901234" },
+  { "id": 7, "nombre": "Proveedor G", "NIF": "G89012345" },
+  { "id": 8, "nombre": "Proveedor H", "NIF": "H67890123" },
+  { "id": 9, "nombre": "Proveedor I", "NIF": "I45678901" },
+  { "id": 10, "nombre": "Proveedor J", "NIF": "J56789012" },
+  { "id": 11, "nombre": "Proveedor K", "NIF": "K12345678" },
+  { "id": 12, "nombre": "Proveedor L", "NIF": "L98765432" }
+],
 "ventas": [
   {
     "id": 1,
