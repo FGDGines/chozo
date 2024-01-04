@@ -20,6 +20,10 @@ module.exports = (sequelize) => {
             type: DataTypes.TINYINT,
             defaultValue: 0,
         },
+        puc_saldo: {
+           type: DataTypes.DOUBLE(14,2),
+           defaultValue: 0.00,
+        },
 
     },{tableName: 'puc'},
     { timestamps: true });
