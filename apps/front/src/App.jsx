@@ -3,15 +3,16 @@ import { Routes, Route } from "react-router-dom";
 import Home from "./views/Home";
 import Sales from "./views/Sales/Sales";
 import Accounting from "./views/Accounting/Accounting";
-import Providers from "./views/Purchases/Providers";
+import Providers from "./views/Providers/Providers";
 import Shopping from "./views/Purchases/Shopping";
 import Stock from "./views/Stock/Stock";
 import Sell from "./views/Sales/Sell";
 import SideBar from "./components/SideBar";
-import Customers from "./views/Sales/Customers";
+import Customers from "./views/Customers/Customers";
 import Buy from "./views/Purchases/Buy";
 import CreateProduct from "./views/Stock/CreateProduct";
-import CreateProvider from "./views/Purchases/CreateProvider";
+import CreateProvider from "./views/Providers/CreateProvider";
+import CreateCustomer from "./views/Customers/CreateCustomer";
 
 function App() {
   return (
@@ -64,6 +65,14 @@ function App() {
           element={
             <MainLayout showSidebar={true}>
               <Customers />
+            </MainLayout>
+          }
+        />
+        <Route
+          path="/createCustomer"
+          element={
+            <MainLayout showSidebar={true}>
+              <CreateCustomer />
             </MainLayout>
           }
         />
