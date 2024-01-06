@@ -295,7 +295,7 @@ function Sales() {
                     </div>
                   ) : (
                     <div className="text-2xl">
-                      Total: ${totalAmount.toFixed(2)}{" "}
+                      Total: €{totalAmount.toFixed(2)}{" "}
                     </div>
                   )}
                 </div>

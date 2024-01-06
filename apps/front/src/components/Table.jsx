@@ -1,7 +1,5 @@
 import React, { useState } from "react";
-import { FaArrowRight } from "react-icons/fa";
-import { FaArrowLeft } from "react-icons/fa";
-
+import { FaArrowRight, FaArrowLeft } from "react-icons/fa";
 import {
   getCoreRowModel,
   useReactTable,
@@ -10,10 +8,14 @@ import {
   getSortedRowModel,
   getFilteredRowModel,
 } from "@tanstack/react-table";
+import Modal from "./Modal";
 
-function Table({ data, columns, name }) {
+function Table({ data, columns, name, showModal, setShowModal }) {
   const [sorting, setSorting] = useState([]);
-  const [filtering, setFiltering] = useState("");
+  const [filtering, setFiltering] = useState({
+    globalFilter: "",
+    // fechaFilter: "",
+  });
 
   const table = useReactTable({
     data: data,
@@ -24,93 +26,135 @@ function Table({ data, columns, name }) {
     getFilteredRowModel: getFilteredRowModel(),
     state: {
       sorting,
-      globalFilter: filtering,
+      globalFilter: filtering.globalFilter,
+      filters: [
+        {
+          id: "fecha",
+          value: filtering.fechaFilter,
+          operator: "date-eq",
+        },
+      ],
     },
     onSortingChange: setSorting,
-    onGlobalFilterChange: setFiltering,
+    onGlobalFilterChange: (value) =>
+      setFiltering({ ...filtering, globalFilter: value }),
+    // onFilterChange: (filters) => {
+    //   const fechaFilter = filters.find((filter) => filter.id === "fecha");
+    //   setFiltering({
+    //     ...filtering,
+    //     fechaFilter: fechaFilter ? fechaFilter.value : "",
+    //   });
+    // },
   });
 
   return (
-    <div className="ml-[100px] font-SFRegular">
-      <div className="text-[35px]">Listado de {name}</div>
-      <input
-        type="text"
-        value={filtering}
-        onChange={(e) => setFiltering(e.target.value)}
-        className="bg-gray-300 rounded-xl my-1 pl-3 "
-        placeholder="Buscar"
-      />
-      <table className="border-collapse border border-gray-300 w-full min-h-[430px]">
-        <thead className="sticky top-0  text-gray-200 bg-customBlue">
-          {table.getHeaderGroups().map((headerGroup) => (
-            <tr key={headerGroup.id} className="bg-custoBlue">
-              {headerGroup.headers.map((header) => (
-                <th
-                  key={header.id}
-                  onClick={header.column.getToggleSortingHandler()}
-                  className="hover:cursor-pointer"
+    <>
+      {showModal ? <Modal setShowModal={setShowModal} /> : ""}
+      <div className="ml-[100px] font-SFRegular flex flex-col max-h-[530px] h-screen ">
+        <div className="text-[35px]">Listado de {name}</div>
+        <input
+          type="text"
+          value={filtering.globalFilter}
+          onChange={(e) =>
+            setFiltering({ ...filtering, globalFilter: e.target.value })
+          }
+          className="bg-gray-300 w-[300px] rounded-xl mb-1 pl-3 "
+          placeholder="Buscar"
+        />
+        {/* <input
+        type="date"
+        value={filtering.fechaFilter}
+        onChange={(e) =>
+          setFiltering({ ...filtering, fechaFilter: e.target.value })
+        }
+        className="bg-gray-300 w-[300px] rounded-xl mb-1 pl-3"
+        placeholder="Fecha"
+      /> */}
+
+        <div className="flex-grow overflow-y-auto">
+          <table className="border-collapse border border-gray-300 w-full ">
+            <thead className="sticky top-0 text-gray-200 bg-customBlue">
+              {table.getHeaderGroups().map((headerGroup) => (
+                <tr key={headerGroup.id} className="bg-custoBlue">
+                  {headerGroup.headers.map((header) => (
+                    <th
+                      key={header.id}
+                      onClick={header.column.getToggleSortingHandler()}
+                      className="hover:cursor-pointer"
+                    >
+                      <div>
+                        {flexRender(
+                          header.column.columnDef.header,
+                          header.getContext()
+                        )}{" "}
+                        {
+                          { asc: "⬆️", desc: "⬇️" }[
+                            header.column.getIsSorted() ?? null
+                          ]
+                        }
+                      </div>
+                    </th>
+                  ))}
+                </tr>
+              ))}
+            </thead>
+            <tbody>
+              {table.getRowModel().rows.map((row, index) => (
+                <tr
+                  key={row.id}
+                  className={`hover:bg-gray-200 ${
+                    index % 2 === 0 ? "bg-gray-100" : ""
+                  }`}
                 >
-                  <div>
-                    {flexRender(
-                      header.column.columnDef.header,
-                      header.getContext()
-                    )}{" "}
-                    {
-                      { asc: "⬆️", desc: "⬇️" }[
-                        header.column.getIsSorted() ?? null
-                      ]
-                    }
-                  </div>
-                </th>
+                  {row.getVisibleCells().map((cell) => (
+                    <td className="text-center text-sm py-2 " key={cell.id}>
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext()
+                      )}
+                    </td>
+                  ))}
+                </tr>
               ))}
-            </tr>
-          ))}
-        </thead>
-        <tbody>
-          {table.getRowModel().rows.map((row, index) => (
-            <tr
-              key={row.id}
-              className={`hover:bg-gray-200 ${
-                index % 2 === 0 ? "bg-gray-100" : ""
-              }`}
-            >
-              {row.getVisibleCells().map((cell) => (
-                <td className="text-center text-sm py-2 " key={cell.id}>
-                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                </td>
-              ))}
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      <div className="p-2 flex justify-center items-center">
-        <button
-          className="px-3 py-0.5 bg-customBlue rounded-md text-gray-100 mx-1 hover:scale-105 transition "
-          onClick={() => table.setPageIndex(0)}
+            </tbody>
+          </table>
+        </div>
+        <div
+          id="botones-paginado"
+          className="p-2 flex justify-center items-center "
         >
-          1
-        </button>
-        <button
-          className="px-3 py-1.5 bg-customBlue rounded-md text-gray-100 mx-1 hover:scale-105 transition "
-          onClick={() => table.previousPage()}
-        >
-          <FaArrowLeft />
-        </button>
-        <button
-          className="px-3 py-1.5 bg-customBlue rounded-md text-gray-100 mx-1 hover:scale-105 transition "
-          onClick={() => table.nextPage()}
-        >
-          {" "}
-          <FaArrowRight />
-        </button>
-        <button
-          className="px-3 py-0.5 bg-customBlue rounded-md text-gray-100 mx-1 hover:scale-105 transition "
-          onClick={() => table.setPageIndex(table.getPageCount() - 1)}
-        >
-          {table.getPageCount()}
-        </button>
+          <button
+            id="primer-pagina"
+            className="px-3 py-0.5 bg-customBlue rounded-md text-gray-100 mx-1 hover:scale-105 transition "
+            onClick={() => table.setPageIndex(0)}
+          >
+            1
+          </button>
+          <button
+            id="pagina-anterior"
+            className="px-3 py-1.5 bg-customBlue rounded-md text-gray-100 mx-1 hover:scale-105 transition "
+            onClick={() => table.previousPage()}
+          >
+            <FaArrowLeft />
+          </button>
+          <button
+            id="pagina-siguiente"
+            className="px-3 py-1.5 bg-customBlue rounded-md text-gray-100 mx-1 hover:scale-105 transition "
+            onClick={() => table.nextPage()}
+          >
+            {" "}
+            <FaArrowRight />
+          </button>
+          <button
+            id="ultima-pagina"
+            className="px-3 py-0.5 bg-customBlue rounded-md text-gray-100 mx-1 hover:scale-105 transition "
+            onClick={() => table.setPageIndex(table.getPageCount() - 1)}
+          >
+            {table.getPageCount()}
+          </button>
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 

@@ -13,6 +13,7 @@ import Buy from "./views/Purchases/Buy";
 import CreateProduct from "./views/Stock/CreateProduct";
 import CreateProvider from "./views/Providers/CreateProvider";
 import CreateCustomer from "./views/Customers/CreateCustomer";
+import PendingToCollect from "./views/Sales/PendingToCollect";
 
 function App() {
   return (
@@ -81,6 +82,14 @@ function App() {
           element={
             <MainLayout showSidebar={true}>
               <Providers />
+            </MainLayout>
+          }
+        />
+        <Route
+          path="/pendingToCollect"
+          element={
+            <MainLayout showSidebar={true}>
+              <PendingToCollect />
             </MainLayout>
           }
         />
