@@ -1,4 +1,5 @@
-const {proveedores, agencias_transporte, terceros} = require("../../models/DbConex");
+const {proveedores, agencias_transporte,
+       terceros, ciudades} = require("../../models/DbConex");
 
 //devuelve todos los proveedores
 const getProveedores = async() => {
@@ -12,7 +13,10 @@ const getProveedores = async() => {
 const getProveedorById = async(id) => {
     const array = await proveedores.findByPk(id, {
         include: [
-            {model: terceros, attributes: { exclude: ['createdAt','updatedAt']}},
+            {model: terceros, attributes: { exclude: ['createdAt','updatedAt']},
+                    include: [{model: ciudades, attributes: { exclude: ['createdAt','updatedAt']}}]},
+            {model: agencias_transporte, attributes: { exclude: ['createdAt','updatedAt']},
+                    include: [{model: terceros, attributes: { exclude: ['createdAt','updatedAt']}}]},
         ]
     })
     return array;

@@ -1,4 +1,6 @@
 const express = require("express");
+const { check } = require('express-validator')
+const { validarCampos }  = require('../../middlewares/validar-campos')
 const {getAgencias, getAgenciaById,
        newAgencia} = require("../../controllers/api/agenciasControllers");
 const server = express();
@@ -27,7 +29,13 @@ server.get('/:id', async(req, res) => {
 });
 
 //agregamos una nueva agencia
-server.post('/', async(req, res) => {
+server.post('/', 
+   [ check('ter_documento', 'El Numero de Documento es obligatorio').not().isEmpty() ,validarCampos] ,
+   [ check('ter_tercero', 'La razon social es obligatoria').not().isEmpty() ,validarCampos] ,
+   [ check('ciudad_id', 'La ciudad es obligatoria').not().isEmpty() ,validarCampos] ,
+   [ check('tipodocumento_id', 'El tipo de Documento es obligatorio').not().isEmpty() ,validarCampos] ,
+   [ check('tipotercero_id', 'El tipo de persona es obligatorio').not().isEmpty() ,validarCampos] ,
+   async(req, res) => {
    const datos = req.body;
    try {
        const result = await newAgencia(datos);

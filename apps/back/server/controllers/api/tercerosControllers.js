@@ -1,4 +1,5 @@
-const {terceros, tipoterceros, tipodocumentos, ciudades} = require("../../models/DbConex");
+const {terceros, tipoterceros, 
+      tipodocumentos, ciudades, departamentos} = require("../../models/DbConex");
 
 const getTerceros = async() => {
    const array = await terceros.findAll();
@@ -11,7 +12,8 @@ const getTerceroById = async(id) => {
       include: [
          {model: tipodocumentos, attributes: { exclude: ['createdAt','updatedAt']}},
          {model: tipoterceros, attributes: { exclude: ['createdAt','updatedAt']}},
-         {model: ciudades, attributes: { exclude: ['createdAt','updatedAt']}},
+         {model: ciudades, attributes: { exclude: ['createdAt','updatedAt']},
+                 include: [{model: departamentos, attributes: {exclude: ['createdAt','updatedAt']}}]},
       ]
    });
    return registro;

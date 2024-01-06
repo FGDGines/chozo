@@ -1,4 +1,7 @@
 const express = require("express");
+const { check } = require('express-validator')
+const { validarCampos }  = require('../../middlewares/validar-campos')
+
 const {getProveedores, getProveedorById,
        addProveedor, updateProveedor} = require("../../controllers/api/proveedoresControllers");
 const server = express();
@@ -27,7 +30,15 @@ server.get('/:id', async(req, res) => {
 });
 
 //agregamos un nuevo proveedor
-server.post('/', async(req, res) => {
+server.post('/', 
+   [ check('ter_documento', 'El Numero de Documento es obligatorio').not().isEmpty() ,validarCampos] ,
+   [ check('ter_tercero', 'La razon social es obligatoria').not().isEmpty() ,validarCampos] ,
+   [ check('ciudad_id', 'La ciudad es obligatoria').not().isEmpty() ,validarCampos] ,
+   [ check('tipodocumento_id', 'El tipo de Documento es obligatorio').not().isEmpty() ,validarCampos] ,
+   [ check('tipotercero_id', 'El tipo de persona es obligatorio').not().isEmpty() ,validarCampos] ,
+   [ check('agencia_id', 'La Agencia es obligatoria').not().isEmpty() ,validarCampos] ,
+   [ check('pro_plazo', 'El plazo de pago es obligatorio').not().isEmpty() ,validarCampos] ,
+   async(req, res) => {
    const datos = req.body;
    try {
        const result = await addProveedor(datos);
@@ -39,7 +50,16 @@ server.post('/', async(req, res) => {
 });
 
 //actualizamos la informacion de un proveedor
-server.put('/:id', async(req, res) => {
+server.put('/:id',
+   [ check('ter_documento', 'El Numero de Documento es obligatorio').not().isEmpty() ,validarCampos] ,
+   [ check('ter_tercero', 'La razon social es obligatoria').not().isEmpty() ,validarCampos] ,
+   [ check('ciudad_id', 'La ciudad es obligatoria').not().isEmpty() ,validarCampos] ,
+   [ check('tipodocumento_id', 'El tipo de Documento es obligatorio').not().isEmpty() ,validarCampos] ,
+   [ check('tipotercero_id', 'El tipo de persona es obligatorio').not().isEmpty() ,validarCampos] ,
+   [ check('agencia_id', 'La Agencia es obligatoria').not().isEmpty() ,validarCampos] ,
+   [ check('pro_plazo', 'El plazo de pago es obligatorio').not().isEmpty() ,validarCampos] ,
+   [ check('pro_activo', 'El campo activo es obligatorio').not().isEmpty() ,validarCampos] ,
+   async(req, res) => {
    const datos = req.body;
    const {id} = req.params;
    try {

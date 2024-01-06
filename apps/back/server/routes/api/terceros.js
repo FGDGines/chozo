@@ -1,4 +1,7 @@
 const express = require("express");
+const { check } = require('express-validator')
+const { validarCampos }  = require('../../middlewares/validar-campos')
+
 const {getTerceros, getTerceroById,
       updateTercero, addTercero} = require("../../controllers/api/tercerosControllers");
 const server = express();
@@ -24,7 +27,13 @@ server.get('/:id', async(req, res) => {
     }
  });
 
- server.post('/', async(req, res) => {
+ server.post('/',
+   [ check('ter_documento', 'El documento de identidad es obligatorio').not().isEmpty() ,validarCampos] ,
+   [ check('ter_tercero', 'La razon social del tercero es obligatoria').not().isEmpty() ,validarCampos] ,
+   [ check('ciudad_id', 'La ciudad es obligatoria').not().isEmpty() ,validarCampos] ,
+   [ check('tipodocumento_id', 'El tipo de documento de identidad es obligatorio').not().isEmpty() ,validarCampos] ,
+   [ check('tipotercero_id', 'El tipo de persona es obligatorio').not().isEmpty() ,validarCampos] ,
+   async(req, res) => {
    const datos = req.body;
    try {
       const result = await addTercero(datos);
@@ -35,7 +44,13 @@ server.get('/:id', async(req, res) => {
    }
  });
 
- server.put('/:id', async(req, res) => {
+ server.put('/:id', 
+   [ check('ter_documento', 'El documento de identidad es obligatorio').not().isEmpty() ,validarCampos] ,
+   [ check('ter_tercero', 'La razon social del tercero es obligatoria').not().isEmpty() ,validarCampos] ,
+   [ check('ciudad_id', 'La ciudad es obligatoria').not().isEmpty() ,validarCampos] ,
+   [ check('tipodocumento_id', 'El tipo de documento de identidad es obligatorio').not().isEmpty() ,validarCampos] ,
+   [ check('tipotercero_id', 'El tipo de persona es obligatorio').not().isEmpty() ,validarCampos] ,
+   async(req, res) => {
    const datos = req.body;
    const {id} = req.params;
    try {

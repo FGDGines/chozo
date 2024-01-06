@@ -1,4 +1,7 @@
 const express = require("express");
+const { check } = require('express-validator')
+const { validarCampos }  = require('../../middlewares/validar-campos')
+
 const {getCajas, getCajaById,
        addCaja, editaCaja} = require("../../controllers/api/cajasControllers");
 const server = express();
@@ -27,7 +30,9 @@ server.get('/:id', async(req, res) => {
 });
 
 //crea una nueva caja
-server.post('/', async(req, res) => {
+server.post('/', 
+   [ check('nombre', 'El nombre de la caja es obligatorio').not().isEmpty() ,validarCampos] ,
+   async(req, res) => {
    const datos = req.body; 
    try {
         const result = await addCaja(datos);

@@ -1,4 +1,6 @@
 const express = require("express");
+const { check } = require('express-validator')
+const { validarCampos }  = require('../../middlewares/validar-campos')
 const {getArticulos, getArticuloById,
        getArticulosByIdGrupo, addArticulo,
        updateArticulo} = require("../../controllers/api/articulosControllers");
@@ -40,8 +42,14 @@ server.get('/grupo/:id', async(req, res) => {
     }
  });
 
- //crea un nuevo grupo
- server.post('/', async(req, res) => {
+ //crea un nuevo articulo
+ server.post('/', 
+    [ check('art_detalles', 'El detalle del articulo es obligatorio').not().isEmpty() ,validarCampos] ,
+    [ check('art_referencia', 'La referencia del articulo es obligatoria').not().isEmpty() ,validarCampos] ,
+    [ check('marca_id', 'La marca del articulo es obligatoria').not().isEmpty() ,validarCampos] ,
+    [ check('grupo_id', 'El grupo del articulo es obligatorio').not().isEmpty() ,validarCampos] ,
+    [ check('unidad_id', 'La unidad de presentacion del articulo es obligatoria').not().isEmpty() ,validarCampos] ,
+    async(req, res) => {
     const datos = req.body;
     try {
         const result = await addArticulo(datos);
@@ -53,7 +61,14 @@ server.get('/grupo/:id', async(req, res) => {
  });
 
  //actualiza un articulo
- server.put('/:id', async(req, res) => {
+ server.put('/:id', 
+    [ check('art_detalles', 'El detalle del articulo es obligatorio').not().isEmpty() ,validarCampos] ,
+    [ check('art_referencia', 'La referencia del articulo es obligatoria').not().isEmpty() ,validarCampos] ,
+    [ check('marca_id', 'La marca del articulo es obligatoria').not().isEmpty() ,validarCampos] ,
+    [ check('grupo_id', 'El grupo del articulo es obligatorio').not().isEmpty() ,validarCampos] ,
+    [ check('unidad_id', 'La unidad de presentacion del articulo es obligatoria').not().isEmpty() ,validarCampos] ,
+    [ check('art_activo', 'El campo activo es obligatorio').not().isEmpty() ,validarCampos] ,
+    async(req, res) => {
     const datos = req.body;
     const {id} = req.params;
     try {
