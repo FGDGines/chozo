@@ -9,6 +9,7 @@ import { SlPeople } from "react-icons/sl";
 import { IoPersonAdd } from "react-icons/io5";
 import { LuPackage } from "react-icons/lu";
 import { LuPackagePlus } from "react-icons/lu";
+import { MdOutlinePendingActions } from "react-icons/md";
 
 function SideBar() {
   const location = useLocation();
@@ -25,20 +26,45 @@ function SideBar() {
       { icon: <MdHome />, text: "Inicio", to: "/home" },
       { icon: <RiMoneyDollarCircleFill />, text: "Vender", to: "/sales" },
       { icon: <FcStatistics />, text: "Ventas", to: "/sell" },
-      // { icon: <FaPeopleGroup />, text: "Clientes", to: "/customers" },
+      {
+        icon: <MdOutlinePendingActions />,
+        text: "Pendientes",
+        to: "/pendingToCollect",
+      },
     ],
     sell: [
       { icon: <MdHome />, text: "Inicio", to: "/home" },
       { icon: <RiMoneyDollarCircleFill />, text: "Vender", to: "/sales" },
       { icon: <FcStatistics />, text: "Ventas", to: "/sell" },
-      // { icon: <FaPeopleGroup />, text: "Clientes", to: "/customers" },
+      {
+        icon: <MdOutlinePendingActions />,
+        text: "Pendientes",
+        to: "/pendingToCollect",
+      },
+    ],
+    pendingToCollect: [
+      { icon: <MdHome />, text: "Inicio", to: "/home" },
+      { icon: <RiMoneyDollarCircleFill />, text: "Vender", to: "/sales" },
+      { icon: <FcStatistics />, text: "Ventas", to: "/sell" },
+      {
+        icon: <MdOutlinePendingActions />,
+        text: "Pendientes",
+        to: "/pendingToCollect",
+      },
     ],
     customers: [
       { icon: <MdHome />, text: "Inicio", to: "/home" },
       // { icon: <RiMoneyDollarCircleFill />, text: "Vender", to: "/sales" },
       // { icon: <FcStatistics />, text: "Ventas", to: "/sell" },
       { icon: <FaPeopleGroup />, text: "Clientes", to: "/customers" },
-      { icon: <IoPersonAdd />, text: "Nuevo", to: "/createCustomers" },
+      { icon: <IoPersonAdd />, text: "Nuevo", to: "/createCustomer" },
+    ],
+    createCustomer: [
+      { icon: <MdHome />, text: "Inicio", to: "/home" },
+      // { icon: <RiMoneyDollarCircleFill />, text: "Vender", to: "/sales" },
+      // { icon: <FcStatistics />, text: "Ventas", to: "/sell" },
+      { icon: <FaPeopleGroup />, text: "Clientes", to: "/customers" },
+      { icon: <IoPersonAdd />, text: "Nuevo", to: "/createCustomer" },
     ],
     shopping: [
       { icon: <MdHome />, text: "Inicio", to: "/home" },
