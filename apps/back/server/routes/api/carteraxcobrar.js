@@ -1,4 +1,7 @@
 const express = require("express");
+const { check } = require('express-validator')
+const { validarCampos }  = require('../../middlewares/validar-campos')
+
 const {getCartera, getCarteraByTerceroId,
        getCarteraById, getCarteraxCaja,
        anulaCartera, addCartera} = require("../../controllers/api/carteraxcobrarControllers");
@@ -52,7 +55,18 @@ server.get('/tercero/:id', async(req, res) => {
 });
 
 //graba un nuevo registro de cartera x cobrar
-server.post('/', async(req, res) => {
+server.post('/', 
+    [ check('fecha', 'La fecha de la Factura es obligatoria').not().isEmpty() ,validarCampos] ,
+    [ check('vence', 'La fecha de vencimiento de la Factura es obligatoria').not().isEmpty() ,validarCampos] ,
+    [ check('bruto', 'El valor bruto de la Factura es obligatorio').not().isEmpty() ,validarCampos] ,
+    [ check('impuesto', 'El valor impuesto de la Factura es obligatorio').not().isEmpty() ,validarCampos] ,
+    [ check('total', 'El valor total de la Factura es obligatorio').not().isEmpty() ,validarCampos] ,
+    [ check('metodopago', 'El metodo de pago es obligatorio').not().isEmpty() ,validarCampos] ,
+    [ check('terceroid', 'El campo terceroid es obligatorio').not().isEmpty() ,validarCampos] ,
+    [ check('cajaid', 'El campo cajaid es obligatorio').not().isEmpty() ,validarCampos] ,
+    [ check('items', 'El campo items de la factura es obligatorio').not().isEmpty() ,validarCampos] ,
+    [ check('fpagos', 'El campo fpagos de la factura es obligatorio').not().isEmpty() ,validarCampos] ,
+    async(req, res) => {
     const datos = req.body;
     try {
         const result = await addCartera(datos);

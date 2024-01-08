@@ -32,6 +32,8 @@ server.get('/:id', async(req, res) => {
 //crea una nueva caja
 server.post('/', 
    [ check('nombre', 'El nombre de la caja es obligatorio').not().isEmpty() ,validarCampos] ,
+   [ check('idusuario', 'El id del usuario de la caja es obligatorio').not().isEmpty() ,validarCampos] ,
+   [ check('idpuc', 'El id de la cuenta puc de la caja es obligatorio').not().isEmpty() ,validarCampos] ,
    async(req, res) => {
    const datos = req.body; 
    try {
@@ -44,7 +46,12 @@ server.post('/',
 });
 
 //modifica una caja
-server.put('/:id', async(req, res) => {
+server.put('/:id', 
+   [ check('nombre', 'El nombre de la caja es obligatorio').not().isEmpty() ,validarCampos] ,
+   [ check('idusuario', 'El id del usuario de la caja es obligatorio').not().isEmpty() ,validarCampos] ,
+   [ check('idpuc', 'El id de la cuenta puc de la caja es obligatorio').not().isEmpty() ,validarCampos] ,
+   [ check('activa', 'El campo activa de la caja es obligatorio').not().isEmpty() ,validarCampos] ,
+   async(req, res) => {
     const datos = req.body; 
     const {id} = req.params;
     try {

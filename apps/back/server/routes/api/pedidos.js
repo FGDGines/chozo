@@ -1,5 +1,8 @@
 const express = require("express");
-const { getPedidos, addPedido, updatePedido,
+const { check } = require('express-validator')
+const { validarCampos }  = require('../../middlewares/validar-campos')
+
+const { getPedidos, addPedido, updatePedido, getPedidosByProveedor,
         anulaPedido, getPedidoById } = require("../../controllers/api/pedidosControllers");
 const server = express();
 
@@ -31,6 +34,18 @@ server.get('/:id', async(req, res) => {
     const {id} = req.params;
     try {
         const result = await getPedidoById(id);
+        res.status(200).json(result);
+    } catch (error) {
+        console.log(error.message);
+        res.status(500).json({message: error.message});
+    }
+ });
+
+//devuelve pedidos de un mismo proveedore
+server.get('/proveedor/:id', async(req, res) => {
+    const {id} = req.params;
+    try {
+        const result = await getPedidosByProveedor(id);
         res.status(200).json(result);
     } catch (error) {
         console.log(error.message);

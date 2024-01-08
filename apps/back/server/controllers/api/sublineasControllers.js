@@ -26,7 +26,9 @@ const getSublineasByIdLinea = async(id) => {
 //crea una nueva sublinea
 const addSublinea = async(datos) => {
    const {sub_detalles, linea_id, pucinventario_id, pucingresos_id,puccostoventa_id} = datos; 
-   const registro = sublineas.create(datos);
+   const buscado = await sublineas.findOne({where: {sub_detalles,linea_id}});
+   if(buscado) return buscado;
+   const registro = await sublineas.create(datos);
    return registro;
 };
 

@@ -1,4 +1,7 @@
 const express = require("express");
+const { check } = require('express-validator')
+const { validarCampos }  = require('../../middlewares/validar-campos')
+
 const { getAll, getAllByPais,
         getById, addDpto, updateDpto } = require("../../controllers/api/departamentosControllers");
 const server = express();
@@ -39,7 +42,10 @@ server.get('/:id', async(req, res) => {
  });
 
  //crea un nuevo departamento
- server.post('/', async(req, res) => {
+ server.post('/', 
+    [ check('name', 'El nombre del departamento es obligatorio').not().isEmpty() ,validarCampos] ,
+    [ check('idPais', 'El campo idPais es obligatorio').not().isEmpty() ,validarCampos] ,
+    async(req, res) => {
     const datos = req.body;
     try {
         const result = await addDpto(datos);
@@ -51,7 +57,9 @@ server.get('/:id', async(req, res) => {
  });
 
  //actualiza un departamento
- server.put('/:id', async(req, res) => {
+ server.put('/:id', 
+    [ check('name', 'El nombre del departamento es obligatorio').not().isEmpty() ,validarCampos] ,
+    async(req, res) => {
     const datos = req.body;
     const {id} = req.params;
     try {

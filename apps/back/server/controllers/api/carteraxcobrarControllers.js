@@ -33,7 +33,9 @@ const getCarteraById = async(id) => {
           {model: terceros, attributes: { exclude: ['createdAt','updatedAt']}},
           {model: cajas, attributes: { exclude: ['createdAt','updatedAt']}},
           {model: items_carteraxcobrar, attributes: { exclude: ['createdAt','updatedAt']}},
-          {model: contable, attributes: { exclude: ['createdAt','updatedAt']}},
+          {model: contable, attributes: { exclude: ['createdAt','updatedAt']},
+                  include: [{model: items_formasdepago, 
+                           include: [{model: formasdepago}] }]},
        ]
     });
     return result;

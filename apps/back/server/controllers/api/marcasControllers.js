@@ -16,7 +16,8 @@ const getMarcaById = async(id) => {
 
 //creacion de una marca nueva
 const addMarca = async(datos) => {
-   const registro = await marcas.create(datos);
+   const {mar_detalles} = datos;
+   const [registro, created] = await marcas.findOrCreate({where: {mar_detalles}});
    return registro;      
 };
 

@@ -1,4 +1,6 @@
 const express = require("express");
+const { check } = require('express-validator');
+const { validarCampos }  = require('../../middlewares/validar-campos');
 const {getMarcas, getMarcaById,
        addMarca, updateMarca} = require("../../controllers/api/marcasControllers");
 const server = express();
@@ -28,7 +30,9 @@ server.get('/:id', async(req, res) => {
  });
 
  //crea una nueva marca
- server.post('/', async(req, res) => {
+ server.post('/', 
+    [ check('mar_detalles', 'El nombre de la marca es obligatorio').not().isEmpty() ,validarCampos] ,
+    async(req, res) => {
     const datos = req.body;
     try {
         const result = await addMarca(datos);
@@ -40,7 +44,10 @@ server.get('/:id', async(req, res) => {
  });
 
  //actualiza una marca
- server.put('/:id', async(req, res) => {
+ server.put('/:id', 
+    [ check('mar_detalles', 'El nombre de la marca es obligatorio').not().isEmpty() ,validarCampos] ,
+    [ check('mar_activa', 'El campo mar_activa es obligatorio').not().isEmpty() ,validarCampos] ,
+    async(req, res) => {
     const datos = req.body;
     const {id} = req.params;
     try {

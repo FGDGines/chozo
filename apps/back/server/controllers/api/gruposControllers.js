@@ -25,7 +25,7 @@ const getGrupos = async() => {
  //crea una nuevo grupo
  const addGrupo = async(datos) => {
     const {gru_detalles, sublinea_id} = datos; 
-    const registro = grupos.create(datos);
+    const [registro, created] = await grupos.findOrCreate({where: {gru_detalles, sublinea_id}});
     return registro;
  };
  

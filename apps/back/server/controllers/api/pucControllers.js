@@ -1,11 +1,11 @@
-const {puc, itemcontable} = require("../../models/DbConex");
+const {puc, itemcontable, conex} = require("../../models/DbConex");
  
-//devuelve el plan de cuentas completo
+//devuelve el plan de cuentas completo y ordenado por codigo
 const getPuc = async() => {
-   const result = await puc.findAll({
-      attributes: ['id','puc_codigo','puc_cuenta','puc_nivel']
-   }, {order: ['puc_codigo', 'ASC']});
-   return result;
+   const query1 = "SELECT puc_codigo,puc_cuenta,puc_nivel FROM puc order by puc_codigo";
+   const registros = await conex.query(`${query1}`);
+   const array = registros[0];
+   return array;
 };
 
 //devuelve una sola cuenta por el id

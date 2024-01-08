@@ -1,4 +1,7 @@
 const express = require("express");
+const { check } = require('express-validator');
+const { validarCampos }  = require('../../middlewares/validar-campos');
+
 const {getLineas, getLineaById,
        addLinea, updateLinea} = require("../../controllers/api/lineasControllers");
 const server = express();
@@ -27,7 +30,9 @@ server.get('/:id', async(req, res) => {
  });
 
 //agrega una nueva linea
-server.post('/', async(req, res) => {
+server.post('/', 
+   [ check('lin_detalles', 'El nombre de la linea es obligatorio').not().isEmpty() ,validarCampos] ,
+   async(req, res) => {
    const datos = req.body;
    try {
        const result = await addLinea(datos);
@@ -39,7 +44,10 @@ server.post('/', async(req, res) => {
 });
 
 //actualiza una linea
-server.put('/:id', async(req, res) => {
+server.put('/:id', 
+   [ check('lin_detalles', 'El nombre de la linea es obligatorio').not().isEmpty() ,validarCampos] ,
+   [ check('lin_activa', 'El campo lin_activa es obligatorio').not().isEmpty() ,validarCampos] ,
+   async(req, res) => {
     const datos = req.body;
     const {id} = req.params;
     try {

@@ -26,13 +26,15 @@ const addCuenta = async(datos) => {
       cue_activa: 1,
       puc_id: pucid,
    };
+   const buscado = await cuentas_bancarias.findOne({where: {cue_banco: banco,cue_numero: numero}});
+   if(buscado) return buscado;
    const grabada = await cuentas_bancarias.create(newreg);
    return grabada;
 };
 
 //actualiza una cuenta bancaria
 const updateCuenta = async(datos, id) => {
-    const {banco, numero, tipo, pucid} = datos;
+    const {banco, numero, tipo, pucid,cue_activa} = datos;
     const idC = Number(id);
     const registro = {
        cue_banco: banco,
@@ -40,6 +42,7 @@ const updateCuenta = async(datos, id) => {
        cue_tipo: tipo,
        cue_activa: 1,
        puc_id: pucid,
+       cue_activa
     };   
     const result = await cuentas_bancarias.update(registro, {where: {id: idC}});
     return result;

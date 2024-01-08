@@ -11,6 +11,16 @@ const getPedidos = async() =>{
    return array;
 };
 
+//devuelve todos los pedidos existentes de un proveedor
+const getPedidosByProveedor = async(id) =>{
+   const array = await pedidos.findAll({where: {proveedor_id: id},
+      include: [
+        {model: proveedores, attributes: { exclude: ['createdAt','updatedAt']}}
+      ]
+   });
+   return array;
+};
+
 //devuelve consecutivo de pedidos
 const devuelveConsecutivo = async(anual, fuente) => {
    let num = 0;
@@ -131,4 +141,5 @@ module.exports = {
     getPedidoById,
     anulaPedido,
     updatePedido,
+    getPedidosByProveedor
 }

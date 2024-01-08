@@ -34,8 +34,9 @@ const addCiudad = async(datos) => {
 
 //actualizacion de una ciudad
 const updateCiudad = async(datos, id) => {
-    const {idD, name} = datos;
-    const result = await ciudades.update({ciu_nombre: name}, {where: {id}});
+    const idD = Number(id);
+    const {name} = datos;
+    const result = await ciudades.update({ciu_nombre: name}, {where: {id: idD}});
     return result;
 };
 

@@ -14,7 +14,8 @@ const getLineaById = async(id) => {
 
 //crea una nueva linea
 const addLinea = async(datos) => {
-   const registro = lineas.create(datos);
+   const {lin_detalles}= datos;
+   const [registro, created] = await lineas.findOrCreate({where: {lin_detalles}});
    return registro;
 };
 

@@ -1,4 +1,7 @@
 const express = require("express");
+const { check } = require('express-validator')
+const { validarCampos }  = require('../../middlewares/validar-campos')
+
 const {getAll, getById, 
        getAllByDpto, addCiudad, updateCiudad} = require("../../controllers/api/ciudadesControllers");
 const server = express();
@@ -39,7 +42,10 @@ server.get('/:id', async(req, res) => {
  });
 
  //crea una nueva ciudad
- server.post('/', async(req, res) => {
+ server.post('/', 
+    [ check('name', 'El nombre de la ciudad es obligatorio').not().isEmpty() ,validarCampos] ,
+    [ check('idDpto', 'El campo idDpto es obligatorio').not().isEmpty() ,validarCampos] ,
+    async(req, res) => {
     const datos = req.body;
     try {
         const result = await addCiudad(datos);
@@ -51,7 +57,9 @@ server.get('/:id', async(req, res) => {
  });
 
  //actualiza una ciudad
- server.put('/:id', async(req, res) => {
+ server.put('/:id', 
+    [ check('name', 'El nombre de la ciudad es obligatorio').not().isEmpty() ,validarCampos] ,
+    async(req, res) => {
     const datos = req.body;
     const {id} = req.params;
     try {

@@ -1,4 +1,6 @@
 const express = require("express");
+const { check } = require('express-validator');
+const { validarCampos }  = require('../../middlewares/validar-campos');
 const {getGrupos, getGrupoById,
        getGruposByIdSublinea, addGrupo, updateGrupo} = require("../../controllers/api/gruposControllers");
 const server = express();
@@ -40,7 +42,10 @@ server.get('/', async(req, res) => {
  
  
  //agrega un nuevo grupo
- server.post('/', async(req, res) => {
+ server.post('/', 
+    [ check('gru_detalles', 'El campo gru_detalles es obligatorio').not().isEmpty() ,validarCampos] ,
+    [ check('sublinea_id', 'El campo sublinea_id es obligatorio').not().isEmpty() ,validarCampos] ,
+    async(req, res) => {
     const datos = req.body;
     try {
         const result = await addGrupo(datos);
@@ -52,7 +57,11 @@ server.get('/', async(req, res) => {
  });
  
  //actualiza un grupo
- server.put('/:id', async(req, res) => {
+ server.put('/:id', 
+     [ check('gru_detalles', 'El campo gru_detalles es obligatorio').not().isEmpty() ,validarCampos] ,
+     [ check('gru_activo', 'El campo gru_activo es obligatorio').not().isEmpty() ,validarCampos] ,
+     [ check('sublinea_id', 'El campo sublinea_id es obligatorio').not().isEmpty() ,validarCampos] ,
+     async(req, res) => {
      const datos = req.body;
      const {id} = req.params;
      try {

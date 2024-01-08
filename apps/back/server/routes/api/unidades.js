@@ -32,10 +32,9 @@ server.get('/:id', async(req, res) => {
 
  //crea una nueva unidad
  server.post('/', 
-    [ check('uni_abreviatura', 'La abreviatura de la unidad es obligatoria').not().isEmpty() ,validarCampos] , 
-    [ check('uni_detalles', 'El detalle de la unidad es obligatorio').not().isEmpty() ,validarCampos] ,
+    [ check('abreviatura', 'La abreviatura de la unidad es obligatoria').not().isEmpty() ,validarCampos] , 
+    [ check('detalles', 'El detalle de la unidad es obligatorio').not().isEmpty() ,validarCampos] ,
     async(req, res) => {
-
     const datos = req.body;
     try {
         const result = await addUnidad(datos);
@@ -47,7 +46,10 @@ server.get('/:id', async(req, res) => {
  });
 
  //actualiza una unidad
- server.put('/:id', async(req, res) => {
+ server.put('/:id', 
+    [ check('abreviatura', 'La abreviatura de la unidad es obligatoria').not().isEmpty() ,validarCampos] , 
+    [ check('detalles', 'El detalle de la unidad es obligatorio').not().isEmpty() ,validarCampos] ,
+    async(req, res) => {
     const datos = req.body;
     const {id} = req.params;
     try {

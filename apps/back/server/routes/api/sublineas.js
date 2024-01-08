@@ -1,4 +1,6 @@
 const express = require("express");
+const { check } = require('express-validator');
+const { validarCampos }  = require('../../middlewares/validar-campos');
 const {getSublineas, getSublineaById,
        addSublinea, updateSublinea,
        getSublineasByIdLinea} = require("../../controllers/api/sublineasControllers");
@@ -41,7 +43,13 @@ server.get('/linea/:id', async(req, res) => {
 
 
 //agrega una nueva sublinea
-server.post('/', async(req, res) => {
+server.post('/', 
+   [ check('sub_detalles', 'El nombre de la sublinea es obligatorio').not().isEmpty() ,validarCampos] ,
+   [ check('linea_id', 'El campo linea_id es obligatorio').not().isEmpty() ,validarCampos] ,
+   [ check('pucinventario_id', 'El campo pucinventario_id es obligatorio').not().isEmpty() ,validarCampos] ,
+   [ check('pucingresos_id', 'El campo pucingresos_id es obligatorio').not().isEmpty() ,validarCampos] ,
+   [ check('puccostoventa_id', 'El campo puccostoventa_id es obligatorio').not().isEmpty() ,validarCampos] ,
+   async(req, res) => {
    const datos = req.body;
    try {
        const result = await addSublinea(datos);
@@ -53,7 +61,14 @@ server.post('/', async(req, res) => {
 });
 
 //actualiza una sublinea
-server.put('/:id', async(req, res) => {
+server.put('/:id', 
+[ check('sub_detalles', 'El nombre de la sublinea es obligatorio').not().isEmpty() ,validarCampos] ,
+[ check('linea_id', 'El campo linea_id es obligatorio').not().isEmpty() ,validarCampos] ,
+[ check('pucinventario_id', 'El campo pucinventario_id es obligatorio').not().isEmpty() ,validarCampos] ,
+[ check('pucingresos_id', 'El campo pucingresos_id es obligatorio').not().isEmpty() ,validarCampos] ,
+[ check('puccostoventa_id', 'El campo puccostoventa_id es obligatorio').not().isEmpty() ,validarCampos] ,
+[ check('sub_activa', 'El campo sub_activa es obligatorio').not().isEmpty() ,validarCampos] ,
+async(req, res) => {
     const datos = req.body;
     const {id} = req.params;
     try {

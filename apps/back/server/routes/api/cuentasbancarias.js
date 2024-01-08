@@ -1,4 +1,6 @@
 const express = require("express");
+const { check } = require('express-validator');
+const { validarCampos }  = require('../../middlewares/validar-campos');
 const {getCuentas, getCuentaById,
        addCuenta, updateCuenta} = require("../../controllers/api/cuentasbancariasControllers");
 const server = express();
@@ -27,7 +29,12 @@ server.get('/:id', async(req, res) => {
  });
 
  //graba una nueva cuenta bancaria
-server.post('/', async(req, res) => {
+server.post('/', 
+    [ check('banco', 'El nombre del banco es obligatorio').not().isEmpty() ,validarCampos] ,
+    [ check('numero', 'El numero de la cuenta es obligatorio').not().isEmpty() ,validarCampos] ,
+    [ check('tipo', 'El tipo de cuenta es obligatorio').not().isEmpty() ,validarCampos] ,
+    [ check('pucid', 'El campo pucid es obligatorio').not().isEmpty() ,validarCampos] ,
+    async(req, res) => {
     const datos = req.body;
     try {
         const result = await addCuenta(datos);
@@ -39,7 +46,13 @@ server.post('/', async(req, res) => {
  });
 
  //actualiza  cuenta bancaria
- server.put('/:id', async(req, res) => {
+ server.put('/:id', 
+    [ check('banco', 'El nombre del banco es obligatorio').not().isEmpty() ,validarCampos] ,
+    [ check('numero', 'El numerod e la cuenta es obligatorio').not().isEmpty() ,validarCampos] ,
+    [ check('tipo', 'El tipo de cuenta es obligatorio').not().isEmpty() ,validarCampos] ,
+    [ check('pucid', 'El campo pucid es obligatorio').not().isEmpty() ,validarCampos] ,
+    [ check('cue_activa', 'El campo cue_activa es obligatorio').not().isEmpty() ,validarCampos] ,
+    async(req, res) => {
     const datos = req.body;
     const {id} = req.params;
     try {

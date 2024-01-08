@@ -16,14 +16,15 @@ const getUnidadById = async(id) => {
 
 //creacion de una unidad nueva
 const addUnidad = async(datos) => {
-   const registro = await unidades.create(datos);
+   const {detalles, abreviatura}= datos;
+   const [registro, created] = await unidades.findOrCreate({where: {uni_detalles: detalles,uni_abreviatura: abreviatura}});
    return registro;      
 };
 
 //actualizacion de una unidad
 const updateUnidad = async(datos, id) => {
-    const {uni_detalles, uni_abreviatura} = datos;
-    const result = await unidades.update({uni_detalles, uni_abreviatura}, {where: {id}});
+    const {detalles, abreviatura} = datos;
+    const result = await unidades.update({uni_detalles: detalles, uni_abreviatura: abreviatura}, {where: {id}});
     return result;
 };
 
