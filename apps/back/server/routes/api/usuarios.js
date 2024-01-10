@@ -34,6 +34,7 @@ server.get('/:id', async(req, res) => {
 server.post('/',
    [ check('usu_nombre', 'El nombre de usuario es obligatorio').not().isEmpty() ,validarCampos] ,
    [ check('usu_password', 'El password es obligatorio').not().isEmpty() ,validarCampos] ,
+   [ check('usu_admin', 'El campo usu_admin es obligatorio').not().isEmpty() ,validarCampos] ,
    [ check('tercero_id', 'El id del Tercero es obligatorio').not().isEmpty() ,validarCampos] ,
    async(req, res) => {
    const datos = req.body; 

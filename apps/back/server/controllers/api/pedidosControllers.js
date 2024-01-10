@@ -5,7 +5,8 @@ const {pedidos, itempedidos, articulos, consecutivos, parametros,
 const getPedidos = async() =>{
    const array = await pedidos.findAll({
       include: [
-        {model: proveedores, attributes: { exclude: ['createdAt','updatedAt']}}
+        {model: proveedores, attributes: { exclude: ['createdAt','updatedAt']},
+                include: [{model: terceros}]}
       ]
    });
    return array;

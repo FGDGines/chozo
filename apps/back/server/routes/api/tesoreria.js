@@ -1,4 +1,6 @@
 const express = require("express");
+const { check } = require('express-validator')
+const { validarCampos }  = require('../../middlewares/validar-campos')
 const {getTesoreria, getTesoreriaByCaja,
        getTesoreriaByFuente, getTesoreriaById,
        getTesoreriaByTercero, addTesoreria} = require("../../controllers/api/tesoreriaControllers");
@@ -64,7 +66,11 @@ server.get('/tercero/:id', async(req, res) => {
 });
 
 //agrega un nuevo registro de tesoreria
-server.post('/', async(req, res) => {
+server.post('/', 
+   [ check('valor', 'El valor es obligatorio').not().isEmpty() ,validarCampos] ,
+   [ check('fecha', 'La fecha es obligatoria').not().isEmpty() ,validarCampos] ,
+   [ check('ctabancoid', 'La cuenta bancaria es obligatorio').not().isEmpty() ,validarCampos] ,
+   async(req, res) => {
    const datos = req.body;
    try {
        const result = await addTesoreria(datos);

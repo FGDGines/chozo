@@ -18,7 +18,12 @@ server.get('/', async(req, res) => {
 });
 
 //graba un nuevo pedido
-server.post('/', async(req, res) => {
+server.post('/', 
+   [ check('valor', 'El valor del pedido es obligatorio').not().isEmpty() ,validarCampos] ,
+   [ check('fecha', 'La fecha del pedido es obligatoria').not().isEmpty() ,validarCampos] ,
+   [ check('proveedor_id', 'El proveedor es obligatorio').not().isEmpty() ,validarCampos] ,
+   [ check('items', 'Los items del pedido son obligatorios').not().isEmpty() ,validarCampos] ,
+   async(req, res) => {
    const datos = req.body; 
    try {
        const result = await addPedido(datos);
@@ -54,7 +59,11 @@ server.get('/proveedor/:id', async(req, res) => {
  });
 
  //modifica la informacion de un pedido
- server.put('/:id', async(req, res) => {
+ server.put('/:id', 
+    [ check('valor', 'El valor del pedido es obligatorio').not().isEmpty() ,validarCampos] ,
+    [ check('fecha', 'La fecha del pedido es obligatoria').not().isEmpty() ,validarCampos] ,
+    [ check('items', 'Los items del pedido son obligatorios').not().isEmpty() ,validarCampos] ,
+    async(req, res) => {
     const {id} = req.params;
     const datos = req.body;
     try {
@@ -68,7 +77,7 @@ server.get('/proveedor/:id', async(req, res) => {
 
 
  //anula pedido por su id
-server.put('/anular/:id', async(req, res) => {
+server.delete('/:id', async(req, res) => {
     const {id} = req.params;
     try {
         const result = await anulaPedido(id);

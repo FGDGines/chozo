@@ -58,10 +58,14 @@ const addCarteraPedidos = async(datos) => {
    //invocamos la funcion que nos devolvera el ultimo consecutivo grabado en el año definido por anual
    const num = await devuelveConsecutivo(anual, fuente);
 
+   //capturamos el parametro "004" predefinido para la cuenta puc x pagar
+   const parametro3 = await parametros.findOne({where: {para_codigo: '004'}});
+   const ctaxp = Number(parametro3.para_valor);
+
    //invocamos la funcion que grabara la contabilidad
 
-   const contab = await grabaContable(fuente, num, fechaC, tercero_id, items, total, codUsuario);
-   console.log("Contabilidad Grabada");
+   const contab = await grabaContable(fuente, num, fechaC, tercero_id, items, total, codUsuario, ctaxp);
+   //console.log("Contabilidad Grabada");
 
    //grabamos registro en la tabla de carteraxpagar
    const newReg = {
@@ -75,9 +79,10 @@ const addCarteraPedidos = async(datos) => {
       fuente_id: fuente,
       tercero_id,
       contable_id: contab.id,
+      puc_id: ctaxp
    };
    const grabado = await carteraxpagar.create(newReg);
-   console.log("Cartera x pagar grabada");
+   //console.log("Cartera x pagar grabada");
 
    //grabamos los items de la carteraxpagar
    items.forEach(async(element) => {
@@ -88,14 +93,14 @@ const addCarteraPedidos = async(datos) => {
       });
 
       const newItem = {
-         item_pedido_id: element.itempedido_id,
+         item_pedidoid: idR,
          ite_cantidad: element.cantidad,
          ite_valorunitario: element.valorunitario,
          ite_detalles: `Compra de ${ipedido.articulo.art_detalles}`,
          carteraxp_id: grabado.id,
       };
       await item_carteraxpagar.create(newItem);
-      console.log("items de Cartera x pagar grabada");
+      //console.log("items de Cartera x pagar grabada");
 
       //afectamos la cantidad facturada en los items de pedidos
       const xitem = await itempedidos.findByPk(element.itempedido_id);
@@ -104,7 +109,7 @@ const addCarteraPedidos = async(datos) => {
 
       //afectamos el pedido
       await pedidos.update({ped_estado: 1}, {where: {id: xitem.pedido_id}});
-      console.log("items de pedidos grabada");
+      //console.log("items de pedidos grabada");
       //le damos entrada al kardex a la mercancia que ingresa
       const kitem = {
          kar_entradas: element.cantidad,
@@ -116,7 +121,7 @@ const addCarteraPedidos = async(datos) => {
          articulo_id: ipedido.articulo.id,
       };
       await kardex.create(kitem);
-      console.log("kardex grabada");
+      //console.log("kardex grabada");
       //afectamos las existencias
       const existencia = {exi_cantidad: element.cantidad, articulo_id: ipedido.articulo.id,};
       const reg_exi = await existencias.findOne({where: { articulo_id: ipedido.articulo.id }});
@@ -126,25 +131,25 @@ const addCarteraPedidos = async(datos) => {
          const newcantidad = reg_exi.exi_cantidad + element.cantidad;
          await existencias.update({exi_cantidad: newcantidad}, {where: {id: reg_exi.id}});
       };
-      console.log("existencias grabada");
+      //console.log("existencias grabada");
 
       //afectamos el ultimo costo 
       const ultcos = element.valorunitario * (1 + (ipedido.ite_impuesto)/100);
       await articulos.update({art_ultimocosto: ultcos, art_costopromedio: ultcos}, 
             {where: {id: ipedido.articulo.id}});
-      console.log("ultimo costo grabada");      
+      //console.log("ultimo costo grabada");      
    });
    
    //actualizamos el consecutivo de cartera x pagar
    const consecu = await consecutivos.findOne({where: {fuente_id: fuente, conse_anual: anual}})
    const newConse = consecu.conse_ultimograbado + 1;
    await consecutivos.update({conse_ultimograbado: newConse}, {where: {id: consecu.id}});
-   console.log("consecutivo actualizado");
+   //console.log("consecutivo actualizado");
    return grabado;
 };
 
 //esta funcion grabara el comprobante contable
-const grabaContable = async(fuente, num, fechaC, tercero_id, items, total, codUsuario) => {
+const grabaContable = async(fuente, num, fechaC, tercero_id, items, total, codUsuario, ctaxp) => {
    //inicialmente grabamos en la tabla contable
    const registro = {
       con_numero: num,
@@ -182,10 +187,11 @@ const grabaContable = async(fuente, num, fechaC, tercero_id, items, total, codUs
          fuente_id: fuente,
          puc_id: xcontable.sublinea.pucinventario_id,
          tercero_id,
+         usuario_id: codUsuario,
       };
       await itemcontable.create(citem);
    });
-   console.log("Items contables grabados");
+  // console.log("Items contables grabados");
 
    //grabamos el item contable de total impuesto
    if(suma_impuesto>0) {
@@ -207,8 +213,6 @@ const grabaContable = async(fuente, num, fechaC, tercero_id, items, total, codUs
 
 
    //grabamos el item contable de cuenta x pagar a proveedores
-   const parametro = await parametros.findOne({where: {para_codigo: '004'}});
-   const cta = Number(parametro.para_valor);
    const citem = {
      ite_numero: num,
      ite_fecha: fechaC,
@@ -217,11 +221,11 @@ const grabaContable = async(fuente, num, fechaC, tercero_id, items, total, codUs
      ite_detalles: 'Cuenta x pagar a Proveedores',
      contable_id: newRegistro.id,
      fuente_id: fuente,
-     puc_id: cta,
+     puc_id: ctaxp,
      tercero_id,
    };
    await itemcontable.create(citem);  
-   console.log("Item contable de cuenta x pagar grabado")
+   //console.log("Item contable de cuenta x pagar grabado")
 
    //actualizamos el valor total en la contabilidad
    const xtotal = suma_impuesto + suma_bruto;

@@ -55,7 +55,7 @@ server.get('/tercero/:id', async(req, res) => {
  });
 
  //devuelve los items contables de una cuenta hasta una fecha de corte
- server.get('/items/:id', async(req, res) => {
+ server.get('/auxiliar/:id', async(req, res) => {
     const query = req.query;
     const {id} = req.params;
     const {fechaInicio, fechaCorte} = query;

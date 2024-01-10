@@ -100,6 +100,10 @@ const addCartera = async(datos) => {
      }); 
    };
 
+   //capturamos el parametro que devuelve la cta puc x cobrar
+   const parametro3 = await parametros.findOne({where: {para_codigo: '007'}});
+   const ctaxc = Number(parametro3.para_valor);
+
    //procedemos a grabar en carteraxcobrar
    const newReg = {
       cxc_numero: num,
@@ -115,6 +119,7 @@ const addCartera = async(datos) => {
       tercero_id: terceroid,
       contable_id: contab.id,
       caja_id: cajaid,
+      puc_id: ctaxc
    };
    const grabado = await carteraxcobrar.create(newReg);
    console.log("Cartera x cobrar grabada");

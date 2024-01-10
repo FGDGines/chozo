@@ -1,6 +1,7 @@
-const {tesoreria, terceros, cajas,
-       carteraxcobrar, carteraxpagar,
-       contable, itemcontable, fuentes,
+const Consecutivos = require("../../models/Consecutivos");
+const {tesoreria, terceros, cajas, consecutivos,
+       carteraxcobrar, carteraxpagar, parametros,
+       contable, itemcontable, fuentes, cuentas_bancarias,
        items_tesoreria, formasdepago,
        items_formasdepago} = require("../../models/DbConex");
 
@@ -70,14 +71,20 @@ const getTesoreriaById = async(id) => {
 const devuelveConsecutivo = async(anual, fuente) => {
     let num = 0;
     const registro= await consecutivos.findOne({where: {fuente_id: fuente, conse_anual: anual}})
-    if(registro) num = registro.conse_ultimograbado;
+    if(registro) {
+       num = registro.conse_ultimograbado;
+    } else {
+      //si no existe insertamos el nuevo registro
+      const registro = await consecutivos.create(
+         {conse_anual: anual, fuente_id: fuente, conse_ultimograbado: 0});
+    };   
     num+=1;
     let numero = num.toString().padStart(7,'0');
     numero = anual.toString()+'-'+numero;
     return numero;
  };
 
-//graba un nuevo registro en tesoreria
+//graba un nuevo registro en tesoreria 
 const addTesoreria = async(datos) => {
    const {valor, fecha, ctabancoid, cajaid, terceroid, fuenteid, items, fpagos, detalles} = datos;
    const fechaC = new Date(fecha);
@@ -182,7 +189,7 @@ const grabaContable = async(fuenteid, num, fechaC, terceroid, items, fpagos, val
            ite_fecha: fechaC,
            ite_credito: ele.tipo == 1 ? ele.valor : 0,
            ite_debito: ele.tipo == 2 ? ele.valor : 0,
-           ite_detalles: ele.detalles,
+           ite_detalles: `Abono sobre Documento No. ${num}`,
            contable_id: newRegistro.id,
            fuente_id: fuenteid,
            puc_id: ele.pucid,
@@ -191,7 +198,8 @@ const grabaContable = async(fuenteid, num, fechaC, terceroid, items, fpagos, val
        };
        await itemcontable.create(citem);
    });
-
+   
+   const mov = fuenteid == fuenteCE ? 2 : 1;
    fpagos.forEach(async(ele) => {
          const fpag = await formasdepago.findByPk(ele.idformapago);
          const codban = await cuentas_bancarias.findByPk(ele.ctabancoid);

@@ -1,9 +1,11 @@
 const express = require("express");
+const { check } = require('express-validator')
+const { validarCampos }  = require('../../middlewares/validar-campos')
 const {getCartera, getCarteraById, anulaCartera,
        addCarteraPedidos, getCarteraByTercero} = require("../../controllers/api/carteraxpagarControllers");
 const server = express();
 
-//devuelve todos las campras
+//devuelve todos las compras
 server.get('/', async(req, res) => {
     try {
         const result = await getCartera();
@@ -39,7 +41,16 @@ server.get('/tercero/:id', async(req, res) => {
 });
 
 //crea una nueva compra 
-server.post('/', async(req, res) => {
+server.post('/', 
+   [ check('fecha', 'La fecha de la compra es obligatoria').not().isEmpty() ,validarCampos] ,
+   [ check('vence', 'La fecha de vencimiento de la compra es obligatoria').not().isEmpty() ,validarCampos] ,
+   [ check('bruto', 'El valor bruto de la compra es obligatorio').not().isEmpty() ,validarCampos] ,
+   [ check('impuesto', 'El valor del impuesto es obligatorio').not().isEmpty() ,validarCampos] , 
+   [ check('total', 'El valor total de la compra es obligatorio').not().isEmpty() ,validarCampos] ,
+   [ check('tercero_id', 'El campo tercero_id es obligatorio').not().isEmpty() ,validarCampos] ,
+   [ check('items', 'El campo items de la compra es obligatorio').not().isEmpty() ,validarCampos] ,
+   [ check('codUsuario', 'El campo codUsuario es obligatorio').not().isEmpty() ,validarCampos] ,
+   async(req, res) => {
    const datos = req.body; 
    try {
        const result = await addCarteraPedidos(datos);

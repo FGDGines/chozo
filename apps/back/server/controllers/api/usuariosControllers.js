@@ -47,7 +47,7 @@ const addUsuario = async(datos) => {
    const newUsu = {
       usu_nombre,
       usu_password,
-      usu_admin: admin,
+      usu_admin,
       tercero_id: idter,
    };
    const result = await usuarios.create(newUsu);
