@@ -10,7 +10,7 @@ import {
 } from "@tanstack/react-table";
 import Modal from "./Modal";
 
-function Table({ data, columns, name, showModal, setShowModal }) {
+function Table({ data, columns, name, props }) {
   const [sorting, setSorting] = useState([]);
   const [filtering, setFiltering] = useState({
     globalFilter: "",
@@ -49,7 +49,7 @@ function Table({ data, columns, name, showModal, setShowModal }) {
 
   return (
     <>
-      {showModal ? <Modal setShowModal={setShowModal} /> : ""}
+      {props.showModal ? <Modal setShowModal={props.setShowModal} /> : ""}
       <div className="ml-[100px] font-SFRegular flex flex-col max-h-[530px] h-screen ">
         <div className="text-[35px]">Listado de {name}</div>
         <input
