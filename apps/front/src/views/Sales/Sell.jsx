@@ -4,6 +4,10 @@ import data from "../../../data.json";
 
 function Sell() {
   const [showModal, setShowModal] = useState(false);
+  const props = {
+    showModal,
+    setShowModal,
+  };
   const columns = [
     { header: "n° fact", accessorKey: "id" },
     { header: "fecha", accessorKey: "fecha" },
@@ -31,13 +35,7 @@ function Sell() {
 
   return (
     <div className="p-5 w-[97%]">
-      <Table
-        data={data.ventas}
-        columns={columns}
-        name="ventas"
-        showModal={showModal}
-        setShowModal={setShowModal}
-      />
+      <Table data={data.ventas} columns={columns} name="ventas" props={props} />
       ;
     </div>
   );
