@@ -3,8 +3,18 @@ import Autosuggest from "react-autosuggest";
 import productos from "../../../data.json";
 import ShoppingCartTable from "../../components/ShoppingCartTable";
 import HeaderSale from "../../components/HeaderSale";
+import { useDispatch, useSelector } from "react-redux";
 
 function Sales() {
+  const dispatch = useDispatch();
+  const articulos = useSelector((state) => state.state.rutaPrincipal);
+
+  console.log("articulos", articulos);
+
+  // useEffect(() => {
+  //   dispatch()
+  // }, []);
+
   const today = new Date();
   const formattedDate = `${today.getDate()}/${
     today.getMonth() + 1
