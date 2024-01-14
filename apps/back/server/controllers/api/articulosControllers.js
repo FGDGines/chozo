@@ -59,7 +59,8 @@ const addArticulo = async(datos) => {
 //actualiza registro
 const updateArticulo = async(datos, id) => {
    const idA = Number(id);
-   const registro = await articulos.update(datos, {where: {id: idA}});
+   await articulos.update(datos, {where: {id: idA}});
+   const registro = getArticuloById(id);
    return registro;
 };
 
