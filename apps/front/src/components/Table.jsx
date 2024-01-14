@@ -16,6 +16,7 @@ function Table({ data, columns, name, props }) {
     globalFilter: "",
     // fechaFilter: "",
   });
+  // console.log("DATA", data);
 
   const table = useReactTable({
     data: data,
@@ -49,7 +50,7 @@ function Table({ data, columns, name, props }) {
 
   return (
     <>
-      {props.showModal ? <Modal setShowModal={props.setShowModal} /> : ""}
+      {props.showModal ? <Modal props={props} data={data} /> : ""}
       <div className="ml-[100px] font-SFRegular flex flex-col max-h-[530px] h-screen ">
         <div className="text-[35px]">Listado de {name}</div>
         <input

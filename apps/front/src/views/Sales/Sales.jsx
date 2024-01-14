@@ -1,10 +1,44 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import Autosuggest from "react-autosuggest";
 import productos from "../../../data.json";
 import ShoppingCartTable from "../../components/ShoppingCartTable";
 import HeaderSale from "../../components/HeaderSale";
+import axios from "axios";
+// import { useDispatch, useSelector } from "react-redux";
 
 function Sales() {
+  const [articles, setArticles] = useState([]);
+  const [value, setValue] = useState("");
+  const [suggestions, setSuggestions] = useState([]);
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [quantity, setQuantity] = useState(1);
+  const [shoppingCart, setShoppingCart] = useState([]);
+  const [totalQuantity, setTotalQuantity] = useState(0);
+  // const [totalImp, setTotalImp] = useState(0);
+  const [totalAmount, setTotalAmount] = useState(0);
+  const [selectedPaymentMethod, setSelectedPaymentMethod] =
+    useState("Efectivo");
+  const [descuento, setDescuento] = useState(0);
+
+  // const dispatch = useDispatch();
+  // const articulos = useSelector((state) => state.state.rutaPrincipal);
+
+  const getArticles = async () => {
+    try {
+      const response = await axios.get("http://localhost:8081/api/articulos");
+      console.log("productos:", response.data);
+      setArticles(response.data);
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+
+  useEffect(() => {
+    getArticles();
+  }, []);
+
+  console.log("articulos", articles);
+
   const today = new Date();
   const formattedDate = `${today.getDate()}/${
     today.getMonth() + 1
@@ -17,36 +51,24 @@ function Sales() {
     isViewSale: true,
   };
 
-  const [value, setValue] = useState("");
-  const [suggestions, setSuggestions] = useState([]);
-  const [selectedProduct, setSelectedProduct] = useState(null);
-  const [quantity, setQuantity] = useState(1);
-  const [shoppingCart, setShoppingCart] = useState([]);
-  const [totalQuantity, setTotalQuantity] = useState(0);
-  // const [totalImp, setTotalImp] = useState(0);
-
-  const [totalAmount, setTotalAmount] = useState(0);
-  const [selectedPaymentMethod, setSelectedPaymentMethod] =
-    useState("Efectivo");
-  const [descuento, setDescuento] = useState(0);
-
   const inputBuscarRef = useRef(null);
   const inputCantidadRef = useRef(null);
 
   const getSuggestions = (inputValue) => {
     const inputValueLower = inputValue.toLowerCase();
-    const filteredSuggestions = productos.productos.filter(
+    const filteredSuggestions = articles.filter(
       (producto) =>
-        producto.nombre.toLowerCase().includes(inputValueLower) ||
+        producto.art_detalles.toLowerCase().includes(inputValueLower) ||
         String(producto.id).includes(inputValueLower)
     );
     const limitedSuggestions = filteredSuggestions.slice(0, 8);
+    console.log("busca articulo", limitedSuggestions);
 
     return limitedSuggestions;
   };
 
-  const getSuggestionValue = (suggestion) => suggestion.nombre;
-  const renderSuggestion = (suggestion) => <div>{suggestion.nombre}</div>;
+  const getSuggestionValue = (suggestion) => suggestion.art_detalles;
+  const renderSuggestion = (suggestion) => <div>{suggestion.art_detalles}</div>;
   const onChange = (event, { newValue }) => {
     setValue(newValue);
   };
@@ -68,6 +90,7 @@ function Sales() {
   };
   const onSuggestionSelected = (event, { suggestion }) => {
     setSelectedProduct(suggestion);
+    console.log("SELECTED PRODUCTttt", selectedProduct);
   };
 
   const handleAddToCart = () => {
@@ -75,12 +98,12 @@ function Sales() {
     if (selectedProduct) {
       const newItem = {
         id: selectedProduct.id,
-        nombre: selectedProduct.nombre,
-        marca: selectedProduct.marca,
-        precio: selectedProduct.precio,
-        impuesto: selectedProduct.impuesto,
+        nombre: selectedProduct.art_detalles,
+        marca: selectedProduct.marca.mar_detalles,
+        precio: selectedProduct.art_precioventa,
+        impuesto: selectedProduct.art_impuestoventa,
         cantidad: quantity,
-        total: selectedProduct.precio * quantity,
+        total: selectedProduct.art_precioventa * quantity,
       };
 
       setShoppingCart([...shoppingCart, newItem]);
@@ -131,9 +154,8 @@ function Sales() {
   const handleDescuento = (event) => {
     const newDesc = parseInt(event.target.value, 10);
     setDescuento(newDesc);
-    console.log("descuento", newDesc);
+    // console.log("descuento", newDesc);
   };
-  console.log("metodo de pago", selectedPaymentMethod);
 
   const handleTotalImp = () => {};
 
