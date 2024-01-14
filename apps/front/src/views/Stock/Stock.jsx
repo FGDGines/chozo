@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Table from "../../components/Table";
-import data from "../../../data.json";
+import { FaCircle } from "react-icons/fa";
 import axios from "axios";
 
 function Stock() {
@@ -31,8 +31,10 @@ function Stock() {
 
   const columns = [
     { header: "ID", accessorKey: "id" },
+    { header: "ref", accessorKey: "art_referencia" },
     { header: "nombre", accessorKey: "art_detalles" },
     { header: "marca", accessorKey: "marca.mar_detalles" },
+    { header: "grupo", accessorKey: "grupo.gru_detalles" },
     { header: "precio", accessorKey: "art_precioventa" },
     { header: "stock", accessorKey: "art_costopromedio" },
     {
@@ -40,11 +42,24 @@ function Stock() {
       accessorKey: "",
       cell: (row) => (
         <button
-          className="px-2 py-1 bg-green-500 text-white rounded-md hover:bg-green-600"
+          className="px-2 py-1 bg-customBlue text-white rounded-md hover:bg-green-600"
           onClick={() => buttonAction(row)}
         >
           Editar
         </button>
+      ),
+    },
+    {
+      header: "activo",
+      accessorKey: "art_activo",
+      cell: (row) => (
+        <span className="flex flex-col justify-center items-center">
+          {row.row.original.art_activo === 1 ? (
+            <FaCircle className="text-green-500" />
+          ) : (
+            <FaCircle className="text-red-500" />
+          )}
+        </span>
       ),
     },
   ];

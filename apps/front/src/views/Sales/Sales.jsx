@@ -58,8 +58,9 @@ function Sales() {
     const inputValueLower = inputValue.toLowerCase();
     const filteredSuggestions = articles.filter(
       (producto) =>
-        producto.art_detalles.toLowerCase().includes(inputValueLower) ||
-        String(producto.id).includes(inputValueLower)
+        (producto.art_detalles.toLowerCase().includes(inputValueLower) ||
+          String(producto.id).includes(inputValueLower)) &&
+        producto.art_activo === 1 //solo muestra el producto si eta activo
     );
     const limitedSuggestions = filteredSuggestions.slice(0, 8);
     console.log("busca articulo", limitedSuggestions);

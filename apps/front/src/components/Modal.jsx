@@ -69,15 +69,24 @@ function Modal({ props }) {
   };
 
   const handleInputChange = (event, property) => {
-    setEditedArticle((prevArticle) => ({
-      ...prevArticle,
-      [property]:
-        property === "unidad_id" ||
-        property === "marca_id" ||
-        property === "grupo_id"
-          ? parseInt(event.target.value, 10)
-          : event.target.value,
-    }));
+    if (property === "art_activo") {
+      const nuevoEstadoActivo = event.target.checked;
+      setEditedArticle((prevArticle) => ({
+        ...prevArticle,
+        [property]: nuevoEstadoActivo,
+      }));
+      setIsActivo(nuevoEstadoActivo);
+    } else {
+      setEditedArticle((prevArticle) => ({
+        ...prevArticle,
+        [property]:
+          property === "unidad_id" ||
+          property === "marca_id" ||
+          property === "grupo_id"
+            ? parseInt(event.target.value, 10)
+            : event.target.value,
+      }));
+    }
   };
 
   const handleModificar = async () => {
@@ -89,12 +98,11 @@ function Modal({ props }) {
       );
       console.log("respuesta del servidor", response);
 
-      //!falta que pol responda con el articulo actualizado para que funcione el renderizado de inmediato al modificar
-      // props.setArticles((prevArticles) =>
-      //   prevArticles.map((article) =>
-      //     article.id === props.selectedArticle.id ? response.data : article
-      //   )
-      // );
+      props.setArticles((prevArticles) =>
+        prevArticles.map((article) =>
+          article.id === props.selectedArticle.id ? response.data : article
+        )
+      );
       props.setShowModal(false);
     } catch (error) {
       console.error("error al guardar", error);
@@ -161,7 +169,7 @@ function Modal({ props }) {
                   </select>
                 </div>
                 <div id="codigo-barra">
-                  <strong>Cód. de Barra:</strong> //! no se deja editar
+                  <strong>Cód. de Barra:</strong>
                   <input
                     className="border border-1 px- rounded-xl border-red-700"
                     type="text"
@@ -199,7 +207,6 @@ function Modal({ props }) {
                   </select>
                 </div>
                 <div id="impuesto">
-                  //! no se deja editar
                   <strong>Impuesto:</strong>{" "}
                   {/* {props.selectedArticle.art_impuestoventa} */}
                   <input
@@ -220,7 +227,7 @@ function Modal({ props }) {
                     className="border border-1 px-2 w-[100px] rounded-xl border-gray-300"
                     type="select"
                     value={editedArticle.art_ultimocosto}
-                    onChange={(e) => handleInputChange(e, art_ultimocosto)}
+                    onChange={(e) => handleInputChange(e, "art_ultimocosto")}
                   />
                 </div>
                 <div id="precio">
@@ -229,7 +236,7 @@ function Modal({ props }) {
                     className="border border-1 px-2 w-[100px] rounded-xl border-gray-300"
                     type="text"
                     value={editedArticle.art_precioventa}
-                    onChange={(e) => handleInputChange(e, art_precioventa)}
+                    onChange={(e) => handleInputChange(e, "art_precioventa")}
                   />
                 </div>
                 <div id="fecha-creacion" className="flex flex-col text-center">
@@ -251,7 +258,10 @@ function Modal({ props }) {
                 <input
                   type="checkbox"
                   checked={isActivo}
-                  onChange={() => setIsActivo(!isActivo)}
+                  onChange={(e) => {
+                    setIsActivo(!isActivo);
+                    handleInputChange(e, "art_activo");
+                  }}
                 />
               </div>
               <button className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition">
