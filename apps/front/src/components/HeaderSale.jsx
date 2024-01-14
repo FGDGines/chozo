@@ -3,27 +3,56 @@ import Select from "react-select";
 import data from "../../data.json";
 import { IoPersonAdd } from "react-icons/io5";
 import logo from "../assets/logo/elChozo.png";
+import axios from "axios";
 
 const Header = ({ formattedDate, infoHeader }) => {
   const [selectedClient, setSelectedClient] = useState(null);
   const [selectedUser, setSelectedUser] = useState(null);
   const [isSale, setIsSale] = useState([]);
+  const [providers, setProviders] = useState([]);
+  const [clients, setClients] = useState([]);
 
   console.log("cliente seleccionado", selectedClient);
   console.log("INFO HEADER 1", infoHeader);
 
+  const getClient = async () => {
+    try {
+      const response = await axios.get("http://localhost:8081/api/terceros");
+      console.log("clientes:", response.data);
+      setClients(response.data);
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+
+  const getProvider = async () => {
+    try {
+      const response = await axios.get("http://localhost:8081/api/proveedores");
+      console.log("proveedores:", response.data);
+      setProviders(response.data);
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+
   useEffect(() => {
     if (infoHeader.isViewSale) {
-      console.log("INFO HEADER 2", infoHeader);
-      const optionsClient = data.clientes.map((cliente) => ({
+      getClient();
+      const optionsClient = clients.map((cliente) => ({
         value: cliente.id,
-        label: cliente.nombre + " " + cliente.DNI,
+        label:
+          cliente.ter_nombres +
+          " " +
+          cliente.ter_apellidos +
+          " " +
+          cliente.ter_documento1,
       }));
       setIsSale(optionsClient);
     } else {
-      const optionsProvider = data.proveedores.map((proveedor) => ({
+      getProvider();
+      const optionsProvider = providers.map((proveedor) => ({
         value: proveedor.id,
-        label: proveedor.nombre + " " + proveedor.NIF,
+        label: proveedor.ter_tercero + " " + proveedor.ter_documento,
       }));
       setIsSale(optionsProvider);
     }
