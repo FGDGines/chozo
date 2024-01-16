@@ -1,10 +1,36 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
+import axios from "axios";
 import Autosuggest from "react-autosuggest";
 import productos from "../../../data.json";
 import ShoppingCartTable from "../../components/ShoppingCartTable";
 import HeaderSale from "../../components/HeaderSale";
 
 function Buy() {
+  const [articles, setArticles] = useState([]);
+  const [value, setValue] = useState("");
+  const [suggestions, setSuggestions] = useState([]);
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [quantity, setQuantity] = useState(1);
+  const [shoppingCart, setShoppingCart] = useState([]);
+  const [totalQuantity, setTotalQuantity] = useState(0);
+  const [totalAmount, setTotalAmount] = useState(0);
+  const [selectedPaymentMethod, setSelectedPaymentMethod] =
+    useState("Efectivo");
+  const [descuento, setDescuento] = useState(0);
+
+  const getArticles = async () => {
+    try {
+      const response = await axios.get("http://localhost:8081/api/articulos");
+      setArticles(response.data);
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+
+  useEffect(() => {
+    getArticles();
+  }, []);
+
   const today = new Date();
   const formattedDate = `${today.getDate()}/${
     today.getMonth() + 1
@@ -18,35 +44,30 @@ function Buy() {
     isViewSale: false,
   };
 
-  const [value, setValue] = useState("");
-  const [suggestions, setSuggestions] = useState([]);
-  const [selectedProduct, setSelectedProduct] = useState(null);
-  const [quantity, setQuantity] = useState(1);
-  const [shoppingCart, setShoppingCart] = useState([]);
-  const [totalQuantity, setTotalQuantity] = useState(0);
-
-  const [totalAmount, setTotalAmount] = useState(0);
-  const [selectedPaymentMethod, setSelectedPaymentMethod] =
-    useState("Efectivo");
-  const [descuento, setDescuento] = useState(0);
-
   const inputBuscarRef = useRef(null);
   const inputCantidadRef = useRef(null);
 
   const getSuggestions = (inputValue) => {
     const inputValueLower = inputValue.toLowerCase();
-    const filteredSuggestions = productos.productos.filter(
+    const filteredSuggestions = articles.filter(
       (producto) =>
-        producto.nombre.toLowerCase().includes(inputValueLower) ||
-        String(producto.id).includes(inputValueLower)
+        (producto.art_detalles.toLowerCase().includes(inputValueLower) ||
+          String(producto.id).includes(inputValueLower)) &&
+        producto.art_activo === 1 //solo muestra el producto si eta activo
     );
     const limitedSuggestions = filteredSuggestions.slice(0, 8);
 
     return limitedSuggestions;
   };
+  const getSuggestionValue = (suggestion) =>
+    suggestion.art_detalles + " " + suggestion.unidade.uni_abreviatura;
 
-  const getSuggestionValue = (suggestion) => suggestion.nombre;
-  const renderSuggestion = (suggestion) => <div>{suggestion.nombre}</div>;
+  const renderSuggestion = (suggestion) => (
+    <div>
+      {suggestion.art_detalles}{" "}
+      <span className="text-red-500">{suggestion.unidade.uni_abreviatura}</span>
+    </div>
+  );
   const onChange = (event, { newValue }) => {
     setValue(newValue);
   };
@@ -71,16 +92,15 @@ function Buy() {
   };
 
   const handleAddToCart = () => {
-    console.log("SELECTED PRODUCT", selectedProduct);
     if (selectedProduct) {
       const newItem = {
         id: selectedProduct.id,
-        nombre: selectedProduct.nombre,
-        marca: selectedProduct.marca,
-        precio: selectedProduct.precio,
-        impuesto: selectedProduct.impuesto,
+        nombre: selectedProduct.art_detalles,
+        marca: selectedProduct.marca.mar_detalles,
+        precio: selectedProduct.art_ultimocosto,
+        impuesto: selectedProduct.art_impuestoventa,
         cantidad: quantity,
-        total: selectedProduct.precio * quantity,
+        total: selectedProduct.art_ultimocosto * quantity,
       };
 
       setShoppingCart([...shoppingCart, newItem]);
@@ -294,7 +314,7 @@ function Buy() {
                   <div>Impuestos {}</div>
                   {descuento ? (
                     <div className="text-2xl">
-                      Total: ${((1 - descuento / 100) * totalAmount).toFixed(2)}{" "}
+                      Total: €{((1 - descuento / 100) * totalAmount).toFixed(2)}{" "}
                     </div>
                   ) : (
                     <div className="text-2xl">

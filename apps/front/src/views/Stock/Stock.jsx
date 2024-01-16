@@ -42,7 +42,7 @@ function Stock() {
       accessorKey: "",
       cell: (row) => (
         <button
-          className="px-2 py-1 bg-customBlue text-white rounded-md hover:bg-green-600"
+          className="px-2 py-1 bg-customBlue text-white rounded-md hover:scale-105 transition"
           onClick={() => buttonAction(row)}
         >
           Editar
@@ -73,7 +73,14 @@ function Stock() {
     // console.log("ir a albaran n°", row.row.original.id);
   }
   return (
-    <Table data={articles} columns={columns} name={"Productos"} props={props} />
+    <>
+      <Table
+        data={articles}
+        columns={columns}
+        name={"Productos"}
+        props={props}
+      />
+    </>
   );
 }
 

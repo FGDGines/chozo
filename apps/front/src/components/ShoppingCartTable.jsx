@@ -94,11 +94,11 @@ const ShoppingCartTable = ({ shoppingCart, onDeleteFromCart, infoHeader }) => {
 
               <td className="border px-2 text-center">{item.cantidad}</td>
               <td className="border px-2 text-center">
-                ${item.precio.toFixed(2)}
+                €{item.precio.toFixed(2)}
               </td>
               <td className="border px-2 text-left">{item.impuesto}</td>
               <td className="border p-2 text-center">
-                ${item.total.toFixed(2)}
+                €{item.total.toFixed(2)}
               </td>
               <td className="border text-center">
                 <button

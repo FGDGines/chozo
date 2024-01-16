@@ -20,9 +20,6 @@ function Sales() {
     useState("Efectivo");
   const [descuento, setDescuento] = useState(0);
 
-  // const dispatch = useDispatch();
-  // const articulos = useSelector((state) => state.state.rutaPrincipal);
-
   const getArticles = async () => {
     try {
       const response = await axios.get("http://localhost:8081/api/articulos");
@@ -36,8 +33,6 @@ function Sales() {
   useEffect(() => {
     getArticles();
   }, []);
-
-  console.log("articulos", articles);
 
   const today = new Date();
   const formattedDate = `${today.getDate()}/${
@@ -63,13 +58,19 @@ function Sales() {
         producto.art_activo === 1 //solo muestra el producto si eta activo
     );
     const limitedSuggestions = filteredSuggestions.slice(0, 8);
-    console.log("busca articulo", limitedSuggestions);
 
     return limitedSuggestions;
   };
 
-  const getSuggestionValue = (suggestion) => suggestion.art_detalles;
-  const renderSuggestion = (suggestion) => <div>{suggestion.art_detalles}</div>;
+  const getSuggestionValue = (suggestion) =>
+    suggestion.art_detalles + " " + suggestion.unidade.uni_abreviatura;
+
+  const renderSuggestion = (suggestion) => (
+    <div>
+      {suggestion.art_detalles}{" "}
+      <span className="text-red-500">{suggestion.unidade.uni_abreviatura}</span>
+    </div>
+  );
   const onChange = (event, { newValue }) => {
     setValue(newValue);
   };
@@ -91,11 +92,11 @@ function Sales() {
   };
   const onSuggestionSelected = (event, { suggestion }) => {
     setSelectedProduct(suggestion);
-    console.log("SELECTED PRODUCTttt", selectedProduct);
+    // console.log("SELECTED PRODUCTttt", selectedProduct);
   };
 
   const handleAddToCart = () => {
-    console.log("SELECTED PRODUCT", selectedProduct);
+    // console.log("SELECTED PRODUCT", selectedProduct);
     if (selectedProduct) {
       const newItem = {
         id: selectedProduct.id,

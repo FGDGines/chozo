@@ -129,9 +129,9 @@ function SideBar() {
             >
               {item.icon}
             </div>
-
+            {/* 
             {console.log("item", item)}
-            {console.log("activeView", activeView)}
+            {console.log("activeView", activeView)} */}
 
             <span
               className={`text-white mx-1  ${

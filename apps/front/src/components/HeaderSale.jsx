@@ -12,8 +12,8 @@ const Header = ({ formattedDate, infoHeader }) => {
   const [providers, setProviders] = useState([]);
   const [clients, setClients] = useState([]);
 
-  console.log("cliente seleccionado", selectedClient);
-  console.log("INFO HEADER 1", infoHeader);
+  // console.log("cliente seleccionado", selectedClient);
+  // console.log("INFO HEADER 1", infoHeader);
 
   const getClient = async () => {
     try {
