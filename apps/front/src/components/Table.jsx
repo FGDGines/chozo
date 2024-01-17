@@ -16,7 +16,6 @@ function Table({ data, columns, name, props }) {
     globalFilter: "",
     // fechaFilter: "",
   });
-  // console.log("DATA", data);
 
   const table = useReactTable({
     data: data,

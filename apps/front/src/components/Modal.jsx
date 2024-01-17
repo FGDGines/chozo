@@ -20,11 +20,8 @@ function Modal({ props }) {
             <TiDelete className="text-3xl bg-red-500 -mr-4 -mt-4 rounded-2xl text-white hover:scale-110 transition" />
           </button>
         </div>
-        {isStockRoute ? (
-          <ModalProductDetails props={props} />
-        ) : (
-          <ModalAlbaran props={props} />
-        )}
+        {isStockRoute ? <ModalProductDetails props={props} /> : ""}
+        {isSellRoute ? <ModalAlbaran props={props} /> : ""}
       </div>
     </div>
   );

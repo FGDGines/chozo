@@ -1,8 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import Table from "../../components/Table";
 import data from "../../../data.json";
 
 function Customers() {
+  const [showModal, setShowModal] = useState(false);
+
+  const props = {
+    showModal,
+    setShowModal,
+  };
   const columns = [
     { header: "ID", accessorKey: "id" },
     { header: "nombre", accessorKey: "nombre" },
@@ -11,8 +17,13 @@ function Customers() {
     { header: "activo", accessorKey: "activo" },
   ];
   return (
-    <div className="p-5 w-[97%]">
-      <Table data={data.clientes} columns={columns} name={"clientes"} />
+    <div className="p-5  w-[97%]">
+      <Table
+        props={props}
+        data={data.clientes}
+        columns={columns}
+        name={"clientes"}
+      />
     </div>
   );
 }
