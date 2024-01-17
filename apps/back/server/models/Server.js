@@ -31,6 +31,9 @@ class Server {
             tesoreria:         '/api/tesoreria',
             puc:               '/api/puc',
             contable:          '/api/contable',
+            paises:            '/api/paises',
+            tipodocumentos:    '/api/tipodocumentos',
+            tipoterceros:      '/api/tipoterceros',
         }
         this.upDB()
         this.routes()
@@ -94,6 +97,9 @@ class Server {
         this.app.use(this.paths.tesoreria, require('../routes/api/tesoreria.js'));
         this.app.use(this.paths.puc, require('../routes/api/puc.js'));
         this.app.use(this.paths.contable, require('../routes/api/contable.js'));
+        this.app.use(this.paths.paises, require('../routes/api/paises.js'));
+        this.app.use(this.paths.tipodocumentos, require('../routes/api/tipodocumentos.js'));
+        this.app.use(this.paths.tipoterceros, require('../routes/api/tipoterceros.js'));
     };
 
     run() {
