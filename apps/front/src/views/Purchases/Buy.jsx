@@ -17,6 +17,8 @@ function Buy() {
   const [selectedPaymentMethod, setSelectedPaymentMethod] =
     useState("Efectivo");
   const [descuento, setDescuento] = useState(0);
+  const [selectedProvider, setSelectedProvider] = useState("");
+  const [selectedCaja, setSelectedCaja] = useState("");
 
   const getArticles = async () => {
     try {
@@ -42,6 +44,8 @@ function Buy() {
     person2: "Proveedor",
     showInfo: "no",
     isViewSale: false,
+    setSelectedProvider,
+    setSelectedCaja,
   };
 
   const inputBuscarRef = useRef(null);
@@ -114,6 +118,40 @@ function Buy() {
 
       inputBuscarRef.current.focus();
     }
+    console.log("producto agregado", selectedProduct);
+  };
+
+  const handleBuy = async () => {
+    try {
+      const formattedDate = new Date().toISOString().split("T")[0];
+      console.log("fecha que envio", formattedDate);
+
+      const buyData = {
+        fecha: formattedDate,
+        valor: totalAmount,
+        solicitante: selectedCaja.label,
+        proveedor_id: selectedProvider.value,
+        items: shoppingCart.map((item) => ({
+          cantidad: item.cantidad,
+          impuesto: item.impuesto,
+          valoruni: item.precio,
+          articulo_id: item.id,
+        })),
+      };
+      console.log("compra", buyData);
+      const response = await axios.post(
+        "http://localhost:8081/api/pedidos",
+        buyData
+      );
+
+      setShoppingCart([]);
+      setTotalQuantity(0);
+      setTotalAmount(0);
+
+      console.log("compra completada con exito", response.data);
+    } catch (error) {
+      console.error("error al hacer la compra", error);
+    }
   };
 
   const handleClearCart = () => {
@@ -140,9 +178,6 @@ function Buy() {
     if (method === "Efectivo") {
       setSelectedPaymentMethod("Efectivo");
     }
-    if (method === "Tarjeta") {
-      setSelectedPaymentMethod("Tarjeta");
-    }
     if (method === "A cuenta") {
       setSelectedPaymentMethod("A cuenta");
     }
@@ -153,7 +188,6 @@ function Buy() {
     setDescuento(newDesc);
     console.log("descuento", newDesc);
   };
-  console.log("metodo de pago", selectedPaymentMethod);
 
   const handleTotalImp = () => {};
 
@@ -335,6 +369,7 @@ function Buy() {
                   Borrar todo
                 </button>
                 <button
+                  onClick={() => handleBuy()}
                   className={`text-gray-100 py-2 px-5 m-3 rounded-2xl border-[3px] ${
                     infoHeader.isViewSale
                       ? "bg-customBlue  border-customBlue  hover:bg-blue-800 hover:border-blue-800 transition"

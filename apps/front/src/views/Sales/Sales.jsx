@@ -1,6 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
 import Autosuggest from "react-autosuggest";
-import productos from "../../../data.json";
 import ShoppingCartTable from "../../components/ShoppingCartTable";
 import HeaderSale from "../../components/HeaderSale";
 import axios from "axios";

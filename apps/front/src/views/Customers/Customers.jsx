@@ -1,9 +1,21 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Table from "../../components/Table";
 import data from "../../../data.json";
+import axios from "axios";
 
 function Customers() {
   const [showModal, setShowModal] = useState(false);
+  const [customers, setCustomers] = useState([]);
+
+  const getCustomers = async () => {
+    const response = await axios.get("http://localhost:8081/api/terceros");
+    setCustomers(response.data);
+  };
+  console.log(customers);
+
+  useEffect(() => {
+    getCustomers();
+  }, []);
 
   const props = {
     showModal,
@@ -11,8 +23,8 @@ function Customers() {
   };
   const columns = [
     { header: "ID", accessorKey: "id" },
-    { header: "nombre", accessorKey: "nombre" },
-    { header: "DNI", accessorKey: "DNI" },
+    { header: "nombre", accessorKey: "ter_tercero" },
+    { header: "DNI", accessorKey: "ter_documento" },
     { header: "condicion", accessorKey: "condicion de venta" },
     { header: "activo", accessorKey: "activo" },
   ];
@@ -20,7 +32,7 @@ function Customers() {
     <div className="p-5  w-[97%]">
       <Table
         props={props}
-        data={data.clientes}
+        data={customers}
         columns={columns}
         name={"clientes"}
       />

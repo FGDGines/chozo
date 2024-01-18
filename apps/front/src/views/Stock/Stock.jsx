@@ -14,7 +14,6 @@ function Stock() {
     setArticles,
     articles,
   };
-  console.log("productos", articles);
   const getArticles = async () => {
     try {
       const response = await axios.get("http://localhost:8081/api/articulos");
