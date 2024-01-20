@@ -4,6 +4,7 @@ import Autosuggest from "react-autosuggest";
 import productos from "../../../data.json";
 import ShoppingCartTable from "../../components/ShoppingCartTable";
 import HeaderSale from "../../components/HeaderSale";
+import ModalError from "../../components/ModalError";
 
 function Buy() {
   const [articles, setArticles] = useState([]);
@@ -19,6 +20,8 @@ function Buy() {
   const [descuento, setDescuento] = useState(0);
   const [selectedProvider, setSelectedProvider] = useState("");
   const [selectedCaja, setSelectedCaja] = useState("");
+  const [showModalError, setShowModalError] = useState(false);
+  const [messageError, setMessageError] = useState("");
 
   const getArticles = async () => {
     try {
@@ -38,6 +41,11 @@ function Buy() {
     today.getMonth() + 1
   }/${today.getFullYear()}`;
 
+  const infoModalError = {
+    showModalError,
+    setShowModalError,
+    mensaje: messageError,
+  };
   const infoHeader = {
     title: "Pedido de compra",
     person1: "Usuario",
@@ -124,7 +132,6 @@ function Buy() {
   const handleBuy = async () => {
     try {
       const formattedDate = new Date().toISOString().split("T")[0];
-      console.log("fecha que envio", formattedDate);
 
       const buyData = {
         fecha: formattedDate,
@@ -138,7 +145,33 @@ function Buy() {
           articulo_id: item.id,
         })),
       };
-      console.log("compra", buyData);
+
+      if (
+        !selectedProvider ||
+        !buyData.fecha ||
+        !buyData.valor ||
+        !buyData.solicitante ||
+        !buyData.items ||
+        buyData.items.length === 0
+      ) {
+        if (!selectedProvider) {
+          setMessageError("¡Falta elegir Proveedor!");
+        }
+        if (!buyData.fecha) {
+          setMessageError("¡Falta elegir fecha!");
+        }
+        if (!buyData.solicitante) {
+          setMessageError("¡Falta elegir Usuario!");
+        }
+        if (!buyData.items || buyData.items.length === 0) {
+          setMessageError("¡Falta elegir productos!");
+        }
+
+        setShowModalError(true);
+        infoModalError.mensaje = errorMessage;
+        return;
+      }
+
       const response = await axios.post(
         "http://localhost:8081/api/pedidos",
         buyData
@@ -148,7 +181,7 @@ function Buy() {
       setTotalQuantity(0);
       setTotalAmount(0);
 
-      console.log("compra completada con exito", response.data);
+      console.log("compra completada con éxito", response.data);
     } catch (error) {
       console.error("error al hacer la compra", error);
     }
@@ -194,7 +227,7 @@ function Buy() {
   // aca seteo el estilo del input dropdown BUSCAR
   const theme = {
     container: {
-      position: "relative",
+      position: "",
       width: "600px",
     },
     suggestionsContainer: {
@@ -230,6 +263,8 @@ function Buy() {
     <>
       <div className="ml-[80px] font-SFRegular h-screen w-[92%] flex flex-col">
         <HeaderSale formattedDate={formattedDate} infoHeader={infoHeader} />
+        {showModalError ? <ModalError infoModalError={infoModalError} /> : ""}
+
         <div className="text-lg ml-2 mt-5">Pedido</div>
 
         <div
