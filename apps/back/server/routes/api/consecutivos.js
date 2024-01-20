@@ -2,7 +2,8 @@ const express = require("express");
 const { check } = require('express-validator');
 const { validarCampos }  = require('../../middlewares/validar-campos');
 const {getAll, getById, getConsecuByAnual,
-      getConsecuByFuente, addConsecu, updateConsecu} = require("../../controllers/api/consecutivosControllers");
+      getConsecuByFuente, addConsecu, 
+      generarConsecu, updateConsecu} = require("../../controllers/api/consecutivosControllers");
 const server = express();
 
 //devuelve todos los consecutivos
@@ -86,6 +87,20 @@ server.get('/:id', async(req, res) => {
         console.log(error.message);
         res.status(500).json({message: error.message});
      }
+ });
+
+ //genera todos los consecutivos de un año
+ server.post('/bulk', 
+   [ check('anual', 'El campo anual es obligatorio').not().isEmpty() ,validarCampos] ,   
+   async(req, res) => {
+   const datos = req.body;
+   try {
+      const result = await generarConsecu(datos);
+      res.status(200).json(result);
+   } catch (error) {
+      console.log(error.message);
+      res.status(500).json({message: error.message});   
+   }
  });
 
 module.exports = server;

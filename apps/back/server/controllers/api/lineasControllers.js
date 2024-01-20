@@ -26,9 +26,16 @@ const updateLinea = async(datos, id) => {
    return result;
 };
 
+//bulk create lineas
+const bulkLineas = async(datos) => {
+   const result = await lineas.bulkCreate(datos);
+   return result;
+};
+
 module.exports = {
     getLineas,
     getLineaById,
     addLinea,
-    updateLinea
+    updateLinea,
+    bulkLineas,
 };

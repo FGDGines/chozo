@@ -1,7 +1,7 @@
 const express = require("express");
 const { check } = require('express-validator');
 const { validarCampos }  = require('../../middlewares/validar-campos');
-const {getFuentes, getFuenteById,
+const {getFuentes, getFuenteById, bulkFuentes,
        addFuente,updateFuente} = require("../../controllers/api/fuentesControllers");
 const server = express();
 
@@ -60,6 +60,18 @@ server.get('/:id', async(req, res) => {
         console.log(error.message);
         res.status(500).json({message: error.message});
      }
+ });
+
+ //bulkcreate fuentes
+ server.post('/bulk', async(req, res) => {
+    const datos = req.body;
+    try {
+      const result = await bulkFuentes(datos);
+      res.status(200).json(result);
+    } catch (error) {
+      console.log(error.message);
+      res.status(500).json({message: error.message});
+    }
  });
 
 module.exports = server;

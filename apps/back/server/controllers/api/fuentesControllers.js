@@ -2,7 +2,9 @@ const {fuentes} = require("../../models/DbConex");
 
 //devuelve todas las fuentes
 const getFuentes = async() => {
-    const array = await fuentes.findAll();
+    const array = await fuentes.findAll({
+      attributes: {exclude: ['createdAt', 'updatedAt']}
+    });
     return array;
 };
 
@@ -30,9 +32,16 @@ const updateFuente = async(datos, id) => {
     return registro;
 };
 
+//bulkcreate fuentes
+const bulkFuentes = async(datos) => {
+   const result = await fuentes.bulkCreate(datos);
+   return result;
+};
+
 module.exports = {
    getFuentes,
    getFuenteById,
    addFuente,
    updateFuente,
+   bulkFuentes,
 };

@@ -40,10 +40,17 @@ const updateSublinea = async(datos, id) => {
    return result;
 };
 
+//bulk create sublineas
+const bulkSublineas = async(datos) => {
+   const result = await sublineas.bulkCreate(datos);
+   return result;
+};
+
 module.exports = {
    getSublineas,
    getSublineaById,
    addSublinea,
    updateSublinea,
-   getSublineasByIdLinea
+   getSublineasByIdLinea,
+   bulkSublineas,
 };

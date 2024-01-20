@@ -2,7 +2,7 @@ const express = require("express");
 const { check } = require('express-validator')
 const { validarCampos }  = require('../../middlewares/validar-campos')
 
-const {getAll, getTipodocById,
+const {getAll, getTipodocById, bulkTipodoc,
        newTipodoc, updateTipodoc} = require("../../controllers/api/tipodocumentoControllers");
 const server = express();
 
@@ -57,5 +57,18 @@ server.put('/:id',
        res.status(500).json({message: error.message});        
    }
 });
+
+//bulk create tipodocumentos
+server.post('/bulk', async(req, res) => {
+   const datos = req.body; 
+   try {
+      const result = await bulkTipodoc(datos);
+      res.status(200).json(result);
+   } catch (error) {
+      console.log(error.message);
+      res.status(500).json({message: error.message});       
+   }
+});
+
 
 module.exports = server;

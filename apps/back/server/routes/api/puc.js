@@ -3,7 +3,8 @@ const { check } = require('express-validator')
 const { validarCampos }  = require('../../middlewares/validar-campos')
 
 const {getPuc, getCuentaByCodigo, updateCuenta,
-       getCuentaById, addCuenta, deleteCuenta} = require("../../controllers/api/pucControllers");
+       getCuentaById, addCuenta,
+       deleteCuenta, bulkPuc} = require("../../controllers/api/pucControllers");
 const server = express();
 
 
@@ -79,5 +80,16 @@ server.delete('/:id', async(req, res) => {
     }
  });
  
+//crea plan de cuentas en bloque
+server.post('/bulk', async(req, res) => {
+   const datos = req.body;
+   try {
+       const result = await bulkPuc(datos);
+       res.status(200).json(result);
+   } catch (error) {
+       console.log(error.message);
+       res.status(500).json({message: error.message});       
+   }
+});
 
 module.exports = server;

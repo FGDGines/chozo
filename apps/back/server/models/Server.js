@@ -36,6 +36,7 @@ class Server {
             tipoterceros:      '/api/tipoterceros',
             fuentes:           '/api/fuentes',
             consecutivos:      '/api/consecutivos',
+            parametros:        '/api/parametros',
         }
         this.upDB()
         this.routes()
@@ -104,6 +105,7 @@ class Server {
         this.app.use(this.paths.tipoterceros, require('../routes/api/tipoterceros.js'));
         this.app.use(this.paths.fuentes, require('../routes/api/fuentes.js'));
         this.app.use(this.paths.consecutivos, require('../routes/api/consecutivos.js'));
+        this.app.use(this.paths.parametros, require('../routes/api/parametros.js'));
     };
 
     run() {

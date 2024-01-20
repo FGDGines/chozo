@@ -28,7 +28,10 @@ const getById = async(id) => {
 
  //devuelve todos los consecutivos de una mismo año
  const getConsecuByAnual = async(anual) => {
-    const result = await consecutivos.findAll({where: {conse_anual: anual}});
+    const result = await consecutivos.findAll({
+      where: {conse_anual: anual},
+      include: [{model: fuentes}]
+    });
     return result;
  };
 
@@ -48,6 +51,20 @@ const getById = async(id) => {
     const registro = await consecutivos.findByPk(id);
     return registro;
  };
+
+ //crea todos los consecutivos de un año dado 
+ const generarConsecu = async(datos) => {
+    const {anual} = datos;
+    const fuent = await fuentes.findAll();
+    fuent.forEach(async(ele) => {
+       const [registro, created] = await consecutivos.findOrCreate({where: {
+          conse_anual: anual,
+          fuente_id: ele.id,
+       }})
+    });
+    const registros = await consecutivos.findAll({where: {conse_anual: anual}});
+    return registros;
+ };
  
 
 module.exports = {
@@ -57,4 +74,5 @@ module.exports = {
    getConsecuByFuente,
    addConsecu,
    updateConsecu,
+   generarConsecu,
 };

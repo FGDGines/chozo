@@ -105,6 +105,15 @@ const deleteCuenta = async(id) => {
     return result;
 };
 
+//crea varias cuentas en bloque
+const bulkPuc = async(datos) => {
+   const result = await puc.bulkCreate(datos);
+   const query1 = "SELECT puc_codigo,puc_cuenta,puc_nivel FROM puc order by puc_codigo";
+   const registros = await conex.query(`${query1}`);
+   const array = registros[0];
+   return array;
+};
+
 module.exports = {
    getPuc,
    getCuentaByCodigo,
@@ -112,4 +121,5 @@ module.exports = {
    addCuenta,
    updateCuenta,
    deleteCuenta,
+   bulkPuc,
 };

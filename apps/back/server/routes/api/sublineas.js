@@ -3,7 +3,7 @@ const { check } = require('express-validator');
 const { validarCampos }  = require('../../middlewares/validar-campos');
 const {getSublineas, getSublineaById,
        addSublinea, updateSublinea,
-       getSublineasByIdLinea} = require("../../controllers/api/sublineasControllers");
+       getSublineasByIdLinea, bulkSublineas} = require("../../controllers/api/sublineasControllers");
 const server = express();
 
 //trae todas las sublineas
@@ -78,6 +78,17 @@ async(req, res) => {
         console.log(error.message);
         res.status(500).json({message: error.message});       
     }
+});
+
+server.post('/bulk', async(req, res) => {
+   const datos = req.body;
+   try {
+       const result = await bulkSublineas(datos);
+       res.status(200).json(result); 
+   } catch (error) {
+       console.log(error.message);
+       res.status(500).json({message: error.message});       
+   }   
 });
 
 module.exports = server;

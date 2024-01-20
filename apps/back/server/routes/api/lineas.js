@@ -2,7 +2,7 @@ const express = require("express");
 const { check } = require('express-validator');
 const { validarCampos }  = require('../../middlewares/validar-campos');
 
-const {getLineas, getLineaById,
+const {getLineas, getLineaById, bulkLineas,
        addLinea, updateLinea} = require("../../controllers/api/lineasControllers");
 const server = express();
 
@@ -57,6 +57,18 @@ server.put('/:id',
         console.log(error.message);
         res.status(500).json({message: error.message});       
     }
+});
+
+//bulk create lineas
+server.post('/bulk', async(req, res) => {
+   const datos = req.body; 
+   try {
+       const result = await bulkLineas(datos);
+       res.status(200).json(result);
+   } catch (error) {
+       console.log(error.message);
+       res.status(500).json({message: error.message});           
+   }
 });
 
 module.exports = server;

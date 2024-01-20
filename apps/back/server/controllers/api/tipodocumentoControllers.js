@@ -28,9 +28,16 @@ const updateTipodoc = async(datos, id) => {
    return registro;
 };
 
+//bulkcreate tipos de documentos
+const bulkTipodoc = async(datos) => {
+   const result = await tipodocumentos.bulkCreate(datos);
+   return result;
+};
+
 module.exports = {
    getAll,
    getTipodocById,
    newTipodoc,
-   updateTipodoc
+   updateTipodoc,
+   bulkTipodoc,
 };
