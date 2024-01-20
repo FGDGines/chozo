@@ -34,6 +34,8 @@ class Server {
             paises:            '/api/paises',
             tipodocumentos:    '/api/tipodocumentos',
             tipoterceros:      '/api/tipoterceros',
+            fuentes:           '/api/fuentes',
+            consecutivos:      '/api/consecutivos',
         }
         this.upDB()
         this.routes()
@@ -100,6 +102,8 @@ class Server {
         this.app.use(this.paths.paises, require('../routes/api/paises.js'));
         this.app.use(this.paths.tipodocumentos, require('../routes/api/tipodocumentos.js'));
         this.app.use(this.paths.tipoterceros, require('../routes/api/tipoterceros.js'));
+        this.app.use(this.paths.fuentes, require('../routes/api/fuentes.js'));
+        this.app.use(this.paths.consecutivos, require('../routes/api/consecutivos.js'));
     };
 
     run() {
