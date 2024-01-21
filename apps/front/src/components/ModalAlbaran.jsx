@@ -1,5 +1,7 @@
 import React, { useEffect } from "react";
 import moment from "moment";
+import { format } from "date-fns";
+import { es } from "date-fns/locale";
 
 function ModalAlbaran({ props }) {
   moment.locale("es");
@@ -7,6 +9,8 @@ function ModalAlbaran({ props }) {
   useEffect(() => {
     props.getBillById();
   }, []);
+
+  console.log(props);
 
   return (
     <div className=" h-full -mt-3">
@@ -20,10 +24,16 @@ function ModalAlbaran({ props }) {
               <span className="font-semibold">Número de Factura:</span>{" "}
               {props.bill.cxc_numero}
             </div>
-            <div className="mb-4">
-              <span className="font-semibold">Fecha de Factura:</span>{" "}
-              {moment(props.bill.cxc_fechafac).format("LL")}
-            </div>
+            {props.bill.cxc_fechafac && (
+              <div className="mb-4">
+                <span className="font-semibold">Fecha de Factura:</span>{" "}
+                {format(new Date(props.bill.cxc_fechafac), "dd MMMM yyyy", {
+                  locale: es,
+                })}{" "}
+                - {moment(props.bill.cxc_fechafac).format("LT")}
+              </div>
+            )}
+
             <div className="mb-4">
               <span className="font-semibold">Cliente:</span>{" "}
               {props.bill.tercero && props.bill.tercero.ter_tercero}

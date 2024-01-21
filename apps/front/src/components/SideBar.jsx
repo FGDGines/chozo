@@ -147,10 +147,10 @@ function SideBar() {
         >
           <div className="flex font-SFMedium items-center justify-center flex-col">
             <div
-              className={`text- text-white ${
+              className={`${
                 "/" + activeView === item.to
                   ? "bg-gray-100 text-[35px]  p-2 rounded-[40px]  text-customBlue" // vista actual
-                  : " text-[25px] p-2 hover:scale-125 transition" // iconos de otras opciones de vista
+                  : " text-[25px] p-2 hover:scale-125 transition text-white" // iconos de otras opciones de vista
               }`}
             >
               {item.icon}
