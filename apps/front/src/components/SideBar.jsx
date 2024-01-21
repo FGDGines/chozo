@@ -66,16 +66,37 @@ function SideBar() {
       { icon: <FaPeopleGroup />, text: "Clientes", to: "/customers" },
       { icon: <IoPersonAdd />, text: "Nuevo", to: "/createCustomer" },
     ],
-    shopping: [
-      { icon: <MdHome />, text: "Inicio", to: "/home" },
-      { icon: <MdAddShoppingCart />, text: "Comprar", to: "/buy" },
-      { icon: <FcStatistics />, text: "Compras", to: "/shopping" },
-    ],
     buy: [
       { icon: <MdHome />, text: "Inicio", to: "/home" },
       { icon: <MdAddShoppingCart />, text: "Comprar", to: "/buy" },
       { icon: <FcStatistics />, text: "Compras", to: "/shopping" },
+      {
+        icon: <MdOutlinePendingActions />,
+        text: "Pendientes",
+        to: "/pendingReceipt",
+      },
     ],
+    shopping: [
+      { icon: <MdHome />, text: "Inicio", to: "/home" },
+      { icon: <MdAddShoppingCart />, text: "Comprar", to: "/buy" },
+      { icon: <FcStatistics />, text: "Compras", to: "/shopping" },
+      {
+        icon: <MdOutlinePendingActions />,
+        text: "Pendientes",
+        to: "/pendingReceipt",
+      },
+    ],
+    pendingReceipt: [
+      { icon: <MdHome />, text: "Inicio", to: "/home" },
+      { icon: <MdAddShoppingCart />, text: "Comprar", to: "/buy" },
+      { icon: <FcStatistics />, text: "Compras", to: "/shopping" },
+      {
+        icon: <MdOutlinePendingActions />,
+        text: "Pendientes",
+        to: "/pendingReceipt",
+      },
+    ],
+
     providers: [
       { icon: <MdHome />, text: "Inicio", to: "/home" },
       {
@@ -121,9 +142,9 @@ function SideBar() {
         >
           <div className="flex font-SFMedium items-center justify-center flex-col">
             <div
-              className={`text-sm text-white ${
+              className={`text- text-white ${
                 "/" + activeView === item.to
-                  ? "bg-red-600 text-[25px] p-2 rounded-[40px] text-gray-800" // vista actual
+                  ? "bg-gray-100 text-[35px]  p-2 rounded-[40px]  text-customBlue" // vista actual
                   : " text-[25px] p-2 hover:scale-125 transition" // iconos de otras opciones de vista
               }`}
             >
