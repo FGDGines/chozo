@@ -1,23 +1,33 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import logo from "../assets/logo/elChozo.png";
 import logoFGD from "../assets/logo/logoFGD.png";
 import background from "../assets/logo/background2.jpg";
 
-function Home() {
+function Home(props) {
+  const navigate = useNavigate();
   const backgroundStyle = {
     backgroundImage: `url(${background})`,
     backgroundSize: "cover",
     backgroundPosition: "center",
   };
-
+  const toLogin = () => {
+    // Utiliza la función handleLogout para cerrar sesión
+    // Aquí asumo que handleLogout está siendo pasada como prop desde App
+    props.handleLogout();
+  };
   return (
     <div
       className="h-screen flex flex-col items-center pt-3 w-screen justify-start bg-gray-200"
       style={backgroundStyle}
     >
       <img src={logo} alt="El Chozo Logo" className="mb-8 w-[300px]" />
-
+      <button
+        onClick={() => toLogin()}
+        className="absolute top-3 left-3 bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring focus:border-blue-300"
+      >
+        Salir
+      </button>{" "}
       <div className="flex  flex-col gap-6 justify-center items-center">
         <div className="flex gap-[100px] flex-row">
           <Link

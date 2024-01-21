@@ -18,6 +18,8 @@ function Sales() {
   const [selectedPaymentMethod, setSelectedPaymentMethod] =
     useState("Efectivo");
   const [descuento, setDescuento] = useState(0);
+  const [showModalError, setShowModalError] = useState(false);
+  const [messageError, setMessageError] = useState("");
 
   const getArticles = async () => {
     try {
@@ -44,7 +46,11 @@ function Sales() {
     person2: "Cliente",
     isViewSale: true,
   };
-
+  const infoModalError = {
+    showModalError,
+    setShowModalError,
+    mensaje: messageError,
+  };
   const inputBuscarRef = useRef(null);
   const inputCantidadRef = useRef(null);
 
@@ -120,6 +126,71 @@ function Sales() {
     }
   };
 
+  const handleSale = async () => {
+    try {
+      const formattedDate = new Date().toISOString().split("T")[0];
+
+      const saleData = {
+        fecha: formattedDate,
+        vence: formattedDate,
+        bruto: selectedCaja.label,
+        impuesto,
+        total,
+        metodopago: 1,
+        terceroid: "",
+        cajaid: "",
+        items: shoppingCart.map((item) => ({
+          articuloid: item.id,
+          valoruni: item.precio,
+          impuesto: item.impuesto,
+          preciocosto: "",
+          cantidad: item.cantidad,
+        })),
+        fpagos: [{ ctabancoid, valor, idformapago }],
+      };
+
+      if (
+        !selectedProvider ||
+        !saleData.fecha ||
+        !saleData.metodopago ||
+        !saleData.terceroid ||
+        !saleData.cajaid ||
+        !saleData.fpagos ||
+        saleData.items.length === 0
+      ) {
+        if (!selectedProvider) {
+          setMessageError("¡Falta elegir Cliente!");
+        }
+        if (!buyData.terceroid) {
+          setMessageError("¡Falta elegir Cliente!");
+        }
+        if (!buyData.solicitante) {
+          setMessageError("¡Falta elegir Usuario!");
+        }
+        if (!buyData.items || buyData.items.length === 0) {
+          setMessageError("¡Falta elegir productos!");
+        }
+
+        setShowModalError(true);
+        infoModalError.mensaje = errorMessage;
+        return;
+      }
+
+      const response = await axios.post(
+        "http://localhost:8081/api/pedidos",
+        buyData
+      );
+
+      setShoppingCart([]);
+      setTotalQuantity(0);
+      setTotalAmount(0);
+
+      console.log("compra completada con éxito", response.data);
+    } catch (error) {
+      console.error("error al hacer la compra", error);
+    }
+  };
+
   const handleClearCart = () => {
     setShoppingCart([]);
     setTotalQuantity(0);
@@ -155,7 +226,6 @@ function Sales() {
   const handleDescuento = (event) => {
     const newDesc = parseInt(event.target.value, 10);
     setDescuento(newDesc);
-    // console.log("descuento", newDesc);
   };
 
   const handleTotalImp = () => {};
@@ -199,6 +269,8 @@ function Sales() {
     <>
       <div className="ml-[80px] font-SFRegular h-screen w-[92%] flex flex-col">
         <HeaderSale formattedDate={formattedDate} infoHeader={infoHeader} />
+        {showModalError ? <ModalError infoModalError={infoModalError} /> : ""}
+
         <div className="text-lg ml-2 mt-5">Pedido</div>
 
         <div
