@@ -39,10 +39,17 @@ const updateDpto = async(datos, id) => {
     return result;
 };
 
+//creacion masiva de dptos
+const bulkDptos = async(datos) => {
+   const result = await departamentos.bulkCreate(datos);
+   return result;
+};
+
 module.exports = {
    getAll,
    getAllByPais,
    getById,
    addDpto,
-   updateDpto
+   updateDpto,
+   bulkDptos
 };

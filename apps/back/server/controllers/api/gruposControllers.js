@@ -36,11 +36,18 @@ const getGrupos = async() => {
     const result = await grupos.update(datos, {where: {id: idL}});
     return result;
  };
+
+ //bulkcreate grupos
+ const bulkGrupos = async(datos) => {
+    const result = await grupos.bulkCreate(datos);
+    return result;
+ };
  
  module.exports = {
     getGrupos,
     getGrupoById,
     getGruposByIdSublinea,
     addGrupo,
-    updateGrupo
+    updateGrupo,
+    bulkGrupos,
  };

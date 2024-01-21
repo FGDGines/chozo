@@ -3,7 +3,7 @@ const { check } = require('express-validator')
 const { validarCampos }  = require('../../middlewares/validar-campos')
 const {getArticulos, getArticuloById,
        getArticulosByIdGrupo, addArticulo,
-       updateArticulo} = require("../../controllers/api/articulosControllers");
+       updateArticulo, bulkArticulos} = require("../../controllers/api/articulosControllers");
 const server = express();
 
 //devuelve todas los articulos
@@ -79,5 +79,17 @@ server.get('/grupo/:id', async(req, res) => {
         res.status(500).json({message: error.message});
      }
  });
+
+ //creacion masiva de articulos
+ server.post('/bulk', async(req, res) => {
+   const datos = req.body;
+   try {
+      const result = await bulkArticulos(datos);
+      res.status(200).json(result);
+   } catch (error) {
+      console.log(error.message);
+      res.status(500).json({message: error.message});
+   }
+});
 
 module.exports = server;

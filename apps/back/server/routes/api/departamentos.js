@@ -2,7 +2,7 @@ const express = require("express");
 const { check } = require('express-validator')
 const { validarCampos }  = require('../../middlewares/validar-campos')
 
-const { getAll, getAllByPais,
+const { getAll, getAllByPais, bulkDptos,
         getById, addDpto, updateDpto } = require("../../controllers/api/departamentosControllers");
 const server = express();
 
@@ -70,5 +70,17 @@ server.get('/:id', async(req, res) => {
         res.status(500).json({message: error.message});
      }
  });
+
+  //creacion masiva de dptos
+server.post('/bulk', async(req, res) => {
+   const datos = req.body;
+   try {
+      const result = await bulkDptos(datos);
+      res.status(200).json(result);
+   } catch (error) {
+      console.log(error.message);
+      res.status(500).json({message: error.message});
+   }
+});
 
 module.exports = server;

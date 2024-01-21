@@ -1,8 +1,9 @@
 const express = require("express");
 const { check } = require('express-validator');
 const { validarCampos }  = require('../../middlewares/validar-campos');
-const {getGrupos, getGrupoById,
-       getGruposByIdSublinea, addGrupo, updateGrupo} = require("../../controllers/api/gruposControllers");
+const {getGrupos, getGrupoById, bulkGrupos,
+       getGruposByIdSublinea, 
+       addGrupo, updateGrupo} = require("../../controllers/api/gruposControllers");
 const server = express();
 
 //trae todos los grupos
@@ -73,5 +74,16 @@ server.get('/', async(req, res) => {
      }
  });
  
+ //creacion masiva de grupos
+ server.post('/bulk', async(req, res) => {
+    const datos = req.body;
+    try {
+        const result = await bulkGrupos(datos);
+        res.status(200).json(result);
+    } catch (error) {
+        console.log(error.message);
+        res.status(500).json({message: error.message});    
+    }
+ });
 
 module.exports = server;
