@@ -40,10 +40,17 @@ const updateCiudad = async(datos, id) => {
     return result;
 };
 
+//creacion masiva de ciudades
+const bulkCiudades = async(datos) => {
+   const result = await ciudades.bulkCreate(datos);
+   return result;
+};
+
 module.exports = {
    getAll,
    getAllByDpto,
    getById,
    addCiudad,
-   updateCiudad
+   updateCiudad,
+   bulkCiudades
 };

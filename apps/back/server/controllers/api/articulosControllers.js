@@ -64,11 +64,18 @@ const updateArticulo = async(datos, id) => {
    return registro;
 };
 
+//creacion masiva de articulos
+const bulkArticulos = async(datos) => {
+   const result = await articulos.bulkCreate(datos);
+   return result;
+};
+
 
 module.exports = {
    getArticulos,
    getArticuloById,
    getArticulosByIdGrupo,
    addArticulo,
-   updateArticulo
+   updateArticulo,
+   bulkArticulos,
 };

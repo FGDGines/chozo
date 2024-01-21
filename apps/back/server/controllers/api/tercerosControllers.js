@@ -38,9 +38,15 @@ const updateTercero = async(datos, id) => {
    return result;     
 };
 
+const bulkTerceros = async(datos) => {
+   const result = await terceros.bulkCreate(datos);
+   return result;
+};
+
 module.exports = {
     getTerceros,
     getTerceroById,
     addTercero,
-    updateTercero
+    updateTercero,
+    bulkTerceros,
 }
