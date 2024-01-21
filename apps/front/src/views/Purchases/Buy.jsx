@@ -19,7 +19,7 @@ function Buy() {
     useState("Efectivo");
   const [descuento, setDescuento] = useState(0);
   const [selectedProvider, setSelectedProvider] = useState("");
-  const [selectedCaja, setSelectedCaja] = useState("");
+  const [selectedUser, setSelectedUser] = useState("");
   const [showModalError, setShowModalError] = useState(false);
   const [messageError, setMessageError] = useState("");
 
@@ -53,7 +53,7 @@ function Buy() {
     showInfo: "no",
     isViewSale: false,
     setSelectedProvider,
-    setSelectedCaja,
+    setSelectedUser,
   };
 
   const inputBuscarRef = useRef(null);
@@ -136,7 +136,7 @@ function Buy() {
       const buyData = {
         fecha: formattedDate,
         valor: totalAmount,
-        solicitante: selectedCaja.label,
+        solicitante: selectedUser.label,
         proveedor_id: selectedProvider.value,
         items: shoppingCart.map((item) => ({
           cantidad: item.cantidad,
@@ -311,7 +311,7 @@ function Buy() {
                 className={`px-4 py-1 rounded-2xl ${
                   infoHeader.isViewSale
                     ? "bg-customBlue text-white"
-                    : "bg-sky-600 text-white"
+                    : "bg-gray-600 text-white"
                 }`}
                 onClick={handleAddToCart}
               >
@@ -342,10 +342,10 @@ function Buy() {
                     selectedPaymentMethod === "Efectivo"
                       ? infoHeader.isViewSale
                         ? "bg-customBlue border-customBlue text-white"
-                        : "bg-sky-700 border-sky-700 text-white"
+                        : "bg-gray-700 border-gray-700 text-white"
                       : infoHeader.isViewSale
                       ? "border-bustomBlue"
-                      : "border-sky-700"
+                      : "border-gray-700"
                   }`}
                 >
                   Efectivo
@@ -357,10 +357,10 @@ function Buy() {
                     selectedPaymentMethod === "A cuenta"
                       ? infoHeader.isViewSale
                         ? "bg-customBlue border-customBlue text-white"
-                        : "bg-sky-700 border-sky-700 text-white"
+                        : "bg-gray-700 border-gray-700 text-white"
                       : infoHeader.isViewSale
                       ? "border-bustomBlue"
-                      : "border-sky-700"
+                      : "border-gray-700"
                   }`}
                 >
                   A cuenta
@@ -398,7 +398,7 @@ function Buy() {
                   className={`border-[3px]  text-gray-900 py-2 px-5 m-3 rounded-2xl hover:text-white hover:bg-sky-600 hover:border-sky-600 transition ${
                     infoHeader.isViewSale
                       ? "border-customBlue"
-                      : "border-sky-700"
+                      : "border-gray-700"
                   }`}
                 >
                   Borrar todo
@@ -408,7 +408,7 @@ function Buy() {
                   className={`text-gray-100 py-2 px-5 m-3 rounded-2xl border-[3px] ${
                     infoHeader.isViewSale
                       ? "bg-customBlue  border-customBlue  hover:bg-blue-800 hover:border-blue-800 transition"
-                      : "bg-sky-600  border-sky-600  hover:bg-sky-700 hover:sky-700 transition"
+                      : "bg-gray-600  border-gray-600  hover:bg-gray-700 hover:gray-700 transition"
                   } `}
                 >
                   CONFIRMAR

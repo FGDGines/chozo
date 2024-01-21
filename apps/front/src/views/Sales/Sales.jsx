@@ -38,10 +38,12 @@ function Sales() {
     getArticles();
   }, []);
 
-  const today = new Date();
-  const formattedDate = `${today.getDate()}/${
-    today.getMonth() + 1
-  }/${today.getFullYear()}`;
+  const date = new Date();
+  const formattedDate = `${date.getDate()}/${
+    date.getMonth() + 1
+  }/${date.getFullYear()}`;
+  const today = date.toISOString();
+  // console.log(date);
 
   const infoHeader = {
     title: "Pedido de venta",
@@ -134,11 +136,13 @@ function Sales() {
 
   const handleSale = async () => {
     try {
-      const formattedDate = new Date().toISOString().split("T")[0];
+      const date = new Date();
+      const today1 = date.toISOString();
+      const venceFac = date.setFullYear(date.getFullYear() + 1);
 
       const saleData = {
-        fecha: formattedDate,
-        vence: formattedDate,
+        fecha: today1,
+        vence: venceFac,
         bruto: parseFloat(totalAmount.toFixed(2)),
         impuesto: 123,
         total: parseFloat(totalAmount.toFixed(2)),
@@ -170,8 +174,8 @@ function Sales() {
         if (!saleData.terceroid) {
           setMessageError("¡Falta elegir Cliente!");
         }
-        if (!saleData.solicitante) {
-          setMessageError("¡Falta elegir Usuario!");
+        if (!saleData.cajaid) {
+          setMessageError("¡Falta elegir Cajero!");
         }
         if (!saleData.items || saleData.items.length === 0) {
           setMessageError("¡Falta elegir productos!");

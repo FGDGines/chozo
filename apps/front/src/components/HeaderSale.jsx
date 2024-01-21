@@ -7,6 +7,8 @@ import axios from "axios";
 const Header = ({ formattedDate, infoHeader }) => {
   const [selectedClient, setSelectedClient] = useState(null);
   const [selectedUser, setSelectedUser] = useState(null);
+  const [selectedCajero, setSelectedCajero] = useState(null);
+
   const [providers, setProviders] = useState([]);
   const [clients, setClients] = useState([]);
   const [users, setUsers] = useState([]);
@@ -77,18 +79,35 @@ const Header = ({ formattedDate, infoHeader }) => {
   };
 
   useEffect(() => {
+    const storedUser = localStorage.getItem("selectedUser");
+    const storedCajero = localStorage.getItem("selectedCajero");
+
     if (infoHeader.isViewSale) {
+      if (storedCajero) {
+        setSelectedCajero(JSON.parse(storedCajero));
+      }
       getClient();
       getCaja();
     } else {
+      if (storedUser) {
+        setSelectedUser(JSON.parse(storedUser));
+      }
       getProvider();
       getUser();
     }
   }, [infoHeader.isViewSale]);
 
   const handleUserChange = (selectedOption) => {
-    setSelectedUser(selectedOption);
-    infoHeader.setSelectedCaja(selectedOption);
+    if (infoHeader.setSelectedCaja) {
+      setSelectedCajero(selectedOption);
+      infoHeader.setSelectedCaja(selectedOption);
+      localStorage.setItem("selectedCajero", JSON.stringify(selectedOption));
+    }
+    if (infoHeader.setSelectedUser) {
+      setSelectedUser(selectedOption);
+      infoHeader.setSelectedUser(selectedOption);
+      localStorage.setItem("selectedUser", JSON.stringify(selectedOption));
+    }
   };
 
   const handleClientChange = (selectedOption) => {
@@ -122,7 +141,7 @@ const Header = ({ formattedDate, infoHeader }) => {
           <div className="flex flex-row items-center gap-3">
             {infoHeader.person1}
             <Select
-              value={selectedUser}
+              value={selectedCajero}
               onChange={handleUserChange}
               options={cajas}
               isSearchable
