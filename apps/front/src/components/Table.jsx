@@ -14,7 +14,6 @@ function Table({ data, columns, name, props }) {
   const [sorting, setSorting] = useState([]);
   const [filtering, setFiltering] = useState({
     globalFilter: "",
-    // fechaFilter: "",
   });
 
   const table = useReactTable({
@@ -38,13 +37,6 @@ function Table({ data, columns, name, props }) {
     onSortingChange: setSorting,
     onGlobalFilterChange: (value) =>
       setFiltering({ ...filtering, globalFilter: value }),
-    // onFilterChange: (filters) => {
-    //   const fechaFilter = filters.find((filter) => filter.id === "fecha");
-    //   setFiltering({
-    //     ...filtering,
-    //     fechaFilter: fechaFilter ? fechaFilter.value : "",
-    //   });
-    // },
   });
 
   return (
@@ -61,15 +53,6 @@ function Table({ data, columns, name, props }) {
           className="bg-gray-300 w-[300px] rounded-xl mb-1 pl-3 "
           placeholder="Buscar"
         />
-        {/* <input
-        type="date"
-        value={filtering.fechaFilter}
-        onChange={(e) =>
-          setFiltering({ ...filtering, fechaFilter: e.target.value })
-        }
-        className="bg-gray-300 w-[300px] rounded-xl mb-1 pl-3"
-        placeholder="Fecha"
-      /> */}
 
         <div className="flex-grow overflow-y-auto">
           <table className="border-collapse border border-gray-300 w-full ">

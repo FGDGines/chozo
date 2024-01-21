@@ -125,6 +125,11 @@ function SideBar() {
       { icon: <LuPackage />, text: "Stock", to: "/stock" },
       { icon: <LuPackagePlus />, text: "Nuevo", to: "/createProduct" },
     ],
+    accounting: [
+      { icon: <MdHome />, text: "Inicio", to: "/home" },
+      { icon: <LuPackage />, text: "opcion 1", to: "/stock" },
+      { icon: <LuPackagePlus />, text: "opcion 2", to: "/createProduct" },
+    ],
   };
 
   const handleSetActiveView = (view) => {

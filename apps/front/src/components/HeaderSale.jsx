@@ -93,7 +93,12 @@ const Header = ({ formattedDate, infoHeader }) => {
 
   const handleClientChange = (selectedOption) => {
     setSelectedClient(selectedOption);
-    infoHeader.setSelectedProvider(selectedOption);
+    if (infoHeader.setselectedClient1) {
+      infoHeader.setselectedClient1(selectedOption);
+    }
+    if (infoHeader.setSelectedProvider) {
+      infoHeader.setSelectedProvider(selectedOption);
+    }
   };
 
   return (

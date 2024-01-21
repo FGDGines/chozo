@@ -3,6 +3,7 @@ import Autosuggest from "react-autosuggest";
 import ShoppingCartTable from "../../components/ShoppingCartTable";
 import HeaderSale from "../../components/HeaderSale";
 import axios from "axios";
+import ModalError from "../../components/ModalError";
 // import { useDispatch, useSelector } from "react-redux";
 
 function Sales() {
@@ -20,6 +21,8 @@ function Sales() {
   const [descuento, setDescuento] = useState(0);
   const [showModalError, setShowModalError] = useState(false);
   const [messageError, setMessageError] = useState("");
+  const [selectedCaja, setSelectedCaja] = useState("");
+  const [selectedClient1, setselectedClient1] = useState("");
 
   const getArticles = async () => {
     try {
@@ -45,7 +48,10 @@ function Sales() {
     person1: "Cajero",
     person2: "Cliente",
     isViewSale: true,
+    setSelectedCaja,
+    setselectedClient1,
   };
+  // console.log("cliente", selectedClient1);
   const infoModalError = {
     showModalError,
     setShowModalError,
@@ -101,13 +107,14 @@ function Sales() {
   };
 
   const handleAddToCart = () => {
-    // console.log("SELECTED PRODUCT", selectedProduct);
+    console.log("SELECTED PRODUCT", selectedProduct);
     if (selectedProduct) {
       const newItem = {
         id: selectedProduct.id,
         nombre: selectedProduct.art_detalles,
         marca: selectedProduct.marca.mar_detalles,
         precio: selectedProduct.art_precioventa,
+        preciocosto: selectedProduct.art_ultimocosto,
         impuesto: selectedProduct.art_impuestoventa,
         cantidad: quantity,
         total: selectedProduct.art_precioventa * quantity,
@@ -117,7 +124,6 @@ function Sales() {
       setTotalQuantity(totalQuantity + parseInt(quantity, 10));
 
       setTotalAmount(totalAmount + newItem.total);
-
       setValue("");
       setSelectedProduct(null);
       setQuantity(1);
@@ -133,24 +139,24 @@ function Sales() {
       const saleData = {
         fecha: formattedDate,
         vence: formattedDate,
-        bruto: selectedCaja.label,
-        impuesto,
-        total,
+        bruto: parseFloat(totalAmount.toFixed(2)),
+        impuesto: 123,
+        total: parseFloat(totalAmount.toFixed(2)),
         metodopago: 1,
-        terceroid: "",
-        cajaid: "",
+        terceroid: selectedClient1.value,
+        cajaid: selectedCaja.value,
         items: shoppingCart.map((item) => ({
-          articuloid: item.id,
+          articuloId: item.id,
           valoruni: item.precio,
           impuesto: item.impuesto,
-          preciocosto: "",
-          cantidad: item.cantidad,
+          preciocosto: item.preciocosto,
+          cantidad: parseFloat(item.cantidad),
         })),
-        fpagos: [{ ctabancoid, valor, idformapago }],
+        fpagos: [{ ctabancoid: 0, valor: 1, idformapago: 1 }],
       };
-
+      console.log("DATA Q uiero vender", saleData);
       if (
-        !selectedProvider ||
+        !selectedClient1 ||
         !saleData.fecha ||
         !saleData.metodopago ||
         !saleData.terceroid ||
@@ -158,34 +164,34 @@ function Sales() {
         !saleData.fpagos ||
         saleData.items.length === 0
       ) {
-        if (!selectedProvider) {
+        if (!selectedClient1) {
           setMessageError("¡Falta elegir Cliente!");
         }
-        if (!buyData.terceroid) {
+        if (!saleData.terceroid) {
           setMessageError("¡Falta elegir Cliente!");
         }
-        if (!buyData.solicitante) {
+        if (!saleData.solicitante) {
           setMessageError("¡Falta elegir Usuario!");
         }
-        if (!buyData.items || buyData.items.length === 0) {
+        if (!saleData.items || saleData.items.length === 0) {
           setMessageError("¡Falta elegir productos!");
         }
 
         setShowModalError(true);
-        infoModalError.mensaje = errorMessage;
+        infoModalError.mensaje = messageError;
         return;
       }
 
       const response = await axios.post(
-        "http://localhost:8081/api/pedidos",
-        buyData
+        "http://localhost:8081/api/carteraxcobrar",
+        saleData
       );
 
       setShoppingCart([]);
       setTotalQuantity(0);
       setTotalAmount(0);
 
-      console.log("compra completada con éxito", response.data);
+      console.log("venta completada con éxito", response.data);
     } catch (error) {
       console.error("error al hacer la compra", error);
     }
@@ -402,7 +408,10 @@ function Sales() {
                 >
                   Borrar todo
                 </button>
-                <button className="bg-customBlue border-[3px] border-customBlue text-gray-100 py-2 px-5 m-3 rounded-2xl hover:bg-blue-800 hover:border-blue-800 transition">
+                <button
+                  onClick={() => handleSale()}
+                  className="bg-customBlue border-[3px] border-customBlue text-gray-100 py-2 px-5 m-3 rounded-2xl hover:bg-blue-800 hover:border-blue-800 transition"
+                >
                   CONFIRMAR
                 </button>
               </div>

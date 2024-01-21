@@ -168,7 +168,7 @@ function Buy() {
         }
 
         setShowModalError(true);
-        infoModalError.mensaje = errorMessage;
+        infoModalError.mensaje = messageError;
         return;
       }
 

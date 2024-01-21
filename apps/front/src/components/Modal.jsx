@@ -3,11 +3,13 @@ import { TiDelete } from "react-icons/ti";
 import { useLocation } from "react-router-dom";
 import ModalProductDetails from "./ModalProductDetails";
 import ModalAlbaran from "./ModalAlbaran";
+import ModalProviderDetails from "./ModalProviderDetails";
 
 function Modal({ props }) {
   const location = useLocation();
   const isStockRoute = location.pathname === "/stock";
   const isSellRoute = location.pathname === "/sell";
+  const isProvRoute = location.pathname === "/providers";
 
   return (
     <div className="font-SFRegular h-screen w-screen  bg-transparent absolute z-10 left-0 top-0 flex justify-center items-center">
@@ -17,11 +19,12 @@ function Modal({ props }) {
             onClick={() => props.setShowModal(false)}
             className="flex justify-end right-0 w-full "
           >
-            <TiDelete className="text-3xl bg-red-500 -mr-4 -mt-4 rounded-2xl text-white hover:scale-110 transition" />
+            <TiDelete className="text-3xl bg-red-500 -mr-4 -mt-4 z-10 ring-zinc-100 rounded-2xl text-white hover:scale-110 transition" />
           </button>
         </div>
         {isStockRoute ? <ModalProductDetails props={props} /> : ""}
         {isSellRoute ? <ModalAlbaran props={props} /> : ""}
+        {isProvRoute ? <ModalProviderDetails props={props} /> : ""}
       </div>
     </div>
   );
