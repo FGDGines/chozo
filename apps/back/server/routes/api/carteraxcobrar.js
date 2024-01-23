@@ -9,8 +9,9 @@ const server = express();
 
 //consulta todos los registros de cartera
 server.get('/', async(req, res) => {
+    const query = req.query;
     try {
-        const result = await getCartera();
+        const result = await getCartera(query);
         res.status(200).json(result);
     } catch (error) {
         console.log(error.message);

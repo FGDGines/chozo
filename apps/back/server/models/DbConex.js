@@ -158,6 +158,7 @@ kardex.belongsTo(articulos, {foreignKey: 'articulo_id', targetKey: 'id'});
 existencias.belongsTo(articulos, {foreignKey: 'articulo_id', targetKey: 'id'});
 fuentes.hasMany(consecutivos, {foreignKey: 'fuente_id', sourceKey: 'id'});
 consecutivos.belongsTo(fuentes, {foreignKey: 'fuente_id', targetKey: 'id'});
+articulos.hasOne(existencias, {foreignKey: 'articulo_id', sourceKey: 'id'});
 
 carteraxpagar.hasMany(item_carteraxpagar, {foreignKey: 'carteraxp_id', sourceKey: 'id'});
 item_carteraxpagar.belongsTo(carteraxpagar, {foreignKey: 'carteraxp_id', targetKey: 'id'});

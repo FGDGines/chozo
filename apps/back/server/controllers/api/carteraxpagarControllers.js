@@ -3,12 +3,16 @@ const {carteraxpagar, item_carteraxpagar, itempedidos,
        contable, itemcontable, consecutivos, kardex} = require("../../models/DbConex");
 
 //devuelve todos los registros de cartera x pagar
-const getCartera = async() => {
+const getCartera = async(query) => {
    const result = await carteraxpagar.findAll({
       include: [
         {model: terceros, attributes: { exclude: ['createdAt','updatedAt']}},
       ]
    });
+   if(query.saldo ==  1) {
+      const saldoxpag = result.filter(ele => ele.cxp_total>ele.cxp_abonos && ele.cxp_anulada !== 1);
+      return saldoxpag;
+   }
    return result;
 };
 

@@ -50,7 +50,7 @@ module.exports = (sequelize) => {
         },
         cxc_anulada: {
             type: DataTypes.TINYINT,
-            defaultValue: 1,
+            defaultValue: 0,
         },
 
     },{tableName: 'carteraxcobrar'},

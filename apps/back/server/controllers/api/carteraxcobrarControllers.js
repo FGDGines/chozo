@@ -4,13 +4,17 @@ const {carteraxcobrar, items_carteraxcobrar, unidades, consecutivos,
        kardex, formasdepago, cajas, terceros, items_formasdepago} = require("../../models/DbConex");
 
 //consulta todas las cuentas x cobrar generadas
-const getCartera = async() => {
+const getCartera = async(query) => {
    const result = await carteraxcobrar.findAll({
       include: [
          {model: terceros, attributes: { exclude: ['createdAt','updatedAt']}},
          {model: cajas, attributes: { exclude: ['createdAt','updatedAt']}}
       ]
    });
+   if(query.saldo ==  1) {
+      const saldoxcob = result.filter(ele => ele.cxc_valor>ele.cxc_abonos && ele.cxc_anulada !== 1);
+      return saldoxcob;
+   }
    return result;
 };
 
@@ -91,12 +95,17 @@ const addCartera = async(datos) => {
    console.log("Contabilidad Grabada");
 
    //totalizamos los abonos segun las formas de pago enviadas
-   let abonos = 0;
+   var abonos = 0;
    if(metodopago == 1) {
       abonos = total;
    } else {
      fpagos.forEach(ele => {
-         if(ele.idFormaPago !== fpag_credito) abonos+= ele.valor;
+         if(ele.idformapago == fpag_credito){
+            //no suma en los abonos
+         } else {
+            console.log(ele.idformapago, fpag_credito);
+            abonos+= ele.valor;
+         }   
      }); 
    };
 

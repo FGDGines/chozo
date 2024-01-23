@@ -37,6 +37,7 @@ class Server {
             fuentes:           '/api/fuentes',
             consecutivos:      '/api/consecutivos',
             parametros:        '/api/parametros',
+            existencias:       '/api/existencias',
         }
         this.upDB()
         this.routes()
@@ -106,6 +107,7 @@ class Server {
         this.app.use(this.paths.fuentes, require('../routes/api/fuentes.js'));
         this.app.use(this.paths.consecutivos, require('../routes/api/consecutivos.js'));
         this.app.use(this.paths.parametros, require('../routes/api/parametros.js'));
+        this.app.use(this.paths.existencias, require('../routes/api/existencias.js'));
     };
 
     run() {

@@ -14,11 +14,14 @@ const getExistencias = async() => {
 
 //devuelve las existencias de un solo articulo por su ID
 const getExistenciaById = async(id) => {
-   const result = await existencias.findOne({ where: {articulo_id: id},
+   const result = await articulos.findByPk(id, {
       include: [
-        {model: unidades, attributes: {exclude: ['createdAt','updatedAt']}}
+        {model: unidades, attributes: {exclude: ['createdAt','updatedAt']}},
+        {model: existencias, attributes: {exclude: ['createdAt','updatedAt']}},
+        {model: grupos, attributes: {exclude: ['createdAt','updatedAt']}},
       ]
    });
+ 
    return result;
 };
 
@@ -32,7 +35,7 @@ const updateExistencia = async(datos, id) => {
 
 //actualiza las existencias de todos los articulos enviados
 const fullUpdateExistencias = async(datos) => {
-   const {items, fecha} = datos; 
+   const {items, fecha, usuario} = datos; 
    items.forEach(async(ele) => {
       //buscamos si existe registro
       const existe = await existencias.findOne({where: {articulo_id: ele.articulo_id}});
