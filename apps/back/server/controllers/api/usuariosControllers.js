@@ -35,7 +35,7 @@ const loginUser = async(datos) => {
    const autenticate  = await  bcryptjs.compareSync(passw , result.usu_password)
    
 
-   if(result.usu_password !== passw && !autenticate) throw Error("Clave Invalida");
+   if(!autenticate) throw Error("Clave Invalida");
 
    return {result , token: await generarJWT({id: result.id})};
 };
