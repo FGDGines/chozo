@@ -1,5 +1,6 @@
 const {usuarios, terceros} = require("../../models/DbConex");
-
+const bcryptjs =  require('bcryptjs')
+const { generarJWT } = require("../../middlewares/generarJWT")
 //devuelve todos los usuarios del sistema
 const getUsuarios = async() => {
    const result = await usuarios.findAll({
@@ -29,8 +30,13 @@ const loginUser = async(datos) => {
    const result = await usuarios.findOne({where: {usu_nombre: user}});
    if(!result) throw Error("Usuario Inexistente");
    if(result.usu_activo == 0) throw Error("Usuario Inactivo");
-   if(result.usu_password !== passw) throw Error("Clave Invalida");
-   return result;
+
+   const autenticate  = await  bcryptjs.compareSync(passw , result.usu_password)
+   
+
+   if(result.usu_password !== passw && !autenticate) throw Error("Clave Invalida");
+
+   return {result , token: await generarJWT({id: result.id})};
 };
 
 //crea nuevo usuario
@@ -44,12 +50,16 @@ const addUsuario = async(datos) => {
    const usuario = await usuarios.findOne({where: {tercero_id: idter}});
    if(usuario) throw Error("Tercero ya existente como usuario");
    //creamos el usuario
+
    const newUsu = {
       usu_nombre,
-      usu_password,
+      usu_password: bcryptjs.hashSync( usu_password , bcryptjs.genSaltSync() ),
       usu_admin,
       tercero_id: idter,
    };
+
+
+   
    const result = await usuarios.create(newUsu);
    return result;
 };
