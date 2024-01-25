@@ -36,6 +36,15 @@ module.exports = (sequelize) => {
             type: DataTypes.STRING,
             allowNull: true,
         },
+        proveedor_id: {
+            type: DataTypes.BIGINT(20),
+            defaultValue: 0,
+            allowNull: false,
+            references: {
+                models: 'proveedores',
+                key: 'id'
+            },
+        },
 
     },{tableName: 'pedidos'},
     { timestamps: false });

@@ -48,6 +48,33 @@ module.exports = (sequelize) => {
             type: DataTypes.TINYINT,
             defaultValue: 1,
         },
+        grupo_id: {
+            type: DataTypes.BIGINT(20),
+            defaultValue: 0,
+            allowNull: false,
+            references: {
+                models: 'grupos',
+                key: 'id'
+            },
+        },
+        marca_id: {
+            type: DataTypes.BIGINT(20),
+            defaultValue: 0,
+            allowNull: false,
+            references: {
+                models: 'marcas',
+                key: 'id'
+            },
+        },
+        unidad_id: {
+            type: DataTypes.BIGINT(20),
+            defaultValue: 0,
+            allowNull: false,
+            references: {
+                models: 'unidades',
+                key: 'id'
+            },
+        },
 
     },{tableName: 'articulos'},
     { timestamps: true });

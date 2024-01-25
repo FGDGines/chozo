@@ -16,6 +16,15 @@ module.exports = (sequelize) => {
             type: DataTypes.TINYINT,
             defaultValue: 1,
         },
+        sublinea_id: {
+            type: DataTypes.BIGINT(20),
+            defaultValue: 0,
+            allowNull: false,
+            references: {
+                models: 'sublineas',
+                key: 'id'
+            },
+        },
 
     },{tableName: 'grupos'},
     { timestamps: true });

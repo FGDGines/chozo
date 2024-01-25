@@ -28,6 +28,33 @@ module.exports = (sequelize) => {
             type: DataTypes.TINYINT,
             defaultValue: 0,
         },
+        fuente_id: {
+            type: DataTypes.BIGINT(20),
+            defaultValue: 0,
+            allowNull: false,
+            references: {
+                models: 'fuentes',
+                key: 'id'
+            },
+        },
+        tercero_id: {
+            type: DataTypes.BIGINT(20),
+            defaultValue: 0,
+            allowNull: false,
+            references: {
+                models: 'terceros',
+                key: 'id'
+            },
+        },
+        usuario_id: {
+            type: DataTypes.BIGINT(20),
+            defaultValue: 0,
+            allowNull: false,
+            references: {
+                models: 'usuarios',
+                key: 'id'
+            },
+        },
 
     },{tableName: 'contable'},
     { timestamps: false });

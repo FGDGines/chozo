@@ -25,6 +25,33 @@ module.exports = (sequelize) => {
             type: DataTypes.TINYINT,
             defaultValue: 0,
         },
+        formapago_id: {
+            type: DataTypes.INTEGER,
+            defaultValue: 0,
+            allowNull: false,
+            references: {
+                models: 'formasdepago',
+                key: 'id'
+            },
+        },
+        contable_id: {
+            type: DataTypes.BIGINT(20),
+            defaultValue: 0,
+            allowNull: false,
+            references: {
+                models: 'contable',
+                key: 'id'
+            },
+        },
+        usuario_id: {
+            type: DataTypes.BIGINT(20),
+            defaultValue: 0,
+            allowNull: false,
+            references: {
+                models: 'usuarios',
+                key: 'id'
+            },
+        },
 
     },{tableName: 'items_formasdepago'},
     { timestamps: true });

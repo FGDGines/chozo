@@ -16,6 +16,24 @@ module.exports = (sequelize) => {
             type: DataTypes.TINYINT,
             defaultValue: 1,
         },
+        usuario_id: {
+            type: DataTypes.BIGINT(20),
+            defaultValue: 0,
+            allowNull: false,
+            references: {
+                models: 'usuarios',
+                key: 'id'
+            },
+        },
+        puc_id: {
+            type: DataTypes.BIGINT(20),
+            defaultValue: 0,
+            allowNull: false,
+            references: {
+                models: 'puc',
+                key: 'id'
+            },
+        },
 
     },{tableName: 'cajas'},
     { timestamps: true });

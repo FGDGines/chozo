@@ -24,6 +24,15 @@ module.exports = (sequelize) => {
             type: DataTypes.TINYINT,
             defaultValue: 1,
         },
+        puc_id: {
+            type: DataTypes.BIGINT(20),
+            defaultValue: 0,
+            allowNull: false,
+            references: {
+                models: 'puc',
+                key: 'id'
+            },
+        },
 
     },{tableName: 'cuentas_bancarias'},
     { timestamps: true });

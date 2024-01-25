@@ -36,6 +36,15 @@ module.exports = (sequelize) => {
             type: DataTypes.TINYINT,
             defaultValue: 0,
         },
+        cartera_id: {
+            type: DataTypes.BIGINT(20),
+            defaultValue: 0,
+            allowNull: false,
+            references: {
+                models: 'carteraxcobrar',
+                key: 'id'
+            },
+        },
 
     },{tableName: 'items_carteraxcobrar'},
     { timestamps: true });

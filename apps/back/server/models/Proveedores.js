@@ -16,6 +16,24 @@ module.exports = (sequelize) => {
             type: DataTypes.TINYINT,
             defaultValue: 1,
         },
+        tercero_id: {
+            type: DataTypes.BIGINT(20),
+            defaultValue: 0,
+            allowNull: false,
+            references: {
+                models: 'terceros',
+                key: 'id'
+            },
+        },
+        agencia_id: {
+            type: DataTypes.BIGINT(20),
+            defaultValue: 0,
+            allowNull: false,
+            references: {
+                models: 'agencias_transporte',
+                key: 'id'
+            },
+        },
 
     },{tableName: 'proveedores'},
     { timestamps: false });

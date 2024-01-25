@@ -31,6 +31,24 @@ module.exports = (sequelize) => {
             type: DataTypes.DECIMAL,
             defaultValue: 0,
         },
+        pedido_id: {
+            type: DataTypes.BIGINT(20),
+            defaultValue: 0,
+            allowNull: false,
+            references: {
+                models: 'pedidos',
+                key: 'id'
+            },
+        },
+        articulo_id: {
+            type: DataTypes.BIGINT(20),
+            defaultValue: 0,
+            allowNull: false,
+            references: {
+                models: 'articulos',
+                key: 'id'
+            },
+        },
     },{tableName: 'itempedidos'},
     { timestamps: true });
 

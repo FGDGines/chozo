@@ -32,6 +32,15 @@ module.exports = (sequelize) => {
             defaultValue: 0,
             allowNull: false,
         },
+        carteraxp_id: {
+            type: DataTypes.BIGINT(20),
+            defaultValue: 0,
+            allowNull: false,
+            references: {
+                models: 'carteraxpagar',
+                key: 'id'
+            },
+        },
 
     },{tableName: 'item_carteraxpagar'},
     { timestamps: false });

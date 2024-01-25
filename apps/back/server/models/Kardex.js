@@ -35,6 +35,24 @@ module.exports = (sequelize) => {
             type: DataTypes.INTEGER,
             defaultValue: 0,
         },
+        contable_id: {
+            type: DataTypes.BIGINT(20),
+            defaultValue: 0,
+            allowNull: false,
+            references: {
+                models: 'contable',
+                key: 'id'
+            },
+        },
+        articulo_id: {
+            type: DataTypes.BIGINT(20),
+            defaultValue: 0,
+            allowNull: false,
+            references: {
+                models: 'articulos',
+                key: 'id'
+            },
+        },
  
     },{tableName: 'kardex'},
     { timestamps: true });

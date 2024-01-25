@@ -219,7 +219,7 @@ module.exports = {
    pedidos,                    consecutivos,
    parametros,                 item_carteraxpagar,
    cajas,                      carteraxcobrar,
-   cuentas_bancarias,          formasdepago,
+   cuentas_bancarias,          formasdepago, 
    items_carteraxcobrar,       items_formasdepago,
    items_tesoreria,            tesoreria,
    usuarios,

@@ -13,6 +13,15 @@ module.exports = (sequelize) => {
             defaultValue: 0,
             allowNull: false,
         },
+        articulo_id: {
+            type: DataTypes.BIGINT(20),
+            defaultValue: 0,
+            allowNull: false,
+            references: {
+                models: 'articulos',
+                key: 'id'
+            },
+        },
 
     },{tableName: 'existencias'},
     { timestamps: false });

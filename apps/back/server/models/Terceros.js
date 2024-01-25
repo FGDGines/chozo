@@ -39,7 +39,34 @@ module.exports = (sequelize) => {
         ter_celular: {
             type: DataTypes.STRING,
             allowNull: true,
-        },     
+        },  
+        ciudad_id: {
+            type: DataTypes.BIGINT(20),
+            defaultValue: 0,
+            allowNull: false,
+            references: {
+                models: 'ciudades',
+                key: 'id'
+            },
+        },  
+        tipodocumento_id: {
+            type: DataTypes.BIGINT(20),
+            defaultValue: 0,
+            allowNull: false,
+            references: {
+                models: 'tipodocumentos',
+                key: 'id'
+            },
+        }, 
+        tipotercero_id: {
+            type: DataTypes.BIGINT(20),
+            defaultValue: 0,
+            allowNull: false,
+            references: {
+                models: 'tipoterceros',
+                key: 'id'
+            },
+        },
  
     },{tableName: 'terceros'},
     { timestamps: true });

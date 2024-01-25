@@ -16,6 +16,15 @@ module.exports = (sequelize) => {
             type: DataTypes.STRING,
             allowNull: true,
         },
+        pais_id: {
+            type: DataTypes.BIGINT(20),
+            defaultValue: 0,
+            allowNull: false,
+            references: {
+                models: 'paises',
+                key: 'id'
+            },
+        },
 
     },{tableName: 'departamentos'},
     { timestamps: false });

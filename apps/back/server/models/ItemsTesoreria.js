@@ -32,6 +32,15 @@ module.exports = (sequelize) => {
             type: DataTypes.TINYINT,
             defaultValue: 0,
         },
+        tesoreria_id: {
+            type: DataTypes.BIGINT(20),
+            defaultValue: 0,
+            allowNull: false,
+            references: {
+                models: 'tesoreria',
+                key: 'id'
+            },
+        },
 
     },{tableName: 'items_tesoreria'},
     { timestamps: false });
