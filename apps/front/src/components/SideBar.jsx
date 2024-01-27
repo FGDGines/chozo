@@ -68,8 +68,8 @@ function SideBar() {
     ],
     buy: [
       { icon: <MdHome />, text: "Inicio", to: "/home" },
-      { icon: <MdAddShoppingCart />, text: "Comprar", to: "/buy" },
-      { icon: <FcStatistics />, text: "Compras", to: "/shopping" },
+      { icon: <MdAddShoppingCart />, text: "Pedido", to: "/buy" },
+      { icon: <FcStatistics />, text: "Pedidos", to: "/shopping" },
       {
         icon: <MdOutlinePendingActions />,
         text: "Pendientes",
@@ -78,8 +78,8 @@ function SideBar() {
     ],
     shopping: [
       { icon: <MdHome />, text: "Inicio", to: "/home" },
-      { icon: <MdAddShoppingCart />, text: "Comprar", to: "/buy" },
-      { icon: <FcStatistics />, text: "Compras", to: "/shopping" },
+      { icon: <MdAddShoppingCart />, text: "Pedido", to: "/buy" },
+      { icon: <FcStatistics />, text: "Pedidos", to: "/shopping" },
       {
         icon: <MdOutlinePendingActions />,
         text: "Pendientes",
@@ -88,8 +88,8 @@ function SideBar() {
     ],
     pendingReceipt: [
       { icon: <MdHome />, text: "Inicio", to: "/home" },
-      { icon: <MdAddShoppingCart />, text: "Comprar", to: "/buy" },
-      { icon: <FcStatistics />, text: "Compras", to: "/shopping" },
+      { icon: <MdAddShoppingCart />, text: "Pedido", to: "/buy" },
+      { icon: <FcStatistics />, text: "Pedidos", to: "/shopping" },
       {
         icon: <MdOutlinePendingActions />,
         text: "Pendientes",
@@ -155,9 +155,6 @@ function SideBar() {
             >
               {item.icon}
             </div>
-            {/* 
-            {console.log("item", item)}
-            {console.log("activeView", activeView)} */}
 
             <span
               className={`text-white mx-1  ${

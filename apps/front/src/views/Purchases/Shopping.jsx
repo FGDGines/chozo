@@ -9,10 +9,11 @@ function Shopping() {
   const props = {
     showModal,
     setShowModal,
-    setSelectedOrder,
+    selectedOrder,
     setPurchaseOrders,
     purchaseOrders,
   };
+  console.log(props);
 
   const getPurchaseOrders = async () => {
     try {
@@ -45,27 +46,21 @@ function Shopping() {
       cell: (row) => (
         <button
           className="px-2 py-1 bg-customBlue text-white rounded-md hover:scale-105 transition"
-          onClick={() => handleReceiveOrder(row)}
+          onClick={() => buttonAction(row)}
         >
-          Recibido
+          Recibir
         </button>
       ),
     },
   ];
 
-  const handleReceiveOrder = async (row) => {
+  function buttonAction(row) {
     const orderId = row.row.original.id;
-
-    try {
-      await axios.put(`http://localhost:8081/api/pedidos/${orderId}`, {
-        ped_estado: "recibido",
-      });
-
-      getPurchaseOrders();
-    } catch (error) {
-      console.error("Error al recibir el pedido:", error);
-    }
-  };
+    console.log("ID del artículo:", orderId);
+    const selected = purchaseOrders.find((order) => order.id === orderId);
+    setSelectedOrder(selected);
+    setShowModal(true);
+  }
 
   return (
     <>

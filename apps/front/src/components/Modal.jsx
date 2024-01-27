@@ -4,12 +4,14 @@ import { useLocation } from "react-router-dom";
 import ModalProductDetails from "./ModalProductDetails";
 import ModalAlbaran from "./ModalAlbaran";
 import ModalProviderDetails from "./ModalProviderDetails";
+import ModalShopping from "./ModalShopping";
 
 function Modal({ props }) {
   const location = useLocation();
   const isStockRoute = location.pathname === "/stock";
   const isSellRoute = location.pathname === "/sell";
   const isProvRoute = location.pathname === "/providers";
+  const isShoppingRoute = location.pathname === "/shopping";
 
   return (
     <div className="font-SFRegular h-screen w-screen  bg-transparent absolute z-10 left-0 top-0 flex justify-center items-center">
@@ -25,6 +27,7 @@ function Modal({ props }) {
         {isStockRoute ? <ModalProductDetails props={props} /> : ""}
         {isSellRoute ? <ModalAlbaran props={props} /> : ""}
         {isProvRoute ? <ModalProviderDetails props={props} /> : ""}
+        {isShoppingRoute ? <ModalShopping props={props} /> : ""}
       </div>
     </div>
   );
