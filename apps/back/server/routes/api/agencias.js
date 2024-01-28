@@ -1,12 +1,13 @@
 const express = require("express");
-const { check } = require('express-validator')
-const { validarCampos }  = require('../../middlewares/validar-campos')
+const { check } = require('express-validator');
+const { validarCampos }  = require('../../middlewares/validar-campos');
+const { security_post } = require("../../middlewares/security");
 const {getAgencias, getAgenciaById,
        newAgencia} = require("../../controllers/api/agenciasControllers");
 const server = express();
 
 //devolvemos todas las agencias
-server.get('/', async(req, res) => {
+server.get('/',  [security_post] , async(req, res) => {
     try {
         const result = await getAgencias();
         res.status(200).json(result);
@@ -17,7 +18,7 @@ server.get('/', async(req, res) => {
 });
 
 //devolvemos las agencias por el id
-server.get('/:id', async(req, res) => {
+server.get('/:id',  [security_post] , async(req, res) => {
     const {id} = req.params;
     try {
         const result = await getAgenciaById(id);
@@ -29,7 +30,7 @@ server.get('/:id', async(req, res) => {
 });
 
 //agregamos una nueva agencia
-server.post('/', 
+server.post('/',  [security_post] , 
    [ check('ter_documento', 'El Numero de Documento es obligatorio').not().isEmpty() ,validarCampos] ,
    [ check('ter_tercero', 'La razon social es obligatoria').not().isEmpty() ,validarCampos] ,
    [ check('ciudad_id', 'La ciudad es obligatoria').not().isEmpty() ,validarCampos] ,

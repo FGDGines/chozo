@@ -1,6 +1,7 @@
 const {usuarios, terceros} = require("../../models/DbConex");
 const bcryptjs =  require('bcryptjs')
 const { generarJWT } = require("../../middlewares/generarJWT")
+
 //devuelve todos los usuarios del sistema
 const getUsuarios = async() => {
    const result = await usuarios.findAll({

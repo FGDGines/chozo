@@ -1,13 +1,14 @@
 const express = require("express");
-const { check } = require('express-validator')
-const { validarCampos }  = require('../../middlewares/validar-campos')
+const { check } = require('express-validator');
+const { validarCampos }  = require('../../middlewares/validar-campos');
+const { security_post } = require("../../middlewares/security");
 const {getArticulos, getArticuloById,
        getArticulosByIdGrupo, addArticulo,
        updateArticulo, bulkArticulos} = require("../../controllers/api/articulosControllers");
 const server = express();
 
 //devuelve todas los articulos
-server.get('/', async(req, res) => {
+server.get('/',  [security_post] , async(req, res) => {
    try {
       const result = await getArticulos();
       res.status(200).json(result);
@@ -19,7 +20,7 @@ server.get('/', async(req, res) => {
 
 
  //devuelve  articulo por su id
-server.get('/:id', async(req, res) => {
+server.get('/:id',  [security_post] , async(req, res) => {
     const {id} = req.params;
     try {
        const result = await getArticuloById(id);
@@ -31,7 +32,7 @@ server.get('/:id', async(req, res) => {
  });
 
  //devuelve todos los articulo de un grupo por su id
-server.get('/grupo/:id', async(req, res) => {
+server.get('/grupo/:id',  [security_post] , async(req, res) => {
     const {id} = req.params;
     try {
        const result = await getArticulosByIdGrupo(id);
@@ -43,7 +44,7 @@ server.get('/grupo/:id', async(req, res) => {
  });
 
  //crea un nuevo articulo
- server.post('/', 
+ server.post('/',  [security_post] , 
     [ check('art_detalles', 'El detalle del articulo es obligatorio').not().isEmpty() ,validarCampos] ,
     [ check('art_referencia', 'La referencia del articulo es obligatoria').not().isEmpty() ,validarCampos] ,
     [ check('marca_id', 'La marca del articulo es obligatoria').not().isEmpty() ,validarCampos] ,
@@ -61,7 +62,7 @@ server.get('/grupo/:id', async(req, res) => {
  });
 
  //actualiza un articulo
- server.put('/:id', 
+ server.put('/:id',  [security_post] , 
     [ check('art_detalles', 'El detalle del articulo es obligatorio').not().isEmpty() ,validarCampos] ,
     [ check('art_referencia', 'La referencia del articulo es obligatoria').not().isEmpty() ,validarCampos] ,
     [ check('marca_id', 'La marca del articulo es obligatoria').not().isEmpty() ,validarCampos] ,
@@ -81,8 +82,8 @@ server.get('/grupo/:id', async(req, res) => {
  });
 
  //creacion masiva de articulos
- server.post('/bulk', async(req, res) => {
-   const datos = req.body;
+ server.post('/bulk', [security_post] ,  async(req, res) => {
+   const {datos} = req.body;
    try {
       const result = await bulkArticulos(datos);
       res.status(200).json(result);

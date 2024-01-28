@@ -1,13 +1,14 @@
 const express = require("express");
-const { check } = require('express-validator')
-const { validarCampos }  = require('../../middlewares/validar-campos')
+const { check } = require('express-validator');
+const { validarCampos }  = require('../../middlewares/validar-campos');
+const { security_post } = require("../../middlewares/security");
 const {getTesoreria, getTesoreriaByCaja,
        getTesoreriaByFuente, getTesoreriaById,
        getTesoreriaByTercero, addTesoreria} = require("../../controllers/api/tesoreriaControllers");
 const server = express();
 
 //devuelve todos los registros de tesoreria
-server.get('/', async(req, res) => {
+server.get('/',  [security_post] , async(req, res) => {
     try {
         const result = await getTesoreria();
         res.status(200).json(result);    
@@ -18,7 +19,7 @@ server.get('/', async(req, res) => {
  });
 
 //devuelveun registro de tesoreria de una id
-server.get('/:id', async(req, res) => {
+server.get('/:id',  [security_post] , async(req, res) => {
     const {id} = req.params;
     try {
         const result = await getTesoreriaById(id);
@@ -30,7 +31,7 @@ server.get('/:id', async(req, res) => {
  });
 
  //devuelve todos los registros de tesoreria de una caja
-server.get('/caja/:id', async(req, res) => {
+server.get('/caja/:id',  [security_post] , async(req, res) => {
     const {id} = req.params;
     try {
         const result = await getTesoreriaByCaja(id);
@@ -42,7 +43,7 @@ server.get('/caja/:id', async(req, res) => {
  });
 
  //devuelve todos los registro de tesoreria de una fuente
-server.get('/fuente/:id', async(req, res) => {
+server.get('/fuente/:id',  [security_post] , async(req, res) => {
     const {id} = req.params;
     try {
         const result = await getTesoreriaByFuente(id);
@@ -54,7 +55,7 @@ server.get('/fuente/:id', async(req, res) => {
  });
 
  //devuelve todos los registro de tesoreria de un tercero
-server.get('/tercero/:id', async(req, res) => {
+server.get('/tercero/:id',  [security_post] , async(req, res) => {
     const {id} = req.params;
     try {
         const result = await getTesoreriaByTercero(id);
@@ -66,7 +67,7 @@ server.get('/tercero/:id', async(req, res) => {
 });
 
 //agrega un nuevo registro de tesoreria
-server.post('/', 
+server.post('/',  [security_post] , 
    [ check('valor', 'El valor es obligatorio').not().isEmpty() ,validarCampos] ,
    [ check('fecha', 'La fecha es obligatoria').not().isEmpty() ,validarCampos] ,
    [ check('ctabancoid', 'La cuenta bancaria es obligatorio').not().isEmpty() ,validarCampos] ,

@@ -1,6 +1,7 @@
 const express = require("express");
 const { check } = require('express-validator')
-const { validarCampos }  = require('../../middlewares/validar-campos')
+const { validarCampos }  = require('../../middlewares/validar-campos');
+const { security_post } = require("../../middlewares/security");
 
 const {getCartera, getCarteraByTerceroId,
        getCarteraById, getCarteraxCaja,
@@ -8,7 +9,7 @@ const {getCartera, getCarteraByTerceroId,
 const server = express();
 
 //consulta todos los registros de cartera
-server.get('/', async(req, res) => {
+server.get('/',  [security_post] , async(req, res) => {
     const query = req.query;
     try {
         const result = await getCartera(query);
@@ -20,7 +21,7 @@ server.get('/', async(req, res) => {
 });
 
 //consulta registro de cartera x el id
-server.get('/:id', async(req, res) => {
+server.get('/:id',  [security_post] , async(req, res) => {
     const {id} = req.params;
     try {
         const result = await getCarteraById(id);
@@ -32,7 +33,7 @@ server.get('/:id', async(req, res) => {
 });
 
 //consulta todos los registros de una caja
-server.get('/caja/:id', async(req, res) => {
+server.get('/caja/:id',  [security_post] , async(req, res) => {
     const {id} = req.params;
     try {
         const result = await getCarteraxCaja(id);
@@ -44,7 +45,7 @@ server.get('/caja/:id', async(req, res) => {
 });
 
 //consulta todos los registros de un tercero
-server.get('/tercero/:id', async(req, res) => {
+server.get('/tercero/:id',  [security_post] , async(req, res) => {
     const {id} = req.params;
     try {
         const result = await getCarteraByTerceroId(id);
@@ -56,7 +57,7 @@ server.get('/tercero/:id', async(req, res) => {
 });
 
 //graba un nuevo registro de cartera x cobrar
-server.post('/', 
+server.post('/',  [security_post] , 
     [ check('fecha', 'La fecha de la Factura es obligatoria').not().isEmpty() ,validarCampos] ,
     [ check('vence', 'La fecha de vencimiento de la Factura es obligatoria').not().isEmpty() ,validarCampos] ,
     [ check('bruto', 'El valor bruto de la Factura es obligatorio').not().isEmpty() ,validarCampos] ,
@@ -79,7 +80,7 @@ server.post('/',
 });
 
 //anula un registro de cartera x cobrar
-server.delete('/:id', async(req, res) => {
+server.delete('/:id',  [security_post] , async(req, res) => {
     const {id} = req.params;
     try {
         const result = await anulaCartera(id);

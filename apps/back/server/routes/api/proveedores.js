@@ -1,13 +1,14 @@
 const express = require("express");
-const { check } = require('express-validator')
-const { validarCampos }  = require('../../middlewares/validar-campos')
+const { check } = require('express-validator');
+const { validarCampos }  = require('../../middlewares/validar-campos');
+const { security_post } = require("../../middlewares/security");
 
 const {getProveedores, getProveedorById,
        addProveedor, updateProveedor} = require("../../controllers/api/proveedoresControllers");
 const server = express();
 
 //devolvemos todos los proveedores
-server.get('/', async(req, res) => {
+server.get('/',  [security_post] , async(req, res) => {
     try {
         const result = await getProveedores();
         res.status(200).json(result);
@@ -18,7 +19,7 @@ server.get('/', async(req, res) => {
 });
 
 //devolvemos el proveedor por el id
-server.get('/:id', async(req, res) => {
+server.get('/:id',  [security_post] , async(req, res) => {
     const {id} = req.params;
     try {
         const result = await getProveedorById(id);
@@ -30,7 +31,7 @@ server.get('/:id', async(req, res) => {
 });
 
 //agregamos un nuevo proveedor
-server.post('/', 
+server.post('/',  [security_post] , 
    [ check('ter_documento', 'El Numero de Documento es obligatorio').not().isEmpty() ,validarCampos] ,
    [ check('ter_tercero', 'La razon social es obligatoria').not().isEmpty() ,validarCampos] ,
    [ check('ciudad_id', 'La ciudad es obligatoria').not().isEmpty() ,validarCampos] ,
@@ -50,7 +51,7 @@ server.post('/',
 });
 
 //actualizamos la informacion de un proveedor
-server.put('/:id',
+server.put('/:id', [security_post] , 
    [ check('ter_documento', 'El Numero de Documento es obligatorio').not().isEmpty() ,validarCampos] ,
    [ check('ter_tercero', 'La razon social es obligatoria').not().isEmpty() ,validarCampos] ,
    [ check('ciudad_id', 'La ciudad es obligatoria').not().isEmpty() ,validarCampos] ,

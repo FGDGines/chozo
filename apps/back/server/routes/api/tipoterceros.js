@@ -1,13 +1,14 @@
 const express = require("express");
-const { check } = require('express-validator')
-const { validarCampos }  = require('../../middlewares/validar-campos')
+const { check } = require('express-validator');
+const { validarCampos }  = require('../../middlewares/validar-campos');
+const { security_post } = require("../../middlewares/security");
 
 const {getAll, getTipoterById,
        newTipoter, updateTipoter} = require("../../controllers/api/tipoterceroControllers");
 const server = express();
 
 //devuelve todos los tipos de terceros
-server.get('/', async(req, res) => {
+server.get('/',  [security_post] , async(req, res) => {
     try {
         const result = await getAll();
         res.status(200).json(result);
@@ -18,7 +19,7 @@ server.get('/', async(req, res) => {
 });
 
 //devuelve tipotercero por el id
-server.get('/:id', async(req, res) => {
+server.get('/:id',  [security_post] , async(req, res) => {
     const {id} = req.params;
     try {
         const result = await getTipoterById(id);
@@ -30,7 +31,7 @@ server.get('/:id', async(req, res) => {
 });
 
 //crea un nuevo tipo de tercero
-server.post('/', 
+server.post('/',  [security_post] , 
    [ check('tter_detalles', 'El nombre del tipo de tercero es obligatorio').not().isEmpty() ,validarCampos] ,
    async(req, res) => {
    const datos = req.body; 
@@ -44,7 +45,7 @@ server.post('/',
 });
 
 //actualiza un tipo de tercero
-server.put('/:id', 
+server.put('/:id',  [security_post] , 
    [ check('tter_detalles', 'El nombre del tipo de tercero es obligatorio').not().isEmpty() ,validarCampos] ,
    async(req, res) => {
    const datos = req.body; 

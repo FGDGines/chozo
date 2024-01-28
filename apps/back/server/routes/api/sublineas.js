@@ -1,13 +1,14 @@
 const express = require("express");
 const { check } = require('express-validator');
 const { validarCampos }  = require('../../middlewares/validar-campos');
+const { security_post } = require("../../middlewares/security");
 const {getSublineas, getSublineaById,
        addSublinea, updateSublinea,
        getSublineasByIdLinea, bulkSublineas} = require("../../controllers/api/sublineasControllers");
 const server = express();
 
 //trae todas las sublineas
-server.get('/', async(req, res) => {
+server.get('/',  [security_post] , async(req, res) => {
    try {
        const result = await getSublineas();
        res.status(200).json(result);
@@ -18,7 +19,7 @@ server.get('/', async(req, res) => {
 });
 
 //trae la sublinea por el id
-server.get('/:id', async(req, res) => {
+server.get('/:id',  [security_post] , async(req, res) => {
     const {id} = req.params;
     try {
         const result = await getSublineaById(id);
@@ -30,7 +31,7 @@ server.get('/:id', async(req, res) => {
  });
 
 //trae las sublinea de una linea por el id de la linea
-server.get('/linea/:id', async(req, res) => {
+server.get('/linea/:id',  [security_post] , async(req, res) => {
     const {id} = req.params;
     try {
         const result = await getSublineasByIdLinea(id);
@@ -43,7 +44,7 @@ server.get('/linea/:id', async(req, res) => {
 
 
 //agrega una nueva sublinea
-server.post('/', 
+server.post('/',  [security_post] , 
    [ check('sub_detalles', 'El nombre de la sublinea es obligatorio').not().isEmpty() ,validarCampos] ,
    [ check('linea_id', 'El campo linea_id es obligatorio').not().isEmpty() ,validarCampos] ,
    [ check('pucinventario_id', 'El campo pucinventario_id es obligatorio').not().isEmpty() ,validarCampos] ,
@@ -61,7 +62,7 @@ server.post('/',
 });
 
 //actualiza una sublinea
-server.put('/:id', 
+server.put('/:id',  [security_post] , 
 [ check('sub_detalles', 'El nombre de la sublinea es obligatorio').not().isEmpty() ,validarCampos] ,
 [ check('linea_id', 'El campo linea_id es obligatorio').not().isEmpty() ,validarCampos] ,
 [ check('pucinventario_id', 'El campo pucinventario_id es obligatorio').not().isEmpty() ,validarCampos] ,
@@ -80,8 +81,8 @@ async(req, res) => {
     }
 });
 
-server.post('/bulk', async(req, res) => {
-   const datos = req.body;
+server.post('/bulk',   [security_post] , async(req, res) => {
+   const {datos} = req.body;
    try {
        const result = await bulkSublineas(datos);
        res.status(200).json(result); 

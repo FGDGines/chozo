@@ -1,13 +1,14 @@
 const express = require("express");
-const { check } = require('express-validator')
-const { validarCampos }  = require('../../middlewares/validar-campos')
+const { check } = require('express-validator');
+const { validarCampos }  = require('../../middlewares/validar-campos');
+const { security_post } = require("../../middlewares/security");
 
 const {getAll, getById, bulkCiudades,
        getAllByDpto, addCiudad, updateCiudad} = require("../../controllers/api/ciudadesControllers");
 const server = express();
 
 //devuelve todas los ciudades
-server.get('/', async(req, res) => {
+server.get('/',  [security_post] , async(req, res) => {
    try {
       const result = await getAll();
       res.status(200).json(result);
@@ -18,7 +19,7 @@ server.get('/', async(req, res) => {
 });
 
 //devuelve todos los ciudades de un departamento por el ID
-server.get('/dpto/:id', async(req, res) => {
+server.get('/dpto/:id',  [security_post] , async(req, res) => {
     const {id} = req.params;
     try {
        const result = await getAllByDpto(id);
@@ -30,7 +31,7 @@ server.get('/dpto/:id', async(req, res) => {
  });
 
  //devuelve  ciudad por su id
-server.get('/:id', async(req, res) => {
+server.get('/:id',  [security_post] , async(req, res) => {
     const {id} = req.params;
     try {
        const result = await getById(id);
@@ -42,7 +43,7 @@ server.get('/:id', async(req, res) => {
  });
 
  //crea una nueva ciudad
- server.post('/', 
+ server.post('/', [security_post] , 
     [ check('name', 'El nombre de la ciudad es obligatorio').not().isEmpty() ,validarCampos] ,
     [ check('idDpto', 'El campo idDpto es obligatorio').not().isEmpty() ,validarCampos] ,
     async(req, res) => {
@@ -57,7 +58,7 @@ server.get('/:id', async(req, res) => {
  });
 
  //actualiza una ciudad
- server.put('/:id', 
+ server.put('/:id',  [security_post] , 
     [ check('name', 'El nombre de la ciudad es obligatorio').not().isEmpty() ,validarCampos] ,
     async(req, res) => {
     const datos = req.body;
@@ -72,8 +73,8 @@ server.get('/:id', async(req, res) => {
  });
 
  //creacion masiva de ciudades
-server.post('/bulk', async(req, res) => {
-   const datos = req.body;
+server.post('/bulk',  [security_post] , async(req, res) => {
+   const {datos} = req.body;
    try {
       const result = await bulkCiudades(datos);
       res.status(200).json(result);

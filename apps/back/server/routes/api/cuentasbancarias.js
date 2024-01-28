@@ -1,12 +1,13 @@
 const express = require("express");
 const { check } = require('express-validator');
 const { validarCampos }  = require('../../middlewares/validar-campos');
+const { security_post } = require("../../middlewares/security");
 const {getCuentas, getCuentaById,
        addCuenta, updateCuenta} = require("../../controllers/api/cuentasbancariasControllers");
 const server = express();
 
 //devuelve todas las cuentas bancarias
-server.get('/', async(req, res) => {
+server.get('/',  [security_post] , async(req, res) => {
    try {
        const result = await getCuentas();
        res.status(200).json(result);    
@@ -17,7 +18,7 @@ server.get('/', async(req, res) => {
 });
 
 //devuelve cuenta bancaria por el id
-server.get('/:id', async(req, res) => {
+server.get('/:id',  [security_post] , async(req, res) => {
     const {id} = req.params;
     try {
         const result = await getCuentaById(id);
@@ -29,7 +30,7 @@ server.get('/:id', async(req, res) => {
  });
 
  //graba una nueva cuenta bancaria
-server.post('/', 
+server.post('/',  [security_post] , 
     [ check('banco', 'El nombre del banco es obligatorio').not().isEmpty() ,validarCampos] ,
     [ check('numero', 'El numero de la cuenta es obligatorio').not().isEmpty() ,validarCampos] ,
     [ check('tipo', 'El tipo de cuenta es obligatorio').not().isEmpty() ,validarCampos] ,
@@ -46,7 +47,7 @@ server.post('/',
  });
 
  //actualiza  cuenta bancaria
- server.put('/:id', 
+ server.put('/:id', [security_post] , 
     [ check('banco', 'El nombre del banco es obligatorio').not().isEmpty() ,validarCampos] ,
     [ check('numero', 'El numerod e la cuenta es obligatorio').not().isEmpty() ,validarCampos] ,
     [ check('tipo', 'El tipo de cuenta es obligatorio').not().isEmpty() ,validarCampos] ,

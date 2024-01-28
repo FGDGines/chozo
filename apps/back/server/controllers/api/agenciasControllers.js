@@ -1,5 +1,6 @@
 const {agencias_transporte, terceros, ciudades} = require("../../models/DbConex");
 
+
 //devuelve todas las agencias de transporte
 const getAgencias = async() => {
    const array = await agencias_transporte.findAll( {

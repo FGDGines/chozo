@@ -1,12 +1,13 @@
 const express = require("express");
 const { check } = require('express-validator');
 const { validarCampos }  = require('../../middlewares/validar-campos');
+const { security_post } = require("../../middlewares/security");
 const {getExistenciaById, getExistencias,
       updateExistencia, fullUpdateExistencias} = require("../../controllers/api/existenciasControllers");
 const server = express();
 
 //trae todas las existencias
-server.get('/', async(req, res) => {
+server.get('/',  [security_post] , async(req, res) => {
     try {
         const result = await getExistencias();
         res.status(200).json(result);
@@ -17,7 +18,7 @@ server.get('/', async(req, res) => {
  });
 
 //trae todas las existencias de un articulo por su ID
-server.get('/:id', async(req, res) => {
+server.get('/:id',  [security_post] , async(req, res) => {
     const {id} = req.params;
     try {
         const result = await getExistenciaById(id);
@@ -29,7 +30,7 @@ server.get('/:id', async(req, res) => {
  });
 
  //actualiza las existencias de un articulo por su ID
-server.put('/:id', 
+server.put('/:id',  [security_post] , 
    [ check('articulo_id', 'El campo articulo_id es obligatorio').not().isEmpty() ,validarCampos] ,
    [ check('exi_cantidad', 'El campo exi_cantidad es obligatorio').not().isEmpty() ,validarCampos] ,
    async(req, res) => {
@@ -45,7 +46,7 @@ server.put('/:id',
  });
 
  //actualiza las existencias de todos los articulos
- server.post('/', 
+ server.post('/',  [security_post] , 
     [ check('fecha', 'El campo fecha es obligatorio').not().isEmpty() ,validarCampos] ,   
     [ check('usuario', 'El campo usuario es obligatorio').not().isEmpty() ,validarCampos] , 
     async(req, res) => {

@@ -1,5 +1,6 @@
 const {ciudades, departamentos} = require("../../models/DbConex");
 
+
 //devuelve todos las ciudades creados
 const getAll = async() => {
     const array = await ciudades.findAll({

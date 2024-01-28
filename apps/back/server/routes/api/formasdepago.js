@@ -1,13 +1,14 @@
 const express = require("express");
 const { check } = require('express-validator');
 const { validarCampos }  = require('../../middlewares/validar-campos');
+const { security_post } = require("../../middlewares/security");
 const {getFormaPagos, getFormaPagoById,
        newFormaPago, updateFormaPago,
        bulkFormaPago} = require("../../controllers/api/formasdepagoControllers");
 const server = express();
 
 //devuelve todas las formas de pago disponibles
-server.get('/', async(req, res) => {
+server.get('/',  [security_post] , async(req, res) => {
    try {
        const result = await getFormaPagos();
        res.status(200).json(result);    
@@ -18,7 +19,7 @@ server.get('/', async(req, res) => {
 });
 
 //devuelve forma de pago por el id
-server.get('/:id', async(req, res) => {
+server.get('/:id',  [security_post] , async(req, res) => {
     const {id} = req.params;
     try {
         const result = await getFormaPagoById(id);
@@ -30,7 +31,7 @@ server.get('/:id', async(req, res) => {
  });
 
  //crea una nueva forma de pago
- server.post('/', 
+ server.post('/',  [security_post] , 
    [ check('fpag_detalles', 'El campo fpag_detalles es obligatorio').not().isEmpty() ,validarCampos] ,
    [ check('fpag_manejabanco', 'El campo fpag_manejabanco es obligatorio').not().isEmpty() ,validarCampos] ,
    async(req, res) => {
@@ -45,7 +46,7 @@ server.get('/:id', async(req, res) => {
  });
 
  //modifica forma de pago
- server.put('/:id', 
+ server.put('/:id',  [security_post] , 
    [ check('fpag_detalles', 'El campo fpag_detalles es obligatorio').not().isEmpty() ,validarCampos] ,
    [ check('fpag_manejabanco', 'El campo fpag_manejabanco es obligatorio').not().isEmpty() ,validarCampos] ,
    async(req, res) => {
@@ -61,8 +62,8 @@ server.get('/:id', async(req, res) => {
  });
 
 //crea en bloque formas de pago
-server.post('/bulk', async(req, res) => {
-   const datos = req.body; 
+server.post('/bulk',  [security_post] , async(req, res) => {
+   const {datos} = req.body; 
    try {
       const result = await bulkFormaPago(datos);
       res.status(200).json(result);

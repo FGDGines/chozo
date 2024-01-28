@@ -1,12 +1,13 @@
 const express = require("express");
-const { check } = require('express-validator')
-const { validarCampos }  = require('../../middlewares/validar-campos')
+const { check } = require('express-validator');
+const { validarCampos }  = require('../../middlewares/validar-campos');
+const { security_post } = require("../../middlewares/security");
 const {getCartera, getCarteraById, anulaCartera,
        addCarteraPedidos, getCarteraByTercero} = require("../../controllers/api/carteraxpagarControllers");
 const server = express();
 
 //devuelve todos las compras
-server.get('/', async(req, res) => {
+server.get('/',  [security_post] , async(req, res) => {
     const query = req.query;
     try {
         const result = await getCartera(query);
@@ -18,7 +19,7 @@ server.get('/', async(req, res) => {
 });
 
 //devuelve compras por el id
-server.get('/:id', async(req, res) => {
+server.get('/:id',  [security_post] , async(req, res) => {
     const {id} = req.params;
     try {
         const result = await getCarteraById(id);
@@ -30,7 +31,7 @@ server.get('/:id', async(req, res) => {
 });
 
 //devuelve todas las facturas de cartera x pagar de un tercero
-server.get('/tercero/:id', async(req, res) => {
+server.get('/tercero/:id',  [security_post] , async(req, res) => {
     const {id} = req.params;
     try {
         const result = await getCarteraByTercero(id);
@@ -42,7 +43,7 @@ server.get('/tercero/:id', async(req, res) => {
 });
 
 //crea una nueva compra 
-server.post('/', 
+server.post('/',  [security_post] , 
    [ check('fecha', 'La fecha de la compra es obligatoria').not().isEmpty() ,validarCampos] ,
    [ check('vence', 'La fecha de vencimiento de la compra es obligatoria').not().isEmpty() ,validarCampos] ,
    [ check('bruto', 'El valor bruto de la compra es obligatorio').not().isEmpty() ,validarCampos] ,
@@ -63,7 +64,7 @@ server.post('/',
 });
 
 //anula compras por el id
-server.delete('/:id', async(req, res) => {
+server.delete('/:id',  [security_post] , async(req, res) => {
     const {id} = req.params;
     try {
         const result = await anulaCartera(id);

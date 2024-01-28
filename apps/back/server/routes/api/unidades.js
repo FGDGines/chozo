@@ -1,13 +1,14 @@
 const express = require("express");
-const { check } = require('express-validator')
-const { validarCampos }  = require('../../middlewares/validar-campos')
+const { check } = require('express-validator');
+const { validarCampos }  = require('../../middlewares/validar-campos');
+const { security_post } = require("../../middlewares/security");
 
 const {getUnidades, getUnidadById,
        addUnidad, updateUnidad} = require("../../controllers/api/unidadesControllers");
 const server = express();
 
 //devuelve todas los unidades
-server.get('/', async(req, res) => {
+server.get('/',  [security_post] , async(req, res) => {
    try {
       const result = await getUnidades();
       res.status(200).json(result);
@@ -19,7 +20,7 @@ server.get('/', async(req, res) => {
 
 
  //devuelve  unidad por su id
-server.get('/:id', async(req, res) => {
+server.get('/:id',  [security_post] , async(req, res) => {
     const {id} = req.params;
     try {
        const result = await getUnidadById(id);
@@ -31,7 +32,7 @@ server.get('/:id', async(req, res) => {
  });
 
  //crea una nueva unidad
- server.post('/', 
+ server.post('/', [security_post] ,  
     [ check('abreviatura', 'La abreviatura de la unidad es obligatoria').not().isEmpty() ,validarCampos] , 
     [ check('detalles', 'El detalle de la unidad es obligatorio').not().isEmpty() ,validarCampos] ,
     async(req, res) => {
@@ -46,7 +47,7 @@ server.get('/:id', async(req, res) => {
  });
 
  //actualiza una unidad
- server.put('/:id', 
+ server.put('/:id', [security_post] ,  
     [ check('abreviatura', 'La abreviatura de la unidad es obligatoria').not().isEmpty() ,validarCampos] , 
     [ check('detalles', 'El detalle de la unidad es obligatorio').not().isEmpty() ,validarCampos] ,
     async(req, res) => {

@@ -1,13 +1,14 @@
 const express = require("express");
-const { check } = require('express-validator')
-const { validarCampos }  = require('../../middlewares/validar-campos')
+const { check } = require('express-validator');
+const { validarCampos }  = require('../../middlewares/validar-campos');
+const { security_post } = require("../../middlewares/security");
 
 const { getPedidos, addPedido, updatePedido, getPedidosByProveedor,
         anulaPedido, getPedidoById } = require("../../controllers/api/pedidosControllers");
 const server = express();
 
 //devuelve todos los pedidos grabados
-server.get('/', async(req, res) => {
+server.get('/',  [security_post] , async(req, res) => {
    try {
        const result = await getPedidos();
        res.status(200).json(result);
@@ -18,7 +19,7 @@ server.get('/', async(req, res) => {
 });
 
 //graba un nuevo pedido
-server.post('/', 
+server.post('/',  [security_post] , 
    [ check('valor', 'El valor del pedido es obligatorio').not().isEmpty() ,validarCampos] ,
    [ check('fecha', 'La fecha del pedido es obligatoria').not().isEmpty() ,validarCampos] ,
    [ check('proveedor_id', 'El proveedor es obligatorio').not().isEmpty() ,validarCampos] ,
@@ -35,7 +36,7 @@ server.post('/',
 });
 
 //devuelve pedido por su id
-server.get('/:id', async(req, res) => {
+server.get('/:id', [security_post] ,  async(req, res) => {
     const {id} = req.params;
     try {
         const result = await getPedidoById(id);
@@ -47,7 +48,7 @@ server.get('/:id', async(req, res) => {
  });
 
 //devuelve pedidos de un mismo proveedore
-server.get('/proveedor/:id', async(req, res) => {
+server.get('/proveedor/:id', [security_post] ,  async(req, res) => {
     const {id} = req.params;
     try {
         const result = await getPedidosByProveedor(id);
@@ -59,7 +60,7 @@ server.get('/proveedor/:id', async(req, res) => {
  });
 
  //modifica la informacion de un pedido
- server.put('/:id', 
+ server.put('/:id',  [security_post] , 
     [ check('valor', 'El valor del pedido es obligatorio').not().isEmpty() ,validarCampos] ,
     [ check('fecha', 'La fecha del pedido es obligatoria').not().isEmpty() ,validarCampos] ,
     [ check('items', 'Los items del pedido son obligatorios').not().isEmpty() ,validarCampos] ,
@@ -77,7 +78,7 @@ server.get('/proveedor/:id', async(req, res) => {
 
 
  //anula pedido por su id
-server.delete('/:id', async(req, res) => {
+server.delete('/:id',  [security_post] , async(req, res) => {
     const {id} = req.params;
     try {
         const result = await anulaPedido(id);

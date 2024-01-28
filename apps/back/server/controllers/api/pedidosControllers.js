@@ -99,7 +99,8 @@ const anulaPedido = async(id) => {
    if(pedido.ped_estado == 1) return {mensaje: "Pedido ya fue facturado"};
    const anula = await pedidos.update({ped_anulado: 1}, {where: {id: idP}});
    await itempedidos.update({ite_anulado: 1}, {where: {pedido_id: idP}});
-   return anula;
+   const result = await getPedidoById(idP);
+   return result;
 };
 
 //modificar un pedido
@@ -133,7 +134,8 @@ const updatePedido = async(datos, id) => {
        };
        const regGrabado = await itempedidos.create(registro);
     });
-    return edita;
+    const result = await getPedidoById(idP);
+    return result;
  };
 
 module.exports = {

@@ -1,13 +1,14 @@
 const express = require("express");
 const { check } = require('express-validator');
 const { validarCampos }  = require('../../middlewares/validar-campos');
+const { security_post } = require("../../middlewares/security");
 const {getParametros, getParametroById,
        newParametro, updateParametro,
        llenarParametros} = require("../../controllers/api/parametrosControllers");
 const server = express();
 
 //devuelve todos los parametros
-server.get('/', async(req, res) => {
+server.get('/',  [security_post] , async(req, res) => {
    try {
        const result = await getParametros();
        res.status(200).json(result);
@@ -18,7 +19,7 @@ server.get('/', async(req, res) => {
 });
 
 //devuelve  parametro por el id
-server.get('/:id', async(req, res) => {
+server.get('/:id', [security_post] ,  async(req, res) => {
     const {id} = req.params;
     try {
         const result = await getParametroById(id);
@@ -31,7 +32,7 @@ server.get('/:id', async(req, res) => {
  
 
  //crea un nuevo parametro
-server.post('/', 
+server.post('/',  [security_post] , 
   [ check('para_codigo', 'El codigo del parametro es obligatorio').not().isEmpty() ,validarCampos] ,
   [ check('para_detalles', 'El detalle del parametro es obligatorio').not().isEmpty() ,validarCampos] ,
   [ check('para_valor', 'El valor del parametro es obligatorio').not().isEmpty() ,validarCampos] ,
@@ -47,7 +48,7 @@ server.post('/',
 });
 
 //modifica parametro
-server.put('/:id', 
+server.put('/:id',  [security_post] , 
   [ check('para_codigo', 'El codigo del parametro es obligatorio').not().isEmpty() ,validarCampos] ,
   [ check('para_detalles', 'El detalle del parametro es obligatorio').not().isEmpty() ,validarCampos] ,
   [ check('para_valor', 'El valor del parametro es obligatorio').not().isEmpty() ,validarCampos] ,
@@ -64,8 +65,8 @@ server.put('/:id',
 });
 
 //creacion de varios parametros en bloque
- server.post('/bulk',  async(req, res) => {
-   const datos = req.body;
+ server.post('/bulk',  [security_post] ,  async(req, res) => {
+   const {datos} = req.body;
    try {
        const result = await llenarParametros(datos);
        res.status(200).json(result);

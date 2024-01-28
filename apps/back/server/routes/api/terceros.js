@@ -1,12 +1,13 @@
 const express = require("express");
-const { check } = require('express-validator')
-const { validarCampos }  = require('../../middlewares/validar-campos')
+const { check } = require('express-validator');
+const { validarCampos }  = require('../../middlewares/validar-campos');
+const { security_post } = require("../../middlewares/security");
 
 const {getTerceros, getTerceroById, bulkTerceros,
       updateTercero, addTercero} = require("../../controllers/api/tercerosControllers");
 const server = express();
 
-server.get('/', async(req, res) => {
+server.get('/',  [security_post] , async(req, res) => {
    try {
        const result = await getTerceros();
        res.status(200).json(result);
@@ -16,7 +17,7 @@ server.get('/', async(req, res) => {
    }
 });
 
-server.get('/:id', async(req, res) => {
+server.get('/:id',  [security_post] , async(req, res) => {
     const {id} = req.params;
     try {
         const result = await getTerceroById(id);
@@ -27,7 +28,7 @@ server.get('/:id', async(req, res) => {
     }
  });
 
- server.post('/',
+ server.post('/', [security_post] , 
    [ check('ter_documento', 'El documento de identidad es obligatorio').not().isEmpty() ,validarCampos] ,
    [ check('ter_tercero', 'La razon social del tercero es obligatoria').not().isEmpty() ,validarCampos] ,
    [ check('ciudad_id', 'La ciudad es obligatoria').not().isEmpty() ,validarCampos] ,
@@ -44,7 +45,7 @@ server.get('/:id', async(req, res) => {
    }
  });
 
- server.put('/:id', 
+ server.put('/:id', [security_post] ,  
    [ check('ter_documento', 'El documento de identidad es obligatorio').not().isEmpty() ,validarCampos] ,
    [ check('ter_tercero', 'La razon social del tercero es obligatoria').not().isEmpty() ,validarCampos] ,
    [ check('ciudad_id', 'La ciudad es obligatoria').not().isEmpty() ,validarCampos] ,
@@ -62,8 +63,8 @@ server.get('/:id', async(req, res) => {
    };
  });
 
- server.post('/bulk', async(req, res) => {
-    const datos = req.body;
+ server.post('/bulk',  [security_post] , async(req, res) => {
+    const {datos} = req.body;
     try {
         const result = await bulkTerceros(datos);
         res.status(200).json(result);

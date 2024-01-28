@@ -1,13 +1,14 @@
 const express = require("express");
 const { check } = require('express-validator');
 const { validarCampos }  = require('../../middlewares/validar-campos');
+const { security_post } = require("../../middlewares/security");
 
 const {getLineas, getLineaById, bulkLineas,
        addLinea, updateLinea} = require("../../controllers/api/lineasControllers");
 const server = express();
 
 //trae todas las lineas
-server.get('/', async(req, res) => {
+server.get('/',  [security_post] , async(req, res) => {
    try {
        const result = await getLineas();
        res.status(200).json(result);
@@ -18,7 +19,7 @@ server.get('/', async(req, res) => {
 });
 
 //trae la linea por el id
-server.get('/:id', async(req, res) => {
+server.get('/:id',  [security_post] , async(req, res) => {
     const {id} = req.params;
     try {
         const result = await getLineaById(id);
@@ -30,7 +31,7 @@ server.get('/:id', async(req, res) => {
  });
 
 //agrega una nueva linea
-server.post('/', 
+server.post('/',  [security_post] , 
    [ check('lin_detalles', 'El nombre de la linea es obligatorio').not().isEmpty() ,validarCampos] ,
    async(req, res) => {
    const datos = req.body;
@@ -44,7 +45,7 @@ server.post('/',
 });
 
 //actualiza una linea
-server.put('/:id', 
+server.put('/:id',  [security_post] , 
    [ check('lin_detalles', 'El nombre de la linea es obligatorio').not().isEmpty() ,validarCampos] ,
    [ check('lin_activa', 'El campo lin_activa es obligatorio').not().isEmpty() ,validarCampos] ,
    async(req, res) => {
@@ -60,8 +61,8 @@ server.put('/:id',
 });
 
 //bulk create lineas
-server.post('/bulk', async(req, res) => {
-   const datos = req.body; 
+server.post('/bulk',  [security_post] , async(req, res) => {
+   const {datos} = req.body; 
    try {
        const result = await bulkLineas(datos);
        res.status(200).json(result);

@@ -19,7 +19,7 @@ server.get('/', [security_post] ,  async(req, res) => {
 });
 
 //consulta usuario por el id
-server.get('/:id', async(req, res) => {
+server.get('/:id',  [security_post] , async(req, res) => {
     const {id} = req.params;
     try {
         const result = await getUsuarioById(id);
@@ -32,7 +32,7 @@ server.get('/:id', async(req, res) => {
 
 
 //crea un nuevo usuario
-server.post('/',
+server.post('/',  [security_post] , 
    [ check('usu_nombre', 'El nombre de usuario es obligatorio').not().isEmpty() ,validarCampos] ,
    [ check('usu_password', 'El password es obligatorio').not().isEmpty() ,validarCampos] ,
    [ check('usu_admin', 'El campo usu_admin es obligatorio').not().isEmpty() ,validarCampos] ,
@@ -65,7 +65,7 @@ server.post('/',
 
 
 //modifica un usuario
-server.put('/:id',
+server.put('/:id', [security_post] , 
     [ check('usu_nombre', 'El nombre de usuario es obligatorio').not().isEmpty() ,validarCampos] ,
     [ check('usu_password', 'El password es obligatorio').not().isEmpty() ,validarCampos] ,
     [ check('usu_admin', 'El campo usu_admin es obligatorio').not().isEmpty() ,validarCampos] ,

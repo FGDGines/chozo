@@ -1,12 +1,13 @@
 const express = require("express");
-const { check } = require('express-validator')
-const { validarCampos }  = require('../../middlewares/validar-campos')
+const { check } = require('express-validator');
+const { validarCampos }  = require('../../middlewares/validar-campos');
+const { security_post } = require("../../middlewares/security");
 
 const {getAll, getPaisById, newPais, updatePais} = require("../../controllers/api/paisesControllers");
 const server = express();
 
 //devuelve todos los paises
-server.get('/', async(req, res) => {
+server.get('/',  [security_post] , async(req, res) => {
     try {
         const result = await getAll();
         res.status(200).json(result);
@@ -17,7 +18,7 @@ server.get('/', async(req, res) => {
 });
 
 //devuelve pais por el id
-server.get('/:id', async(req, res) => {
+server.get('/:id',  [security_post] , async(req, res) => {
     const {id} = req.params;
     try {
         const result = await getPaisById(id);
@@ -29,7 +30,7 @@ server.get('/:id', async(req, res) => {
 });
 
 //crea un nuevo pais
-server.post('/', 
+server.post('/',  [security_post] , 
    [ check('pai_nombre', 'El nombre del pais es obligatorio').not().isEmpty() ,validarCampos] ,
    async(req, res) => {
    const datos = req.body; 
@@ -43,7 +44,7 @@ server.post('/',
 });
 
 //actualiza pais
-server.put('/:id', 
+server.put('/:id', [security_post] ,  
    [ check('pai_nombre', 'El nombre del pais es obligatorio').not().isEmpty() ,validarCampos] ,
    async(req, res) => {
    const datos = req.body; 

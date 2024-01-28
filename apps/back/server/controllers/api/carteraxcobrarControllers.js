@@ -3,6 +3,7 @@ const {carteraxcobrar, items_carteraxcobrar, unidades, consecutivos,
        sublineas, existencias, cuentas_bancarias,
        kardex, formasdepago, cajas, terceros, items_formasdepago} = require("../../models/DbConex");
 
+
 //consulta todas las cuentas x cobrar generadas
 const getCartera = async(query) => {
    const result = await carteraxcobrar.findAll({

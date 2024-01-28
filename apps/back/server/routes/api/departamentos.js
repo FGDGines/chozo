@@ -1,13 +1,14 @@
 const express = require("express");
-const { check } = require('express-validator')
-const { validarCampos }  = require('../../middlewares/validar-campos')
+const { check } = require('express-validator');
+const { validarCampos }  = require('../../middlewares/validar-campos');
+const { security_post } = require("../../middlewares/security");
 
 const { getAll, getAllByPais, bulkDptos,
         getById, addDpto, updateDpto } = require("../../controllers/api/departamentosControllers");
 const server = express();
 
 //devuelve todos los departamentos
-server.get('/', async(req, res) => {
+server.get('/',  [security_post] , async(req, res) => {
    try {
       const result = await getAll();
       res.status(200).json(result);
@@ -18,7 +19,7 @@ server.get('/', async(req, res) => {
 });
 
 //devuelve todos los departamentos de un pais por el ID
-server.get('/pais/:id', async(req, res) => {
+server.get('/pais/:id',  [security_post] , async(req, res) => {
     const {id} = req.params;
     try {
        const result = await getAllByPais(id);
@@ -30,7 +31,7 @@ server.get('/pais/:id', async(req, res) => {
  });
 
  //devuelve  departamento por su id
-server.get('/:id', async(req, res) => {
+server.get('/:id',  [security_post] , async(req, res) => {
     const {id} = req.params;
     try {
        const result = await getById(id);
@@ -42,7 +43,7 @@ server.get('/:id', async(req, res) => {
  });
 
  //crea un nuevo departamento
- server.post('/', 
+ server.post('/',  [security_post] , 
     [ check('name', 'El nombre del departamento es obligatorio').not().isEmpty() ,validarCampos] ,
     [ check('idPais', 'El campo idPais es obligatorio').not().isEmpty() ,validarCampos] ,
     async(req, res) => {
@@ -57,7 +58,7 @@ server.get('/:id', async(req, res) => {
  });
 
  //actualiza un departamento
- server.put('/:id', 
+ server.put('/:id',  [security_post] , 
     [ check('name', 'El nombre del departamento es obligatorio').not().isEmpty() ,validarCampos] ,
     async(req, res) => {
     const datos = req.body;
@@ -72,8 +73,8 @@ server.get('/:id', async(req, res) => {
  });
 
   //creacion masiva de dptos
-server.post('/bulk', async(req, res) => {
-   const datos = req.body;
+server.post('/bulk',  [security_post] , async(req, res) => {
+   const {datos} = req.body;
    try {
       const result = await bulkDptos(datos);
       res.status(200).json(result);

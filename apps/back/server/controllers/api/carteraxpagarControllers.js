@@ -2,6 +2,7 @@ const {carteraxpagar, item_carteraxpagar, itempedidos,
        pedidos, terceros, parametros, articulos, grupos, sublineas, existencias,
        contable, itemcontable, consecutivos, kardex} = require("../../models/DbConex");
 
+
 //devuelve todos los registros de cartera x pagar
 const getCartera = async(query) => {
    const result = await carteraxpagar.findAll({
@@ -211,6 +212,7 @@ const grabaContable = async(fuente, num, fechaC, tercero_id, items, total, codUs
         fuente_id: fuente,
         puc_id: cta,
         tercero_id,
+        usuario_id: codUsuario,
       };
       await itemcontable.create(citem);     
    };
@@ -227,6 +229,7 @@ const grabaContable = async(fuente, num, fechaC, tercero_id, items, total, codUs
      fuente_id: fuente,
      puc_id: ctaxp,
      tercero_id,
+     usuario_id: codUsuario,
    };
    await itemcontable.create(citem);  
    //console.log("Item contable de cuenta x pagar grabado")

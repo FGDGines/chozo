@@ -1,13 +1,14 @@
 const express = require("express");
-const { check } = require('express-validator')
-const { validarCampos }  = require('../../middlewares/validar-campos')
+const { check } = require('express-validator');
+const { validarCampos }  = require('../../middlewares/validar-campos');
+const { security_post } = require("../../middlewares/security");
 
 const {getCajas, getCajaById,
        addCaja, editaCaja} = require("../../controllers/api/cajasControllers");
 const server = express();
 
 //consulta todas las cajas del sistema
-server.get('/', async(req, res) => {
+server.get('/',  [security_post] , async(req, res) => {
     try {
         const result = await getCajas();
         res.status(200).json(result);
@@ -18,7 +19,7 @@ server.get('/', async(req, res) => {
 });
 
 //consulta caja por el id
-server.get('/:id', async(req, res) => {
+server.get('/:id',  [security_post] , async(req, res) => {
     const {id} = req.params;
     try {
         const result = await getCajaById(id);
@@ -30,7 +31,7 @@ server.get('/:id', async(req, res) => {
 });
 
 //crea una nueva caja
-server.post('/', 
+server.post('/',  [security_post] , 
    [ check('nombre', 'El nombre de la caja es obligatorio').not().isEmpty() ,validarCampos] ,
    [ check('idusuario', 'El id del usuario de la caja es obligatorio').not().isEmpty() ,validarCampos] ,
    [ check('idpuc', 'El id de la cuenta puc de la caja es obligatorio').not().isEmpty() ,validarCampos] ,
@@ -46,7 +47,7 @@ server.post('/',
 });
 
 //modifica una caja
-server.put('/:id', 
+server.put('/:id', [security_post] ,  
    [ check('nombre', 'El nombre de la caja es obligatorio').not().isEmpty() ,validarCampos] ,
    [ check('idusuario', 'El id del usuario de la caja es obligatorio').not().isEmpty() ,validarCampos] ,
    [ check('idpuc', 'El id de la cuenta puc de la caja es obligatorio').not().isEmpty() ,validarCampos] ,

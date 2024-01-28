@@ -1,13 +1,14 @@
 const express = require("express");
 const { check } = require('express-validator');
 const { validarCampos }  = require('../../middlewares/validar-campos');
+const { security_post } = require("../../middlewares/security");
 const {getGrupos, getGrupoById, bulkGrupos,
        getGruposByIdSublinea, 
        addGrupo, updateGrupo} = require("../../controllers/api/gruposControllers");
 const server = express();
 
 //trae todos los grupos
-server.get('/', async(req, res) => {
+server.get('/',  [security_post] , async(req, res) => {
     try {
         const result = await getGrupos();
         res.status(200).json(result);
@@ -18,7 +19,7 @@ server.get('/', async(req, res) => {
  });
  
  //trae el grupo por el id
- server.get('/:id', async(req, res) => {
+ server.get('/:id',  [security_post] , async(req, res) => {
      const {id} = req.params;
      try {
          const result = await getGrupoById(id);
@@ -30,7 +31,7 @@ server.get('/', async(req, res) => {
   });
  
  //trae los grupos de una sublinea por el id de la sublinea
- server.get('/sublinea/:id', async(req, res) => {
+ server.get('/sublinea/:id',  [security_post] , async(req, res) => {
      const {id} = req.params;
      try {
          const result = await getGruposByIdSublinea(id);
@@ -43,7 +44,7 @@ server.get('/', async(req, res) => {
  
  
  //agrega un nuevo grupo
- server.post('/', 
+ server.post('/', [security_post] ,  
     [ check('gru_detalles', 'El campo gru_detalles es obligatorio').not().isEmpty() ,validarCampos] ,
     [ check('sublinea_id', 'El campo sublinea_id es obligatorio').not().isEmpty() ,validarCampos] ,
     async(req, res) => {
@@ -58,7 +59,7 @@ server.get('/', async(req, res) => {
  });
  
  //actualiza un grupo
- server.put('/:id', 
+ server.put('/:id', [security_post] ,  
      [ check('gru_detalles', 'El campo gru_detalles es obligatorio').not().isEmpty() ,validarCampos] ,
      [ check('gru_activo', 'El campo gru_activo es obligatorio').not().isEmpty() ,validarCampos] ,
      [ check('sublinea_id', 'El campo sublinea_id es obligatorio').not().isEmpty() ,validarCampos] ,
@@ -75,8 +76,8 @@ server.get('/', async(req, res) => {
  });
  
  //creacion masiva de grupos
- server.post('/bulk', async(req, res) => {
-    const datos = req.body;
+ server.post('/bulk',  [security_post] , async(req, res) => {
+    const {datos} = req.body;
     try {
         const result = await bulkGrupos(datos);
         res.status(200).json(result);

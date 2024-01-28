@@ -1,12 +1,13 @@
 const express = require("express");
 const { check } = require('express-validator');
 const { validarCampos }  = require('../../middlewares/validar-campos');
+const { security_post } = require("../../middlewares/security");
 const {getFuentes, getFuenteById, bulkFuentes,
        addFuente,updateFuente} = require("../../controllers/api/fuentesControllers");
 const server = express();
 
 //devuelve todas los fuentes
-server.get('/', async(req, res) => {
+server.get('/',  [security_post] , async(req, res) => {
    try {
       const result = await getFuentes();
       res.status(200).json(result);
@@ -18,7 +19,7 @@ server.get('/', async(req, res) => {
 
 
  //devuelve  fuente por su id
-server.get('/:id', async(req, res) => {
+server.get('/:id',  [security_post] , async(req, res) => {
     const {id} = req.params;
     try {
        const result = await getFuenteById(id);
@@ -30,7 +31,7 @@ server.get('/:id', async(req, res) => {
  });
 
  //crea una nueva fuente
- server.post('/', 
+ server.post('/',  [security_post] , 
     [ check('fue_detalles', 'El nombre de la fuentes es obligatorio').not().isEmpty() ,validarCampos] ,
     [ check('fue_iniciales', 'El campo fue_iniciales es obligatorio').not().isEmpty() ,validarCampos] ,
     [ check('fue_mantieneconsecutivo', 'El campo fue_mantieneconsecutivo es obligatorio').not().isEmpty() ,validarCampos] ,
@@ -46,7 +47,7 @@ server.get('/:id', async(req, res) => {
  });
 
  //actualiza una fuente
- server.put('/:id', 
+ server.put('/:id', [security_post] ,  
     [ check('fue_detalles', 'El nombre de la fuentes es obligatorio').not().isEmpty() ,validarCampos] ,
     [ check('fue_iniciales', 'El campo fue_iniciales es obligatorio').not().isEmpty() ,validarCampos] ,
     [ check('fue_mantieneconsecutivo', 'El campo fue_mantieneconsecutivo es obligatorio').not().isEmpty() ,validarCampos] ,
@@ -63,8 +64,8 @@ server.get('/:id', async(req, res) => {
  });
 
  //bulkcreate fuentes
- server.post('/bulk', async(req, res) => {
-    const datos = req.body;
+ server.post('/bulk',  [security_post] , async(req, res) => {
+    const {datos} = req.body;
     try {
       const result = await bulkFuentes(datos);
       res.status(200).json(result);

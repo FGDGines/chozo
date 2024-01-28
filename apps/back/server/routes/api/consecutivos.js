@@ -1,13 +1,14 @@
 const express = require("express");
 const { check } = require('express-validator');
 const { validarCampos }  = require('../../middlewares/validar-campos');
+const { security_post } = require("../../middlewares/security");
 const {getAll, getById, getConsecuByAnual,
       getConsecuByFuente, addConsecu, 
       generarConsecu, updateConsecu} = require("../../controllers/api/consecutivosControllers");
 const server = express();
 
 //devuelve todos los consecutivos
-server.get('/', async(req, res) => {
+server.get('/',  [security_post] , async(req, res) => {
    try {
       const result = await getAll();
       res.status(200).json(result);
@@ -19,7 +20,7 @@ server.get('/', async(req, res) => {
 
 
  //devuelve  consecutivo por su id
-server.get('/:id', async(req, res) => {
+server.get('/:id',  [security_post] , async(req, res) => {
     const {id} = req.params;
     try {
        const result = await getById(id);
@@ -31,7 +32,7 @@ server.get('/:id', async(req, res) => {
  });
 
  //devuelve  consecutivo de una misma fuente
- server.get('/fuente/:id', async(req, res) => {
+ server.get('/fuente/:id',  [security_post] , async(req, res) => {
     const {id} = req.params;
     try {
        const result = await getConsecuByFuente(id);
@@ -43,7 +44,7 @@ server.get('/:id', async(req, res) => {
  });
 
  //devuelve  consecutivo de un mismo año
- server.get('/anual/:id', async(req, res) => {
+ server.get('/anual/:id',  [security_post] , async(req, res) => {
     const {id} = req.params;
     try {
        const result = await getConsecuByAnual(id);
@@ -57,7 +58,7 @@ server.get('/:id', async(req, res) => {
 
 
  //crea un nuevo consecutivo
- server.post('/', 
+ server.post('/',  [security_post] , 
     [ check('fuente_id', 'El campo fuente_id es obligatorio').not().isEmpty() ,validarCampos] ,
     [ check('conse_anual', 'El campo conse_anual es obligatorio').not().isEmpty() ,validarCampos] ,
     [ check('conse_ultimograbado', 'El campo conse_ultimograbado es obligatorio').not().isEmpty() ,validarCampos] ,
@@ -73,7 +74,7 @@ server.get('/:id', async(req, res) => {
  });
 
  //actualiza un consecutivo
- server.put('/:id', 
+ server.put('/:id',  [security_post] , 
  [ check('fuente_id', 'El campo fuente_id es obligatorio').not().isEmpty() ,validarCampos] ,
  [ check('conse_anual', 'El campo conse_anual es obligatorio').not().isEmpty() ,validarCampos] ,
  [ check('conse_ultimograbado', 'El campo conse_ultimograbado es obligatorio').not().isEmpty() ,validarCampos] ,
@@ -90,10 +91,10 @@ server.get('/:id', async(req, res) => {
  });
 
  //genera todos los consecutivos de un año
- server.post('/bulk', 
+ server.post('/bulk', [security_post] ,  
    [ check('anual', 'El campo anual es obligatorio').not().isEmpty() ,validarCampos] ,   
    async(req, res) => {
-   const datos = req.body;
+   const {datos} = req.body;
    try {
       const result = await generarConsecu(datos);
       res.status(200).json(result);

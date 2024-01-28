@@ -1,6 +1,7 @@
 const express = require("express");
-const { check } = require('express-validator')
-const { validarCampos }  = require('../../middlewares/validar-campos')
+const { check } = require('express-validator');
+const { validarCampos }  = require('../../middlewares/validar-campos');
+const { security_post } = require("../../middlewares/security");
 
 const {getPuc, getCuentaByCodigo, updateCuenta,
        getCuentaById, addCuenta,
@@ -9,7 +10,7 @@ const server = express();
 
 
 //devuelve el plan de cuentas completo o una cuenta por su codigo
-server.get('/', async(req, res) => {
+server.get('/',  [security_post] , async(req, res) => {
     const query = req.query;
     try {
         if(query.hasOwnProperty('puc_codigo')) {
@@ -26,7 +27,7 @@ server.get('/', async(req, res) => {
 });
 
 //devuelve una cuenta por su id
-server.get('/:id', async(req, res) => {
+server.get('/:id',  [security_post] , async(req, res) => {
    const {id} = req.params; 
    try {
        const result = await getCuentaById(id);
@@ -38,7 +39,7 @@ server.get('/:id', async(req, res) => {
 });
 
 //AGREGA NUEVA CUENTA
-server.post('/', 
+server.post('/', [security_post] ,  
     [ check('puc_codigo', 'El codigo de la cuenta es obligatorio').not().isEmpty() ,validarCampos] ,
     [ check('puc_cuenta', 'El nombre de la cuenta es obligatorio').not().isEmpty() ,validarCampos] ,
     async(req, res) => {
@@ -53,7 +54,7 @@ server.post('/',
  });
 
  //edita una CUENTA
-server.put('/:id', 
+server.put('/:id', [security_post] ,  
    [ check('puc_codigo', 'El codigo de la cuenta es obligatorio').not().isEmpty() ,validarCampos] ,
    [ check('puc_cuenta', 'El nombre de la cuenta es obligatorio').not().isEmpty() ,validarCampos] ,
    async(req, res) => {
@@ -69,7 +70,7 @@ server.put('/:id',
 });
 
 //eliminar una cuenta
-server.delete('/:id', async(req, res) => {
+server.delete('/:id',  [security_post] , async(req, res) => {
     const {id} = req.params; 
     try {
         const result = await deleteCuenta(id);
@@ -81,8 +82,8 @@ server.delete('/:id', async(req, res) => {
  });
  
 //crea plan de cuentas en bloque
-server.post('/bulk', async(req, res) => {
-   const datos = req.body;
+server.post('/bulk',  [security_post] , async(req, res) => {
+   const {datos} = req.body;
    try {
        const result = await bulkPuc(datos);
        res.status(200).json(result);

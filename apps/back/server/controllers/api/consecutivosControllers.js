@@ -1,5 +1,6 @@
 const {consecutivos, fuentes} = require("../../models/DbConex");
 
+
 //devuelve todos los consecutivos existente
 const getAll = async() => {
    const result = await consecutivos.findAll({
