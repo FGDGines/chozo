@@ -40,7 +40,8 @@ const updateDpto = async(datos, id) => {
 };
 
 //creacion masiva de dptos
-const bulkDptos = async(datos) => {
+const bulkDptos = async(info) => {
+   const {datos} = info;
    const result = await departamentos.bulkCreate(datos);
    return result;
 };

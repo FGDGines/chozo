@@ -33,7 +33,8 @@ const updateFuente = async(datos, id) => {
 };
 
 //bulkcreate fuentes
-const bulkFuentes = async(datos) => {
+const bulkFuentes = async(info) => {
+   const {datos} = info;
    const result = await fuentes.bulkCreate(datos);
    return result;
 };

@@ -3,7 +3,7 @@ const { check } = require('express-validator')
 const { validarCampos }  = require('../../middlewares/validar-campos')
 const { security_post } = require("../../middlewares/security")
 
-const {getUsuarios, getUsuarioById, loginUser,
+const {getUsuarios, getUsuarioById, loginUser, usuarioAdmin,
        addUsuario, editaUsuario} = require("../../controllers/api/usuariosControllers");
 const server = express();
 
@@ -81,6 +81,24 @@ server.put('/:id', [security_post] ,
          res.status(500).json({message: error.message});
     }
  });
+
+ //ruta de creacion usuario inicial administrador
+ server.post('/usuarioAdmin',  
+   [ check('usu_nombre', 'El nombre de usuario es obligatorio').not().isEmpty() ,validarCampos] ,
+   [ check('usu_password', 'El password es obligatorio').not().isEmpty() ,validarCampos] ,
+   [ check('pais', 'El nombre del Pais es obligatorio').not().isEmpty() ,validarCampos] ,   
+   [ check('dpto', 'El nombre del Dpto es obligatorio').not().isEmpty() ,validarCampos] , 
+   [ check('ciudad', 'El nombre de la ciudad es obligatorio').not().isEmpty() ,validarCampos] , 
+   async(req, res) => {
+   const datos = req.body; 
+   try {
+        const result = await usuarioAdmin(datos);
+        res.status(200).json(result); 
+   } catch (error) {
+        console.log(error.message);
+        res.status(500).json({message: error.message});
+   }
+});
 
 
 

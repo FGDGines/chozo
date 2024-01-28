@@ -38,7 +38,8 @@ const getGrupos = async() => {
  };
 
  //bulkcreate grupos
- const bulkGrupos = async(datos) => {
+ const bulkGrupos = async(info) => {
+   const {datos} = info;
     const result = await grupos.bulkCreate(datos);
     return result;
  };

@@ -1,4 +1,4 @@
-const {usuarios, terceros} = require("../../models/DbConex");
+const {usuarios, terceros, paises, departamentos, ciudades} = require("../../models/DbConex");
 const bcryptjs =  require('bcryptjs')
 const { generarJWT } = require("../../middlewares/generarJWT")
 
@@ -81,10 +81,49 @@ const editaUsuario = async(datos, id) => {
     return result;    
 };
 
+//este controller crea el usuario administrador inicial del sistema
+const usuarioAdmin = async(datos) => {
+   const {usu_nombre, usu_password, pais, dpto, ciudad,
+          apellidos, nombres, documento, email,
+          direccion, telefono, celular} = datos;
+   const razon = apellidos+' '+nombres;  
+   
+   //buscamos primero si ya esta creado el usuario inicial
+   const existe = await getUsuarioById(1);
+   if(existe) throw Error("Usuario Admin Inicial ya se encuentra creado");
+   //creamos el pais
+   const xpais = await paises.create({pai_nombre: pais});
+   //creamos el departamento
+   const xdpto = await departamentos.create({dpt_nombre: dpto, pais_id: xpais.id});
+   //creamos la ciudad
+   const xciudad = await ciudades.create({ciu_nombre: ciudad, departamento_id: xdpto.id});
+   //ahora creamos el tercero 
+   const newTercero = {
+      ter_documento: documento,
+      ter_tercero: razon,
+      ter_apellidos: apellidos,
+      ter_nombres: nombres,
+      ter_direccion: direccion,
+      ter_telefono: telefono,
+      ter_email: email,
+      ter_celular: celular,
+      ciudad_id: xciudad.id,
+      tipodocumento_id: 3,
+      tipotercero_id: 1
+   };
+   const ter = await terceros.create(newTercero);
+   //ahora procedemos a crear el usuario nuevo
+   const nuevoUser = {usu_nombre, usu_password, usu_admin: 1, tercero_id: ter.id};
+   const result = await addUsuario(nuevoUser);
+   return result;
+
+};
+
 module.exports = {
    getUsuarios,
    getUsuarioById,
    addUsuario,
    editaUsuario,
    loginUser,
+   usuarioAdmin,
 };

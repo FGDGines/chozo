@@ -42,7 +42,8 @@ const updateCiudad = async(datos, id) => {
 };
 
 //creacion masiva de ciudades
-const bulkCiudades = async(datos) => {
+const bulkCiudades = async(info) => {
+   const {datos} = info;
    const result = await ciudades.bulkCreate(datos);
    return result;
 };

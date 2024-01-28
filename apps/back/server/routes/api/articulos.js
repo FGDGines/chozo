@@ -82,8 +82,8 @@ server.get('/grupo/:id',  [security_post] , async(req, res) => {
  });
 
  //creacion masiva de articulos
- server.post('/bulk', [security_post] ,  async(req, res) => {
-   const {datos} = req.body;
+ server.post('/bulk',  [security_post] ,  async(req, res) => {
+   const datos = req.body;
    try {
       const result = await bulkArticulos(datos);
       res.status(200).json(result);

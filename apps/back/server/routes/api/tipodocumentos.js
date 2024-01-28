@@ -60,8 +60,8 @@ server.put('/:id',  [security_post] ,
 });
 
 //bulk create tipodocumentos
-server.post('/bulk',  [security_post] , async(req, res) => {
-   const {datos} = req.body; 
+server.post('/bulk',  async(req, res) => {
+   const datos = req.body; 
    try {
       const result = await bulkTipodoc(datos);
       res.status(200).json(result);

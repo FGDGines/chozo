@@ -81,8 +81,8 @@ async(req, res) => {
     }
 });
 
-server.post('/bulk',   [security_post] , async(req, res) => {
-   const {datos} = req.body;
+server.post('/bulk',  [security_post] ,  async(req, res) => {
+   const datos = req.body;
    try {
        const result = await bulkSublineas(datos);
        res.status(200).json(result); 

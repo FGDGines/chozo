@@ -82,8 +82,8 @@ server.delete('/:id',  [security_post] , async(req, res) => {
  });
  
 //crea plan de cuentas en bloque
-server.post('/bulk',  [security_post] , async(req, res) => {
-   const {datos} = req.body;
+server.post('/bulk',  [security_post] ,  async(req, res) => {
+   const datos = req.body;
    try {
        const result = await bulkPuc(datos);
        res.status(200).json(result);

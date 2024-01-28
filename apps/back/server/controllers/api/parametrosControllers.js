@@ -29,7 +29,8 @@ const updateParametro = async(datos, id) => {
 };
 
 //crea varios registros simultaneamente
-const llenarParametros = async(datos) => {
+const llenarParametros = async(info) => {
+   const {datos} = info;
    const result = await parametros.bulkCreate(datos);
    const registros = await parametros.findAll();
    return registros;

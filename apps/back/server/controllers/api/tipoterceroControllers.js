@@ -28,9 +28,16 @@ const updateTipoter = async(datos, id) => {
    return registro;
 };
 
+//creacion masiva de tipos de tercero
+const bulkTipoter = async(datos) => {
+   const result = await tipoterceros.bulkCreate(datos);
+   return result;
+};
+
 module.exports = {
    getAll,
    getTipoterById,
    newTipoter,
-   updateTipoter
+   updateTipoter,
+   bulkTipoter,
 };

@@ -28,7 +28,8 @@ const updateFormaPago = async(datos, id) => {
 };
 
 //creamos en bloque las formas de pago
-const bulkFormaPago = async(datos) => {
+const bulkFormaPago = async(info) => {
+   const {datos} = info;
    const result = await formasdepago.bulkCreate(datos);
    return result;
 }

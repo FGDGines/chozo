@@ -66,7 +66,7 @@ server.put('/:id',  [security_post] ,
 
 //creacion de varios parametros en bloque
  server.post('/bulk',  [security_post] ,  async(req, res) => {
-   const {datos} = req.body;
+   const datos = req.body;
    try {
        const result = await llenarParametros(datos);
        res.status(200).json(result);

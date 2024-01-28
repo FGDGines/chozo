@@ -50,7 +50,7 @@ server.put('/:id',  [security_post] ,
     [ check('fecha', 'El campo fecha es obligatorio').not().isEmpty() ,validarCampos] ,   
     [ check('usuario', 'El campo usuario es obligatorio').not().isEmpty() ,validarCampos] , 
     async(req, res) => {
-    const datos = req.body;
+    const {datos} = req.body;
     try {
         const result = await fullUpdateExistencias(datos);
         res.status(200).json(result);

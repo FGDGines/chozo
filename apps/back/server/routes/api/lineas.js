@@ -61,8 +61,8 @@ server.put('/:id',  [security_post] ,
 });
 
 //bulk create lineas
-server.post('/bulk',  [security_post] , async(req, res) => {
-   const {datos} = req.body; 
+server.post('/bulk',  [security_post] ,  async(req, res) => {
+   const datos = req.body; 
    try {
        const result = await bulkLineas(datos);
        res.status(200).json(result);

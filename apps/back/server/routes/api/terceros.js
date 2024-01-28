@@ -63,8 +63,8 @@ server.get('/:id',  [security_post] , async(req, res) => {
    };
  });
 
- server.post('/bulk',  [security_post] , async(req, res) => {
-    const {datos} = req.body;
+ server.post('/bulk',  [security_post] ,  async(req, res) => {
+    const datos = req.body;
     try {
         const result = await bulkTerceros(datos);
         res.status(200).json(result);

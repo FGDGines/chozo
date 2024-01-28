@@ -41,7 +41,8 @@ const updateSublinea = async(datos, id) => {
 };
 
 //bulk create sublineas
-const bulkSublineas = async(datos) => {
+const bulkSublineas = async(info) => {
+   const {datos} = info;
    const result = await sublineas.bulkCreate(datos);
    return result;
 };

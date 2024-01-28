@@ -3,7 +3,7 @@ const { check } = require('express-validator');
 const { validarCampos }  = require('../../middlewares/validar-campos');
 const { security_post } = require("../../middlewares/security");
 
-const {getAll, getTipoterById,
+const {getAll, getTipoterById, bulkTipoter,
        newTipoter, updateTipoter} = require("../../controllers/api/tipoterceroControllers");
 const server = express();
 
@@ -57,6 +57,18 @@ server.put('/:id',  [security_post] ,
        console.log(error.message);
        res.status(500).json({message: error.message});        
    }
+});
+
+//bulk create tipo de terceros
+server.post('/bulk', async(req, res) => {
+    const datos=req.body;
+    try {
+        const result = await bulkTipoter(datos);
+        res.status(200).json(result);
+    } catch (error) {
+        console.log(error.message);
+        res.status(500).json({message: error.message});        
+    }
 });
 
 module.exports = server;

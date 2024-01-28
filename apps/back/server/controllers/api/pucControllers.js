@@ -106,7 +106,8 @@ const deleteCuenta = async(id) => {
 };
 
 //crea varias cuentas en bloque
-const bulkPuc = async(datos) => {
+const bulkPuc = async(info) => {
+   const {datos} = info;
    const result = await puc.bulkCreate(datos);
    const query1 = "SELECT puc_codigo,puc_cuenta,puc_nivel FROM puc order by puc_codigo";
    const registros = await conex.query(`${query1}`);

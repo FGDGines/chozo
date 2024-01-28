@@ -27,7 +27,8 @@ const updateLinea = async(datos, id) => {
 };
 
 //bulk create lineas
-const bulkLineas = async(datos) => {
+const bulkLineas = async(info) => {
+   const {datos} = info;
    const result = await lineas.bulkCreate(datos);
    return result;
 };

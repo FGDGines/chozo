@@ -65,7 +65,8 @@ const updateArticulo = async(datos, id) => {
 };
 
 //creacion masiva de articulos
-const bulkArticulos = async(datos) => {
+const bulkArticulos = async(info) => {
+   const {datos} = info;
    const result = await articulos.bulkCreate(datos);
    return result;
 };

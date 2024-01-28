@@ -38,7 +38,8 @@ const updateTercero = async(datos, id) => {
    return result;     
 };
 
-const bulkTerceros = async(datos) => {
+const bulkTerceros = async(info) => {
+   const {datos} = info;
    const result = await terceros.bulkCreate(datos);
    return result;
 };

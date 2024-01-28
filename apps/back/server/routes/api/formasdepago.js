@@ -62,8 +62,8 @@ server.get('/:id',  [security_post] , async(req, res) => {
  });
 
 //crea en bloque formas de pago
-server.post('/bulk',  [security_post] , async(req, res) => {
-   const {datos} = req.body; 
+server.post('/bulk',  [security_post] ,  async(req, res) => {
+   const datos = req.body; 
    try {
       const result = await bulkFormaPago(datos);
       res.status(200).json(result);
