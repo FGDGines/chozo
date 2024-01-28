@@ -1,13 +1,14 @@
 const express = require("express");
 const { check } = require('express-validator')
 const { validarCampos }  = require('../../middlewares/validar-campos')
+const { security_post } = require("../../middlewares/security")
 
 const {getUsuarios, getUsuarioById, loginUser,
        addUsuario, editaUsuario} = require("../../controllers/api/usuariosControllers");
 const server = express();
 
 //consulta todos los usuarios del sistema
-server.get('/', async(req, res) => {
+server.get('/', [security_post] ,  async(req, res) => {
     try {
         const result = await getUsuarios();
         res.status(200).json(result);
