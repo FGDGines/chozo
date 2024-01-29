@@ -15,7 +15,11 @@ function Modal({ props }) {
 
   return (
     <div className="font-SFRegular h-screen w-screen  bg-transparent absolute z-10 left-0 top-0 flex justify-center items-center">
-      <div className="bg-white border-gray-600 border-2 w-[70%] h-[80%] flex-col flex p-1 rounded-xl ">
+      <div
+        className={`bg-white border-gray-600 border-2 ${
+          isShoppingRoute ? "h-[95%] w-[80%]" : "h-[80%] w-[70%]"
+        } flex-col flex p-1 rounded-xl`}
+      >
         <div className="boton-eliminar">
           <button
             onClick={() => props.setShowModal(false)}
