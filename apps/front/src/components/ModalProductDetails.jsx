@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
-
 import "react-toastify/dist/ReactToastify.css";
 
 function ModalProductDetails({ props }) {
+  const token = localStorage.getItem("token");
+  console.log(token, "token en modal");
   const [groups, setGroups] = useState([]);
   const [marcas, setMarcas] = useState([]);
   const [unit, setUnit] = useState([]);
@@ -28,7 +29,13 @@ function ModalProductDetails({ props }) {
 
   const getGroups = async () => {
     try {
-      const response = await axios.get("http://localhost:8081/api/grupos");
+      if (!token) {
+        return;
+      }
+      const response = await axios.get(
+        token,
+        "http://localhost:8081/api/grupos"
+      );
       setGroups(response.data);
     } catch (error) {
       console.error("error al traer grupo:", error);
@@ -36,7 +43,13 @@ function ModalProductDetails({ props }) {
   };
   const getMarcas = async () => {
     try {
-      const response = await axios.get("http://localhost:8081/api/marcas");
+      if (!token) {
+        return;
+      }
+      const response = await axios.get(
+        token,
+        "http://localhost:8081/api/marcas"
+      );
       setMarcas(response.data);
     } catch (error) {
       console.error("error al traer marcas:", error);
@@ -44,7 +57,13 @@ function ModalProductDetails({ props }) {
   };
   const getUnit = async () => {
     try {
-      const response = await axios.get("http://localhost:8081/api/unidades");
+      if (!token) {
+        return;
+      }
+      const response = await axios.get(
+        token,
+        "http://localhost:8081/api/unidades"
+      );
       setUnit(response.data);
     } catch (error) {
       console.error("error al traer unidades:", error);
@@ -92,7 +111,11 @@ function ModalProductDetails({ props }) {
   const handleModificar = async () => {
     setIsActivo(false);
     try {
+      if (!token) {
+        return;
+      }
       const response = await axios.put(
+        token,
         `http://localhost:8081/api/articulos/${props.selectedArticle.id}`,
         editedArticle
       );
@@ -166,34 +189,41 @@ function ModalProductDetails({ props }) {
               // onChange={(e) => handleInputChange(e, "uni_detalles")}
             />
           </div>
-          <div id="marca">
-            <strong>Marca:</strong>{" "}
-            <select
-              className="border border-1 px-2 w-[200px] rounded-xl border-gray-300"
-              value={editedArticle.marca_id}
-              onChange={(e) => handleInputChange(e, "marca_id")}
-            >
-              {marcas.map((marca) => (
-                <option key={marca.id} value={marca.id}>
-                  {marca.mar_detalles}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div id="grupo">
-            <strong>Grupo:</strong>{" "}
-            <select
-              className="border border-1 px-2 w-[200px] rounded-xl border-gray-300"
-              value={editedArticle.grupo_id}
-              onChange={(e) => handleInputChange(e, "grupo_id")}
-            >
-              {groups.map((grup) => (
-                <option key={grup.id} value={grup.id}>
-                  {grup.gru_detalles}
-                </option>
-              ))}
-            </select>
-          </div>
+
+          {props.selectedArticle.marca && (
+            <div id="marca">
+              <strong>Marca:</strong>{" "}
+              <select
+                className="border border-1 px-2 w-[200px] rounded-xl border-gray-300"
+                value={editedArticle.marca_id}
+                onChange={(e) => handleInputChange(e, "marca_id")}
+              >
+                {marcas.map((marca) => (
+                  <option key={marca.id} value={marca.id}>
+                    {marca.mar_detalles}
+                  </option>
+                ))}
+              </select>
+            </div>
+          )}
+
+          {props.selectedArticle.grupo && (
+            <div id="grupo">
+              <strong>Grupo:</strong>{" "}
+              <select
+                className="border border-1 px-2 w-[200px] rounded-xl border-gray-300"
+                value={editedArticle.grupo_id}
+                onChange={(e) => handleInputChange(e, "grupo_id")}
+              >
+                {groups.map((grupo) => (
+                  <option key={grupo.id} value={grupo.id}>
+                    {grupo.gru_detalles}
+                  </option>
+                ))}
+              </select>
+            </div>
+          )}
+
           <div id="impuesto">
             <strong>Impuesto:</strong>{" "}
             {/* {props.selectedArticle.art_impuestoventa} */}

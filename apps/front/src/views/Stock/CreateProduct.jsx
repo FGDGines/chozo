@@ -51,6 +51,8 @@ function CreateProduct() {
     marca_id: null,
     unidad_id: null,
     grupo_id: null,
+    token:
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiaWF0IjoxNzA2NTczNTQxLCJleHAiOjE3MzgxMDk1NDF9.aDC_wP4TiPdCiwVAwMAEo4A4z7MHWWhuZAEU4o7I7ew",
   });
   const handleInputChange = (event, property) => {
     if (property === "art_detalles") {

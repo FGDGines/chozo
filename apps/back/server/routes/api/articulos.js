@@ -9,6 +9,7 @@ const server = express();
 
 //devuelve todas los articulos
 server.get('/',  [security_post] , async(req, res) => {
+   console.log(req.body)
    try {
       const result = await getArticulos();
       res.status(200).json(result);

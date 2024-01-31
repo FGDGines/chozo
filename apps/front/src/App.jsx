@@ -20,15 +20,11 @@ import PendingReceipt from "./views/Purchases/PendingReceipt";
 function App() {
   const [isAuthenticated, setAuthenticated] = useState(false);
 
-  // Función para manejar la autenticación
   const handleLogin = (username, password) => {
-    // Lógica de autenticación aquí
-    // Si las credenciales son válidas, establece isAuthenticated en true
     setAuthenticated(true);
   };
 
   const handleLogout = () => {
-    // Puedes agregar aquí la lógica para cerrar la sesión del usuario
     setAuthenticated(false);
   };
   return (
@@ -45,10 +41,6 @@ function App() {
             )
           }
         />
-        {/* <Route
-          path="/home"
-          element={isAuthenticated ? <Outlet /> : <Navigate to="/" />}
-        /> */}
         <Route
           path="/home"
           element={

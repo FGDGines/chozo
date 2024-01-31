@@ -13,17 +13,62 @@ const Login = ({ onLogin }) => {
     backgroundPosition: "center",
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    try {
+      const response = await fetch("http://localhost:8081/api/usuarios/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          usu_nombre: username,
+          usu_password: password,
+        }),
+      });
 
-    // Lógica de autenticación básica (simulada)
-    if (username === "1" && password === "1") {
-      onLogin(username, password);
-      setError("");
-    } else {
-      setError("Nombre de usuario o contraseña incorrectos");
+      if (!response.ok) {
+        throw new Error("Nombre de usuario o contraseña incorrectos");
+      }
+
+      const data = await response.json();
+      const token = data.token;
+
+      localStorage.setItem("token", token);
+
+      onLogin(token);
+    } catch (error) {
+      setError(error.message);
     }
   };
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   try {
+  //     const response = await fetch("http://localhost:8081/api/usuarios/login", {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify({
+  //         usu_nombre: username,
+  //         usu_password: password,
+  //       }),
+  //     });
+
+  //     if (!response.ok) {
+  //       throw new Error("Nombre de usuario o contraseña incorrectos");
+  //     }
+
+  //     const data = await response.json();
+  //     const token = data.token;
+
+  //     localStorage.setItem("token", JSON.stringify({ token: token }));
+
+  //     onLogin(token);
+  //   } catch (error) {
+  //     setError(error.message);
+  //   }
+  // };
 
   return (
     <div

@@ -12,8 +12,6 @@ function Home(props) {
     backgroundPosition: "center",
   };
   const toLogin = () => {
-    // Utiliza la función handleLogout para cerrar sesión
-    // Aquí asumo que handleLogout está siendo pasada como prop desde App
     props.handleLogout();
   };
   return (
