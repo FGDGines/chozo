@@ -4,9 +4,12 @@ import { FaCircle } from "react-icons/fa";
 import axios from "axios";
 
 function Stock() {
+  const token = localStorage.getItem("token");
+  console.log("TOKEN", token);
   const [articles, setArticles] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [selectedArticle, setSelectedArticle] = useState(null);
+
   const props = {
     showModal,
     setShowModal,
@@ -14,19 +17,34 @@ function Stock() {
     setArticles,
     articles,
   };
-  const getArticles = async () => {
-    try {
-      const response = await axios.get("http://localhost:8081/api/articulos");
-
-      setArticles(response.data);
-    } catch (error) {
-      console.error("Error:", error);
-    }
-  };
 
   useEffect(() => {
     getArticles();
   }, []);
+
+  // const jsonObject = {
+  //   token:
+  //     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiaWF0IjoxNzA2NTczNTQxLCJleHAiOjE3MzgxMDk1NDF9.aDC_wP4TiPdCiwVAwMAEo4A4z7MHWWhuZAEU4o7I7ew",
+  // };
+  // const jsonString = JSON.stringify(jsonObject);
+
+  const getArticles = async () => {
+    try {
+      if (!token) {
+        return;
+      }
+      const response = await axios.get(
+        { token: token },
+        "http://localhost:8081/api/articulos"
+      );
+
+      console.log("response", response.data);
+      setArticles(response.data);
+      // console.log(jsonString);
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
 
   const columns = [
     { header: "ID", accessorKey: "id" },
@@ -73,12 +91,12 @@ function Stock() {
   }
   return (
     <>
-      <Table
+      {/* <Table
         data={articles}
         columns={columns}
         name={"Productos"}
         props={props}
-      />
+      /> */}
     </>
   );
 }

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Table from "../../components/Table";
-// import data from "../../../data.json";
+import { RiLoader2Fill } from "react-icons/ri";
 
 function Sell() {
   const [sales, setSales] = useState([]);
