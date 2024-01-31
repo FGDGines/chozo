@@ -18,7 +18,7 @@ import Login from "./views/Login/Login";
 import PendingReceipt from "./views/Purchases/PendingReceipt";
 
 function App() {
-  const [isAuthenticated, setAuthenticated] = useState(true);
+  const [isAuthenticated, setAuthenticated] = useState(false);
 
   // Función para manejar la autenticación
   const handleLogin = (username, password) => {
