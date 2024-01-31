@@ -9,7 +9,9 @@ require('dotenv').config()
 const security_post = async (req = request, res = response, next) => {
 
     try {
-        const { token } = req.body
+        let { token } = req.body
+        if(!token)   token  = req.headers.token
+
         if (token) {
             const payload = await jwt.verify(token, process.env.SECRETORPRIVATEKEY)
 

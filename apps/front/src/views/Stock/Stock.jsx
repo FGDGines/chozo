@@ -34,8 +34,11 @@ function Stock() {
         return;
       }
       const response = await axios.get(
-        { token: token },
-        "http://localhost:8081/api/articulos"
+        "http://localhost:8081/api/articulos", {
+          headers:{
+            "token":token
+          }
+        }
       );
 
       console.log("response", response.data);
