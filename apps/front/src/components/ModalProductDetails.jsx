@@ -5,7 +5,6 @@ import "react-toastify/dist/ReactToastify.css";
 
 function ModalProductDetails({ props }) {
   const token = localStorage.getItem("token");
-  console.log(token, "token en modal");
   const [groups, setGroups] = useState([]);
   const [marcas, setMarcas] = useState([]);
   const [unit, setUnit] = useState([]);
@@ -32,10 +31,11 @@ function ModalProductDetails({ props }) {
       if (!token) {
         return;
       }
-      const response = await axios.get(
-        token,
-        "http://localhost:8081/api/grupos"
-      );
+      const response = await axios.get("http://localhost:8081/api/grupos", {
+        headers: {
+          token: token,
+        },
+      });
       setGroups(response.data);
     } catch (error) {
       console.error("error al traer grupo:", error);
@@ -46,10 +46,11 @@ function ModalProductDetails({ props }) {
       if (!token) {
         return;
       }
-      const response = await axios.get(
-        token,
-        "http://localhost:8081/api/marcas"
-      );
+      const response = await axios.get("http://localhost:8081/api/marcas", {
+        headers: {
+          token: token,
+        },
+      });
       setMarcas(response.data);
     } catch (error) {
       console.error("error al traer marcas:", error);
@@ -60,10 +61,11 @@ function ModalProductDetails({ props }) {
       if (!token) {
         return;
       }
-      const response = await axios.get(
-        token,
-        "http://localhost:8081/api/unidades"
-      );
+      const response = await axios.get("http://localhost:8081/api/unidades", {
+        headers: {
+          token: token,
+        },
+      });
       setUnit(response.data);
     } catch (error) {
       console.error("error al traer unidades:", error);
@@ -115,9 +117,13 @@ function ModalProductDetails({ props }) {
         return;
       }
       const response = await axios.put(
-        token,
         `http://localhost:8081/api/articulos/${props.selectedArticle.id}`,
-        editedArticle
+        editedArticle,
+        {
+          headers: {
+            token: token,
+          },
+        }
       );
       console.log("respuesta del servidor", response);
 

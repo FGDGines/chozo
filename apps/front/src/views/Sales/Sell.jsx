@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Table from "../../components/Table";
-import { RiLoader2Fill } from "react-icons/ri";
+import { FaCheck } from "react-icons/fa";
+import { FaCircle } from "react-icons/fa";
 
 function Sell() {
+  const token = localStorage.getItem("token");
+  console.log(token);
   const [sales, setSales] = useState([]);
   const [bill, setBill] = useState([]);
   const [showModal, setShowModal] = useState(false);
@@ -13,7 +16,20 @@ function Sell() {
     { header: "fecha", accessorKey: "cxc_fechafac" },
     { header: "cliente", accessorKey: "tercero.ter_tercero" },
     { header: "total", accessorKey: "cxc_valor" },
-    { header: "a cuenta", accessorKey: "cxc_metodopago" },
+    {
+      header: "credito",
+      accessorKey: "cxc_metodopago",
+      cell: (row) =>
+        row.row.original.cxc_metodopago === 1 ? (
+          <div className="w-full flex justify-center items-center">
+            <FaCheck className="text-red-400" />
+          </div>
+        ) : (
+          <div className="w-full flex justify-center items-center">
+            <FaCircle className="text-gray-300" />{" "}
+          </div>
+        ),
+    },
     {
       header: "acciones",
       accessorKey: "",
@@ -31,14 +47,17 @@ function Sell() {
   function buttonAction(row) {
     setShowModal(true);
     getBillById(row.row.original.id);
-    // console.log("ir a albaran n°", row.row.original.id);
   }
 
   const getBillById = async (id) => {
     try {
-      // console.log("este es el id", id);
       const response = await axios.get(
-        `http://localhost:8081/api/carteraxcobrar/${id}`
+        `http://localhost:8081/api/carteraxcobrar/${id}`,
+        {
+          headers: {
+            token: token,
+          },
+        }
       );
 
       setBill(response.data);
@@ -50,7 +69,12 @@ function Sell() {
   const getSales = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:8081/api/carteraxcobrar"
+        "http://localhost:8081/api/carteraxcobrar",
+        {
+          headers: {
+            token: token,
+          },
+        }
       );
       const data = response.data.map((venta) => {
         const fecha = new Date(venta.cxc_fechafac);
@@ -76,7 +100,6 @@ function Sell() {
     getBillById,
     bill,
   };
-  // console.log("factura", bill);
   return (
     <div className="p-5 w-[97%]">
       <Table data={sales} columns={columns} name="ventas" props={props} />;

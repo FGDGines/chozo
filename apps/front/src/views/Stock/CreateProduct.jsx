@@ -4,6 +4,8 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 function CreateProduct() {
+  const token = localStorage.getItem("token");
+
   const [groups, setGroups] = useState([]);
   const [marcas, setMarcas] = useState([]);
   const [unit, setUnit] = useState([]);
@@ -13,7 +15,11 @@ function CreateProduct() {
 
   const getGroups = async () => {
     try {
-      const response = await axios.get("http://localhost:8081/api/grupos");
+      const response = await axios.get("http://localhost:8081/api/grupos", {
+        headers: {
+          token: token,
+        },
+      });
       setGroups(response.data);
     } catch (error) {
       console.error("Error al traer grupo:", error);
@@ -21,7 +27,11 @@ function CreateProduct() {
   };
   const getMarcas = async () => {
     try {
-      const response = await axios.get("http://localhost:8081/api/marcas");
+      const response = await axios.get("http://localhost:8081/api/marcas", {
+        headers: {
+          token: token,
+        },
+      });
       setMarcas(response.data);
     } catch (error) {
       console.error("Error al traer marcas:", error);
@@ -29,7 +39,11 @@ function CreateProduct() {
   };
   const getUnit = async () => {
     try {
-      const response = await axios.get("http://localhost:8081/api/unidades");
+      const response = await axios.get("http://localhost:8081/api/unidades", {
+        headers: {
+          token: token,
+        },
+      });
       setUnit(response.data);
     } catch (error) {
       console.error("Error al traer unidades:", error);
@@ -51,8 +65,7 @@ function CreateProduct() {
     marca_id: null,
     unidad_id: null,
     grupo_id: null,
-    token:
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiaWF0IjoxNzA2NTczNTQxLCJleHAiOjE3MzgxMDk1NDF9.aDC_wP4TiPdCiwVAwMAEo4A4z7MHWWhuZAEU4o7I7ew",
+    token: token,
   });
   const handleInputChange = (event, property) => {
     if (property === "art_detalles") {
@@ -82,8 +95,6 @@ function CreateProduct() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Producto creado", product);
-
     try {
       if (
         !product.art_detalles ||
@@ -100,9 +111,6 @@ function CreateProduct() {
           "http://localhost:8081/api/articulos",
           product
         );
-
-        console.log("Al crearse devuelve", response);
-
         setProduct({
           art_detalles: "",
           art_referencia: "",

@@ -5,8 +5,12 @@ import productos from "../../../data.json";
 import ShoppingCartTable from "../../components/ShoppingCartTable";
 import HeaderSale from "../../components/HeaderSale";
 import ModalError from "../../components/ModalError";
+import { ToastContainer, toast } from "react-toastify";
 
 function Buy() {
+  const token = localStorage.getItem("token");
+  const notify = () => toast.success("¡Venta realizada!");
+
   const [articles, setArticles] = useState([]);
   const [value, setValue] = useState("");
   const [suggestions, setSuggestions] = useState([]);
@@ -25,7 +29,11 @@ function Buy() {
 
   const getArticles = async () => {
     try {
-      const response = await axios.get("http://localhost:8081/api/articulos");
+      const response = await axios.get("http://localhost:8081/api/articulos", {
+        headers: {
+          token: token,
+        },
+      });
       setArticles(response.data);
     } catch (error) {
       console.error("Error:", error);
@@ -34,6 +42,10 @@ function Buy() {
 
   useEffect(() => {
     getArticles();
+    const storedUser = localStorage.getItem("selectedUser");
+    if (storedUser) {
+      setSelectedUser(JSON.parse(storedUser));
+    }
   }, []);
 
   const today = new Date();
@@ -42,6 +54,7 @@ function Buy() {
   }/${today.getFullYear()}`;
 
   const infoModalError = {
+    setSelectedUser,
     showModalError,
     setShowModalError,
     mensaje: messageError,
@@ -144,6 +157,7 @@ function Buy() {
           valoruni: item.precio,
           articulo_id: item.id,
         })),
+        token: token,
       };
 
       if (
@@ -176,6 +190,7 @@ function Buy() {
         "http://localhost:8081/api/pedidos",
         buyData
       );
+      notify();
 
       setShoppingCart([]);
       setTotalQuantity(0);
@@ -414,6 +429,18 @@ function Buy() {
                   CONFIRMAR
                 </button>
               </div>
+              <ToastContainer
+                position="top-right"
+                autoClose={3000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss={false}
+                draggable
+                pauseOnHover
+                theme="colored"
+              />
             </div>
           </div>
         </div>
