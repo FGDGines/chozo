@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 function ModalProviderDetails({ props }) {
-  console.log(props);
+  const token = localStorage.getItem("token");
   const [isActivo, setIsActivo] = useState(props.selectedProvider.pro_activo);
 
   const [editedProvider, setEditedProvider] = useState({
@@ -15,6 +15,7 @@ function ModalProviderDetails({ props }) {
     ter_telefono: props.selectedProvider.tercero.ter_telefono,
     ter_email: props.selectedProvider.tercero.ter_email,
     ter_celular: props.selectedProvider.tercero.ter_celular,
+    token: token,
   });
 
   const handleInputChange = (event, property) => {

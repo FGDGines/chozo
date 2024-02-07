@@ -140,7 +140,7 @@ function Table({ data, columns, name, props }) {
           </div>
         </div>
       ) : (
-        <div className="text-gray-600 flex justify-center items-center w-full h-full">
+        <div className="text-gray-600 flex justify-center items-center w-full h-screen">
           <div className="flex flex-col justify-center items-center">
             <RiLoader2Fill className="text-[60px] mr-5 text-customBlue" />
             Cargando...

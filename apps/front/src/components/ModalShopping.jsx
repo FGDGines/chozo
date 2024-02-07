@@ -3,6 +3,7 @@ import axios from "axios";
 import { RiLoader2Fill } from "react-icons/ri";
 
 function ModalShopping({ props }) {
+  const token = localStorage.getItem("token");
   const [order, setOrder] = useState({});
   const [checkedItems, setCheckedItems] = useState({});
   const orderId = props.selectedOrder.id;
@@ -10,9 +11,14 @@ function ModalShopping({ props }) {
   const fetchPurchaseOrder = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:8081/api/pedidos/${orderId}`
+        `http://localhost:8081/api/pedidos/${orderId}`,
+        {
+          headers: {
+            token: token,
+          },
+        }
       );
-      setOrder(response.data);
+      setOrder({ ...response.data, token: token });
       const initialCheckedItems = {};
       response.data.itempedidos.forEach((item) => {
         initialCheckedItems[item.id] = false;
@@ -28,6 +34,7 @@ function ModalShopping({ props }) {
       fetchPurchaseOrder();
     }
   }, [orderId]);
+  console.log(order);
 
   const handleCantidadChange = (itemId, cantidad) => {
     const updatedOrder = {
@@ -79,7 +86,9 @@ function ModalShopping({ props }) {
           valoruni: item.articulo.art_ultimocosto,
           articulo_id: item.articulo.id,
         })),
+        token: order.token,
       };
+      console.log("pedido modificado", pedModificado);
       const response = await axios.put(
         `http://localhost:8081/api/pedidos/anular/${orderId}`,
         pedModificado
@@ -105,6 +114,7 @@ function ModalShopping({ props }) {
         valorunitario: item.articulo.art_ultimocosto,
       })),
       codUsuario: 1,
+      token: token,
     };
 
     try {

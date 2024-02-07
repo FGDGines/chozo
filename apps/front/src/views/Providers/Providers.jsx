@@ -4,6 +4,7 @@ import { FaCircle } from "react-icons/fa";
 import axios from "axios";
 
 function Providers() {
+  const token = localStorage.getItem("token");
   const [providers, setProviders] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [selectedProvider, setSelectedProvider] = useState(null);
@@ -17,7 +18,14 @@ function Providers() {
   };
   const getProviders = async () => {
     try {
-      const response = await axios.get("http://localhost:8081/api/proveedores");
+      const response = await axios.get(
+        "http://localhost:8081/api/proveedores",
+        {
+          headers: {
+            token: token,
+          },
+        }
+      );
 
       setProviders(response.data);
     } catch (error) {
@@ -70,10 +78,8 @@ function Providers() {
     const selected = providers.find((article) => article.id === articleId);
     setSelectedProvider(selected);
     setShowModal(true);
-    // console.log("proveedor n°", row.row.original.id);
   }
 
-  // console.log(providers);
   return (
     <>
       <Table
