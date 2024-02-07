@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import Home from "./views/Home";
 import Sales from "./views/Sales/Sales";
@@ -16,9 +16,13 @@ import CreateCustomer from "./views/Customers/CreateCustomer";
 import PendingToCollect from "./views/Sales/PendingToCollect";
 import Login from "./views/Login/Login";
 import PendingReceipt from "./views/Purchases/PendingReceipt";
+import { ToastContainer, toast } from "react-toastify";
 
 function App() {
+  const notify = () => toast.warning("¡Debe loguearse!");
+
   const [isAuthenticated, setAuthenticated] = useState(false);
+  console.log("isAuthenticated", isAuthenticated);
 
   const handleLogin = (username, password) => {
     setAuthenticated(true);
@@ -27,8 +31,21 @@ function App() {
   const handleLogout = () => {
     setAuthenticated(false);
   };
+
   return (
     <div className="flex">
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss={false}
+        draggable
+        pauseOnHover
+        theme="colored"
+      />
       <Routes>
         <Route
           exact
@@ -53,111 +70,160 @@ function App() {
             )
           }
         />
-        {/* <Route path="/" element={<MainLayout showSidebar={false} />} />
-        <Route path="/home" element={<Home />} /> */}
         <Route
           path="/sales"
           element={
-            <MainLayout showSidebar={true}>
-              <Sales />
-            </MainLayout>
+            isAuthenticated ? (
+              <MainLayout showSidebar={true}>
+                <Sales handleLogout={handleLogout} />
+              </MainLayout>
+            ) : (
+              <Navigate to="/" />
+            )
           }
         />
         <Route
           path="/sell"
           element={
-            <MainLayout showSidebar={true}>
-              <Sell />
-            </MainLayout>
+            isAuthenticated ? (
+              <MainLayout showSidebar={true}>
+                <Sell handleLogout={handleLogout} />
+              </MainLayout>
+            ) : (
+              <Navigate to="/" />
+            )
           }
         />
         <Route
           path="/buy"
           element={
-            <MainLayout showSidebar={true}>
-              <Buy />
-            </MainLayout>
+            isAuthenticated ? (
+              <MainLayout showSidebar={true}>
+                <Buy handleLogout={handleLogout} />
+              </MainLayout>
+            ) : (
+              <Navigate to="/" />
+            )
           }
         />
         <Route
           path="/shopping"
           element={
-            <MainLayout showSidebar={true}>
-              <Shopping />
-            </MainLayout>
+            isAuthenticated ? (
+              <MainLayout showSidebar={true}>
+                <Shopping handleLogout={handleLogout} />
+              </MainLayout>
+            ) : (
+              <Navigate to="/" />
+            )
           }
         />
         <Route
           path="/pendingReceipt"
           element={
-            <MainLayout showSidebar={true}>
-              <PendingReceipt />
-            </MainLayout>
+            isAuthenticated ? (
+              <MainLayout showSidebar={true}>
+                <PendingReceipt handleLogout={handleLogout} />
+              </MainLayout>
+            ) : (
+              <Navigate to="/" />
+            )
           }
         />
         <Route
           path="/accounting"
           element={
-            <MainLayout showSidebar={true}>
-              <Accounting />
-            </MainLayout>
+            isAuthenticated ? (
+              <MainLayout showSidebar={true}>
+                <Accounting handleLogout={handleLogout} />
+              </MainLayout>
+            ) : (
+              <Navigate to="/" />
+            )
           }
         />
         <Route
           path="/customers"
           element={
-            <MainLayout showSidebar={true}>
-              <Customers />
-            </MainLayout>
+            isAuthenticated ? (
+              <MainLayout showSidebar={true}>
+                <Customers handleLogout={handleLogout} />
+              </MainLayout>
+            ) : (
+              <Navigate to="/" />
+            )
           }
         />
         <Route
           path="/createCustomer"
           element={
-            <MainLayout showSidebar={true}>
-              <CreateCustomer />
-            </MainLayout>
+            isAuthenticated ? (
+              <MainLayout showSidebar={true}>
+                <CreateCustomer handleLogout={handleLogout} />
+              </MainLayout>
+            ) : (
+              <Navigate to="/" />
+            )
           }
         />
         <Route
           path="/providers"
           element={
-            <MainLayout showSidebar={true}>
-              <Providers />
-            </MainLayout>
+            isAuthenticated ? (
+              <MainLayout showSidebar={true}>
+                <Providers handleLogout={handleLogout} />
+              </MainLayout>
+            ) : (
+              <Navigate to="/" />
+            )
           }
         />
         <Route
           path="/pendingToCollect"
           element={
-            <MainLayout showSidebar={true}>
-              <PendingToCollect />
-            </MainLayout>
+            isAuthenticated ? (
+              <MainLayout showSidebar={true}>
+                <PendingToCollect handleLogout={handleLogout} />
+              </MainLayout>
+            ) : (
+              <Navigate to="/" />
+            )
           }
         />
-
         <Route
           path="/stock"
           element={
-            <MainLayout showSidebar={true}>
-              <Stock />
-            </MainLayout>
+            isAuthenticated ? (
+              <MainLayout showSidebar={true}>
+                <Stock handleLogout={handleLogout} />
+              </MainLayout>
+            ) : (
+              <Navigate to="/" />
+            )
           }
         />
         <Route
           path="/createProduct"
           element={
-            <MainLayout showSidebar={true}>
-              <CreateProduct />
-            </MainLayout>
+            isAuthenticated ? (
+              <MainLayout showSidebar={true}>
+                <CreateProduct handleLogout={handleLogout} />
+              </MainLayout>
+            ) : (
+              <Navigate to="/" />
+            )
           }
         />
         <Route
           path="/createProvider"
           element={
-            <MainLayout showSidebar={true}>
-              <CreateProvider />
-            </MainLayout>
+            isAuthenticated ? (
+              <MainLayout showSidebar={true}>
+                <CreateProvider handleLogout={handleLogout} />
+              </MainLayout>
+            ) : (
+              <Navigate to="/" />
+            )
           }
         />
       </Routes>

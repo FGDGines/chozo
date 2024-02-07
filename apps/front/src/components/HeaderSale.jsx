@@ -3,9 +3,11 @@ import Select from "react-select";
 import { IoPersonAdd } from "react-icons/io5";
 import logo from "../assets/logo/elChozo.png";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const Header = ({ formattedDate, infoHeader }) => {
   const token = localStorage.getItem("token");
+  const navigate = useNavigate();
 
   const [selectedClient, setSelectedClient] = useState(null);
   const [selectedUser, setSelectedUser] = useState(null);
@@ -144,6 +146,16 @@ const Header = ({ formattedDate, infoHeader }) => {
     }
   };
 
+  const toCreateClient = () => {
+    const route = "/createCustomer";
+    navigate(route);
+  };
+
+  const toCreateProvider = () => {
+    const route = "/createProvider";
+    navigate(route);
+  };
+
   return (
     <div className="pl-2 flex flex-row w-full justify-between items-center pr-5">
       <div>
@@ -174,7 +186,7 @@ const Header = ({ formattedDate, infoHeader }) => {
             />
           </div>
           <div className="flex flex-row items-center gap-3">
-            <button>
+            <button onClick={toCreateClient}>
               <IoPersonAdd className="text-sky-500 text-lg" />
             </button>
             {infoHeader.person2}
@@ -202,7 +214,7 @@ const Header = ({ formattedDate, infoHeader }) => {
             />
           </div>
           <div className="flex flex-row items-center gap-3">
-            <button>
+            <button onClick={toCreateProvider}>
               <IoPersonAdd className="text-sky-500 text-lg" />
             </button>
             {infoHeader.person2}
