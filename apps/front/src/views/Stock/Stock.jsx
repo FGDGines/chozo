@@ -22,28 +22,19 @@ function Stock() {
     getArticles();
   }, []);
 
-  // const jsonObject = {
-  //   token:
-  //     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiaWF0IjoxNzA2NTczNTQxLCJleHAiOjE3MzgxMDk1NDF9.aDC_wP4TiPdCiwVAwMAEo4A4z7MHWWhuZAEU4o7I7ew",
-  // };
-  // const jsonString = JSON.stringify(jsonObject);
-
   const getArticles = async () => {
     try {
       if (!token) {
         return;
       }
-      const response = await axios.get(
-        "http://localhost:8081/api/articulos", {
-          headers:{
-            "token":token
-          }
-        }
-      );
+      const response = await axios.get("http://localhost:8081/api/articulos", {
+        headers: {
+          token: token,
+        },
+      });
 
       console.log("response", response.data);
       setArticles(response.data);
-      // console.log(jsonString);
     } catch (error) {
       console.error("Error:", error);
     }
@@ -90,16 +81,15 @@ function Stock() {
     const selected = articles.find((article) => article.id === articleId);
     setSelectedArticle(selected);
     setShowModal(true);
-    // console.log("ir a albaran n°", row.row.original.id);
   }
   return (
     <>
-      {/* <Table
+      <Table
         data={articles}
         columns={columns}
         name={"Productos"}
         props={props}
-      /> */}
+      />
     </>
   );
 }

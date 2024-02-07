@@ -4,14 +4,18 @@ import data from "../../../data.json";
 import axios from "axios";
 
 function Customers() {
+  const token = localStorage.getItem("token");
   const [showModal, setShowModal] = useState(false);
   const [customers, setCustomers] = useState([]);
 
   const getCustomers = async () => {
-    const response = await axios.get("http://localhost:8081/api/terceros");
+    const response = await axios.get("http://localhost:8081/api/terceros", {
+      headers: {
+        token: token,
+      },
+    });
     setCustomers(response.data);
   };
-  console.log(customers);
 
   useEffect(() => {
     getCustomers();

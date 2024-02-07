@@ -3,6 +3,7 @@ import Table from "../../components/Table";
 import axios from "axios";
 
 function Shopping() {
+  const token = localStorage.getItem("token");
   const [purchaseOrders, setPurchaseOrders] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState(null);
@@ -13,11 +14,14 @@ function Shopping() {
     setPurchaseOrders,
     purchaseOrders,
   };
-  console.log(props);
 
   const getPurchaseOrders = async () => {
     try {
-      const response = await axios.get("http://localhost:8081/api/pedidos");
+      const response = await axios.get("http://localhost:8081/api/pedidos", {
+        headers: {
+          token: token,
+        },
+      });
 
       setPurchaseOrders(response.data);
     } catch (error) {
@@ -67,7 +71,7 @@ function Shopping() {
       <Table
         data={purchaseOrders}
         columns={columns}
-        name={"Compras"}
+        name={"Pedidos a proveedor"}
         props={props}
       />
     </>

@@ -4,9 +4,13 @@ import ShoppingCartTable from "../../components/ShoppingCartTable";
 import HeaderSale from "../../components/HeaderSale";
 import axios from "axios";
 import ModalError from "../../components/ModalError";
-// import { useDispatch, useSelector } from "react-redux";
+import { ToastContainer, toast } from "react-toastify";
+import PaymentModal from "../../components/PaymentModal";
 
 function Sales() {
+  const token = localStorage.getItem("token");
+  const notify = () => toast.success("¡Venta realizada!");
+
   const [articles, setArticles] = useState([]);
   const [value, setValue] = useState("");
   const [suggestions, setSuggestions] = useState([]);
@@ -23,10 +27,20 @@ function Sales() {
   const [messageError, setMessageError] = useState("");
   const [selectedCaja, setSelectedCaja] = useState("");
   const [selectedClient1, setselectedClient1] = useState("");
+  // pagos
+  const [paymentModalOpen, setPaymentModalOpen] = useState(false);
+  const [paymentMethods, setPaymentMethods] = useState([]);
+  const [paymentDetails, setPaymentDetails] = useState([
+    { ctabancoid: 0, valor: totalAmount, idformapago: 1 },
+  ]);
 
   const getArticles = async () => {
     try {
-      const response = await axios.get("http://localhost:8081/api/articulos");
+      const response = await axios.get("http://localhost:8081/api/articulos", {
+        headers: {
+          token: token,
+        },
+      });
       console.log("productos:", response.data);
       setArticles(response.data);
     } catch (error) {
@@ -34,8 +48,29 @@ function Sales() {
     }
   };
 
+  const getPaymentMethods = async () => {
+    try {
+      const response = await axios.get(
+        "http://localhost:8081/api/formasdepago",
+        {
+          headers: {
+            token: token,
+          },
+        }
+      );
+      setPaymentMethods(response.data);
+    } catch (error) {
+      console.error("Error al obtener métodos de pago:", error);
+    }
+  };
+
   useEffect(() => {
     getArticles();
+    getPaymentMethods();
+    const storedCajero = localStorage.getItem("selectedCajero");
+    if (storedCajero) {
+      setSelectedCaja(JSON.parse(storedCajero));
+    }
   }, []);
 
   const date = new Date();
@@ -108,6 +143,45 @@ function Sales() {
     // console.log("SELECTED PRODUCTttt", selectedProduct);
   };
 
+  //!abre modal de pago:
+  const handlePaymentMethod = (method) => {
+    setSelectedPaymentMethod(method);
+    if (method === "Credito") {
+      setPaymentModalOpen(true); //
+    } else
+      setPaymentDetails([
+        { ctabancoid: 0, valor: totalAmount, idformapago: 1 },
+      ]);
+  };
+
+  //!cierra modal
+  const handleClosePaymentModal = () => {
+    setPaymentModalOpen(false);
+    // setSelectedPaymentMethod("Efectivo");
+    // handlePaymentMethod("Efectivo");
+  };
+
+  //!maneja el cambio en los detalles de los metodos de pago:
+  const handlePaymentDetailsChange = (index, field, value) => {
+    const updatedDetails = [...paymentDetails];
+    let updatedDetail = updatedDetails[index];
+
+    if (!updatedDetail) {
+      updatedDetail = { ctabancoid: 0, valor: 0, idformapago: index + 1 };
+      updatedDetails[index] = updatedDetail;
+    }
+
+    updatedDetail[field] = parseFloat(value);
+
+    setPaymentDetails(updatedDetails);
+
+    const input = document.getElementById(`amount_${index}`);
+    if (input) {
+      input.value = value;
+    }
+  };
+
+  //!agrega al carro
   const handleAddToCart = () => {
     console.log("SELECTED PRODUCT", selectedProduct);
     if (selectedProduct) {
@@ -133,7 +207,7 @@ function Sales() {
       inputBuscarRef.current.focus();
     }
   };
-
+  console.log(selectedCaja);
   const handleSale = async () => {
     try {
       const date = new Date();
@@ -146,7 +220,7 @@ function Sales() {
         bruto: parseFloat(totalAmount.toFixed(2)),
         impuesto: 123,
         total: parseFloat(totalAmount.toFixed(2)),
-        metodopago: 1,
+        metodopago: selectedPaymentMethod === "Efectivo" ? 1 : 2,
         terceroid: selectedClient1.value,
         cajaid: selectedCaja.value,
         items: shoppingCart.map((item) => ({
@@ -156,7 +230,9 @@ function Sales() {
           preciocosto: item.preciocosto,
           cantidad: parseFloat(item.cantidad),
         })),
-        fpagos: [{ ctabancoid: 0, valor: 1, idformapago: 1 }],
+        fpagos: paymentDetails,
+        // fpagos: [{ ctabancoid: 0, valor: 1, idformapago: 1 }],
+        token: token,
       };
       console.log("DATA Q uiero vender", saleData);
       if (
@@ -191,16 +267,15 @@ function Sales() {
         saleData
       );
 
+      notify();
       setShoppingCart([]);
       setTotalQuantity(0);
       setTotalAmount(0);
-
-      console.log("venta completada con éxito", response.data);
     } catch (error) {
-      console.error("error al hacer la compra", error);
+      console.error("error al realizar la venta", error);
     }
   };
-
+  //vacia el carro
   const handleClearCart = () => {
     setShoppingCart([]);
     setTotalQuantity(0);
@@ -218,18 +293,6 @@ function Sales() {
     if (event.key === "Enter") {
       event.preventDefault();
       handleAddToCart();
-    }
-  };
-
-  const handlePaymentMethod = (method) => {
-    if (method === "Efectivo") {
-      setSelectedPaymentMethod("Efectivo");
-    }
-    if (method === "Tarjeta") {
-      setSelectedPaymentMethod("Tarjeta");
-    }
-    if (method === "A cuenta") {
-      setSelectedPaymentMethod("A cuenta");
     }
   };
 
@@ -274,12 +337,25 @@ function Sales() {
       },
     },
   };
-
+  console.log(paymentDetails);
   return (
     <>
       <div className="ml-[80px] font-SFRegular h-screen w-[92%] flex flex-col">
         <HeaderSale formattedDate={formattedDate} infoHeader={infoHeader} />
         {showModalError ? <ModalError infoModalError={infoModalError} /> : ""}
+        {paymentModalOpen ? (
+          <PaymentModal
+            isOpen={paymentModalOpen}
+            onClose={handleClosePaymentModal}
+            paymentMethods={paymentMethods}
+            onPaymentDetailsChange={handlePaymentDetailsChange}
+            paymentDetails={paymentDetails}
+            handlePaymentMethod={handlePaymentMethod}
+            totalAmount={totalAmount}
+          />
+        ) : (
+          ""
+        )}
 
         <div className="text-lg ml-2 mt-5">Pedido</div>
 
@@ -344,10 +420,7 @@ function Sales() {
           >
             <div className="flex flex-col gap-3  items-center">
               <div>Seleccionar metodo de pago</div>
-              <div
-                id="Botones Metodos De Pago"
-                className="flex flex-row gap-2 justify-around items-center "
-              >
+              <div className="flex flex-row gap-2 justify-around items-center">
                 <button
                   onClick={() => handlePaymentMethod("Efectivo")}
                   className={`border-2 border-customBlue rounded-2xl px-2 py-1 ${
@@ -359,24 +432,14 @@ function Sales() {
                   Efectivo
                 </button>
                 <button
-                  onClick={() => handlePaymentMethod("Tarjeta")}
+                  onClick={() => handlePaymentMethod("Credito")}
                   className={`border-2 border-customBlue rounded-2xl px-2 py-1 ${
-                    selectedPaymentMethod === "Tarjeta"
+                    selectedPaymentMethod === "Credito"
                       ? "bg-customBlue text-white"
                       : ""
                   }`}
                 >
-                  Tarjeta
-                </button>
-                <button
-                  onClick={() => handlePaymentMethod("A cuenta")}
-                  className={`border-2 border-customBlue rounded-2xl px-2 py-1 ${
-                    selectedPaymentMethod === "A cuenta"
-                      ? "bg-customBlue text-white"
-                      : ""
-                  }`}
-                >
-                  A cuenta
+                  Credito
                 </button>
               </div>
             </div>{" "}
@@ -419,6 +482,18 @@ function Sales() {
                   CONFIRMAR
                 </button>
               </div>
+              <ToastContainer
+                position="top-right"
+                autoClose={3000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss={false}
+                draggable
+                pauseOnHover
+                theme="colored"
+              />
             </div>
           </div>
         </div>

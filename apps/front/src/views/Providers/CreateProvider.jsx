@@ -4,6 +4,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 function CreateProvider() {
+  const token = localStorage.getItem("token");
   const [clients, setClients] = useState([]);
   const [plazo, setPlazo] = useState("");
   const [agenciaId, setAgenciaId] = useState("");
@@ -14,7 +15,11 @@ function CreateProvider() {
 
   const getProvider = async () => {
     try {
-      const response = await axios.get("http://localhost:8081/api/terceros");
+      const response = await axios.get("http://localhost:8081/api/terceros", {
+        headers: {
+          token: token,
+        },
+      });
       setClients(response.data);
     } catch (error) {
       console.error("error al traer proveedor:", error);
@@ -60,6 +65,7 @@ function CreateProvider() {
           tipotercero_id: client.tipotercero_id,
           pro_plazo: parseInt(plazo, 10),
           agencia_id: parseInt(agenciaId, 10),
+          token: token,
         };
 
         const response = await axios.post(

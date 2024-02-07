@@ -3,8 +3,12 @@ import Select from "react-select";
 import { IoPersonAdd } from "react-icons/io5";
 import logo from "../assets/logo/elChozo.png";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const Header = ({ formattedDate, infoHeader }) => {
+  const token = localStorage.getItem("token");
+  const navigate = useNavigate();
+
   const [selectedClient, setSelectedClient] = useState(null);
   const [selectedUser, setSelectedUser] = useState(null);
   const [selectedCajero, setSelectedCajero] = useState(null);
@@ -17,7 +21,11 @@ const Header = ({ formattedDate, infoHeader }) => {
   //se trae los clientes para vista VENTA
   const getClient = async () => {
     try {
-      const response = await axios.get("http://localhost:8081/api/terceros");
+      const response = await axios.get("http://localhost:8081/api/terceros", {
+        headers: {
+          token: token,
+        },
+      });
 
       const optionsClient = response.data.map((cliente) => ({
         value: cliente.id,
@@ -39,7 +47,14 @@ const Header = ({ formattedDate, infoHeader }) => {
 
   const getProvider = async () => {
     try {
-      const response = await axios.get("http://localhost:8081/api/proveedores");
+      const response = await axios.get(
+        "http://localhost:8081/api/proveedores",
+        {
+          headers: {
+            token: token,
+          },
+        }
+      );
       const optionsProv = response.data.map((proveedor) => ({
         value: proveedor.id,
         label: proveedor.tercero.ter_tercero,
@@ -54,7 +69,11 @@ const Header = ({ formattedDate, infoHeader }) => {
   //se trae las cajas para vista VENTA
   const getCaja = async () => {
     try {
-      const response = await axios.get("http://localhost:8081/api/cajas");
+      const response = await axios.get("http://localhost:8081/api/cajas", {
+        headers: {
+          token: token,
+        },
+      });
 
       const optionsCajas = response.data.map((caja) => ({
         value: caja.id,
@@ -68,7 +87,11 @@ const Header = ({ formattedDate, infoHeader }) => {
   //se trae los usuarios para vista COMPRA
   const getUser = async () => {
     try {
-      const response = await axios.get("http://localhost:8081/api/usuarios");
+      const response = await axios.get("http://localhost:8081/api/usuarios", {
+        headers: {
+          token: token,
+        },
+      });
       const optionsUsers = response.data.map((user) => ({
         value: user.id,
         label: user.usu_nombre,
@@ -85,12 +108,14 @@ const Header = ({ formattedDate, infoHeader }) => {
     if (infoHeader.isViewSale) {
       if (storedCajero) {
         setSelectedCajero(JSON.parse(storedCajero));
+        infoHeader.setSelectedCaja(storedCajero);
       }
       getClient();
       getCaja();
     } else {
       if (storedUser) {
         setSelectedUser(JSON.parse(storedUser));
+        infoHeader.setSelectedUser(storedUser);
       }
       getProvider();
       getUser();
@@ -98,6 +123,7 @@ const Header = ({ formattedDate, infoHeader }) => {
   }, [infoHeader.isViewSale]);
 
   const handleUserChange = (selectedOption) => {
+    console.log(selectedOption);
     if (infoHeader.setSelectedCaja) {
       setSelectedCajero(selectedOption);
       infoHeader.setSelectedCaja(selectedOption);
@@ -118,6 +144,16 @@ const Header = ({ formattedDate, infoHeader }) => {
     if (infoHeader.setSelectedProvider) {
       infoHeader.setSelectedProvider(selectedOption);
     }
+  };
+
+  const toCreateClient = () => {
+    const route = "/createCustomer";
+    navigate(route);
+  };
+
+  const toCreateProvider = () => {
+    const route = "/createProvider";
+    navigate(route);
   };
 
   return (
@@ -150,7 +186,7 @@ const Header = ({ formattedDate, infoHeader }) => {
             />
           </div>
           <div className="flex flex-row items-center gap-3">
-            <button>
+            <button onClick={toCreateClient}>
               <IoPersonAdd className="text-sky-500 text-lg" />
             </button>
             {infoHeader.person2}
@@ -178,7 +214,7 @@ const Header = ({ formattedDate, infoHeader }) => {
             />
           </div>
           <div className="flex flex-row items-center gap-3">
-            <button>
+            <button onClick={toCreateProvider}>
               <IoPersonAdd className="text-sky-500 text-lg" />
             </button>
             {infoHeader.person2}
