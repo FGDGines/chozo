@@ -2,7 +2,9 @@ const {sublineas, lineas, puc} = require("../../models/DbConex");
 
 //devuelve todas las sublineas
 const getSublineas = async() => {
-   const result = await sublineas.findAll();
+   const result = await sublineas.findAll({
+      include: [{model: lineas, attributes: { exclude: ['createdAt','updatedAt']}}]
+   });
    return result;
 };
 

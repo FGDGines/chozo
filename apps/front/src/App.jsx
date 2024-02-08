@@ -16,6 +16,8 @@ import CreateCustomer from "./views/Customers/CreateCustomer";
 import PendingToCollect from "./views/Sales/PendingToCollect";
 import Login from "./views/Login/Login";
 import PendingReceipt from "./views/Purchases/PendingReceipt";
+import Lineas from "./views/Stock/Lineas";
+import Sublineas from "./views/Stock/Sublineas";
 import { ToastContainer, toast } from "react-toastify";
 
 function App() {
@@ -220,6 +222,30 @@ function App() {
             isAuthenticated ? (
               <MainLayout showSidebar={true}>
                 <CreateProvider handleLogout={handleLogout} />
+              </MainLayout>
+            ) : (
+              <Navigate to="/" />
+            )
+          }
+        />
+        <Route
+          path="/Lineas"
+          element={
+            isAuthenticated ? (
+              <MainLayout showSidebar={true}>
+                <Lineas handleLogout={handleLogout} />
+              </MainLayout>
+            ) : (
+              <Navigate to="/" />
+            )
+          }
+        />
+        <Route
+          path="/Sublineas"
+          element={
+            isAuthenticated ? (
+              <MainLayout showSidebar={true}>
+                <Sublineas handleLogout={handleLogout} />
               </MainLayout>
             ) : (
               <Navigate to="/" />

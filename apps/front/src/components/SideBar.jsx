@@ -119,17 +119,34 @@ function SideBar() {
       { icon: <MdHome />, text: "Inicio", to: "/home" },
       { icon: <LuPackage />, text: "Stock", to: "/stock" },
       { icon: <LuPackagePlus />, text: "Nuevo", to: "/createProduct" },
+      { icon: <LuPackage />, text: "Lineas", to: "/lineas" },
     ],
     createProduct: [
       { icon: <MdHome />, text: "Inicio", to: "/home" },
       { icon: <LuPackage />, text: "Stock", to: "/stock" },
       { icon: <LuPackagePlus />, text: "Nuevo", to: "/createProduct" },
+      { icon: <LuPackage />, text: "Config", to: "/config" },
+
     ],
     accounting: [
       { icon: <MdHome />, text: "Inicio", to: "/home" },
       { icon: <LuPackage />, text: "opcion 1", to: "/stock" },
       { icon: <LuPackagePlus />, text: "opcion 2", to: "/createProduct" },
     ],
+    lineas: [
+      { icon: <MdHome />, text: "Inicio", to: "/home" },
+      { icon: <LuPackage />, text: "Lineas", to: "/lineas" },
+      { icon: <LuPackage />, text: "Sublineas", to: "/sublineas" },
+      { icon: <LuPackage />, text: "Grupos", to: "/grupos" },
+      { icon: <LuPackage />, text: "Marcas", to: "/marcas" },
+    ],  
+    sublineas: [
+      { icon: <MdHome />, text: "Inicio", to: "/home" },
+      { icon: <LuPackage />, text: "Lineas", to: "/lineas" },
+      { icon: <LuPackage />, text: "Sublineas", to: "/sublineas" },
+      { icon: <LuPackage />, text: "Grupos", to: "/grupos" },
+      { icon: <LuPackage />, text: "Marcas", to: "/marcas" },
+    ],      
   };
 
   const handleSetActiveView = (view) => {
