@@ -4,6 +4,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 function CreateCustomer() {
+  const token = localStorage.getItem("token");
   const [cities, setCities] = useState([]);
   const [tipoDocumentos, setTipoDocumentos] = useState([]);
   const [tipoTerceros, setTipoTerceros] = useState([]);
@@ -11,12 +12,16 @@ function CreateCustomer() {
   console.log("tipo doc", tipoDocumentos);
   console.log("tipo ter", tipoTerceros);
 
-  const notify = () => toast.success("¡Articulo creado!");
+  const notify = () => toast.success("¡Cliente creado!");
   const notifyError = () => toast.error("¡Faltan datos por completar!");
 
   const getCities = async () => {
     try {
-      const response = await axios.get("api/ciudades");
+      const response = await axios.get("api/ciudades", {
+        headers: {
+          token: token,
+        },
+      });
       setCities(response.data);
     } catch (error) {
       console.error("Error al traer cities:", error);
@@ -24,9 +29,11 @@ function CreateCustomer() {
   };
   const getTipoDocumentos = async () => {
     try {
-      const response = await axios.get(
-        "api/tipodocumentos"
-      );
+      const response = await axios.get("api/tipodocumentos", {
+        headers: {
+          token: token,
+        },
+      });
       setTipoDocumentos(response.data);
     } catch (error) {
       console.error("Error al traer tipoDocs:", error);
@@ -34,9 +41,11 @@ function CreateCustomer() {
   };
   const getTipoTerceros = async () => {
     try {
-      const response = await axios.get(
-        "api/tipoterceros"
-      );
+      const response = await axios.get("api/tipoterceros", {
+        headers: {
+          token: token,
+        },
+      });
       setTipoTerceros(response.data);
     } catch (error) {
       console.error("Error al traer tipoTerceros:", error);
@@ -113,10 +122,11 @@ function CreateCustomer() {
       ) {
         notifyError();
       } else {
-        const response = await axios.post(
-          "api/terceros",
-          client
-        );
+        const response = await axios.post("api/terceros",client, {
+          headers: {
+            token: token,
+          },
+        });
 
         console.log("Al crearse devuelve", response);
 
