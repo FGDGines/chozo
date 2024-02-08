@@ -21,7 +21,7 @@ const Header = ({ formattedDate, infoHeader }) => {
   //se trae los clientes para vista VENTA
   const getClient = async () => {
     try {
-      const response = await axios.get("http://localhost:8081/api/terceros", {
+      const response = await axios.get("api/terceros", {
         headers: {
           token: token,
         },
@@ -48,7 +48,7 @@ const Header = ({ formattedDate, infoHeader }) => {
   const getProvider = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:8081/api/proveedores",
+        "api/proveedores",
         {
           headers: {
             token: token,
@@ -69,7 +69,7 @@ const Header = ({ formattedDate, infoHeader }) => {
   //se trae las cajas para vista VENTA
   const getCaja = async () => {
     try {
-      const response = await axios.get("http://localhost:8081/api/cajas", {
+      const response = await axios.get("api/cajas", {
         headers: {
           token: token,
         },
@@ -87,7 +87,7 @@ const Header = ({ formattedDate, infoHeader }) => {
   //se trae los usuarios para vista COMPRA
   const getUser = async () => {
     try {
-      const response = await axios.get("http://localhost:8081/api/usuarios", {
+      const response = await axios.get("api/usuarios", {
         headers: {
           token: token,
         },

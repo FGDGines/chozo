@@ -52,7 +52,7 @@ function PendingToCollect() {
   const getBillById = async (id) => {
     try {
       const response = await axios.get(
-        `http://localhost:8081/api/carteraxcobrar/${id}`,
+        `api/carteraxcobrar/${id}`,
         {
           headers: {
             token: token,
@@ -69,7 +69,7 @@ function PendingToCollect() {
   const getSales = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:8081/api/carteraxcobrar",
+        "api/carteraxcobrar",
         {
           headers: {
             token: token,

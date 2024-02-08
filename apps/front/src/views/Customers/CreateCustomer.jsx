@@ -16,7 +16,7 @@ function CreateCustomer() {
 
   const getCities = async () => {
     try {
-      const response = await axios.get("http://localhost:8081/api/ciudades");
+      const response = await axios.get("api/ciudades");
       setCities(response.data);
     } catch (error) {
       console.error("Error al traer cities:", error);
@@ -25,7 +25,7 @@ function CreateCustomer() {
   const getTipoDocumentos = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:8081/api/tipodocumentos"
+        "api/tipodocumentos"
       );
       setTipoDocumentos(response.data);
     } catch (error) {
@@ -35,7 +35,7 @@ function CreateCustomer() {
   const getTipoTerceros = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:8081/api/tipoterceros"
+        "api/tipoterceros"
       );
       setTipoTerceros(response.data);
     } catch (error) {
@@ -114,7 +114,7 @@ function CreateCustomer() {
         notifyError();
       } else {
         const response = await axios.post(
-          "http://localhost:8081/api/terceros",
+          "api/terceros",
           client
         );
 

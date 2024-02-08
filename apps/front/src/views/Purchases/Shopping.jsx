@@ -17,7 +17,7 @@ function Shopping() {
 
   const getPurchaseOrders = async () => {
     try {
-      const response = await axios.get("http://localhost:8081/api/pedidos", {
+      const response = await axios.get("api/pedidos", {
         headers: {
           token: token,
         },

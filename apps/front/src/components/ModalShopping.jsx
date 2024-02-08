@@ -11,7 +11,7 @@ function ModalShopping({ props }) {
   const fetchPurchaseOrder = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:8081/api/pedidos/${orderId}`,
+        `api/pedidos/${orderId}`,
         {
           headers: {
             token: token,
@@ -90,7 +90,7 @@ function ModalShopping({ props }) {
       };
       console.log("pedido modificado", pedModificado);
       const response = await axios.put(
-        `http://localhost:8081/api/pedidos/anular/${orderId}`,
+        `api/pedidos/anular/${orderId}`,
         pedModificado
       );
       console.log("Pedido modificado:", response.data);
@@ -119,7 +119,7 @@ function ModalShopping({ props }) {
 
     try {
       const response = await axios.post(
-        "http://localhost:8081/api/carteraxpagar",
+        "api/carteraxpagar",
         pedidoAComprar
       );
       console.log("Compra confirmada:", response.data);

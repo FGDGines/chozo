@@ -36,7 +36,7 @@ function Sales() {
 
   const getArticles = async () => {
     try {
-      const response = await axios.get("http://localhost:8081/api/articulos", {
+      const response = await axios.get("api/articulos", {
         headers: {
           token: token,
         },
@@ -51,7 +51,7 @@ function Sales() {
   const getPaymentMethods = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:8081/api/formasdepago",
+        "api/formasdepago",
         {
           headers: {
             token: token,
@@ -263,7 +263,7 @@ function Sales() {
       }
 
       const response = await axios.post(
-        "http://localhost:8081/api/carteraxcobrar",
+        "api/carteraxcobrar",
         saleData
       );
 

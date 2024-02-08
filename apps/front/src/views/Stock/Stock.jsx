@@ -27,7 +27,7 @@ function Stock() {
       if (!token) {
         return;
       }
-      const response = await axios.get("http://localhost:8081/api/articulos", {
+      const response = await axios.get("api/articulos", {
         headers: {
           token: token,
         },

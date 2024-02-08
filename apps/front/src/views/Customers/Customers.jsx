@@ -9,7 +9,7 @@ function Customers() {
   const [customers, setCustomers] = useState([]);
 
   const getCustomers = async () => {
-    const response = await axios.get("http://localhost:8081/api/terceros", {
+    const response = await axios.get("api/terceros", {
       headers: {
         token: token,
       },

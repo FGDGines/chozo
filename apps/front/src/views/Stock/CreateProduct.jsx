@@ -15,7 +15,7 @@ function CreateProduct() {
 
   const getGroups = async () => {
     try {
-      const response = await axios.get("http://localhost:8081/api/grupos", {
+      const response = await axios.get("api/grupos", {
         headers: {
           token: token,
         },
@@ -27,7 +27,7 @@ function CreateProduct() {
   };
   const getMarcas = async () => {
     try {
-      const response = await axios.get("http://localhost:8081/api/marcas", {
+      const response = await axios.get("api/marcas", {
         headers: {
           token: token,
         },
@@ -39,7 +39,7 @@ function CreateProduct() {
   };
   const getUnit = async () => {
     try {
-      const response = await axios.get("http://localhost:8081/api/unidades", {
+      const response = await axios.get("api/unidades", {
         headers: {
           token: token,
         },
@@ -108,7 +108,7 @@ function CreateProduct() {
         notifyError();
       } else {
         const response = await axios.post(
-          "http://localhost:8081/api/articulos",
+          "api/articulos",
           product
         );
         setProduct({
