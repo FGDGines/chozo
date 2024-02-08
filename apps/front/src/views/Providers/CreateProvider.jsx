@@ -15,7 +15,7 @@ function CreateProvider() {
 
   const getProvider = async () => {
     try {
-      const response = await axios.get("http://localhost:8081/api/terceros", {
+      const response = await axios.get("api/terceros", {
         headers: {
           token: token,
         },
@@ -69,7 +69,7 @@ function CreateProvider() {
         };
 
         const response = await axios.post(
-          "http://localhost:8081/api/proveedores",
+          "api/proveedores",
           providerData
         );
 

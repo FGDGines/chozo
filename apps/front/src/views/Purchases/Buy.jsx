@@ -29,7 +29,7 @@ function Buy() {
 
   const getArticles = async () => {
     try {
-      const response = await axios.get("http://localhost:8081/api/articulos", {
+      const response = await axios.get("api/articulos", {
         headers: {
           token: token,
         },
@@ -187,7 +187,7 @@ function Buy() {
       }
 
       const response = await axios.post(
-        "http://localhost:8081/api/pedidos",
+        "api/pedidos",
         buyData
       );
       notify();

@@ -1,6 +1,6 @@
 import {GET_ARTICLES} from "./actions";
 const initialState = {
-   rutaPrincipal: "http://localhost:8081/",  
+   rutaPrincipal: "",  
    articlesList: [],
 };
 

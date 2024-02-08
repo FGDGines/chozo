@@ -31,7 +31,7 @@ function ModalProductDetails({ props }) {
       if (!token) {
         return;
       }
-      const response = await axios.get("http://localhost:8081/api/grupos", {
+      const response = await axios.get("api/grupos", {
         headers: {
           token: token,
         },
@@ -46,7 +46,7 @@ function ModalProductDetails({ props }) {
       if (!token) {
         return;
       }
-      const response = await axios.get("http://localhost:8081/api/marcas", {
+      const response = await axios.get("api/marcas", {
         headers: {
           token: token,
         },
@@ -61,7 +61,7 @@ function ModalProductDetails({ props }) {
       if (!token) {
         return;
       }
-      const response = await axios.get("http://localhost:8081/api/unidades", {
+      const response = await axios.get("api/unidades", {
         headers: {
           token: token,
         },
@@ -117,7 +117,7 @@ function ModalProductDetails({ props }) {
         return;
       }
       const response = await axios.put(
-        `http://localhost:8081/api/articulos/${props.selectedArticle.id}`,
+        `api/articulos/${props.selectedArticle.id}`,
         editedArticle,
         {
           headers: {

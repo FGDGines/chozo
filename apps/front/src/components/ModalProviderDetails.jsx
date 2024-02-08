@@ -35,7 +35,7 @@ function ModalProviderDetails({ props }) {
   const handleUpdate = async () => {
     try {
       const response = await axios.put(
-        `http://localhost:8081/api/proveedores/${props.selectedProvider.id}`,
+        `api/proveedores/${props.selectedProvider.id}`,
         editedProvider
       );
 

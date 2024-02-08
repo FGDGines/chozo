@@ -16,6 +16,9 @@ const generarJWT = (arg) => {
     })
 }
  
+
+
+
 module.exports = {
     generarJWT
 }

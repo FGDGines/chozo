@@ -19,7 +19,7 @@ function Providers() {
   const getProviders = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:8081/api/proveedores",
+        "api/proveedores",
         {
           headers: {
             token: token,
