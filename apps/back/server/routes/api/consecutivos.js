@@ -92,7 +92,7 @@ server.get('/:id',  [security_post] , async(req, res) => {
 
  //genera todos los consecutivos de un año
  server.post('/bulk', [security_post] ,  
-   [ check('anual', 'El campo anual es obligatorio').not().isEmpty() ,validarCampos] ,   
+   [ check('datos.anual', 'El campo anual es obligatorio').not().isEmpty() ,validarCampos] ,   
    async(req, res) => {
    const {datos} = req.body;
    try {
