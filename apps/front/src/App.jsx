@@ -19,6 +19,10 @@ import PendingReceipt from "./views/Purchases/PendingReceipt";
 import Lineas from "./views/Stock/Lineas";
 import Sublineas from "./views/Stock/Sublineas";
 import Grupos from "./views/Stock/Grupos";
+import Marcas from "./views/Stock/Marcas";
+import Paises from "./views/Customers/Paises";
+import Departamentos from "./views/Customers/Departamentos";
+import Ciudades from "./views/Customers/Ciudades";
 import { ToastContainer, toast } from "react-toastify";
 
 function App() {
@@ -264,7 +268,55 @@ function App() {
               <Navigate to="/" />
             )
           }
-        />        
+        />   
+        <Route
+          path="/Marcas"
+          element={
+            isAuthenticated ? (
+              <MainLayout showSidebar={true}>
+                <Marcas handleLogout={handleLogout} />
+              </MainLayout>
+            ) : (
+              <Navigate to="/" />
+            )
+          }
+        />  
+        <Route
+          path="/Paises"
+          element={
+            isAuthenticated ? (
+              <MainLayout showSidebar={true}>
+                <Paises handleLogout={handleLogout} />
+              </MainLayout>
+            ) : (
+              <Navigate to="/" />
+            )
+          }
+        />  
+        <Route
+          path="/Departamentos"
+          element={
+            isAuthenticated ? (
+              <MainLayout showSidebar={true}>
+                <Departamentos handleLogout={handleLogout} />
+              </MainLayout>
+            ) : (
+              <Navigate to="/" />
+            )
+          }
+        />   
+        <Route
+          path="/Ciudades"
+          element={
+            isAuthenticated ? (
+              <MainLayout showSidebar={true}>
+                <Ciudades handleLogout={handleLogout} />
+              </MainLayout>
+            ) : (
+              <Navigate to="/" />
+            )
+          }
+        />                                                                                      
       </Routes>
     </div>
   );

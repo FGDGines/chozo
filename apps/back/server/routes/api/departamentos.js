@@ -44,8 +44,8 @@ server.get('/:id',  [security_post] , async(req, res) => {
 
  //crea un nuevo departamento
  server.post('/',  [security_post] , 
-    [ check('name', 'El nombre del departamento es obligatorio').not().isEmpty() ,validarCampos] ,
-    [ check('idPais', 'El campo idPais es obligatorio').not().isEmpty() ,validarCampos] ,
+    [ check('dpt_nombre', 'El nombre del departamento es obligatorio').not().isEmpty() ,validarCampos] ,
+    [ check('pais_id', 'El campo Pais_id es obligatorio').not().isEmpty() ,validarCampos] ,
     async(req, res) => {
     const datos = req.body;
     try {

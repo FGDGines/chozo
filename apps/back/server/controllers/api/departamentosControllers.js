@@ -26,9 +26,9 @@ const getById = async(id) => {
 
 //creacion de un departamento nuevo
 const addDpto = async(datos) => {
-   const {idPais, name} = datos;
+   const {dpt_nombre, dpt_codigo, pais_id} = datos;
    const [registro, created] = await departamentos.findOrCreate(
-         {where: {dpt_nombre: name, pais_id: idPais}});
+         {where: {dpt_nombre, dpt_codigo, pais_id}});
    return registro;      
 };
 

@@ -44,6 +44,7 @@ function Grupos() {
           },
        });
        setGrupos(result.data);
+       setObjeto({ngrupo: "", idSublinea: 0});
     };
 
     useEffect(() => {
@@ -53,7 +54,7 @@ function Grupos() {
 
     return (
        <div className="mx-auto mt-10 max-w-[80%]">
-           <h2 className="text-2xl bg-customBlue p-2 rounded-md text-white">Maestros de Lineas</h2>
+           <h2 className="text-2xl bg-customBlue p-2 rounded-md text-white">Maestros de Grupos</h2>
            <table>
               <thead>
                  <tr><th>Id</th><th>Detalles</th></tr>

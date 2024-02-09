@@ -27,9 +27,9 @@ const getById = async(id) => {
 
 //creacion de una ciudad nueva
 const addCiudad = async(datos) => {
-   const {idDpto, name} = datos;
+   const {departamento_id, ciu_nombre, ciu_codigo} = datos;
    const [registro, created] = await ciudades.findOrCreate(
-         {where: {ciu_nombre: name, departamento_id: idDpto}});
+         {where: {ciu_nombre, departamento_id, ciu_codigo}});
    return registro;      
 };
 

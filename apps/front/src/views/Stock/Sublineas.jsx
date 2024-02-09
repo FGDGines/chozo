@@ -57,6 +57,13 @@ function Sublineas() {
           },
        });
        setSublineas(result.data);
+       setObjeto({
+         idLinea: 0,
+         detalle: "",
+         pucInv: 0,
+         pucIng: 0,
+         pucCos: 0,
+       });
     };
 
     const cargarLineas = async() => {

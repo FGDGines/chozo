@@ -65,6 +65,7 @@ function SideBar() {
       // { icon: <FcStatistics />, text: "Ventas", to: "/sell" },
       { icon: <FaPeopleGroup />, text: "Clientes", to: "/customers" },
       { icon: <IoPersonAdd />, text: "Nuevo", to: "/createCustomer" },
+      { icon: <LuPackage />, text: "Paises", to: "/paises" },
     ],
     buy: [
       { icon: <MdHome />, text: "Inicio", to: "/home" },
@@ -153,7 +154,32 @@ function SideBar() {
       { icon: <LuPackage />, text: "Sublineas", to: "/sublineas" },
       { icon: <LuPackage />, text: "Grupos", to: "/grupos" },
       { icon: <LuPackage />, text: "Marcas", to: "/marcas" },
-    ],         
+    ],   
+    marcas: [
+      { icon: <MdHome />, text: "Inicio", to: "/home" },
+      { icon: <LuPackage />, text: "Lineas", to: "/lineas" },
+      { icon: <LuPackage />, text: "Sublineas", to: "/sublineas" },
+      { icon: <LuPackage />, text: "Grupos", to: "/grupos" },
+      { icon: <LuPackage />, text: "Marcas", to: "/marcas" },
+    ],       
+    paises: [
+      { icon: <MdHome />, text: "Inicio", to: "/home" },
+      { icon: <LuPackage />, text: "Paises", to: "/paises" },
+      { icon: <LuPackage />, text: "Departamentos", to: "/departamentos" },
+      { icon: <LuPackage />, text: "Ciudades", to: "/ciudades" },
+    ],  
+    departamentos: [
+      { icon: <MdHome />, text: "Inicio", to: "/home" },
+      { icon: <LuPackage />, text: "Paises", to: "/paises" },
+      { icon: <LuPackage />, text: "Departamentos", to: "/departamentos" },
+      { icon: <LuPackage />, text: "Ciudades", to: "/ciudades" },
+    ],    
+    ciudades: [
+      { icon: <MdHome />, text: "Inicio", to: "/home" },
+      { icon: <LuPackage />, text: "Paises", to: "/paises" },
+      { icon: <LuPackage />, text: "Departamentos", to: "/departamentos" },
+      { icon: <LuPackage />, text: "Ciudades", to: "/ciudades" },
+    ],                                                                       
   };
 
   const handleSetActiveView = (view) => {

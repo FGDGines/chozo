@@ -14,8 +14,8 @@ const getPaisById = async(id) => {
 
 //crea un nuevo pais
 const newPais = async(datos) => {
-    const {pai_nombre} = datos;
-    const [result, created] = await paises.findOrCreate({where: {pai_nombre}});
+    const {pai_nombre, pai_codigo} = datos;
+    const [result, created] = await paises.findOrCreate({where: {pai_nombre, pai_codigo}});
     return result;
 };
 

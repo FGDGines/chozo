@@ -3,54 +3,54 @@ import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-function Lineas() {
+function Marcas() {
     const token = localStorage.getItem("token");
-    const [lineas, setLineas] = useState([]);
-    const [nlinea, setNlinea] = useState("");
+    const [marcas, setMarcas] = useState([]);
+    const [nmarca, setNmarca] = useState("");
 
     const handleChange = (e) => {
        const value = e.target.value;
-       setNlinea(value);
+       setNmarca(value);
     };
 
     const handleGrabar = async(e) => {
         e.preventDefault();
-        const datos = {lin_detalles: nlinea};
-        const result = await axios.post('api/lineas', datos, {
+        const datos = {mar_detalles: nmarca};
+        const result = await axios.post('api/marcas', datos, {
            headers: {
               token: token,
            },
         });
-        toast.success("¡Linea creada!");
-        cargarLineas();
+        toast.success("¡Marca creada!");
+        cargarMarcas();
     };
 
-    const cargarLineas = async() => {
-       const result = await axios('api/lineas', {
+    const cargarMarcas = async() => {
+       const result = await axios('api/marcas', {
           headers: {
             token: token,
           },
        });
-       setLineas(result.data);
-       setNlinea("");
+       setMarcas(result.data);
+       setNmarca("");
     };
 
     useEffect(() => {
-       cargarLineas(); 
+       cargarMarcas(); 
     }, []);
 
     return (
        <div className="mx-auto mt-10 max-w-[80%]">
-           <h2 className="text-2xl bg-customBlue p-2 rounded-md text-white">Maestros de Lineas</h2>
+           <h2 className="text-2xl bg-customBlue p-2 rounded-md text-white">Maestros de Marcas</h2>
            <table>
               <thead>
                  <tr><th>Id</th><th>Detalles</th></tr>
               </thead>
               <tbody>
-              {lineas.map(ele =>
+              {marcas.map(ele =>
                   <tr key={ele.id}>
                      <td>{ele.id}</td>
-                     <td>{ele.lin_detalles}</td>
+                     <td>{ele.mar_detalles}</td>
                   </tr>
                )}
                </tbody>
@@ -60,9 +60,9 @@ function Lineas() {
                <input type="text" 
                       name="detalle"
                       onChange={handleChange}
-                      placeholder="Digite nombre Linea"
-                      value={nlinea}/>
-               <button className="bg-red-200 px-2" onClick={handleGrabar}>Agregar Linea</button>
+                      placeholder="Digite nombre Marca"
+                      value={nmarca}/>
+               <button className="bg-red-200 px-2" onClick={handleGrabar}>Agregar Marca</button>
            </form>
            <ToastContainer
             position="top-right"
@@ -81,4 +81,4 @@ function Lineas() {
 
 };
 
-export default Lineas;
+export default Marcas;

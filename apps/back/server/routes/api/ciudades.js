@@ -44,8 +44,8 @@ server.get('/:id',  [security_post] , async(req, res) => {
 
  //crea una nueva ciudad
  server.post('/', [security_post] , 
-    [ check('name', 'El nombre de la ciudad es obligatorio').not().isEmpty() ,validarCampos] ,
-    [ check('idDpto', 'El campo idDpto es obligatorio').not().isEmpty() ,validarCampos] ,
+    [ check('ciu_nombre', 'El nombre de la ciudad es obligatorio').not().isEmpty() ,validarCampos] ,
+    [ check('departamento_id', 'El campo departamento_id es obligatorio').not().isEmpty() ,validarCampos] ,
     async(req, res) => {
     const datos = req.body;
     try {
