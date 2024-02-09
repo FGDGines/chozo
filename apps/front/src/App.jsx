@@ -18,6 +18,7 @@ import Login from "./views/Login/Login";
 import PendingReceipt from "./views/Purchases/PendingReceipt";
 import Lineas from "./views/Stock/Lineas";
 import Sublineas from "./views/Stock/Sublineas";
+import Grupos from "./views/Stock/Grupos";
 import { ToastContainer, toast } from "react-toastify";
 
 function App() {
@@ -252,6 +253,18 @@ function App() {
             )
           }
         />
+        <Route
+          path="/Grupos"
+          element={
+            isAuthenticated ? (
+              <MainLayout showSidebar={true}>
+                <Grupos handleLogout={handleLogout} />
+              </MainLayout>
+            ) : (
+              <Navigate to="/" />
+            )
+          }
+        />        
       </Routes>
     </div>
   );

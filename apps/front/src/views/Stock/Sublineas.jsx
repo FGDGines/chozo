@@ -10,7 +10,7 @@ function Sublineas() {
     const [objeto, setObjeto] = useState(
         {
             idLinea: 0,
-            nomsublinea: "",
+            detalle: "",
             pucInv: 0,
             pucIng: 0,
             pucCos: 0,
@@ -18,13 +18,29 @@ function Sublineas() {
     const [lineas, setLineas] = useState([]);
 
     const handleChange = (e) => {
-       const value = e.target.value;
-       //setObjeto({...,objeto.nomsublinea=value});
+        const property = e.target.name;
+        const value = e.target.value;
+        setObjeto({...objeto, [property]: value });
     };
 
+    const handleCombos = (e) => {
+        e.preventDefault();
+        const property = e.target.name;
+        const id = e.target.value;
+        console.log(property,id)
+        setObjeto({...objeto, [property]: id});
+    };
+  
     const handleGrabar = async(e) => {
         e.preventDefault();
-        return
+        const datos = {
+            sub_detalles: objeto.detalle,
+            linea_id: objeto.idLinea,
+            pucinventario_id: objeto.pucInv,
+            pucingresos_id: objeto.pucIng,
+            puccostoventa_id: objeto.pucCos,
+        };
+        console.log(datos);
         const result = await axios.post('api/sublineas', datos, {
            headers: {
               token: token,
@@ -87,7 +103,7 @@ function Sublineas() {
            <form>
                <hr/><br/>
                <label>Linea </label>
-               <select name="idlinea">
+               <select name="idLinea" onChange={(e)=>handleCombos(e)}>
                    {lineas.map(elemen => 
                       <option value={elemen.id}>{elemen.lin_detalles}</option>
                    )}
@@ -96,22 +112,22 @@ function Sublineas() {
                       name="detalle"
                       onChange={handleChange}
                       placeholder="Digite nombre Sublinea"
-                      value={objeto.nomsublinea}/>
+                      value={objeto.detalle}/>
                <br/>       
                <label>Cta Puc Inventario </label>
-               <select name="pucIdInv">
+               <select name="pucInv" onChange={(e)=>handleCombos(e)}>
                    {puc.map(ele => 
                       <option value={ele.id}>{ele.puc_codigo}  -  {ele.puc_cuenta}</option>
                    )}
                </select><br/>       
                <label>Cta Puc Ingresos </label>
-               <select name="pucIdIng">
+               <select name="pucIng" onChange={(e)=>handleCombos(e)}>
                    {puc.map(ele => 
                       <option value={ele.id}>{ele.puc_codigo}  -  {ele.puc_cuenta}</option>
                    )}
                </select><br/>    
                <label>Cta Puc Costo de venta </label>
-               <select name="pucIdCos">
+               <select name="pucCos" onChange={(e)=>handleCombos(e)}>
                    {puc.map(ele => 
                       <option value={ele.id}>{ele.puc_codigo}  -  {ele.puc_cuenta}</option>
                    )}

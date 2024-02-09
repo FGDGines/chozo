@@ -5,7 +5,6 @@ import axios from "axios";
 
 function Stock() {
   const token = localStorage.getItem("token");
-  console.log("TOKEN", token);
   const [articles, setArticles] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [selectedArticle, setSelectedArticle] = useState(null);
@@ -33,7 +32,7 @@ function Stock() {
         },
       });
 
-      console.log("response", response.data);
+      //console.log("response", response.data);
       setArticles(response.data);
     } catch (error) {
       console.error("Error:", error);
@@ -77,7 +76,7 @@ function Stock() {
 
   function buttonAction(row) {
     const articleId = row.row.original.id;
-    console.log("ID del artículo:", articleId);
+    //console.log("ID del artículo:", articleId);
     const selected = articles.find((article) => article.id === articleId);
     setSelectedArticle(selected);
     setShowModal(true);

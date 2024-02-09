@@ -147,6 +147,13 @@ function SideBar() {
       { icon: <LuPackage />, text: "Grupos", to: "/grupos" },
       { icon: <LuPackage />, text: "Marcas", to: "/marcas" },
     ],      
+    grupos: [
+      { icon: <MdHome />, text: "Inicio", to: "/home" },
+      { icon: <LuPackage />, text: "Lineas", to: "/lineas" },
+      { icon: <LuPackage />, text: "Sublineas", to: "/sublineas" },
+      { icon: <LuPackage />, text: "Grupos", to: "/grupos" },
+      { icon: <LuPackage />, text: "Marcas", to: "/marcas" },
+    ],         
   };
 
   const handleSetActiveView = (view) => {

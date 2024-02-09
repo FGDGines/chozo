@@ -1,0 +1,103 @@
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+function Grupos() {
+    const token = localStorage.getItem("token");
+    const [grupos, setGrupos] = useState([]);
+    const [sublineas, setSublineas] = useState([]);
+    const [objeto, setObjeto] = useState({ngrupo: "", idSublinea: 0});
+
+    const handleChange = (e) => {
+       const property = e.target.name;
+       const value = e.target.value;
+       console.log(property,value)
+       setObjeto({...objeto, [property]: value });
+    };
+
+    const handleGrabar = async(e) => {
+        e.preventDefault();
+        const datos = {gru_detalles: objeto.ngrupo, sublinea_id: objeto.idSublinea};
+        const result = await axios.post('api/grupos', datos, {
+           headers: {
+              token: token,
+           },
+        });
+        toast.success("¡Grupo creado!");
+        cargarGrupos();
+    };
+
+    const cargarSublineas = async() => {
+        const result = await axios('api/sublineas', {
+           headers: {
+             token: token,
+           },
+        });
+        setSublineas(result.data);
+     };
+
+    const cargarGrupos = async() => {
+       const result = await axios('api/grupos', {
+          headers: {
+            token: token,
+          },
+       });
+       setGrupos(result.data);
+    };
+
+    useEffect(() => {
+       cargarGrupos(); 
+       cargarSublineas();
+    }, []);
+
+    return (
+       <div className="mx-auto mt-10 max-w-[80%]">
+           <h2 className="text-2xl bg-customBlue p-2 rounded-md text-white">Maestros de Lineas</h2>
+           <table>
+              <thead>
+                 <tr><th>Id</th><th>Detalles</th></tr>
+              </thead>
+              <tbody>
+              {grupos.map(ele =>
+                  <tr key={ele.id}>
+                     <td>{ele.id}</td>
+                     <td>{ele.gru_detalles}</td>
+                  </tr>
+               )}
+               </tbody>
+           </table>
+           <form>
+               <hr/><br/>
+               <input type="text" 
+                      name="ngrupo"
+                      onChange={handleChange}
+                      placeholder="Digite nombre Grupo"
+                      value={objeto.ngrupo}/>
+               <br/>
+               <label>Sublinea </label>
+               <select name="idSublinea" onChange={(e)=>handleChange(e)}>
+                   {sublineas.map(elemen => 
+                      <option value={elemen.id}>{elemen.sub_detalles}</option>
+                   )}
+               </select><br/>       
+               <button className="bg-red-200 px-2" onClick={handleGrabar}>Agregar Grupo</button>
+           </form>
+           <ToastContainer
+            position="top-right"
+            autoClose={1000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss={false}
+            draggable
+            pauseOnHover
+            theme="colored"
+          />
+       </div>
+    )
+
+};
+
+export default Grupos;
