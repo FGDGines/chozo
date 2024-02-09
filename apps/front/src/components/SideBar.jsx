@@ -106,6 +106,7 @@ function SideBar() {
         to: "/providers",
       },
       { icon: <IoPersonAdd />, text: "Nuevo", to: "/createProvider" },
+      { icon: <IoPersonAdd />, text: "Agencias", to: "/agencias" },
     ],
     createProvider: [
       { icon: <MdHome />, text: "Inicio", to: "/home" },
@@ -115,6 +116,17 @@ function SideBar() {
         to: "/providers",
       },
       { icon: <IoPersonAdd />, text: "Nuevo", to: "/createProvider" },
+      { icon: <IoPersonAdd />, text: "Agencias", to: "/agencias" },
+    ],
+    agencias: [
+      { icon: <MdHome />, text: "Inicio", to: "/home" },
+      {
+        icon: <SlPeople />,
+        text: "Proveedores",
+        to: "/providers",
+      },
+      { icon: <IoPersonAdd />, text: "Nuevo", to: "/createProvider" },
+      { icon: <IoPersonAdd />, text: "Agencias", to: "/agencias" },
     ],
     stock: [
       { icon: <MdHome />, text: "Inicio", to: "/home" },

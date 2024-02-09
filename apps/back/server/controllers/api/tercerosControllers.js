@@ -2,7 +2,9 @@ const {terceros, tipoterceros,
       tipodocumentos, ciudades, departamentos} = require("../../models/DbConex");
 
 const getTerceros = async() => {
-   const array = await terceros.findAll();
+   const array = await terceros.findAll({
+      order: [['ter_tercero', 'ASC']],
+   });
    return array;
 };
 
@@ -14,7 +16,7 @@ const getTerceroById = async(id) => {
          {model: tipoterceros, attributes: { exclude: ['createdAt','updatedAt']}},
          {model: ciudades, attributes: { exclude: ['createdAt','updatedAt']},
                  include: [{model: departamentos, attributes: {exclude: ['createdAt','updatedAt']}}]},
-      ]
+      ],
    });
    return registro;
 };

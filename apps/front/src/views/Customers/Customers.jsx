@@ -29,8 +29,8 @@ function Customers() {
     { header: "ID", accessorKey: "id" },
     { header: "nombre", accessorKey: "ter_tercero" },
     { header: "DNI", accessorKey: "ter_documento" },
-    { header: "condicion", accessorKey: "condicion de venta" },
-    { header: "activo", accessorKey: "activo" },
+    { header: "Movil", accessorKey: "ter_celular" },
+    { header: "Email", accessorKey: "ter_email" },
   ];
   return (
     <div className="p-5  w-[97%]">

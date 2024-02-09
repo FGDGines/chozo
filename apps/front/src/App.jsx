@@ -23,6 +23,7 @@ import Marcas from "./views/Stock/Marcas";
 import Paises from "./views/Customers/Paises";
 import Departamentos from "./views/Customers/Departamentos";
 import Ciudades from "./views/Customers/Ciudades";
+import Agencias from "./views/Providers/Agencias";
 import { ToastContainer, toast } from "react-toastify";
 
 function App() {
@@ -316,7 +317,19 @@ function App() {
               <Navigate to="/" />
             )
           }
-        />                                                                                      
+        />   
+        <Route
+          path="/Agencias"
+          element={
+            isAuthenticated ? (
+              <MainLayout showSidebar={true}>
+                <Agencias handleLogout={handleLogout} />
+              </MainLayout>
+            ) : (
+              <Navigate to="/" />
+            )
+          }
+        />                                                                                                      
       </Routes>
     </div>
   );
