@@ -228,7 +228,7 @@ function CreateCustomer() {
                 <option value="">Seleccionar</option>
                 {cities.map((city) => (
                   <option key={city.id} value={city.id}>
-                    {city.ciu_nombre}
+                    {city.ciu_nombre} - {city.departamento.dpt_nombre}
                   </option>
                 ))}
               </select>
@@ -242,7 +242,7 @@ function CreateCustomer() {
                 value={client.tipodocumento_id || ""}
                 onChange={(e) => handleInputChange(e, "tipodocumento_id")}
               >
-                <option value="">Seleccionar</option>
+                <option value="0">Seleccionar</option>
                 {tipoDocumentos.map((doc) => (
                   <option key={doc.id} value={doc.id}>
                     {doc.tdoc_detalles}
@@ -259,7 +259,7 @@ function CreateCustomer() {
                 value={client.tipotercero_id || ""}
                 onChange={(e) => handleInputChange(e, "tipotercero_id")}
               >
-                <option value="">Seleccionar</option>
+                <option value="0">Seleccionar</option>
                 {tipoTerceros.map((ter) => (
                   <option key={ter.id} value={ter.id}>
                     {ter.tter_detalles}

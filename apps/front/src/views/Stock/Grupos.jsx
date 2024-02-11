@@ -78,6 +78,7 @@ function Grupos() {
                <br/>
                <label>Sublinea </label>
                <select name="idSublinea" onChange={(e)=>handleChange(e)}>
+                   <option value="0">Seleccione</option>
                    {sublineas.map(elemen => 
                       <option value={elemen.id}>{elemen.sub_detalles}</option>
                    )}

@@ -18,10 +18,8 @@ function Sales() {
   const [quantity, setQuantity] = useState(1);
   const [shoppingCart, setShoppingCart] = useState([]);
   const [totalQuantity, setTotalQuantity] = useState(0);
-  // const [totalImp, setTotalImp] = useState(0);
   const [totalAmount, setTotalAmount] = useState(0);
-  const [selectedPaymentMethod, setSelectedPaymentMethod] =
-    useState("Efectivo");
+  const [selectedPaymentMethod, setSelectedPaymentMethod] =  useState("Efectivo");
   const [descuento, setDescuento] = useState(0);
   const [showModalError, setShowModalError] = useState(false);
   const [messageError, setMessageError] = useState("");
@@ -30,9 +28,23 @@ function Sales() {
   // pagos
   const [paymentModalOpen, setPaymentModalOpen] = useState(false);
   const [paymentMethods, setPaymentMethods] = useState([]);
+  const [ctaBanco, setCtaBanco] = useState([]);
   const [paymentDetails, setPaymentDetails] = useState([
     { ctabancoid: 0, valor: totalAmount, idformapago: 1 },
   ]);
+
+  const getCuentaBancaria = async() => {
+    try {
+      const response = await axios.get("api/cuentasbancarias", {
+        headers: {
+          token: token,
+        },
+      });
+      setCtaBanco(response.data);
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
 
   const getArticles = async () => {
     try {
@@ -41,7 +53,6 @@ function Sales() {
           token: token,
         },
       });
-      console.log("productos:", response.data);
       setArticles(response.data);
     } catch (error) {
       console.error("Error:", error);
@@ -67,6 +78,7 @@ function Sales() {
   useEffect(() => {
     getArticles();
     getPaymentMethods();
+    getCuentaBancaria();
     const storedCajero = localStorage.getItem("selectedCajero");
     if (storedCajero) {
       setSelectedCaja(JSON.parse(storedCajero));
@@ -78,7 +90,7 @@ function Sales() {
     date.getMonth() + 1
   }/${date.getFullYear()}`;
   const today = date.toISOString();
-  // console.log(date);
+
 
   const infoHeader = {
     title: "Pedido de venta",
@@ -88,7 +100,7 @@ function Sales() {
     setSelectedCaja,
     setselectedClient1,
   };
-  // console.log("cliente", selectedClient1);
+
   const infoModalError = {
     showModalError,
     setShowModalError,
@@ -140,7 +152,6 @@ function Sales() {
   };
   const onSuggestionSelected = (event, { suggestion }) => {
     setSelectedProduct(suggestion);
-    // console.log("SELECTED PRODUCTttt", selectedProduct);
   };
 
   //!abre modal de pago:
@@ -157,8 +168,6 @@ function Sales() {
   //!cierra modal
   const handleClosePaymentModal = () => {
     setPaymentModalOpen(false);
-    // setSelectedPaymentMethod("Efectivo");
-    // handlePaymentMethod("Efectivo");
   };
 
   //!maneja el cambio en los detalles de los metodos de pago:
@@ -207,7 +216,7 @@ function Sales() {
       inputBuscarRef.current.focus();
     }
   };
-  console.log(selectedCaja);
+
   const handleSale = async () => {
     try {
       const date = new Date();
@@ -231,10 +240,9 @@ function Sales() {
           cantidad: parseFloat(item.cantidad),
         })),
         fpagos: paymentDetails,
-        // fpagos: [{ ctabancoid: 0, valor: 1, idformapago: 1 }],
         token: token,
       };
-      console.log("DATA Q uiero vender", saleData);
+
       if (
         !selectedClient1 ||
         !saleData.fecha ||
@@ -337,7 +345,7 @@ function Sales() {
       },
     },
   };
-  console.log(paymentDetails);
+
   return (
     <>
       <div className="ml-[80px] font-SFRegular h-screen w-[92%] flex flex-col">
@@ -352,6 +360,7 @@ function Sales() {
             paymentDetails={paymentDetails}
             handlePaymentMethod={handlePaymentMethod}
             totalAmount={totalAmount}
+            ctaBancarias={ctaBanco}
           />
         ) : (
           ""
@@ -439,7 +448,7 @@ function Sales() {
                       : ""
                   }`}
                 >
-                  Credito
+                  Formas de Pago
                 </button>
               </div>
             </div>{" "}

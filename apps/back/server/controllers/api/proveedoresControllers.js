@@ -4,7 +4,7 @@ const {proveedores, agencias_transporte,
 //devuelve todos los proveedores
 const getProveedores = async() => {
    const array = await proveedores.findAll( {
-      include: [{model: terceros, attributes: { exclude: ['createdAt','updatedAt']}}]
+      include: [{model: terceros, attributes: { exclude: ['createdAt','updatedAt']}}],
    });
    return array;
 };

@@ -6,16 +6,17 @@ import { FaCircle } from "react-icons/fa";
 
 function PendingToCollect() {
   const token = localStorage.getItem("token");
-  console.log(token);
   const [sales, setSales] = useState([]);
   const [bill, setBill] = useState([]);
   const [showModal, setShowModal] = useState(false);
 
   const columns = [
-    { header: "n° fact", accessorKey: "id" },
+    { header: "Numero", accessorKey: "id" },
     { header: "fecha", accessorKey: "cxc_fechafac" },
     { header: "cliente", accessorKey: "tercero.ter_tercero" },
     { header: "total", accessorKey: "cxc_valor" },
+    { header: "abonos", accessorKey: "cxc_abonos" },
+    { header: "saldo", accessorKey: "cxc_saldo" },
     {
       header: "credito",
       accessorKey: "cxc_metodopago",
@@ -84,7 +85,7 @@ function PendingToCollect() {
 
         return { ...venta, cxc_fechafac: formattedDate };
       });
-      const filteredSales = data.filter((venta) => venta.cxc_metodopago === 2);
+      const filteredSales = data.filter((venta) => venta.cxc_valor-venta.cxc_abonos>0);
       setSales(filteredSales);
     } catch (error) {
       console.log(error.message);
@@ -103,7 +104,7 @@ function PendingToCollect() {
   console.log(sales);
   return (
     <div className="p-5 w-[97%]">
-      <Table data={sales} columns={columns} name="ventas" props={props} />;
+      <Table data={sales} columns={columns} name="cartera x cobrar" props={props} />;
     </div>
   );
 }

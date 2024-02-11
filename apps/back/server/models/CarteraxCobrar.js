@@ -44,6 +44,10 @@ module.exports = (sequelize) => {
             type: DataTypes.DOUBLE(14,2),
             defaultValue: 0,
         },
+        cxc_saldo: {
+            type: DataTypes.DOUBLE(14,2),
+            defaultValue: 0,
+        },
         cxc_metodopago: {
             type: DataTypes.TINYINT,
             defaultValue: 1,

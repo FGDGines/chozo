@@ -68,9 +68,9 @@ const addCarteraPedidos = async(datos) => {
    const ctaxp = Number(parametro3.para_valor);
 
    //invocamos la funcion que grabara la contabilidad
-
+ 
    const contab = await grabaContable(fuente, num, fechaC, tercero_id, items, total, codUsuario, ctaxp);
-   //console.log("Contabilidad Grabada");
+   console.log("Contabilidad x Grabada");
 
    //grabamos registro en la tabla de carteraxpagar
    const newReg = {
@@ -165,6 +165,7 @@ const grabaContable = async(fuente, num, fechaC, tercero_id, items, total, codUs
       tercero_id,
       usuario_id: codUsuario,
    };
+
    const newRegistro = await contable.create(registro);
    console.log("Cabecera contable grabada")
 
@@ -196,7 +197,6 @@ const grabaContable = async(fuente, num, fechaC, tercero_id, items, total, codUs
       };
       await itemcontable.create(citem);
    });
-  // console.log("Items contables grabados");
 
    //grabamos el item contable de total impuesto
    if(suma_impuesto>0) {
@@ -223,7 +223,7 @@ const grabaContable = async(fuente, num, fechaC, tercero_id, items, total, codUs
      ite_numero: num,
      ite_fecha: fechaC,
      ite_debito: 0,
-     ite_credito: suma_impuesto + suma_bruto,
+     ite_credito: total,
      ite_detalles: 'Cuenta x pagar a Proveedores',
      contable_id: newRegistro.id,
      fuente_id: fuente,

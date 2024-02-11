@@ -7,8 +7,10 @@ function PaymentModal({
   onPaymentDetailsChange,
   paymentDetails,
   totalAmount,
+  ctaBancarias,
 }) {
   const [totalPaid, setTotalPaid] = useState(0);
+  const [idCtaBanco, setIdCtaBanco] = useState(0);
 
   useEffect(() => {
     const sum = paymentDetails.reduce(
@@ -17,6 +19,11 @@ function PaymentModal({
     );
     setTotalPaid(sum);
   }, [paymentDetails]);
+
+  const handleChange = (e) => {
+     const value = e.target.value;
+     setIdCtaBanco(value);
+  };
 
   // Calcular la cantidad restante que falta pagar
   const remainingAmount = totalAmount - totalPaid;
@@ -42,6 +49,17 @@ function PaymentModal({
               }
               className="border border-gray-300 rounded-md p-1"
             />
+            <select name="idCta" 
+                id={`amount_${method.id}`}
+                onChange={(e) =>
+                  onPaymentDetailsChange(index, "ctabancoid", e.target.value)
+                }
+            >
+                   <option value="0">Seleccione</option>
+                   {ctaBancarias.map(elemen => 
+                      <option value={elemen.id}>{elemen.cue_banco} {elemen.cue_numero}</option>
+                   )}
+            </select>
           </div>
         ))}
         <div className="flex justify-end">

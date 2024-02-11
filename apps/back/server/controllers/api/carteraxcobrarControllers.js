@@ -1,11 +1,14 @@
 const {carteraxcobrar, items_carteraxcobrar, unidades, consecutivos,
-       contable, itemcontable, articulos, parametros, grupos,
+       contable, itemcontable, articulos, parametros, grupos, conex,
        sublineas, existencias, cuentas_bancarias,
        kardex, formasdepago, cajas, terceros, items_formasdepago} = require("../../models/DbConex");
 
 
 //consulta todas las cuentas x cobrar generadas
 const getCartera = async(query) => {
+   //actualizamos el campo cxc_saldo
+   let query1="UPDATE carteraxcobrar set cxc_saldo=cxc_valor-cxc_abonos";
+   await conex.query(`${query1}`, {replacements: []});
    const result = await carteraxcobrar.findAll({
       include: [
          {model: terceros, attributes: { exclude: ['createdAt','updatedAt']}},

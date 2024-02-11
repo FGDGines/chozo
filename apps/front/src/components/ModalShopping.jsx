@@ -2,8 +2,9 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { RiLoader2Fill } from "react-icons/ri";
 
-function ModalShopping({ props }) {
+function ModalShopping({ props, closeWin }) {
   const token = localStorage.getItem("token");
+  const codUsuario = localStorage.getItem("idUsuario");
   const [order, setOrder] = useState({});
   const [checkedItems, setCheckedItems] = useState({});
   const orderId = props.selectedOrder.id;
@@ -113,7 +114,7 @@ function ModalShopping({ props }) {
         cantidad: parseFloat(item.ite_cantidad),
         valorunitario: item.articulo.art_ultimocosto,
       })),
-      codUsuario: 1,
+      codUsuario: codUsuario,
       token: token,
     };
 
@@ -122,7 +123,8 @@ function ModalShopping({ props }) {
         "api/carteraxpagar",
         pedidoAComprar
       );
-      console.log("Compra confirmada:", response.data);
+      //console.log("Compra confirmada:", response.data);
+      closeWin();
     } catch (error) {
       console.error("Error al confirmar la compra:", error);
     }

@@ -30,11 +30,7 @@ const Header = ({ formattedDate, infoHeader }) => {
       const optionsClient = response.data.map((cliente) => ({
         value: cliente.id,
         label:
-          cliente.ter_nombres +
-          " " +
-          cliente.ter_apellidos +
-          " " +
-          cliente.ter_documento,
+          cliente.ter_tercero +" " + cliente.ter_documento,
       }));
 
       setClients(optionsClient);

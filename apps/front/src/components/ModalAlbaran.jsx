@@ -76,7 +76,7 @@ function ModalAlbaran({ props }) {
               </div>
             </div>
             <div className="mb-4">
-              <span className="font-semibold">Proveedor:</span>{" "}
+              <span className="font-semibold">Cliente:</span>{" "}
               {props.bill.tercero && props.bill.tercero.ter_tercero}
               {"  "}
               <span className="font-semibold">Doc:</span>{" "}

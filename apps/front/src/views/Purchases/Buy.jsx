@@ -9,7 +9,7 @@ import { ToastContainer, toast } from "react-toastify";
 
 function Buy() {
   const token = localStorage.getItem("token");
-  const notify = () => toast.success("¡Venta realizada!");
+  const notify = () => toast.success("¡Compra realizada!");
 
   const [articles, setArticles] = useState([]);
   const [value, setValue] = useState("");
@@ -346,41 +346,8 @@ function Buy() {
             className="flex flex-row justify-between gap-10 w-full px-2 absolute bottom-1 "
           >
             <div className="flex flex-col gap-3  items-center">
-              <div>Seleccionar metodo de pago</div>
-              <div
-                id="Botones Metodos De Pago"
-                className="flex flex-row gap-2 justify-around items-center "
-              >
-                <button
-                  onClick={() => handlePaymentMethod("Efectivo")}
-                  className={`border-2  rounded-2xl px-2 py-1 ${
-                    selectedPaymentMethod === "Efectivo"
-                      ? infoHeader.isViewSale
-                        ? "bg-customBlue border-customBlue text-white"
-                        : "bg-gray-700 border-gray-700 text-white"
-                      : infoHeader.isViewSale
-                      ? "border-bustomBlue"
-                      : "border-gray-700"
-                  }`}
-                >
-                  Efectivo
-                </button>
 
-                <button
-                  onClick={() => handlePaymentMethod("A cuenta")}
-                  className={`border-2  rounded-2xl px-2 py-1 ${
-                    selectedPaymentMethod === "A cuenta"
-                      ? infoHeader.isViewSale
-                        ? "bg-customBlue border-customBlue text-white"
-                        : "bg-gray-700 border-gray-700 text-white"
-                      : infoHeader.isViewSale
-                      ? "border-bustomBlue"
-                      : "border-gray-700"
-                  }`}
-                >
-                  A cuenta
-                </button>
-              </div>
+              
             </div>{" "}
             <div className="flex flex-col justify-end items-end">
               <div className="flex flex-row gap-10">

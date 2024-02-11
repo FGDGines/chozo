@@ -138,7 +138,7 @@ function SideBar() {
       { icon: <MdHome />, text: "Inicio", to: "/home" },
       { icon: <LuPackage />, text: "Stock", to: "/stock" },
       { icon: <LuPackagePlus />, text: "Nuevo", to: "/createProduct" },
-      { icon: <LuPackage />, text: "Config", to: "/config" },
+      { icon: <LuPackage />, text: "Lineas", to: "/lineas" },
 
     ],
     accounting: [

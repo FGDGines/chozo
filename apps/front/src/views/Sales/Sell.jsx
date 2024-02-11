@@ -6,13 +6,12 @@ import { FaCircle } from "react-icons/fa";
 
 function Sell() {
   const token = localStorage.getItem("token");
-  console.log(token);
   const [sales, setSales] = useState([]);
   const [bill, setBill] = useState([]);
   const [showModal, setShowModal] = useState(false);
 
   const columns = [
-    { header: "n° fact", accessorKey: "id" },
+    { header: "Numero", accessorKey: "id" },
     { header: "fecha", accessorKey: "cxc_fechafac" },
     { header: "cliente", accessorKey: "tercero.ter_tercero" },
     { header: "total", accessorKey: "cxc_valor" },

@@ -111,6 +111,7 @@ function Sublineas() {
                <hr/><br/>
                <label>Linea </label>
                <select name="idLinea" onChange={(e)=>handleCombos(e)}>
+                   <option value="0">Seleccione Linea</option>
                    {lineas.map(elemen => 
                       <option value={elemen.id}>{elemen.lin_detalles}</option>
                    )}

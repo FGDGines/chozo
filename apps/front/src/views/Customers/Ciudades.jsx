@@ -89,6 +89,7 @@ function Ciudades() {
                       value={objeto.codigo}/><br/>   
                <label>Pais</label>
                <select name="idDpto" onChange={(e)=>handleChange(e)}>
+                   <option value="0">Seleccione Departamento</option>
                    {dptos.map(elemen => 
                       <option value={elemen.id}>{elemen.dpt_nombre}</option>
                    )}

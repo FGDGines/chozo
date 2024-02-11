@@ -15,6 +15,12 @@ function ModalProviderDetails({ props }) {
     ter_telefono: props.selectedProvider.tercero.ter_telefono,
     ter_email: props.selectedProvider.tercero.ter_email,
     ter_celular: props.selectedProvider.tercero.ter_celular,
+    ter_apellidos: props.selectedProvider.tercero.ter_apellidos,
+    ter_nombres: props.selectedProvider.tercero.ter_nombres,
+    ciudad_id: props.selectedProvider.tercero.ciudad_id,
+    tipodocumento_id: props.selectedProvider.tercero.tipodocumento_id,
+    tipotercero_id: props.selectedProvider.tercero.tipotercero_id,
+    agencia_id: props.selectedProvider.agencia_id,
     token: token,
   });
 
@@ -33,6 +39,7 @@ function ModalProviderDetails({ props }) {
   };
 
   const handleUpdate = async () => {
+    console.log(editedProvider)
     try {
       const response = await axios.put(
         `api/proveedores/${props.selectedProvider.id}`,

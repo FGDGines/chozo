@@ -33,9 +33,10 @@ const Login = ({ onLogin }) => {
 
       const data = await response.json();
       const token = data.token;
+      const idUser = data.result.id;
 
       localStorage.setItem("token", token);
-
+      localStorage.setItem("idUsuario", idUser);
       onLogin(token);
     } catch (error) {
       setError(error.message);
