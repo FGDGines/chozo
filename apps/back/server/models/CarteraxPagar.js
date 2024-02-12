@@ -45,6 +45,11 @@ module.exports = (sequelize) => {
             defaultValue: 0,
             allowNull: false,
         },
+        cxp_saldo: {
+            type: DataTypes.DOUBLE(12,2),
+            defaultValue: 0,
+            allowNull: false,
+        },
         cxp_anulada: {
             type: DataTypes.TINYINT,
             defaultValue: 0,

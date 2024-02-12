@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Table from "../../components/Table";
 import { FaCheck } from "react-icons/fa";
-import { FaCircle } from "react-icons/fa";
+import { FaCircle } from "react-icons/fa"; 
 
 function PendingToCollect() {
   const token = localStorage.getItem("token");

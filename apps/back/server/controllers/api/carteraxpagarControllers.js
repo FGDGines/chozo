@@ -1,10 +1,12 @@
-const {carteraxpagar, item_carteraxpagar, itempedidos, 
+const {carteraxpagar, item_carteraxpagar, itempedidos, conex,
        pedidos, terceros, parametros, articulos, grupos, sublineas, existencias,
        contable, itemcontable, consecutivos, kardex} = require("../../models/DbConex");
 
 
 //devuelve todos los registros de cartera x pagar
 const getCartera = async(query) => {
+   let query1="UPDATE carteraxpagar set cxp_saldo=cxp_total-cxp_abonos";
+   await conex.query(`${query1}`, {replacements: []});
    const result = await carteraxpagar.findAll({
       include: [
         {model: terceros, attributes: { exclude: ['createdAt','updatedAt']}},

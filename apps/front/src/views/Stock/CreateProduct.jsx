@@ -5,7 +5,6 @@ import "react-toastify/dist/ReactToastify.css";
 
 function CreateProduct() {
   const token = localStorage.getItem("token");
-
   const [groups, setGroups] = useState([]);
   const [marcas, setMarcas] = useState([]);
   const [unit, setUnit] = useState([]);
@@ -25,6 +24,7 @@ function CreateProduct() {
       console.error("Error al traer grupo:", error);
     }
   };
+
   const getMarcas = async () => {
     try {
       const response = await axios.get("api/marcas", {
@@ -37,6 +37,7 @@ function CreateProduct() {
       console.error("Error al traer marcas:", error);
     }
   };
+
   const getUnit = async () => {
     try {
       const response = await axios.get("api/unidades", {
@@ -62,11 +63,15 @@ function CreateProduct() {
     art_ultimocosto: null,
     art_costopromedio: null,
     art_precioventa: null,
+    art_impuestoventa: 0,
     marca_id: null,
     unidad_id: null,
     grupo_id: null,
+    art_codbarra: null,
+    art_factorconversion: 1,
     token: token,
   });
+
   const handleInputChange = (event, property) => {
     if (property === "art_detalles") {
       const nombreCorto = event.target.value
@@ -120,6 +125,9 @@ function CreateProduct() {
           marca_id: 0,
           unidad_id: 0,
           grupo_id: 0,
+          art_codbarra: '',
+          art_factorconversion: 1,
+          art_impuestoventa: 0,
         });
         notify();
       }
@@ -155,7 +163,7 @@ function CreateProduct() {
             </div>
             <div className="mb-4 flex flex-row  justify-start gap-5 items-center">
               <label htmlFor="ref" className="block text-lg font-semibold mb-1">
-                Nombre corto:
+                Referencia:
               </label>
               <input
                 type="text"
@@ -260,6 +268,54 @@ function CreateProduct() {
                 className="border border-1 p-1.5 text-center rounded-xl w-[20%] border-gray-300"
               />
             </div>
+            <div className="mb-4 flex flex-row  justify-start gap-5 items-center">
+              <label
+                htmlFor="impuesto"
+                className="block text-lg font-semibold mb-1 -mr-3"
+              >
+                Impuesto Venta: % 
+              </label>
+              <input
+                type="number"
+                id="impuesto"
+                name="impuesto"
+                value={product.art_impuestoventa}
+                onChange={(e) => handleInputChange(e, "art_impuestoventa")}
+                className="border border-1 p-1.5 text-center rounded-xl w-[20%] border-gray-300"
+              />
+            </div>                        
+            <div className="mb-4 flex flex-row  justify-start gap-5 items-center">
+              <label
+                htmlFor="codbarra"
+                className="block text-lg font-semibold mb-1 -mr-3"
+              >
+                Codigo Barra: 
+              </label>
+              <input
+                type="text"
+                id="codbarra"
+                name="codbarra"
+                value={product.art_codbarra}
+                onChange={(e) => handleInputChange(e, "art_codbarra")}
+                className="border border-1 p-1.5 text-center rounded-xl w-[40%] border-gray-300"
+              />
+            </div>  
+            <div className="mb-4 flex flex-row  justify-start gap-5 items-center">
+              <label
+                htmlFor="factor"
+                className="block text-lg font-semibold mb-1 -mr-3"
+              >
+                Factor Conversion: 
+              </label>
+              <input
+                type="number"
+                id="factor"
+                name="factor"
+                value={product.art_factorconversion}
+                onChange={(e) => handleInputChange(e, "art_factorconversion")}
+                className="border border-1 p-1.5 text-center rounded-xl w-[20%] border-gray-300"
+              />
+            </div>                      
           </div>
         </div>
 

@@ -22,8 +22,11 @@ function ModalProductDetails({ props }) {
     unidad_id: props.selectedArticle.unidade.id,
     grupo_id: props.selectedArticle.grupo.id,
     art_activo: props.selectedArticle.art_activo,
+    art_impuestoventa: props.selectedArticle.art_impuestoventa,
+    art_codbarra: props.selectedArticle.art_codbarra,
+    art_factorconversion: props.selectedArticle.art_factorconversion,
   });
-
+  //console.log(editedArticle);
   const notify = () => toast.success("¡Articulo modificado!");
 
   const getGroups = async () => {
@@ -186,13 +189,13 @@ function ModalProductDetails({ props }) {
             </select>
           </div>
           <div id="codigo-barra">
-            <strong>Cód. de Barra:</strong>
+            <strong>Código de Barra:</strong>
             <input
               className="border border-1 px- rounded-xl border-red-700"
               type="text"
-              placeholder="recordar a pol"
-              // value={"no se puede cambiar"}
-              // onChange={(e) => handleInputChange(e, "uni_detalles")}
+              placeholder="codigo de barra"
+              value={editedArticle.art_codbarra}
+              onChange={(e) => handleInputChange(e, "art_codigobarra")}
             />
           </div>
 
@@ -232,19 +235,25 @@ function ModalProductDetails({ props }) {
 
           <div id="impuesto">
             <strong>Impuesto:</strong>{" "}
-            {/* {props.selectedArticle.art_impuestoventa} */}
+            {props.selectedArticle.art_impuestoventa}
             <input
               className="border border-1 border-red-600 px-2 w-[200px] rounded-xl"
               type="select"
-              placeholder="Recordar a pol"
-              // value={"no deja cambiar"}
-              // onChange={(e) => handleInputChange(e, "")}
+              placeholder="Impuesto"
+              value={editedArticle.art_impuestoventa}
+              onChange={(e) => handleInputChange(e, "art_impuestoventa")}
             />
           </div>
-          <div id="costo-promedio">
-            <strong>Costo Promedio:</strong>{" "}
-            {props.selectedArticle.art_costopromedio}
+          <div id="factor">
+            <strong>Factor Conversion:</strong>
+            <input
+              className="border border-1 px-2 w-[100px] rounded-xl border-gray-300"
+              type="select"
+              value={editedArticle.art_factorconversion}
+              onChange={(e) => handleInputChange(e, "art_factorconversion")}
+            />
           </div>
+
           <div id="costo">
             <strong>Costo:</strong>
             <input

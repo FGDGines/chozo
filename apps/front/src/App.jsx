@@ -7,6 +7,7 @@ import Providers from "./views/Providers/Providers";
 import Shopping from "./views/Purchases/Shopping";
 import Stock from "./views/Stock/Stock";
 import Sell from "./views/Sales/Sell";
+import Treasury from "./views/treasury/Treasury";
 import SideBar from "./components/SideBar";
 import Customers from "./views/Customers/Customers";
 import Buy from "./views/Purchases/Buy";
@@ -120,6 +121,18 @@ function App() {
             isAuthenticated ? (
               <MainLayout showSidebar={true}>
                 <Shopping handleLogout={handleLogout} />
+              </MainLayout>
+            ) : (
+              <Navigate to="/" />
+            )
+          }
+        />
+        <Route
+          path="/treasury"
+          element={
+            isAuthenticated ? (
+              <MainLayout showSidebar={true}>
+                <Treasury handleLogout={handleLogout} />
               </MainLayout>
             ) : (
               <Navigate to="/" />

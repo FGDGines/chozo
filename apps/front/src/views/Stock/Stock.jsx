@@ -46,7 +46,7 @@ function Stock() {
     { header: "marca", accessorKey: "marca.mar_detalles" },
     { header: "grupo", accessorKey: "grupo.gru_detalles" },
     { header: "precio", accessorKey: "art_precioventa" },
-    { header: "stock", accessorKey: "art_costopromedio" },
+    { header: "costo", accessorKey: "art_costopromedio" },
     {
       header: "acciones",
       accessorKey: "",
