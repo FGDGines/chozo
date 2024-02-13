@@ -26,7 +26,7 @@ function ModalProductDetails({ props }) {
     art_codbarra: props.selectedArticle.art_codbarra,
     art_factorconversion: props.selectedArticle.art_factorconversion,
   });
-  //console.log(editedArticle);
+
   const notify = () => toast.success("¡Articulo modificado!");
 
   const getGroups = async () => {
@@ -44,6 +44,7 @@ function ModalProductDetails({ props }) {
       console.error("error al traer grupo:", error);
     }
   };
+
   const getMarcas = async () => {
     try {
       if (!token) {
@@ -59,6 +60,7 @@ function ModalProductDetails({ props }) {
       console.error("error al traer marcas:", error);
     }
   };
+
   const getUnit = async () => {
     try {
       if (!token) {
@@ -111,8 +113,10 @@ function ModalProductDetails({ props }) {
             ? parseInt(event.target.value, 10)
             : event.target.value,
       }));
-    }
+    };
+    console.log(editedArticle);
   };
+
   const handleModificar = async () => {
     setIsActivo(false);
     try {
@@ -195,7 +199,7 @@ function ModalProductDetails({ props }) {
               type="text"
               placeholder="codigo de barra"
               value={editedArticle.art_codbarra}
-              onChange={(e) => handleInputChange(e, "art_codigobarra")}
+              onChange={(e) => handleInputChange(e, "art_codbarra")}
             />
           </div>
 

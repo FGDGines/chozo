@@ -25,6 +25,7 @@ import Paises from "./views/Customers/Paises";
 import Departamentos from "./views/Customers/Departamentos";
 import Ciudades from "./views/Customers/Ciudades";
 import Agencias from "./views/Providers/Agencias";
+import Unidades from "./views/Stock/Unidades";
 import { ToastContainer, toast } from "react-toastify";
 
 function App() {
@@ -342,7 +343,19 @@ function App() {
               <Navigate to="/" />
             )
           }
-        />                                                                                                      
+        />    
+        <Route
+          path="/Unidades"
+          element={
+            isAuthenticated ? (
+              <MainLayout showSidebar={true}>
+                <Unidades handleLogout={handleLogout} />
+              </MainLayout>
+            ) : (
+              <Navigate to="/" />
+            )
+          }
+        />                                                                                                                      
       </Routes>
     </div>
   );

@@ -132,6 +132,7 @@ const cargarAgencias = async () => {
         <div className="mb-2 flex flex-row justify-start items-center">
             <label>Tipo Documento</label>
             <select name="idTipodoc" onChange={(e)=>handleChange(e)}>
+               <option value="0">Seleccione</option>
                {tipodoc.map(elemen => 
                    <option value={elemen.id}>{elemen.tdoc_detalles}</option>
                )}                    
@@ -140,6 +141,7 @@ const cargarAgencias = async () => {
         <div className="mb-2 flex flex-row justify-start items-center">
             <label>Tipo Persona</label>
             <select name="tipoper" onChange={(e)=>handleChange(e)}>
+               <option value="0">Seleccione</option>
                {tipoper.map(elemen => 
                    <option value={elemen.id}>{elemen.tter_detalles}</option>
                )}                    
@@ -148,6 +150,7 @@ const cargarAgencias = async () => {
         <div className="mb-2 flex flex-row justify-start items-center">
             <label>Ciudad</label>
             <select name="idCiudad" onChange={(e)=>handleChange(e)}>
+               <option value="0">Seleccione</option>
                {ciudades.map(elemen => 
                    <option value={elemen.id}>{elemen.ciu_nombre} - {elemen.departamento.dpt_nombre}</option>
                )}                    
@@ -176,6 +179,7 @@ const cargarAgencias = async () => {
         <div className="mb-2 flex flex-row justify-start items-center">
             <label>Agencia</label>
             <select name="idAgencia" onChange={(e)=>handleChange(e)}>
+               <option value="0">Seleccione</option>
                {agencias.map(elemen => 
                    <option value={elemen.id}>{elemen.tercero.ter_tercero}</option>
                )}                    

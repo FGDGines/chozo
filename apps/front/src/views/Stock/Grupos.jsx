@@ -55,7 +55,7 @@ function Grupos() {
     return (
        <div className="mx-auto mt-10 max-w-[80%]">
            <h2 className="text-2xl bg-customBlue p-2 rounded-md text-white">Maestros de Grupos</h2>
-           <table>
+           <table className="w-1/2 text-sm text-left text-gray-700 dark:text-gray-700">
               <thead>
                  <tr><th>Id</th><th>Detalles</th></tr>
               </thead>
@@ -68,6 +68,7 @@ function Grupos() {
                )}
                </tbody>
            </table>
+           <h1 className="bg-gray-800 text-white">Nuevo Grupo</h1>
            <form>
                <hr/><br/>
                <input type="text" 
@@ -76,14 +77,14 @@ function Grupos() {
                       placeholder="Digite nombre Grupo"
                       value={objeto.ngrupo}/>
                <br/>
-               <label>Sublinea </label>
+               <label className="bg-black text-white">Sublinea </label>
                <select name="idSublinea" onChange={(e)=>handleChange(e)}>
-                   <option value="0">Seleccione</option>
+                   <option value="0">Seleccione Grupo</option>
                    {sublineas.map(elemen => 
                       <option value={elemen.id}>{elemen.sub_detalles}</option>
                    )}
                </select><br/>       
-               <button className="bg-red-200 px-2" onClick={handleGrabar}>Agregar Grupo</button>
+               <button className="bg-blue-800 text-white text-center p-2 rounded-md" onClick={handleGrabar}>Agregar Grupo</button>
            </form>
            <ToastContainer
             position="top-right"

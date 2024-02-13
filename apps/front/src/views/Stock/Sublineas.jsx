@@ -81,7 +81,9 @@ function Sublineas() {
              token: token,
            },
         });
-        setPuc(result.data);
+        const datos = result.data
+        const cuentas = datos.filter((ele) => ele.puc_nivel == 5);
+        setPuc(cuentas);
      };
 
     useEffect(() => {
@@ -93,7 +95,7 @@ function Sublineas() {
     return (
        <div className="mx-auto mt-10 max-w-[80%]">
            <h2 className="text-2xl bg-customBlue p-2 rounded-md text-white">Maestro de Sublineas</h2>
-           <table>
+           <table className="w-1/2 text-sm text-left text-gray-700 dark:text-gray-700">
               <thead>
                  <tr><th>Id</th><th>Detalles</th><th>Linea</th></tr>
               </thead>
@@ -107,9 +109,10 @@ function Sublineas() {
                )}
                </tbody>
            </table>
+           <h1 className="bg-gray-800 text-white">Nueva Sublinea</h1>
            <form>
                <hr/><br/>
-               <label>Linea </label>
+               <label className="bg-black text-white">Linea </label>
                <select name="idLinea" onChange={(e)=>handleCombos(e)}>
                    <option value="0">Seleccione Linea</option>
                    {lineas.map(elemen => 
@@ -122,25 +125,28 @@ function Sublineas() {
                       placeholder="Digite nombre Sublinea"
                       value={objeto.detalle}/>
                <br/>       
-               <label>Cta Puc Inventario </label>
+               <label className="bg-black text-white">Cta Puc Inventario </label>
                <select name="pucInv" onChange={(e)=>handleCombos(e)}>
+                   <option value="0">Seleccione Cuenta del PUC</option>
                    {puc.map(ele => 
                       <option value={ele.id}>{ele.puc_codigo}  -  {ele.puc_cuenta}</option>
                    )}
                </select><br/>       
-               <label>Cta Puc Ingresos </label>
+               <label className="bg-black text-white">Cta Puc Ingresos </label>
                <select name="pucIng" onChange={(e)=>handleCombos(e)}>
+                   <option value="0">Seleccione Cuenta del PUC</option>
                    {puc.map(ele => 
                       <option value={ele.id}>{ele.puc_codigo}  -  {ele.puc_cuenta}</option>
                    )}
                </select><br/>    
-               <label>Cta Puc Costo de venta </label>
+               <label className="bg-black text-white">Cta Puc Costo de venta </label>
                <select name="pucCos" onChange={(e)=>handleCombos(e)}>
+                   <option value="0">Seleccione Cuenta del PUC</option>
                    {puc.map(ele => 
                       <option value={ele.id}>{ele.puc_codigo}  -  {ele.puc_cuenta}</option>
                    )}
                </select><br/>                                        
-               <button className="bg-red-200 px-2" onClick={handleGrabar}>Agregar Subinea</button>
+               <button className="bg-blue-800 text-white text-center p-2 rounded-md" onClick={handleGrabar}>Agregar Subinea</button>
            </form>
            <ToastContainer
             position="top-right"

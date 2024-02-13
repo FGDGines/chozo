@@ -39,11 +39,12 @@ function Providers() {
 
   const columns = [
     { header: "ID", accessorKey: "id" },
-    { header: "ref", accessorKey: "art_referencia" },
     { header: "nombre", accessorKey: "tercero.ter_tercero" },
+    { header: "documento", accessorKey: "tercero.ter_documento" },
     { header: "dirección", accessorKey: "tercero.ter_direccion" },
-    { header: "tel", accessorKey: "tercero.ter_telefono" },
-    { header: "cel", accessorKey: "tercero.ter_celular" },
+    { header: "telefono", accessorKey: "tercero.ter_telefono" },
+    { header: "celular", accessorKey: "tercero.ter_celular" },
+    { header: "email", accessorKey: "tercero.ter_email" },
     { header: "plazo", accessorKey: "pro_plazo" },
 
     {

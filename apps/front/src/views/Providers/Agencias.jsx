@@ -98,7 +98,7 @@ function Agencias() {
     return (
        <div className="mx-auto mt-10 max-w-[80%]">
            <h2 className="text-2xl bg-customBlue p-2 rounded-md text-white">Maestros de Agencias</h2>
-           <table className="border-collapse border border-slate-400">
+           <table className="w-1/2 text-sm text-left text-gray-700 dark:text-gray-700">
               <thead>
                  <tr><th>Id</th><th>Agencia</th><th>Nit</th><th>Celular</th><th>Email</th></tr>
               </thead>
@@ -115,7 +115,7 @@ function Agencias() {
                </tbody>
            </table>
            <hr/>
-
+           <h1 className="bg-gray-800 text-white">Nueva Agencia</h1>
            <form>
            <table>
                <tr>
@@ -139,6 +139,7 @@ function Agencias() {
                <tr>
                    <td>Tipo Documento</td>
                    <td><select name="idTipodoc" onChange={(e)=>handleChange(e)}>
+                   <option value="0">Seleccione</option>  
                    {tipodoc.map(elemen => 
                          <option value={elemen.id}>{elemen.tdoc_detalles}</option>
                       )}                    
@@ -147,6 +148,7 @@ function Agencias() {
                <tr>
                    <td>Ciudad</td>
                    <td><select name="idCiudad" onChange={(e)=>handleChange(e)}>
+                      <option value="0">Seleccione</option>
                       {ciudades.map(elemen => 
                          <option value={elemen.id}>{elemen.ciu_nombre}  -  {elemen.departamento.dpt_nombre}</option>
                       )}
@@ -190,7 +192,7 @@ function Agencias() {
                </tr>                                       
                <tr>
                    <td colSpan="2">
-                   <button className="bg-red-200 px-2" onClick={handleGrabar}>Agregar Agencia</button>
+                   <button className="bg-blue-800 text-white text-center p-2 rounded-md" onClick={handleGrabar}>Agregar Agencia</button>
                    </td>
                </tr>   
            </table>     

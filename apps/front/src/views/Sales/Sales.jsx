@@ -16,6 +16,8 @@ function Sales() {
   const [suggestions, setSuggestions] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [quantity, setQuantity] = useState(1);
+  const [codbarra, setCodbarra] = useState("");
+  const [artCodbarra, setArtCodbarra] = useState("");
   const [shoppingCart, setShoppingCart] = useState([]);
   const [totalQuantity, setTotalQuantity] = useState(0);
   const [totalAmount, setTotalAmount] = useState(0);
@@ -192,7 +194,9 @@ function Sales() {
 
   //!agrega al carro
   const handleAddToCart = () => {
-    console.log("SELECTED PRODUCT", selectedProduct);
+    //console.log("SELECTED PRODUCT", selectedProduct);
+    setCodbarra("");
+    setArtCodbarra("");
     if (selectedProduct) {
       const newItem = {
         id: selectedProduct.id,
@@ -288,6 +292,8 @@ function Sales() {
     setShoppingCart([]);
     setTotalQuantity(0);
     setTotalAmount(0);
+    setCodbarra("");
+    setArtCodbarra("");
   };
 
   const handleKeyDown = (event) => {
@@ -301,6 +307,23 @@ function Sales() {
     if (event.key === "Enter") {
       event.preventDefault();
       handleAddToCart();
+ 
+    }
+  };
+
+  const handleCodbarraKeyDown = (event) => {
+    if (event.key === "Enter") {
+       event.preventDefault();
+       const buscado = articles.find((ele) => ele.art_codbarra === codbarra);
+       if(!buscado) {
+          alert("Codigo de barra Inexistente");
+          setCodbarra("");
+          return;
+       };
+       setSelectedProduct(buscado);
+       setArtCodbarra(buscado.art_detalles);
+       console.log(artCodbarra)
+       setCodbarra("");
     }
   };
 
@@ -366,8 +389,18 @@ function Sales() {
           ""
         )}
 
-        <div className="text-lg ml-2 mt-5">Pedido</div>
 
+        <div className="m-2 flex flex-row gap-2 w-[650px] items-center">
+          <input id="codbarra"
+          className="text-center rounded-[30px] border-2 border-black p-[2px]"
+          type="text"
+          placeholder="Codigo de Barra"
+          value={codbarra}
+          onChange={(e) => setCodbarra(e.target.value)}
+          onKeyDown={handleCodbarraKeyDown}
+          />
+          <div className="text-lg ml-2 mt-5">{artCodbarra}</div>
+        </div>
         <div
           id="conteiner"
           className="pl-2 flex-grow relative"
