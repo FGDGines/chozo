@@ -7,6 +7,7 @@ function Customers() {
   const token = localStorage.getItem("token");
   const [showModal, setShowModal] = useState(false);
   const [customers, setCustomers] = useState([]);
+  const [selectedCustomer, setSelectedCustomer] = useState(null);
 
   const getCustomers = async () => {
     const response = await axios.get("api/terceros", {
@@ -24,14 +25,39 @@ function Customers() {
   const props = {
     showModal,
     setShowModal,
+    selectedCustomer,
+    setSelectedCustomer,
+    customers,
+    setCustomers,
   };
   const columns = [
     { header: "ID", accessorKey: "id" },
     { header: "nombre", accessorKey: "ter_tercero" },
-    { header: "DNI", accessorKey: "ter_documento" },
+    { header: "Documento", accessorKey: "ter_documento" },
+    { header: "Direccion", accessorKey: "ter_direccion" },
     { header: "Movil", accessorKey: "ter_celular" },
     { header: "Email", accessorKey: "ter_email" },
+    {
+      header: "acciones",
+      accessorKey: "",
+      cell: (row) => (
+        <button
+          className="px-2 py-1 bg-customBlue text-white rounded-md hover:scale-105 transition"
+          onClick={() => buttonAction(row)}
+        >
+          Editar
+        </button>
+      ),
+    },
   ];
+
+  function buttonAction(row) {
+    const articleId = row.row.original.id;
+    const selected = customers.find((article) => article.id === articleId);
+    setSelectedCustomer(selected);
+    setShowModal(true);
+  }
+
   return (
     <div className="p-5  w-[97%]">
       <Table

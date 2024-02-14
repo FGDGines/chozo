@@ -143,8 +143,8 @@ function SideBar() {
     ],
     accounting: [
       { icon: <MdHome />, text: "Inicio", to: "/home" },
-      { icon: <LuPackage />, text: "opcion 1", to: "/stock" },
-      { icon: <LuPackagePlus />, text: "opcion 2", to: "/createProduct" },
+      { icon: <LuPackage />, text: "Balance", to: "/balance" },
+      { icon: <LuPackagePlus />, text: "Auxiliares", to: "/auxiliares" },
     ],
     lineas: [
       { icon: <MdHome />, text: "Inicio", to: "/home" },
@@ -203,7 +203,12 @@ function SideBar() {
       { icon: <LuPackage />, text: "Paises", to: "/paises" },
       { icon: <LuPackage />, text: "Departamentos", to: "/departamentos" },
       { icon: <LuPackage />, text: "Ciudades", to: "/ciudades" },
-    ],                                                                       
+    ],  
+    treasury: [
+      { icon: <MdHome />, text: "Inicio", to: "/home" },
+      { icon: <FaPeopleGroup />, text: "Recibos", to: "/recibos" },
+      { icon: <IoPersonAdd />, text: "Egresos", to: "/egresos" },
+    ],                                                                     
   };
 
   const handleSetActiveView = (view) => {

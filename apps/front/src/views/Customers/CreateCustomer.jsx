@@ -9,9 +9,6 @@ function CreateCustomer() {
   const [tipoDocumentos, setTipoDocumentos] = useState([]);
   const [tipoTerceros, setTipoTerceros] = useState([]);
 
-  console.log("tipo doc", tipoDocumentos);
-  console.log("tipo ter", tipoTerceros);
-
   const notify = () => toast.success("¡Cliente creado!");
   const notifyError = () => toast.error("¡Faltan datos por completar!");
 
@@ -70,6 +67,8 @@ function CreateCustomer() {
     ciudad_id: null,
     tipodocumento_id: null,
     tipotercero_id: null,
+    ter_cliente: 1,
+    ter_credito: 0,
   });
 
   const handleInputChange = (event, property) => {
@@ -94,7 +93,8 @@ function CreateCustomer() {
         [property]:
           property === "ciudad_id" ||
           property === "tipodocumento_id" ||
-          property === "tipotercero_id"
+          property === "tipotercero_id" ||
+          property === "ter_credito"
             ? parseInt(event.target.value, 10)
             : event.target.value,
         ter_tercero: fullName,
@@ -105,7 +105,6 @@ function CreateCustomer() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log("Cliente creado", client);
-
     try {
       if (
         !client.ter_documento ||
@@ -128,8 +127,6 @@ function CreateCustomer() {
           },
         });
 
-        console.log("Al crearse devuelve", response);
-
         setClient({
           ter_documento: null,
           ter_tercero: null,
@@ -142,6 +139,8 @@ function CreateCustomer() {
           ciudad_id: null,
           tipodocumento_id: null,
           tipotercero_id: null,
+          ter_cliente: 1,
+          ter_credito: 0,
         });
         notify();
       }
@@ -321,6 +320,18 @@ function CreateCustomer() {
                 onChange={(e) => handleInputChange(e, "ter_email")}
                 className="mt-1 p-1 border rounded-md w-[70%]"
               />
+            </div>
+            <div className="mb-4 flex flex-row  justify-start gap-5 items-center">
+            <label htmlFor="credito" className="block font-semibold mb-1">
+                Cargo a Cuenta:
+              </label>
+              <select name="ter_credito"
+                 value={client.ter_credito || ""}
+                 onChange={(e) => handleInputChange(e, "ter_credito")}
+              >
+                  <option value="0">No</option>
+                  <option value="1">Si</option>
+              </select>
             </div>
           </div>
         </div>

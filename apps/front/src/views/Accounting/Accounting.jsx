@@ -19,7 +19,7 @@ function Accounting() {
   return (
     <>
       <div className="ml-[80px] font-SFRegular h-screen w-[92%] flex flex-col">
-         <HeaderContab formattedDate={formattedDate} infoHeader={infoHeader} />
+
       </div>
     </>
   )

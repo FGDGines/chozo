@@ -46,7 +46,7 @@ function Providers() {
     { header: "celular", accessorKey: "tercero.ter_celular" },
     { header: "email", accessorKey: "tercero.ter_email" },
     { header: "plazo", accessorKey: "pro_plazo" },
-
+ 
     {
       header: "acciones",
       accessorKey: "",

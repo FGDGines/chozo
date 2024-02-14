@@ -5,6 +5,7 @@ import ModalProductDetails from "./ModalProductDetails";
 import ModalAlbaran from "./ModalAlbaran";
 import ModalProviderDetails from "./ModalProviderDetails";
 import ModalShopping from "./ModalShopping";
+import ModalCustomerDetails from "./ModalCustomerDetails";
 
 function Modal({ props }) {
   const location = useLocation();
@@ -13,6 +14,7 @@ function Modal({ props }) {
   const isProvRoute = location.pathname === "/providers";
   const isShoppingRoute = location.pathname === "/shopping";
   const isPendingToCollectRoute = location.pathname === "/pendingToCollect";
+  const isCustomRoute = location.pathname === "/customers";
   
   const closeWindows = () => {
     props.setShowModal(false);
@@ -38,6 +40,7 @@ function Modal({ props }) {
         {isProvRoute ? <ModalProviderDetails props={props} /> : ""}
         {isShoppingRoute ? <ModalShopping props={props} closeWin={closeWindows}/> : ""}
         {isPendingToCollectRoute ? <ModalAlbaran props={props} /> : ""}
+        {isCustomRoute ? <ModalCustomerDetails props={props} /> : ""}
       </div>
     </div>
   );

@@ -40,6 +40,16 @@ module.exports = (sequelize) => {
             type: DataTypes.STRING,
             allowNull: true,
         },  
+        ter_cliente: {
+            type: DataTypes.TINYINT(1),
+            allowNull: false,
+            defaultValue: 0,
+        },
+        ter_credito: {
+            type: DataTypes.TINYINT(1),
+            allowNull: false,
+            defaultValue: 0,
+        },
         ciudad_id: {
             type: DataTypes.BIGINT(20),
             defaultValue: 0,
