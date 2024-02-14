@@ -8,6 +8,7 @@ import Shopping from "./views/Purchases/Shopping";
 import Stock from "./views/Stock/Stock";
 import Sell from "./views/Sales/Sell";
 import Treasury from "./views/treasury/Treasury";
+import Config from "./views/Config/Config";
 import SideBar from "./components/SideBar";
 import Customers from "./views/Customers/Customers";
 import Buy from "./views/Purchases/Buy";
@@ -355,7 +356,19 @@ function App() {
               <Navigate to="/" />
             )
           }
-        />                                                                                                                      
+        />  
+        <Route
+          path="/Config"
+          element={
+            isAuthenticated ? (
+              <MainLayout showSidebar={true}>
+                <Config handleLogout={handleLogout} />
+              </MainLayout>
+            ) : (
+              <Navigate to="/" />
+            )
+          }
+        />                                                                                                                                              
       </Routes>
     </div>
   );

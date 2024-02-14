@@ -28,7 +28,7 @@ function SideBar() {
       { icon: <FcStatistics />, text: "Ventas", to: "/sell" },
       {
         icon: <MdOutlinePendingActions />,
-        text: "Pendientes",
+        text: "Cartera",
         to: "/pendingToCollect",
       },
     ],
@@ -73,7 +73,7 @@ function SideBar() {
       { icon: <FcStatistics />, text: "Pedidos", to: "/shopping" },
       {
         icon: <MdOutlinePendingActions />,
-        text: "Pendientes",
+        text: "Cartera",
         to: "/pendingReceipt",
       },
     ],
@@ -93,7 +93,7 @@ function SideBar() {
       { icon: <FcStatistics />, text: "Pedidos", to: "/shopping" },
       {
         icon: <MdOutlinePendingActions />,
-        text: "Pendientes",
+        text: "Cartera",
         to: "/pendingReceipt",
       },
     ],
@@ -143,6 +143,7 @@ function SideBar() {
     ],
     accounting: [
       { icon: <MdHome />, text: "Inicio", to: "/home" },
+      { icon: <LuPackage />, text: "Puc", to: "/puc" },
       { icon: <LuPackage />, text: "Balance", to: "/balance" },
       { icon: <LuPackagePlus />, text: "Auxiliares", to: "/auxiliares" },
     ],
@@ -208,7 +209,13 @@ function SideBar() {
       { icon: <MdHome />, text: "Inicio", to: "/home" },
       { icon: <FaPeopleGroup />, text: "Recibos", to: "/recibos" },
       { icon: <IoPersonAdd />, text: "Egresos", to: "/egresos" },
-    ],                                                                     
+      { icon: <IoPersonAdd />, text: "Ctas Bancarias", to: "/cuentasbancarias" },
+    ],    
+    config: [
+      { icon: <MdHome />, text: "Inicio", to: "/home" },
+      { icon: <FaPeopleGroup />, text: "Fuentes", to: "/fuentes" },
+      { icon: <IoPersonAdd />, text: "Consecutivos", to: "/consecutivos" },
+    ],                                                                                  
   };
 
   const handleSetActiveView = (view) => {

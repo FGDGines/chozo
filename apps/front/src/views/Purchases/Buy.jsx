@@ -9,7 +9,7 @@ import { ToastContainer, toast } from "react-toastify";
 
 function Buy() {
   const token = localStorage.getItem("token");
-  const notify = () => toast.success("¡Compra realizada!");
+  const notify = () => toast.success("¡Pedido realizado!");
 
   const [articles, setArticles] = useState([]);
   const [value, setValue] = useState("");

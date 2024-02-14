@@ -11,21 +11,13 @@ function PendingReceipt() {
   const [showModal, setShowModal] = useState(false);
 
   const columns = [
-    { header: "Numero", accessorKey: "id" },
-    { header: "fecha", accessorKey: "cxp_fechafac" },
+    { header: "Numero", accessorKey: "cxp_numero" },
+    { header: "fecha", accessorKey: "cxp_fecha" },
+    { header: "Vence", accessorKey: "cxp_fechavence" },
     { header: "Proveedor", accessorKey: "tercero.ter_tercero" },
     { header: "total", accessorKey: "cxp_total" },
     { header: "abonos", accessorKey: "cxp_abonos" },
     { header: "saldo", accessorKey: "cxp_saldo" },
-    { header: "credito",
-      accessorKey: "cxp_saldo",
-      cell: (row) =>
-         (
-          <div className="w-full flex justify-center items-center">
-            <FaCheck className="text-red-400" />
-          </div>
-        ),
-    },
     {
       header: "acciones",
       accessorKey: "",
@@ -55,8 +47,9 @@ function PendingReceipt() {
           },
         }
       );
-      console.log(response.data);
-      setFactura(response.data);
+      const result = response.data;
+      const array = result.filter((ele) => ele.cxp_saldo>0 && ele.cxp_anulada==0);
+      setFactura(array);
     } catch (error) {
       console.log(error.message);
     }

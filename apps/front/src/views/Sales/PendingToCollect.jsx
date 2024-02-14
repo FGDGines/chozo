@@ -13,6 +13,7 @@ function PendingToCollect() {
   const columns = [
     { header: "Numero", accessorKey: "id" },
     { header: "fecha", accessorKey: "cxc_fechafac" },
+    { header: "vence", accessorKey: "cxc_fechavenc" },
     { header: "cliente", accessorKey: "tercero.ter_tercero" },
     { header: "total", accessorKey: "cxc_valor" },
     { header: "abonos", accessorKey: "cxc_abonos" },
@@ -60,7 +61,7 @@ function PendingToCollect() {
           },
         }
       );
-      console.log(response.data);
+
       setBill(response.data);
     } catch (error) {
       console.log(error.message);

@@ -89,9 +89,8 @@ function ModalShopping({ props, closeWin }) {
         })),
         token: order.token,
       };
-      console.log("pedido modificado", pedModificado);
       const response = await axios.put(
-        `api/pedidos/anular/${orderId}`,
+        `api/pedidos/${orderId}`,
         pedModificado
       );
       console.log("Pedido modificado:", response.data);
@@ -123,7 +122,7 @@ function ModalShopping({ props, closeWin }) {
         "api/carteraxpagar",
         pedidoAComprar
       );
-      //console.log("Compra confirmada:", response.data);
+
       closeWin();
     } catch (error) {
       console.error("Error al confirmar la compra:", error);
@@ -244,6 +243,7 @@ function ModalShopping({ props, closeWin }) {
           </div>
 
           <div className="w-full flex justify-end mt-4">
+            {order.ped_estado == 0 ?
             <button
               onClick={() => {
                 handleModificarPedido();
@@ -252,7 +252,11 @@ function ModalShopping({ props, closeWin }) {
               className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
             >
               Confirmar pedido
-            </button>
+            </button> : 
+              <div className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
+                 Pedido Recibido
+              </div>
+            }
           </div>
         </div>
       ) : (
