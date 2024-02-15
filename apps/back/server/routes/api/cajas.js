@@ -32,9 +32,9 @@ server.get('/:id',  [security_post] , async(req, res) => {
 
 //crea una nueva caja
 server.post('/',  [security_post] , 
-   [ check('nombre', 'El nombre de la caja es obligatorio').not().isEmpty() ,validarCampos] ,
-   [ check('idusuario', 'El id del usuario de la caja es obligatorio').not().isEmpty() ,validarCampos] ,
-   [ check('idpuc', 'El id de la cuenta puc de la caja es obligatorio').not().isEmpty() ,validarCampos] ,
+   [ check('caj_detalles', 'El nombre de la caja es obligatorio').not().isEmpty() ,validarCampos] ,
+   [ check('usuario_id', 'El id del usuario de la caja es obligatorio').not().isEmpty() ,validarCampos] ,
+   [ check('puc_id', 'El id de la cuenta puc de la caja es obligatorio').not().isEmpty() ,validarCampos] ,
    async(req, res) => {
    const datos = req.body; 
    try {

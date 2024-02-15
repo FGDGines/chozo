@@ -27,6 +27,7 @@ import Departamentos from "./views/Customers/Departamentos";
 import Ciudades from "./views/Customers/Ciudades";
 import Agencias from "./views/Providers/Agencias";
 import Unidades from "./views/Stock/Unidades";
+import CuentasBancarias from "./views/treasury/CuentasBancarias";
 import { ToastContainer, toast } from "react-toastify";
 
 function App() {
@@ -368,7 +369,19 @@ function App() {
               <Navigate to="/" />
             )
           }
-        />                                                                                                                                              
+        />  
+        <Route
+          path="/cuentasbancarias"
+          element={
+            isAuthenticated ? (
+              <MainLayout showSidebar={true}>
+                <CuentasBancarias handleLogout={handleLogout} />
+              </MainLayout>
+            ) : (
+              <Navigate to="/" />
+            )
+          }
+        />                                                                                                                                                                    
       </Routes>
     </div>
   );

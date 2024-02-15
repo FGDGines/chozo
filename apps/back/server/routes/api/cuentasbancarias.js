@@ -31,10 +31,10 @@ server.get('/:id',  [security_post] , async(req, res) => {
 
  //graba una nueva cuenta bancaria
 server.post('/',  [security_post] , 
-    [ check('banco', 'El nombre del banco es obligatorio').not().isEmpty() ,validarCampos] ,
-    [ check('numero', 'El numero de la cuenta es obligatorio').not().isEmpty() ,validarCampos] ,
-    [ check('tipo', 'El tipo de cuenta es obligatorio').not().isEmpty() ,validarCampos] ,
-    [ check('pucid', 'El campo pucid es obligatorio').not().isEmpty() ,validarCampos] ,
+    [ check('cue_banco', 'El nombre del banco es obligatorio').not().isEmpty() ,validarCampos] ,
+    [ check('cue_numero', 'El numero de la cuenta es obligatorio').not().isEmpty() ,validarCampos] ,
+    [ check('cue_tipo', 'El tipo de cuenta es obligatorio').not().isEmpty() ,validarCampos] ,
+    [ check('puc_id', 'El campo puc_id es obligatorio').not().isEmpty() ,validarCampos] ,
     async(req, res) => {
     const datos = req.body;
     try {

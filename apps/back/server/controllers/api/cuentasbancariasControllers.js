@@ -18,17 +18,10 @@ const getCuentaById = async(id) => {
 
 //crea una nueva cuenta bancarias
 const addCuenta = async(datos) => {
-   const {banco, numero, tipo, pucid} = datos;
-   const newreg = {
-      cue_banco: banco,
-      cue_numero: numero,
-      cue_tipo: tipo,
-      cue_activa: 1,
-      puc_id: pucid,
-   };
-   const buscado = await cuentas_bancarias.findOne({where: {cue_banco: banco,cue_numero: numero}});
+   const {cue_banco, cue_numero, cue_tipo, puc_id} = datos;
+   const buscado = await cuentas_bancarias.findOne({where: {cue_banco,cue_numero}});
    if(buscado) return buscado;
-   const grabada = await cuentas_bancarias.create(newreg);
+   const grabada = await cuentas_bancarias.create(datos);
    return grabada;
 };
 

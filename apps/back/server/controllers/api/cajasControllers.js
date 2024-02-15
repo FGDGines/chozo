@@ -24,11 +24,12 @@ const getCajaById = async(id) => {
 
 //crea una nueva caja
 const addCaja = async(datos) => {
-   const {nombre, idusuario, idpuc, activa} = datos;
+   const {caj_detalles, usuario_id, puc_id, caj_activa} = datos;
    const [creado, created] = await cajas.findOrCreate({where: {
-      caj_detalles: nombre,
-      usuario_id: idusuario,
-      puc_id: idpuc,      
+      caj_detalles,
+      usuario_id,
+      puc_id,  
+      caj_activa,    
    }});
    return creado;
 };

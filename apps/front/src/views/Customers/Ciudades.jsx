@@ -12,7 +12,6 @@ function Ciudades() {
     const handleChange = (e) => {
        const value = e.target.value;
        const property = e.target.name;
-       console.log(property,value)
        setObjeto({...objeto,[property]: value});
     };
 
@@ -94,7 +93,7 @@ function Ciudades() {
                       <option value={elemen.id}>{elemen.dpt_nombre}</option>
                    )}
                </select><br/>                                
-               <button className="bg-red-200 px-2" onClick={handleGrabar}>Agregar Ciudad</button>
+               <button  className="bg-blue-800 text-white text-center p-2 rounded-md" onClick={handleGrabar}>Agregar Ciudad</button>
            </form>
            <ToastContainer
             position="top-right"

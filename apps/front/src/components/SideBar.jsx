@@ -215,7 +215,13 @@ function SideBar() {
       { icon: <MdHome />, text: "Inicio", to: "/home" },
       { icon: <FaPeopleGroup />, text: "Fuentes", to: "/fuentes" },
       { icon: <IoPersonAdd />, text: "Consecutivos", to: "/consecutivos" },
-    ],                                                                                  
+    ], 
+    cuentasbancarias: [
+      { icon: <MdHome />, text: "Inicio", to: "/home" },
+      { icon: <FaPeopleGroup />, text: "Recibos", to: "/recibos" },
+      { icon: <IoPersonAdd />, text: "Egresos", to: "/egresos" },
+      { icon: <IoPersonAdd />, text: "Tesoreria", to: "/treasury" },
+    ],                                                                                         
   };
 
   const handleSetActiveView = (view) => {
