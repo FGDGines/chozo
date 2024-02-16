@@ -6,6 +6,7 @@ import axios from "axios";
 import ModalError from "../../components/ModalError";
 import { ToastContainer, toast } from "react-toastify";
 import PaymentModal from "../../components/PaymentModal";
+import ModalForpagos from "../../components/ModalForpagos";
 
 function Sales() {
   const token = localStorage.getItem("token");
@@ -31,9 +32,8 @@ function Sales() {
   const [paymentModalOpen, setPaymentModalOpen] = useState(false);
   const [paymentMethods, setPaymentMethods] = useState([]);
   const [ctaBanco, setCtaBanco] = useState([]);
-  const [paymentDetails, setPaymentDetails] = useState([
-    { ctabancoid: 0, valor: totalAmount, idformapago: 1 },
-  ]);
+  const [paymentDetails, setPaymentDetails] = useState([]);
+
 
   const getCuentaBancaria = async() => {
     try {
@@ -71,7 +71,24 @@ function Sales() {
           },
         }
       );
+      const datos = response.data;
       setPaymentMethods(response.data);
+      //cargamos el array forpagos
+      const array = [];
+      datos.forEach((ele) => {
+
+        const newReg = {
+          idformapago: ele.id,
+          detalle: ele.fpag_detalles,
+          manejabanco: ele.fpag_manejabanco,
+          valor: 0,
+          ctabancoid: 0,
+        };
+        array.push(newReg);
+      });
+      //localStorage.clear("forpagos");
+      const updatedItemsJSON = JSON.stringify(array);
+      localStorage.setItem("forpagos", updatedItemsJSON);
     } catch (error) {
       console.error("Error al obtener métodos de pago:", error);
     }
@@ -84,7 +101,7 @@ function Sales() {
     const storedCajero = localStorage.getItem("selectedCajero");
     if (storedCajero) {
       setSelectedCaja(JSON.parse(storedCajero));
-    }
+    };
   }, []);
 
   const date = new Date();
@@ -172,29 +189,9 @@ function Sales() {
     setPaymentModalOpen(false);
   };
 
-  //!maneja el cambio en los detalles de los metodos de pago:
-  const handlePaymentDetailsChange = (index, field, value) => {
-    const updatedDetails = [...paymentDetails];
-    let updatedDetail = updatedDetails[index];
-
-    if (!updatedDetail) {
-      updatedDetail = { ctabancoid: 0, valor: 0, idformapago: index + 1 };
-      updatedDetails[index] = updatedDetail;
-    }
-
-    updatedDetail[field] = parseFloat(value);
-
-    setPaymentDetails(updatedDetails);
-
-    const input = document.getElementById(`amount_${index}`);
-    if (input) {
-      input.value = value;
-    }
-  };
-
+    
   //!agrega al carro
   const handleAddToCart = () => {
-    //console.log("SELECTED PRODUCT", selectedProduct);
     setCodbarra("");
     setArtCodbarra("");
     if (selectedProduct) {
@@ -222,7 +219,21 @@ function Sales() {
   };
 
   const handleSale = async () => {
+
     try {
+      let localStorageItems = JSON.parse(localStorage.getItem("forpagos"));
+      let xforpagos = localStorageItems || [];
+      setPaymentDetails(xforpagos);
+      let suma = 0;
+      for(let i=0;i<xforpagos.length;i++) {
+          suma += xforpagos[i].valor;
+      };
+      if(suma !== totalAmount) {
+        setMessageError("¡Formas de pago no definidas Correctamente!");
+        infoModalError.mensaje = messageError;
+        return;
+      };   
+
       const date = new Date();
       const today1 = date.toISOString();
       const venceFac = date.setFullYear(date.getFullYear() + 1);
@@ -294,6 +305,15 @@ function Sales() {
     setTotalAmount(0);
     setCodbarra("");
     setArtCodbarra("");
+    let localStorageItems = JSON.parse(localStorage.getItem("forpagos"));
+    let xforpagos = localStorageItems;
+    for(let i=0;i<xforpagos.length;i++) {
+        xforpagos[i].valor = 0;
+        xforpagos[i].idbanco = 0;
+    };
+    //localStorage.clear("forpagos");
+    const updatedItemsJSON = JSON.stringify(xforpagos);
+    localStorage.setItem("forpagos", updatedItemsJSON);
   };
 
   const handleKeyDown = (event) => {
@@ -316,8 +336,10 @@ function Sales() {
        event.preventDefault();
        const buscado = articles.find((ele) => ele.art_codbarra === codbarra);
        if(!buscado) {
-          alert("Codigo de barra Inexistente");
+          setMessageError("¡Codigo de Barra Inexistente!");
+          setShowModalError(true);
           setCodbarra("");
+          infoModalError.mensaje = messageError;
           return;
        };
        setSelectedProduct(buscado);
@@ -375,13 +397,9 @@ function Sales() {
         <HeaderSale formattedDate={formattedDate} infoHeader={infoHeader} />
         {showModalError ? <ModalError infoModalError={infoModalError} /> : ""}
         {paymentModalOpen ? (
-          <PaymentModal
+          <ModalForpagos
             isOpen={paymentModalOpen}
             onClose={handleClosePaymentModal}
-            paymentMethods={paymentMethods}
-            onPaymentDetailsChange={handlePaymentDetailsChange}
-            paymentDetails={paymentDetails}
-            handlePaymentMethod={handlePaymentMethod}
             totalAmount={totalAmount}
             ctaBancarias={ctaBanco}
           />
@@ -542,6 +560,8 @@ function Sales() {
       </div>
     </>
   );
-}
+};
+
+
 
 export default Sales;

@@ -28,6 +28,7 @@ import Ciudades from "./views/Customers/Ciudades";
 import Agencias from "./views/Providers/Agencias";
 import Unidades from "./views/Stock/Unidades";
 import CuentasBancarias from "./views/treasury/CuentasBancarias";
+import Consecutivos from "./views/Config/Consecutivos";
 import { ToastContainer, toast } from "react-toastify";
 
 function App() {
@@ -381,7 +382,19 @@ function App() {
               <Navigate to="/" />
             )
           }
-        />                                                                                                                                                                    
+        />    
+        <Route
+          path="/consecutivos"
+          element={
+            isAuthenticated ? (
+              <MainLayout showSidebar={true}>
+                <Consecutivos handleLogout={handleLogout} />
+              </MainLayout>
+            ) : (
+              <Navigate to="/" />
+            )
+          }
+        />                                                                                                                                                                                           
       </Routes>
     </div>
   );

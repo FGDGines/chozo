@@ -1,4 +1,4 @@
-const {consecutivos, fuentes} = require("../../models/DbConex");
+const {consecutivos, fuentes, conex} = require("../../models/DbConex");
 
 
 //devuelve todos los consecutivos existente
@@ -29,11 +29,11 @@ const getById = async(id) => {
 
  //devuelve todos los consecutivos de una mismo año
  const getConsecuByAnual = async(anual) => {
-    const result = await consecutivos.findAll({
-      where: {conse_anual: anual},
-      include: [{model: fuentes}]
-    });
-    return result;
+    let query1 = "SELECT A.*,B.conse_ultimograbado FROM fuentes A left join consecutivos B ";
+    query1 += "ON B.fuente_id = A.id WHERE B.conse_anual = ? ORDER BY A.fue_detalles";
+    const result = await conex.query(`${query1}`, {replacements: [anual]});
+    const array = result[0];
+    return array;
  };
 
  //crea u nuevo consecutivo
