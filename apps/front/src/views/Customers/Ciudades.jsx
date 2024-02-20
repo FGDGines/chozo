@@ -61,7 +61,7 @@ function Ciudades() {
            <h2 className="text-2xl bg-customBlue p-2 rounded-md text-white">Maestros de Ciudades</h2>
            <table>
               <thead>
-                 <tr><th>Id</th><th>Ciudad</th><th>Codigo</th><th>Departamento</th></tr>
+                 <tr><th>Id</th><th>Ciudad</th><th>Codigo</th><th>Departamento</th><th>Accion</th></tr>
               </thead>
               <tbody>
               {ciudades.map(ele =>
@@ -70,10 +70,12 @@ function Ciudades() {
                      <td>{ele.ciu_nombre}</td>
                      <td>{ele.ciu_codigo}</td>
                      <td>{ele.departamento.dpt_nombre}</td>
+                     <td><button className="px-4 py-1 bg-blue-500 text-white rounded hover:bg-blue-600">Editar</button></td>
                   </tr>
                )}
                </tbody>
            </table>
+           <h1 className="bg-gray-800 text-white">Nueva Ciudad</h1>
            <form>
                <hr/><br/>
                <input type="text" 

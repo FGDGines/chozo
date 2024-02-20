@@ -9,25 +9,7 @@ function Consecutivos() {
   const [fuentes, setFuentes] = useState([]);
   const [anual, setAnual] = useState(0);
 
-  const existeFuentes = () => {
-    let array = consecu;
-    fuentes.forEach((ele) => {
-        const existe = consecu.find((e) => e.id == ele.id);
-        if(!existe) {
-            const newreg = {
-                id: ele.id,
-                fue_detalles: ele.fue_detalles,
-                fue_iniciales: ele.fue_iniciales,
-                fue_mantieneconsecutivo: ele.fue_mantieneconsecutivo,
-                conse_ultimograbado: 0
-            };
-            array.push(newreg);
-        };
-    });
-    if(array.length > consecu.length) setConsecu(array);
-  };
-
-
+ 
   const cargarConsecu = async() => {
     const hoy = Date();
     const fecha = new Date(hoy);
@@ -65,25 +47,28 @@ function Consecutivos() {
           token: token,
         },
      });
-     setConsecu(result.data);
-     existeFuentes();
+     const datos = result.data;
+     setConsecu(datos);
   };
 
   useEffect(() => {
      cargarFuentes(); 
      cargarConsecu();
-     existeFuentes();
   }, []);
 
   const handleGrabar = async(e) => {
     e.preventDefault();
-    const result = await axios.post('api/consecutivos', consecu, {
-       headers: {
-          token: token,
-       },
-    });
-    toast.success("¡Consecutivos Actualizados!");
-    cargarConsecu();
+    if(consecu.length == 0) {
+        //generacion de consecutivos del año
+        const datos = {anual: anual};
+        const result = await axios.post('api/consecutivos/bulk', datos, {
+           headers: {
+              token: token,
+           },
+        });
+         setConsecu(result);
+         toast.success("¡Consecutivos Actualizados!");
+    };
   };
 
   return (

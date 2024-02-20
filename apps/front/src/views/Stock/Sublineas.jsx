@@ -97,7 +97,7 @@ function Sublineas() {
            <h2 className="text-2xl bg-customBlue p-2 rounded-md text-white">Maestro de Sublineas</h2>
            <table className="w-1/2 text-sm text-left text-gray-700 dark:text-gray-700">
               <thead>
-                 <tr><th>Id</th><th>Detalles</th><th>Linea</th></tr>
+                 <tr><th>Id</th><th>Detalles</th><th>Linea</th><th>Accion</th></tr>
               </thead>
               <tbody>
               {sublineas.map(ele =>
@@ -105,6 +105,7 @@ function Sublineas() {
                      <td>{ele.id}</td>
                      <td>{ele.sub_detalles}</td>
                      <td>{ele.linea.lin_detalles}</td>
+                     <td><button className="px-4 py-1 bg-blue-500 text-white rounded hover:bg-blue-600">Editar</button></td>
                   </tr>
                )}
                </tbody>

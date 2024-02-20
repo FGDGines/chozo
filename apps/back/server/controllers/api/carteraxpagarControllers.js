@@ -174,30 +174,36 @@ const grabaContable = async(fuente, num, fechaC, tercero_id, items, total, codUs
    //grabamos los itemscontables
    let suma_impuesto = 0;
    let suma_bruto = 0;
+
    items.forEach(async(ele) => {
       let idR = Number(ele.itempedido_id);
       const xreg = await itempedidos.findByPk(idR, {
           include: [{ model: articulos, attributes: { exclude: ['createdAt','updatedAt']} }]
       });
-      suma_bruto+= xreg.ite_cantidad * xreg.ite_preciocosto;
-      suma_impuesto+= xreg.ite_impuesto * xreg.ite_cantidad * xreg.ite_preciocosto /100;
-      const idG = xreg.articulo.grupo_id;
-      const xcontable = await grupos.findByPk(idG, {
-          include: [{model: sublineas}]
-      });
-      const citem = {
-         ite_numero: num,
-         ite_fecha: fechaC,
-         ite_debito: xreg.ite_preciocosto * xreg.ite_cantidad,
-         ite_credito: 0,
-         ite_detalles: `Compra de ${xreg.articulo.art_detalles}`,
-         contable_id: newRegistro.id,
-         fuente_id: fuente,
-         puc_id: xcontable.sublinea.pucinventario_id,
-         tercero_id,
-         usuario_id: codUsuario,
+      if(xreg){
+         suma_bruto+= xreg.ite_cantidad * xreg.ite_preciocosto;
+         suma_impuesto+= xreg.ite_impuesto * xreg.ite_cantidad * xreg.ite_preciocosto /100;
+         const idG = xreg.articulo.grupo_id;
+         const xcontable = await grupos.findByPk(idG, {
+             include: [{model: sublineas}]
+         });
+         const citem = {
+            ite_numero: num,
+            ite_fecha: fechaC,
+            ite_debito: xreg.ite_preciocosto * xreg.ite_cantidad,
+            ite_credito: 0,
+            ite_detalles: `Compra de ${xreg.articulo.art_detalles}`,
+            contable_id: newRegistro.id,
+            fuente_id: fuente,
+            puc_id: xcontable.sublinea.pucinventario_id,
+            tercero_id,
+            usuario_id: codUsuario,
+         };
+         await itemcontable.create(citem);
+      } else {
+         console.log("No existe registro", idR)
       };
-      await itemcontable.create(citem);
+
    });
 
    //grabamos el item contable de total impuesto
@@ -218,7 +224,6 @@ const grabaContable = async(fuente, num, fechaC, tercero_id, items, total, codUs
       };
       await itemcontable.create(citem);     
    };
-
 
    //grabamos el item contable de cuenta x pagar a proveedores
    const citem = {

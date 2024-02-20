@@ -45,7 +45,7 @@ function Paises() {
            <h2 className="text-2xl bg-customBlue p-2 rounded-md text-white">Maestros de Paises</h2>
            <table>
               <thead>
-                 <tr><th>Id</th><th>Pais</th><th>Codigo</th></tr>
+                 <tr><th>Id</th><th>Pais</th><th>Codigo</th><th>Accion</th></tr>
               </thead>
               <tbody>
               {paises.map(ele =>
@@ -53,10 +53,12 @@ function Paises() {
                      <td>{ele.id}</td>
                      <td>{ele.pai_nombre}</td>
                      <td>{ele.pai_codigo}</td>
+                     <td><button className="px-4 py-1 bg-blue-500 text-white rounded hover:bg-blue-600">Editar</button></td>
                   </tr>
                )}
                </tbody>
            </table>
+           <h1 className="bg-gray-800 text-white">Nuevo Pais</h1>
            <form>
                <hr/><br/>
                <input type="text" 

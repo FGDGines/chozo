@@ -63,7 +63,7 @@ server.get('/:id',  [security_post] , async(req, res) => {
     [ check('conse_anual', 'El campo conse_anual es obligatorio').not().isEmpty() ,validarCampos] ,
     [ check('conse_ultimograbado', 'El campo conse_ultimograbado es obligatorio').not().isEmpty() ,validarCampos] ,
     async(req, res) => {
-    const datos = req.body;
+    const {datos} = req.body;
     try {
         const result = await addConsecu(datos);
         res.status(200).json(result);
@@ -79,7 +79,7 @@ server.get('/:id',  [security_post] , async(req, res) => {
  [ check('conse_anual', 'El campo conse_anual es obligatorio').not().isEmpty() ,validarCampos] ,
  [ check('conse_ultimograbado', 'El campo conse_ultimograbado es obligatorio').not().isEmpty() ,validarCampos] ,
   async(req, res) => {
-    const datos = req.body;
+    const {datos} = req.body;
     const {id} = req.params;
     try {
         const result = await updateConsecu(datos, id);
@@ -95,7 +95,7 @@ server.get('/:id',  [security_post] , async(req, res) => {
    [ check('datos.anual', 'El campo anual es obligatorio').not().isEmpty() ,validarCampos] ,   
    async(req, res) => {
    const {datos} = req.body;
-   try {
+    try {
       const result = await generarConsecu(datos);
       res.status(200).json(result);
    } catch (error) {

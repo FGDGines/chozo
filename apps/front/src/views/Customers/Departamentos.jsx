@@ -62,7 +62,7 @@ function Departamentos() {
            <h2 className="text-2xl bg-customBlue p-2 rounded-md text-white">Maestros de Departamentos</h2>
            <table>
               <thead>
-                 <tr><th>Id</th><th>Departamento</th><th>Codigo</th><th>Pais</th></tr>
+                 <tr><th>Id</th><th>Departamento</th><th>Codigo</th><th>Pais</th><th>Accion</th></tr>
               </thead>
               <tbody>
               {dptos.map(ele =>
@@ -71,10 +71,12 @@ function Departamentos() {
                      <td>{ele.dpt_nombre}</td>
                      <td>{ele.dpt_codigo}</td>
                      <td>{ele.paise.pai_nombre}</td>
+                     <td><button className="px-4 py-1 bg-blue-500 text-white rounded hover:bg-blue-600">Editar</button></td>
                   </tr>
                )}
                </tbody>
            </table>
+           <h1 className="bg-gray-800 text-white">Nuevo Departamento</h1>
            <form>
                <hr/><br/>
                <input type="text" 

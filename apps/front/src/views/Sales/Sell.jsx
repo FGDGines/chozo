@@ -11,7 +11,7 @@ function Sell() {
   const [showModal, setShowModal] = useState(false);
 
   const columns = [
-    { header: "Numero", accessorKey: "id" },
+    { header: "Numero", accessorKey: "cxc_numero" },
     { header: "fecha", accessorKey: "cxc_fechafac" },
     { header: "cliente", accessorKey: "tercero.ter_tercero" },
     { header: "total", accessorKey: "cxc_valor" },

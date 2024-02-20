@@ -29,6 +29,8 @@ import Agencias from "./views/Providers/Agencias";
 import Unidades from "./views/Stock/Unidades";
 import CuentasBancarias from "./views/treasury/CuentasBancarias";
 import Consecutivos from "./views/Config/Consecutivos";
+import Recibos from "./views/treasury/Recibos";
+import Egresos from "./views/treasury/Egresos";
 import { ToastContainer, toast } from "react-toastify";
 
 function App() {
@@ -394,7 +396,31 @@ function App() {
               <Navigate to="/" />
             )
           }
-        />                                                                                                                                                                                           
+        />    
+        <Route
+          path="/recibos"
+          element={
+            isAuthenticated ? (
+              <MainLayout showSidebar={true}>
+                <Recibos handleLogout={handleLogout} />
+              </MainLayout>
+            ) : (
+              <Navigate to="/" />
+            )
+          }
+        />    
+        <Route
+          path="/egresos"
+          element={
+            isAuthenticated ? (
+              <MainLayout showSidebar={true}>
+                <Egresos handleLogout={handleLogout} />
+              </MainLayout>
+            ) : (
+              <Navigate to="/" />
+            )
+          }
+        />                                                                                                                                                                                                                                     
       </Routes>
     </div>
   );

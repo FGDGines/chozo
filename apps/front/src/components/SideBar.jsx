@@ -220,13 +220,25 @@ function SideBar() {
       { icon: <MdHome />, text: "Inicio", to: "/home" },
       { icon: <FaPeopleGroup />, text: "Recibos", to: "/recibos" },
       { icon: <IoPersonAdd />, text: "Egresos", to: "/egresos" },
-      { icon: <IoPersonAdd />, text: "Tesoreria", to: "/treasury" },
+      { icon: <IoPersonAdd />, text: "Cajas", to: "/treasury" },
     ],   
     consecutivos: [
       { icon: <MdHome />, text: "Inicio", to: "/home" },
       { icon: <FaPeopleGroup />, text: "Fuentes", to: "/config" },
       { icon: <IoPersonAdd />, text: "Consecutivos", to: "/consecutivos" },
-    ],                                                                                       
+    ],  
+    recibos: [
+      { icon: <MdHome />, text: "Inicio", to: "/home" },
+      { icon: <FaPeopleGroup />, text: "Cuentasbancarias", to: "/cuentasbancarias" },
+      { icon: <IoPersonAdd />, text: "Egresos", to: "/egresos" },
+      { icon: <IoPersonAdd />, text: "Cajas", to: "/treasury" },
+    ],   
+    egresos: [
+      { icon: <MdHome />, text: "Inicio", to: "/home" },
+      { icon: <FaPeopleGroup />, text: "Cuentasbancarias", to: "/cuentasbancarias" },
+      { icon: <IoPersonAdd />, text: "Recibos", to: "/recibos" },
+      { icon: <IoPersonAdd />, text: "Cajas", to: "/treasury" },
+    ],                                                                                     
   };
 
   const handleSetActiveView = (view) => {

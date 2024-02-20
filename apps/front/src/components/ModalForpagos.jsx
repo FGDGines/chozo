@@ -72,6 +72,7 @@ function ModalForpagos({
                            <td>{ele.detalle} &nbsp;&nbsp;&nbsp;</td>
                           <td><input type="number"
                                      name="valor"
+                                     className="text-right w-20"
                                      value={ele.valor}
                                      id={ele.idformapago}
                                      onChange={(e)=>handleChangeValor(e)}></input></td>
@@ -90,7 +91,7 @@ function ModalForpagos({
             </table>
             <div className="flex justify-end">
                <span className="text-red-500 px-20">
-                  Totales: € {xsuma}
+                  Totales: {xsuma} €
                </span>
                <button className="bg-gray-300 px-4 py-2 rounded-md mr-2"
                   onClick={() => {

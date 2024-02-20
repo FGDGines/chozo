@@ -12,6 +12,7 @@ const Header = ({ formattedDate, infoHeader }) => {
   const [selectedClient, setSelectedClient] = useState(null);
   const [selectedUser, setSelectedUser] = useState(null);
   const [selectedCajero, setSelectedCajero] = useState(null);
+  const [clientesVarios, setClientesVarios] = useState(0);
 
   const [providers, setProviders] = useState([]);
   const [clients, setClients] = useState([]);
@@ -29,6 +30,7 @@ const Header = ({ formattedDate, infoHeader }) => {
 
       const optionsClient = response.data.map((cliente) => ({
         value: cliente.id,
+        selected: cliente.id===selectedClient ? true : false,
         label:
           cliente.ter_tercero +" " + cliente.ter_documento,
       }));
@@ -97,10 +99,23 @@ const Header = ({ formattedDate, infoHeader }) => {
     } catch (error) {}
   };
 
+  const paramClientesVarios = async() => {
+    //traemos el parametro id=11 de id clientes varios
+     const response = await axios.get("api/parametros/11", {
+         headers: {
+           token: token,
+         },
+     });
+     const datos = response.data;
+     setClientesVarios(Number(datos.para_valor));
+     setSelectedClient(datos.para_valor);
+  };
+
   useEffect(() => {
+    paramClientesVarios();
     const storedUser = localStorage.getItem("selectedUser");
     const storedCajero = localStorage.getItem("selectedCajero");
-
+  
     if (infoHeader.isViewSale) {
       if (storedCajero) {
         setSelectedCajero(JSON.parse(storedCajero));

@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import Autosuggest from "react-autosuggest";
 import ShoppingCartTable from "../../components/ShoppingCartTable";
-import HeaderSale from "../../components/HeaderSale";
+import HeaderVenta from "../../components/HeaderVenta";
 import axios from "axios";
 import ModalError from "../../components/ModalError";
 import { ToastContainer, toast } from "react-toastify";
@@ -86,7 +86,7 @@ function Sales() {
         };
         array.push(newReg);
       });
-      //localStorage.clear("forpagos");
+
       const updatedItemsJSON = JSON.stringify(array);
       localStorage.setItem("forpagos", updatedItemsJSON);
     } catch (error) {
@@ -219,21 +219,24 @@ function Sales() {
   };
 
   const handleSale = async () => {
-
+    console.log("metodo",paymentDetails)
     try {
-      let localStorageItems = JSON.parse(localStorage.getItem("forpagos"));
-      let xforpagos = localStorageItems || [];
-      setPaymentDetails(xforpagos);
-      let suma = 0;
-      for(let i=0;i<xforpagos.length;i++) {
-          suma += xforpagos[i].valor;
-      };
-      if(suma !== totalAmount) {
-        setMessageError("¡Formas de pago no definidas Correctamente!");
-        infoModalError.mensaje = messageError;
-        return;
-      };   
+      if(selectedPaymentMethod=="Efectivo") {
 
+      } else {
+        let localStorageItems = JSON.parse(localStorage.getItem("forpagos"));
+        let xforpagos = localStorageItems || [];
+        setPaymentDetails(xforpagos);
+        let suma = 0;
+        for(let i=0;i<xforpagos.length;i++) {
+            suma += xforpagos[i].valor;
+        };
+        if(suma !== totalAmount) {
+          setMessageError("¡Formas de pago no definidas Correctamente!");
+          infoModalError.mensaje = messageError;
+          return;
+        };   
+      };
       const date = new Date();
       const today1 = date.toISOString();
       const venceFac = date.setFullYear(date.getFullYear() + 1);
@@ -394,7 +397,7 @@ function Sales() {
   return (
     <>
       <div className="ml-[80px] font-SFRegular h-screen w-[92%] flex flex-col">
-        <HeaderSale formattedDate={formattedDate} infoHeader={infoHeader} />
+        <HeaderVenta formattedDate={formattedDate} infoHeader={infoHeader} />
         {showModalError ? <ModalError infoModalError={infoModalError} /> : ""}
         {paymentModalOpen ? (
           <ModalForpagos
@@ -417,7 +420,7 @@ function Sales() {
           onChange={(e) => setCodbarra(e.target.value)}
           onKeyDown={handleCodbarraKeyDown}
           />
-          <div className="text-lg ml-2 mt-5">{artCodbarra}</div>
+          <div className="text-lg ml-2 mt-0">{artCodbarra}</div>
         </div>
         <div
           id="conteiner"
@@ -519,11 +522,11 @@ function Sales() {
                   <div>Impuestos {}</div>
                   {descuento ? (
                     <div className="text-2xl">
-                      Total: ${((1 - descuento / 100) * totalAmount).toFixed(2)}{" "}
+                      Total: {((1 - descuento / 100) * totalAmount).toFixed(2)}{" "} €
                     </div>
                   ) : (
                     <div className="text-2xl">
-                      Total: €{totalAmount.toFixed(2)}{" "}
+                      Total:{totalAmount.toFixed(2)}{" "} €
                     </div>
                   )}
                 </div>

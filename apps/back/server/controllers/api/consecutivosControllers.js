@@ -58,11 +58,21 @@ const getById = async(id) => {
     const {anual} = datos;
     const fuent = await fuentes.findAll();
     fuent.forEach(async(ele) => {
-       const [registro, created] = await consecutivos.findOrCreate({where: {
-          conse_anual: anual,
-          fuente_id: ele.id,
-       }})
+       const existe = await consecutivos.findOne({where: {conse_anual: anual, fuente_id: ele.id}});
+       //verificamos que no exista
+       if(!existe) {
+          let num = 0;
+          //verificamos si mantiene el consecutivo anterior
+          if(ele.fue_mantieneconsecutivo == 1) {
+            const existeAnt = await consecutivos.findOne({where:
+                {conse_anual: anual-1, fuente_id: ele.id}});
+            if(existeAnt) num = existeAnt.conse_ultimograbado;    
+          };
+          //grabamos el nuevo registro
+          await consecutivos.create({conse_anual: anual, fuente_id: ele.id, conse_ultimograbado: num});
+       };
     });
+    //devolvemos todos los registros del año
     const registros = await consecutivos.findAll({where: {conse_anual: anual}});
     return registros;
  };

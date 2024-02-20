@@ -6,11 +6,12 @@ const getParametros = async() => {
    return result;
 };
 
-//devuelve parametro por su ID
+//devuelve parametro por su id
 const getParametroById = async(id) => {
     const result = await parametros.findByPk(id);
     return result;
 };
+
 
 //crear un nuevo parametro
 const newParametro = async(datos) => {
