@@ -80,7 +80,7 @@ function Treasury() {
     <h2 className="text-2xl bg-customBlue p-2 rounded-md text-white">Maestros de Cajas</h2>
     <table className="w-1/2 text-sm text-left text-gray-700 dark:text-gray-700">
        <thead>
-          <tr><th>Id</th><th>Detalles</th><th>Usuario</th></tr>
+          <tr><th>Id</th><th>Detalles</th><th>Usuario</th><th>Accion</th></tr>
        </thead>
        <tbody>
        {cajas.map(ele =>
@@ -88,6 +88,7 @@ function Treasury() {
               <td>{ele.id}</td>
               <td>{ele.caj_detalles}</td>
               <td>{ele.usuario.usu_nombre}</td>
+              <td><button className="px-4 py-1 bg-blue-500 text-white rounded hover:bg-blue-600">Editar</button></td>
            </tr>
         )}
         </tbody>

@@ -5,7 +5,7 @@ import logo from "../assets/logo/elChozo.png";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-const HeaderVenta = ({ formattedDate, infoHeader }) => {
+const HeaderVenta = ({ formattedDate, infoHeader, handleOpenModalClientes, clientes }) => {
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
 
@@ -14,28 +14,19 @@ const HeaderVenta = ({ formattedDate, infoHeader }) => {
   const [selectedCajero, setSelectedCajero] = useState(null);
   const [clientesVarios, setClientesVarios] = useState(0);
 
-  const [clients, setClients] = useState([]);
+  const [clients, setClients] = useState(clientes);
   const [cajas, setCajas] = useState([]);
+
 
   //se trae los clientes para vista VENTA
   const getClient = async () => {
-    try {
-      const response = await axios.get("api/terceros", {
-        headers: {
-          token: token,
-        },
-      });
-      const optionsClient = response.data.map((cliente) => ({
+      const optionsClient = clientes.map((cliente) => ({
         value: cliente.id,
         selected: cliente.id===selectedClient ? true : false,
         label:
           cliente.ter_tercero +"  -  " + cliente.ter_documento,
       }));
-
       setClients(optionsClient);
-    } catch (error) {
-      console.error("Error:", error);
-    }
   };
 
 
@@ -71,26 +62,22 @@ const HeaderVenta = ({ formattedDate, infoHeader }) => {
   };
 
   useEffect(() => {
+    getClient();
     paramClientesVarios();
     const storedCajero = localStorage.getItem("selectedCajero");
     if (storedCajero) {
         setSelectedCajero(JSON.parse(storedCajero));
         infoHeader.setSelectedCaja(storedCajero);
     }
-    getClient();
     getCaja();
  
-  }, [infoHeader.isViewSale]);
+  }, []);
 
   
-  const handleClientChange = (selectedOption) => {
-    setSelectedClient(selectedOption);
-    if (infoHeader.setselectedClient1) {
-      infoHeader.setselectedClient1(selectedOption);
-    }
-    if (infoHeader.setSelectedProvider) {
-      infoHeader.setSelectedProvider(selectedOption);
-    }
+  const handleClientChange = (e) => {
+    const value = e.target.value;
+    setSelectedClient(value);
+    infoHeader.setselectedClient1(value);
   };
 
   const toCreateClient = () => {
@@ -137,18 +124,18 @@ const HeaderVenta = ({ formattedDate, infoHeader }) => {
                 />
             </div>
             <div className="flex flex-row items-center gap-3">
-                <button onClick={toCreateClient}>
+                <button onClick={handleOpenModalClientes}>
                     <IoPersonAdd className="text-sky-500 text-lg" />
                 </button>
                 {infoHeader.person2}
-                <Select
-                 value={selectedClient}
-                 onChange={handleClientChange}
-                 options={clients}
-                 isSearchable
-                 placeholder="Seleccione un cliente..."
-                 className="w-[400px]"
-                />
+                <select name="cliente" 
+                    className="w-[400px] border-solid"
+                    onChange={(e)=>handleClientChange(e)}>
+                    <option value="0">Selecione Cliente</option>
+                    {clientes.map(ele =>
+                       <option value={ele.id}>{ele.ter_tercero} - {ele.ter_documento}</option>
+                    )}
+                </select>
             </div>
         </div>
         <div>
@@ -158,4 +145,14 @@ const HeaderVenta = ({ formattedDate, infoHeader }) => {
   );
 };
 
+/*
+<Select
+value={selectedClient}
+onChange={handleClientChange}
+options={clients}
+isSearchable
+placeholder="Seleccione un cliente..."
+className="w-[400px]"
+/>
+*/
 export default HeaderVenta;

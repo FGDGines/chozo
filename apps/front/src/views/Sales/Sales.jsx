@@ -7,6 +7,8 @@ import ModalError from "../../components/ModalError";
 import { ToastContainer, toast } from "react-toastify";
 import PaymentModal from "../../components/PaymentModal";
 import ModalForpagos from "../../components/ModalForpagos";
+import ModalEfectivo from "../../components/ModalEfectivo";
+import ModalCrearCliente from "../../components/ModalCrearCliente";
 
 function Sales() {
   const token = localStorage.getItem("token");
@@ -27,13 +29,15 @@ function Sales() {
   const [showModalError, setShowModalError] = useState(false);
   const [messageError, setMessageError] = useState("");
   const [selectedCaja, setSelectedCaja] = useState("");
+  const [clientes, setClientes] = useState([]);
   const [selectedClient1, setselectedClient1] = useState("");
   // pagos
   const [paymentModalOpen, setPaymentModalOpen] = useState(false);
   const [paymentMethods, setPaymentMethods] = useState([]);
   const [ctaBanco, setCtaBanco] = useState([]);
   const [paymentDetails, setPaymentDetails] = useState([]);
-
+  const [pagoModalEfectivo, setPagoModalEfectivo] = useState(false);
+  const [creaClienteModal, setCreaClienteModal] = useState(false);
 
   const getCuentaBancaria = async() => {
     try {
@@ -59,6 +63,20 @@ function Sales() {
     } catch (error) {
       console.error("Error:", error);
     }
+  };
+
+  //se trae los clientes para vista VENTA
+  const getClient = async () => {
+      try {
+        const response = await axios.get("api/terceros", {
+          headers: {
+            token: token,
+          },
+        });
+        setClientes(response.data);
+      } catch (error) {
+        console.error("Error:", error);
+      }
   };
 
   const getPaymentMethods = async () => {
@@ -98,6 +116,7 @@ function Sales() {
     getArticles();
     getPaymentMethods();
     getCuentaBancaria();
+    getClient();
     const storedCajero = localStorage.getItem("selectedCajero");
     if (storedCajero) {
       setSelectedCaja(JSON.parse(storedCajero));
@@ -179,6 +198,7 @@ function Sales() {
     if (method === "Credito") {
       setPaymentModalOpen(true); //
     } else
+      setPagoModalEfectivo(true);
       setPaymentDetails([
         { ctabancoid: 0, valor: totalAmount, idformapago: 1 },
       ]);
@@ -188,6 +208,22 @@ function Sales() {
   const handleClosePaymentModal = () => {
     setPaymentModalOpen(false);
   };
+
+  //cierra modal pago efectivo
+  const handleModalEfectivo = () => {
+    setPagoModalEfectivo(false);
+  };
+
+  //cierra el modal de creacion de clientes
+  const handleCloseModalClientes = () => {
+     setCreaClienteModal(false);
+     getClient();
+  };
+
+  //abre el modald e crear clientes
+  const handleOpenModalClientes = () => {
+    setCreaClienteModal(true);
+ };
 
     
   //!agrega al carro
@@ -219,7 +255,7 @@ function Sales() {
   };
 
   const handleSale = async () => {
-    console.log("metodo",paymentDetails)
+  
     try {
       if(selectedPaymentMethod=="Efectivo") {
 
@@ -243,12 +279,12 @@ function Sales() {
 
       const saleData = {
         fecha: today1,
-        vence: venceFac,
+        vence: today1,
         bruto: parseFloat(totalAmount.toFixed(2)),
         impuesto: 123,
         total: parseFloat(totalAmount.toFixed(2)),
         metodopago: selectedPaymentMethod === "Efectivo" ? 1 : 2,
-        terceroid: selectedClient1.value,
+        terceroid: selectedClient1,
         cajaid: selectedCaja.value,
         items: shoppingCart.map((item) => ({
           articuloId: item.id,
@@ -274,7 +310,7 @@ function Sales() {
           setMessageError("¡Falta elegir Cliente!");
         }
         if (!saleData.terceroid) {
-          setMessageError("¡Falta elegir Cliente!");
+          setMessageError("¡Falta elegir Cliente...!");
         }
         if (!saleData.cajaid) {
           setMessageError("¡Falta elegir Cajero!");
@@ -286,8 +322,7 @@ function Sales() {
         setShowModalError(true);
         infoModalError.mensaje = messageError;
         return;
-      }
-
+      };
       const response = await axios.post(
         "api/carteraxcobrar",
         saleData
@@ -397,7 +432,10 @@ function Sales() {
   return (
     <>
       <div className="ml-[80px] font-SFRegular h-screen w-[92%] flex flex-col">
-        <HeaderVenta formattedDate={formattedDate} infoHeader={infoHeader} />
+        <HeaderVenta formattedDate={formattedDate} 
+                     infoHeader={infoHeader} 
+                     handleOpenModalClientes={handleOpenModalClientes}
+                     clientes={clientes}/>
         {showModalError ? <ModalError infoModalError={infoModalError} /> : ""}
         {paymentModalOpen ? (
           <ModalForpagos
@@ -409,7 +447,16 @@ function Sales() {
         ) : (
           ""
         )}
+        
+        {pagoModalEfectivo ? (
+           <ModalEfectivo 
+              totalAmount= {totalAmount}
+              onClose={handleModalEfectivo}/>
+        ) :  ("")}
 
+        {creaClienteModal ? (
+           <ModalCrearCliente onClose={handleCloseModalClientes}/>
+        ) : ("")}
 
         <div className="m-2 flex flex-row gap-2 w-[650px] items-center">
           <input id="codbarra"
@@ -547,7 +594,7 @@ function Sales() {
               </div>
               <ToastContainer
                 position="top-right"
-                autoClose={3000}
+                autoClose={2000}
                 hideProgressBar={false}
                 newestOnTop={false}
                 closeOnClick
