@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import ModalCiudades from "../../components/ModalCiudades";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -8,6 +9,8 @@ function Ciudades() {
     const [dptos, setDptos] = useState([]);
     const [ciudades, setCiudades] = useState([]);
     const [objeto, setObjeto] = useState({nombre: "", codigo: "", idDpto: 0});
+    const [modalCiudades, setModalCiudades] = useState(false);
+    const [record, setRecord] = useState(0);    
 
     const handleChange = (e) => {
        const value = e.target.value;
@@ -30,6 +33,16 @@ function Ciudades() {
         });
         toast.success("¡Ciudad creada!");
         cargarCiudades();
+    };
+
+    const closeModal = () => {
+      setModalCiudades(false);
+      cargarCiudades(); 
+   };
+
+   const handleEditar = async(e, registro) => {
+      setRecord(registro);
+      setModalCiudades(true);
     };
 
     const cargarCiudades = async() => {
@@ -58,6 +71,8 @@ function Ciudades() {
 
     return (
        <div className="mx-auto mt-10 max-w-[80%]">
+        {modalCiudades
+           ? (<ModalCiudades onClose={closeModal} record={record}/>) : ("")}                  
            <h2 className="text-2xl bg-customBlue p-2 rounded-md text-white">Maestros de Ciudades</h2>
            <table>
               <thead>
@@ -70,7 +85,10 @@ function Ciudades() {
                      <td>{ele.ciu_nombre}</td>
                      <td>{ele.ciu_codigo}</td>
                      <td>{ele.departamento.dpt_nombre}</td>
-                     <td><button className="px-4 py-1 bg-blue-500 text-white rounded hover:bg-blue-600">Editar</button></td>
+                     <td><button 
+                         className="px-4 py-1 bg-blue-500 text-white rounded hover:bg-blue-600"
+                         onClick={(e)=>handleEditar(e, ele.id)}
+                         >Editar</button></td>
                   </tr>
                )}
                </tbody>

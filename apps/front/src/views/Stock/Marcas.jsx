@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import ModalMarcas from "../../components/ModalMarcas";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -7,6 +8,8 @@ function Marcas() {
     const token = localStorage.getItem("token");
     const [marcas, setMarcas] = useState([]);
     const [nmarca, setNmarca] = useState("");
+    const [modalMarcas, setModalMarcas] = useState(false);
+    const [record, setRecord] = useState(0);
 
     const handleChange = (e) => {
        const value = e.target.value;
@@ -25,6 +28,16 @@ function Marcas() {
         cargarMarcas();
     };
 
+    const closeModal = () => {
+      setModalMarcas(false);
+      cargarMarcas(); 
+   };
+
+   const handleEditar = async(e, registro) => {
+      setRecord(registro);
+      setModalMarcas(true);
+    };
+
     const cargarMarcas = async() => {
        const result = await axios('api/marcas', {
           headers: {
@@ -41,17 +54,23 @@ function Marcas() {
 
     return (
        <div className="mx-auto mt-10 max-w-[80%]">
+           {modalMarcas
+           ? (<ModalMarcas onClose={closeModal} record={record}/>) : ("")}
            <h2 className="text-2xl bg-customBlue p-2 rounded-md text-white">Maestros de Marcas</h2>
            <table className="w-1/2 text-sm text-left text-gray-700 dark:text-gray-700">
               <thead>
-                 <tr><th>Id</th><th>Detalles</th><th>Accion</th></tr>
+                 <tr><th>Id</th><th>Detalles</th><th>Estado</th><th>Accion</th></tr>
               </thead>
               <tbody>
               {marcas.map(ele =>
                   <tr key={ele.id}>
                      <td>{ele.id}</td>
                      <td>{ele.mar_detalles}</td>
-                     <td><button className="px-4 py-1 bg-blue-500 text-white rounded hover:bg-blue-600">Editar</button></td>
+                     <td>{ele.mar_activa==1 ? "Activa" : "Inactiva"}</td>
+                     <td><button 
+                         className="px-4 py-1 bg-blue-500 text-white rounded hover:bg-blue-600"
+                         onClick={(e)=>handleEditar(e, ele.id)}
+                         >Editar</button></td>
                   </tr>
                )}
                </tbody>

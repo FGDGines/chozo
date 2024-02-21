@@ -34,8 +34,8 @@ const addDpto = async(datos) => {
 
 //actualizacion de un departamento nuevo
 const updateDpto = async(datos, id) => {
-    const {name} = datos;
-    const result = await departamentos.update({dpt_nombre: name}, {where: {id}});
+    const {dpt_nombre} = datos;
+    const result = await departamentos.update({dpt_nombre}, {where: {id}});
     return result;
 };
 

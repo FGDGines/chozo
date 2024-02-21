@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import ModalGrupos from "../../components/ModalGrupos";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -7,6 +8,8 @@ function Grupos() {
     const token = localStorage.getItem("token");
     const [grupos, setGrupos] = useState([]);
     const [sublineas, setSublineas] = useState([]);
+    const [record, setRecord] = useState(0);
+    const [modalGrupos, setModalGrupos] = useState(false);    
     const [objeto, setObjeto] = useState({ngrupo: "", idSublinea: 0});
 
     const handleChange = (e) => {
@@ -15,6 +18,11 @@ function Grupos() {
        console.log(property,value)
        setObjeto({...objeto, [property]: value });
     };
+
+    const closeModal = () => {
+      setModalGrupos(false);
+      cargarGrupos(); 
+   };
 
     const handleGrabar = async(e) => {
         e.preventDefault();
@@ -37,6 +45,11 @@ function Grupos() {
         setSublineas(result.data);
      };
 
+     const handleEditar = async(e, registro) => {
+      setRecord(registro);
+      setModalGrupos(true);
+    };
+
     const cargarGrupos = async() => {
        const result = await axios('api/grupos', {
           headers: {
@@ -54,17 +67,23 @@ function Grupos() {
 
     return (
        <div className="mx-auto mt-10 max-w-[80%]">
+           {modalGrupos
+           ? (<ModalGrupos onClose={closeModal} record={record}/>) : ("")}
            <h2 className="text-2xl bg-customBlue p-2 rounded-md text-white">Maestros de Grupos</h2>
            <table className="w-1/2 text-sm text-left text-gray-700 dark:text-gray-700">
               <thead>
-                 <tr><th>Id</th><th>Detalles</th><th>Accion</th></tr>
+                 <tr><th>Id</th><th>Detalles</th><th>Estado</th><th>Accion</th></tr>
               </thead>
               <tbody>
               {grupos.map(ele =>
                   <tr key={ele.id}>
                      <td>{ele.id}</td>
                      <td>{ele.gru_detalles}</td>
-                     <td><button className="px-4 py-1 bg-blue-500 text-white rounded hover:bg-blue-600">Editar</button></td>
+                     <td>{ele.gru_activo==1 ? "Activo" : "Inactivo"}</td>
+                     <td><button 
+                        className="px-4 py-1 bg-blue-500 text-white rounded hover:bg-blue-600"
+                        onClick={(e)=>handleEditar(e, ele.id)}
+                        >Editar</button></td>
                   </tr>
                )}
                </tbody>

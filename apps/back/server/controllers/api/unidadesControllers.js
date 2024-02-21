@@ -23,8 +23,8 @@ const addUnidad = async(datos) => {
 
 //actualizacion de una unidad
 const updateUnidad = async(datos, id) => {
-    const {detalles, abreviatura} = datos;
-    const result = await unidades.update({uni_detalles: detalles, uni_abreviatura: abreviatura}, {where: {id}});
+    const {uni_detalles, uni_abreviatura} = datos;
+    const result = await unidades.update({uni_detalles, uni_abreviatura}, {where: {id}});
     return result;
 };
 

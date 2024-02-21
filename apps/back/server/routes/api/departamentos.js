@@ -59,7 +59,7 @@ server.get('/:id',  [security_post] , async(req, res) => {
 
  //actualiza un departamento
  server.put('/:id',  [security_post] , 
-    [ check('name', 'El nombre del departamento es obligatorio').not().isEmpty() ,validarCampos] ,
+    [ check('dpt_nombre', 'El nombre del departamento es obligatorio').not().isEmpty() ,validarCampos] ,
     async(req, res) => {
     const datos = req.body;
     const {id} = req.params;

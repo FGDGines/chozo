@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import ModalPaises from "../../components/ModalPaises";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -7,11 +8,23 @@ function Paises() {
     const token = localStorage.getItem("token");
     const [paises, setPaises] = useState([]);
     const [objeto, setObjeto] = useState({npais: "", codigo: ""});
+    const [modalPaises, setModalPaises] = useState(false);
+    const [record, setRecord] = useState(0);    
 
     const handleChange = (e) => {
        const value = e.target.value;
        const property = e.target.name;
        setObjeto({...objeto,[property]: value});
+    };
+
+    const closeModal = () => {
+      setModalPaises(false);
+      cargarPaises(); 
+   };
+
+   const handleEditar = async(e, registro) => {
+      setRecord(registro);
+      setModalPaises(true);
     };
 
     const handleGrabar = async(e) => {
@@ -42,6 +55,8 @@ function Paises() {
 
     return (
        <div className="mx-auto mt-10 max-w-[80%]">
+        {modalPaises
+           ? (<ModalPaises onClose={closeModal} record={record}/>) : ("")}         
            <h2 className="text-2xl bg-customBlue p-2 rounded-md text-white">Maestros de Paises</h2>
            <table>
               <thead>
@@ -53,7 +68,10 @@ function Paises() {
                      <td>{ele.id}</td>
                      <td>{ele.pai_nombre}</td>
                      <td>{ele.pai_codigo}</td>
-                     <td><button className="px-4 py-1 bg-blue-500 text-white rounded hover:bg-blue-600">Editar</button></td>
+                     <td><button 
+                         className="px-4 py-1 bg-blue-500 text-white rounded hover:bg-blue-600"
+                         onClick={(e)=>handleEditar(e, ele.id)}
+                         >Editar</button></td>
                   </tr>
                )}
                </tbody>

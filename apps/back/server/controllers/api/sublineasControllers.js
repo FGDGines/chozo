@@ -1,4 +1,4 @@
-const {sublineas, lineas, puc} = require("../../models/DbConex");
+const {sublineas, lineas, puc, conex} = require("../../models/DbConex");
 
 //devuelve todas las sublineas
 const getSublineas = async() => {
@@ -10,12 +10,16 @@ const getSublineas = async() => {
 
 //trae la informacion de una sublinea por su id
 const getSublineaById = async(id) => {
-   const registro = await sublineas.findByPk(id, {
-      include: [{model: lineas, attributes: { exclude: ['createdAt','updatedAt']}},
-                {model: puc, attributes: { exclude: ['createdAt','updatedAt']}},
-    ]
-   });
-   return registro;
+   let query1 = "SELECT A.*,B.lin_detalles,C.puc_codigo as pucInventa,C.puc_cuenta as ctaInventa,";
+   query1+="D.puc_codigo as pucIngresos,D.puc_cuenta as ctaIngresos,E.puc_codigo as pucCostov,E.puc_cuenta as ctaCostov ";
+   query1+="FROM sublineas A LEFT JOIN lineas B ON B.id=A.linea_id ";
+   query1+="LEFT JOIN puc C ON C.id=A.pucinventario_id ";
+   query1+="LEFT JOIN puc D ON D.id=A.pucingresos_id ";
+   query1+="LEFT JOIN puc E ON E.id=A.puccostoventa_id ";
+   query1+="where A.id = ?";
+   const registros = await conex.query(`${query1}`, {replacements: [id]});
+   const registro = registros[0];
+   return registro[0];
 };
 
 //devuelve todas las sublineas de una linea 

@@ -59,7 +59,7 @@ server.get('/:id',  [security_post] , async(req, res) => {
 
  //actualiza una ciudad
  server.put('/:id',  [security_post] , 
-    [ check('name', 'El nombre de la ciudad es obligatorio').not().isEmpty() ,validarCampos] ,
+    [ check('ciu_nombre', 'El nombre de la ciudad es obligatorio').not().isEmpty() ,validarCampos] ,
     async(req, res) => {
     const datos = req.body;
     const {id} = req.params;

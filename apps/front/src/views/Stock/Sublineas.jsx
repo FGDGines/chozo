@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import ModalSublineas from "../../components/ModalSublineas";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -7,6 +8,8 @@ function Sublineas() {
     const token = localStorage.getItem("token");
     const [sublineas, setSublineas] = useState([]);
     const [puc, setPuc] = useState([]);
+    const [record, setRecord] = useState(0);
+    const [modalSublineas, setModalSublineas] = useState(false);
     const [objeto, setObjeto] = useState(
         {
             idLinea: 0,
@@ -30,7 +33,17 @@ function Sublineas() {
         console.log(property,id)
         setObjeto({...objeto, [property]: id});
     };
+
+    const handleEditar = async(e, registro) => {
+      setRecord(registro);
+      setModalSublineas(true);
+    };
   
+    const closeModal = () => {
+      setModalSublineas(false);
+      cargarSublineas(); 
+   };
+
     const handleGrabar = async(e) => {
         e.preventDefault();
         const datos = {
@@ -94,6 +107,8 @@ function Sublineas() {
 
     return (
        <div className="mx-auto mt-10 max-w-[80%]">
+           {modalSublineas 
+           ? (<ModalSublineas onClose={closeModal} record={record}/>) : ("")}
            <h2 className="text-2xl bg-customBlue p-2 rounded-md text-white">Maestro de Sublineas</h2>
            <table className="w-1/2 text-sm text-left text-gray-700 dark:text-gray-700">
               <thead>
@@ -105,7 +120,10 @@ function Sublineas() {
                      <td>{ele.id}</td>
                      <td>{ele.sub_detalles}</td>
                      <td>{ele.linea.lin_detalles}</td>
-                     <td><button className="px-4 py-1 bg-blue-500 text-white rounded hover:bg-blue-600">Editar</button></td>
+                     <td><button 
+                         className="px-4 py-1 bg-blue-500 text-white rounded hover:bg-blue-600"
+                         onClick={(e)=>handleEditar(e, ele.id)}
+                         >Editar</button></td>
                   </tr>
                )}
                </tbody>

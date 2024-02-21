@@ -32,7 +32,7 @@ const loginUser = async(datos) => {
    if(!result) throw Error("Usuario Inexistente");
    if(result.usu_activo == 0) throw Error("Usuario Inactivo");
 
-   const autenticate  = await  bcryptjs.compareSync(passw , result.usu_password)
+   const autenticate  = await  bcryptjs.compareSync(passw , result.usu_password);
    
 
    if(!autenticate) throw Error("Clave Invalida");

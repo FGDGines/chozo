@@ -48,8 +48,8 @@ server.get('/:id',  [security_post] , async(req, res) => {
 
  //actualiza una unidad
  server.put('/:id', [security_post] ,  
-    [ check('abreviatura', 'La abreviatura de la unidad es obligatoria').not().isEmpty() ,validarCampos] , 
-    [ check('detalles', 'El detalle de la unidad es obligatorio').not().isEmpty() ,validarCampos] ,
+    [ check('uni_abreviatura', 'La abreviatura de la unidad es obligatoria').not().isEmpty() ,validarCampos] , 
+    [ check('uni_detalles', 'El detalle de la unidad es obligatorio').not().isEmpty() ,validarCampos] ,
     async(req, res) => {
     const datos = req.body;
     const {id} = req.params;
