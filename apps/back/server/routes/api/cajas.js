@@ -48,10 +48,10 @@ server.post('/',  [security_post] ,
 
 //modifica una caja
 server.put('/:id', [security_post] ,  
-   [ check('nombre', 'El nombre de la caja es obligatorio').not().isEmpty() ,validarCampos] ,
-   [ check('idusuario', 'El id del usuario de la caja es obligatorio').not().isEmpty() ,validarCampos] ,
-   [ check('idpuc', 'El id de la cuenta puc de la caja es obligatorio').not().isEmpty() ,validarCampos] ,
-   [ check('activa', 'El campo activa de la caja es obligatorio').not().isEmpty() ,validarCampos] ,
+   [ check('caj_detalles', 'El nombre de la caja es obligatorio').not().isEmpty() ,validarCampos] ,
+   [ check('usuario_id', 'El id del usuario de la caja es obligatorio').not().isEmpty() ,validarCampos] ,
+   [ check('puc_id', 'El id de la cuenta puc de la caja es obligatorio').not().isEmpty() ,validarCampos] ,
+   [ check('caj_activa', 'El campo activa de la caja es obligatorio').not().isEmpty() ,validarCampos] ,
    async(req, res) => {
     const datos = req.body; 
     const {id} = req.params;

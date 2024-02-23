@@ -37,12 +37,12 @@ const addCaja = async(datos) => {
 //modifica una caja
 const editaCaja = async(datos, id) => {
    const idC = Number(id);
-   const {nombre, idusuario, idpuc, activa} = datos;
+   const {caj_detalles, usuario_id, puc_id, caj_activa} = datos;
    const result = await cajas.update({
-       caj_detalles: nombre,
-       usuarios_id: idusuario,
-       puc_id: idpuc,
-       caj_activa: activa
+       caj_detalles,
+       usuario_id,
+       puc_id,
+       caj_activa,
    }, {where: {id: idC}});
    return result;
 };

@@ -48,10 +48,10 @@ server.post('/',  [security_post] ,
 
  //actualiza  cuenta bancaria
  server.put('/:id', [security_post] , 
-    [ check('banco', 'El nombre del banco es obligatorio').not().isEmpty() ,validarCampos] ,
-    [ check('numero', 'El numerod e la cuenta es obligatorio').not().isEmpty() ,validarCampos] ,
-    [ check('tipo', 'El tipo de cuenta es obligatorio').not().isEmpty() ,validarCampos] ,
-    [ check('pucid', 'El campo pucid es obligatorio').not().isEmpty() ,validarCampos] ,
+    [ check('cue_banco', 'El nombre del banco es obligatorio').not().isEmpty() ,validarCampos] ,
+    [ check('cue_numero', 'El numerod e la cuenta es obligatorio').not().isEmpty() ,validarCampos] ,
+    [ check('cue_tipo', 'El tipo de cuenta es obligatorio').not().isEmpty() ,validarCampos] ,
+    [ check('puc_id', 'El campo puc_id es obligatorio').not().isEmpty() ,validarCampos] ,
     [ check('cue_activa', 'El campo cue_activa es obligatorio').not().isEmpty() ,validarCampos] ,
     async(req, res) => {
     const datos = req.body;

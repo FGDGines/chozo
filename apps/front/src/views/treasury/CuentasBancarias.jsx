@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import ModalCtasBancarias from "../../components/ModalCtasBancarias";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -7,6 +8,8 @@ function CuentasBancarias() {
     const token = localStorage.getItem("token");
     const [cuentas, setCuentas] = useState([]);
     const [puc, setPuc] = useState([]);
+    const [modalCtaBanco, setModalCtaBanco] = useState(false);
+    const [record, setRecord] = useState(0);
     const [cuenta, setCuenta] = useState({
         cue_banco: "",
         cue_numero: "",
@@ -19,6 +22,16 @@ function CuentasBancarias() {
        const value = e.target.value;
        const property = e.target.name;
        setCuenta({...cuenta, [property]: value});
+    };
+
+    const closeModal = () => {
+      setModalCtaBanco(false);
+      cargarCuentas(); 
+    };
+
+    const handleEditar = async(e, registro) => {
+      setRecord(registro);
+      setModalCtaBanco(true);
     };
 
     const handleGrabar = async(e) => {
@@ -66,6 +79,8 @@ function CuentasBancarias() {
 
     return (
        <div className="mx-auto mt-10 max-w-[80%]">
+             {modalCtaBanco
+           ? (<ModalCtasBancarias onClose={closeModal} record={record}/>) : ("")}      
            <h2 className="text-2xl bg-customBlue p-2 rounded-md text-white">Maestros de Cuentas Bancarias</h2>
            <table className="w-1/2 text-sm text-left text-gray-700 dark:text-gray-700">
               <thead>
@@ -77,7 +92,10 @@ function CuentasBancarias() {
                      <td>{ele.id}</td>
                      <td>{ele.cue_numero}</td>
                      <td>{ele.cue_banco}</td>
-                     <td><button className="px-4 py-1 bg-blue-500 text-white rounded hover:bg-blue-600">Editar</button></td>
+                     <td><button 
+                         className="px-4 py-1 bg-blue-500 text-white rounded hover:bg-blue-600"
+                         onClick={(e)=>handleEditar(e, ele.id)}
+                         >Editar</button></td>
                   </tr>
                )}
                </tbody>

@@ -27,15 +27,14 @@ const addCuenta = async(datos) => {
 
 //actualiza una cuenta bancaria
 const updateCuenta = async(datos, id) => {
-    const {banco, numero, tipo, pucid,cue_activa} = datos;
+    const {cue_banco, cue_numero, cue_tipo, puc_id,cue_activa} = datos;
     const idC = Number(id);
     const registro = {
-       cue_banco: banco,
-       cue_numero: numero,
-       cue_tipo: tipo,
-       cue_activa: 1,
-       puc_id: pucid,
-       cue_activa
+       cue_banco,
+       cue_numero,
+       cue_tipo,
+       cue_activa,
+       puc_id,
     };   
     const result = await cuentas_bancarias.update(registro, {where: {id: idC}});
     return result;

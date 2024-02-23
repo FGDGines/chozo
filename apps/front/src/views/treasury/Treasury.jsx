@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
+import ModalCajas from "../../components/ModalCajas";
 import "react-toastify/dist/ReactToastify.css";
 
 function Treasury() {
   const token = localStorage.getItem("token");
   const [cajas, setCajas] = useState([]);
   const [users, setUsers] = useState([]);
+  const [modalCajas, setModalCajas] = useState(false);
+  const [record, setRecord] = useState(0);
   const [puc, setPuc] = useState([]);
   const [caja, setCaja] = useState({
      caj_detalles: "",
@@ -30,7 +33,12 @@ function Treasury() {
     const value = e.target.value;
     const property = e.target.name;
     setCaja({...caja, [property]: value});
- };
+  };
+
+  const closeModal = () => {
+    setModalCajas(false);
+    cargarCajas(); 
+  };
 
   const cargarCajas = async() => {
     const result = await axios('api/cajas', {
@@ -40,6 +48,11 @@ function Treasury() {
     });
     const datos = result.data
     setCajas(datos);    
+  };
+
+  const handleEditar = async(e, registro) => {
+    setRecord(registro);
+    setModalCajas(true);
   };
 
   const cargarUsuarios = async() => {
@@ -77,6 +90,8 @@ function Treasury() {
 
   return (
     <div className="mx-auto mt-10 max-w-[80%]">
+    {modalCajas
+           ? (<ModalCajas onClose={closeModal} record={record}/>) : ("")}      
     <h2 className="text-2xl bg-customBlue p-2 rounded-md text-white">Maestros de Cajas</h2>
     <table className="w-1/2 text-sm text-left text-gray-700 dark:text-gray-700">
        <thead>
@@ -88,7 +103,10 @@ function Treasury() {
               <td>{ele.id}</td>
               <td>{ele.caj_detalles}</td>
               <td>{ele.usuario.usu_nombre}</td>
-              <td><button className="px-4 py-1 bg-blue-500 text-white rounded hover:bg-blue-600">Editar</button></td>
+              <td><button 
+                  className="px-4 py-1 bg-blue-500 text-white rounded hover:bg-blue-600"
+                  onClick={(e)=>handleEditar(e, ele.id)}
+                  >Editar</button></td>
            </tr>
         )}
         </tbody>
