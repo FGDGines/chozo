@@ -7,6 +7,7 @@ import ModalForpagos from "../../components/ModalForpagos";
 
 function Recibos() {
    const token = localStorage.getItem("token");
+   const notify = () => toast.success("¡Recibo de Caja realizado!");
    const [clientes, setClientes] = useState([]);
    const [facturas, setFacturas] = useState([]);
    const [selectedClient, setSelectedClient] = useState(0);
@@ -14,9 +15,13 @@ function Recibos() {
    const [totalAbonos, setTotalAbonos] = useState(0);
    const [showModalError, setShowModalError] = useState(false);
    const [messageError, setMessageError] = useState("");
-   const [paymentModalOpen, setPaymentModalOpen] = useState(false);
-   const [selectedPaymentMethod, setSelectedPaymentMethod] =  useState("Efectivo");
    const [ctaBanco, setCtaBanco] = useState([]);
+   const [cajas, setCajas] = useState([]);
+   const [selectedCaja, setSelectedCaja] = useState("");
+   const [formasPago, setFormasPago] = useState([]);
+   const [forpagoid, setForpagoid] = useState(0);
+   const [fuenteId, setFuenteId] = useState(0);
+   const [selectedCtaBanco, setSelectedCtaBanco] = useState(0);
 
    const cargarClientes = async() => {
       const result = await axios.get('api/terceros', {
@@ -26,6 +31,26 @@ function Recibos() {
       });
       const datos = result.data
       setClientes(datos);   
+   };
+
+   const cargarFuente = async() => {
+    const result = await axios.get('api/parametros/10', {
+      headers: {
+        token: token,
+      },
+    });
+    const datos = result.data
+    setFuenteId(datos);  
+   };
+
+   const cargarCajas = async() => {
+    const result = await axios.get('api/cajas', {
+      headers: {
+        token: token,
+      },
+    });
+    const datos = result.data
+    setCajas(datos);  
    };
 
    const getCuentaBancaria = async() => {
@@ -53,10 +78,23 @@ function Recibos() {
    }/${date.getFullYear()}`;
    const today = date.toISOString();
 
+   const handleFormaPago = (e) => {
+      const value = e.target.value;
+      setForpagoid(value);
+   };
+
+   const handleCtaBanco = (e) => {
+    const value = e.target.value;
+    setSelectedCtaBanco(value);
+   };
+
+   const handleCaja = (e) => {
+    const value = e.target.value;
+    setSelectedCaja(value);
+   };
 
    //formas de pago
    const getPaymentMethods = async () => {
-    try {
       const response = await axios.get(
         "api/formasdepago",
         {
@@ -65,27 +103,9 @@ function Recibos() {
           },
         }
       );
-      const datos = response.data;
-      setPaymentMethods(response.data);
-      //cargamos el array forpagos
-      const array = [];
-      datos.forEach((ele) => {
-
-        const newReg = {
-          idformapago: ele.id,
-          detalle: ele.fpag_detalles,
-          manejabanco: ele.fpag_manejabanco,
-          valor: 0,
-          ctabancoid: 0,
-        };
-        array.push(newReg);
-      });
-
-      const updatedItemsJSON = JSON.stringify(array);
-      localStorage.setItem("forpagos", updatedItemsJSON);
-    } catch (error) {
-      console.error("Error al obtener métodos de pago:", error);
-    }
+      const xdatos = response.data;
+      const datos = xdatos.filter(ele => ele.fpag_manejabanco>0);
+      setFormasPago(datos);
   };
 
 
@@ -93,6 +113,8 @@ function Recibos() {
      cargarClientes();
      getCuentaBancaria();
      getPaymentMethods();
+     cargarFuente();
+     cargarCajas();
    }, []);
 
    const handleClientChange = (e) => {
@@ -158,7 +180,13 @@ function Recibos() {
       setTotalAbonos(abo);
    };
 
-   const handleGrabar = () => {
+   const handleGrabar = async() => {
+      if (selectedCaja==0) {
+         setMessageError("¡Falta elegir Caja!");
+         setShowModalError(true);
+         infoModalError.mensaje = messageError;
+         return;
+      };
       if (selectedClient==0) {
           setMessageError("¡Falta elegir Cliente!");
           setShowModalError(true);
@@ -171,35 +199,79 @@ function Recibos() {
         infoModalError.mensaje = messageError;
         return;        
       };
+      if(forpagoid==0) {
+        setMessageError("¡No ha seleccionado forma de pago!");
+        setShowModalError(true);
+        infoModalError.mensaje = messageError;
+        return;        
+      };      
+      if(selectedCtaBanco==0) {
+        setMessageError("¡No ha seleccionado Cta Bancaria!");
+        setShowModalError(true);
+        infoModalError.mensaje = messageError;
+        return;        
+      };      
+
+      const date = new Date();
+      const today1 = date.toISOString();
+      const items = [];
+      facturas.forEach(ele => {
+         if(ele.abonar>0) {
+            const reg = {tipo: 1, carteraid: ele.id, valor: ele.abonar, pucid: ele.puc_id};
+            items.push(reg);
+         };
+      });
+
+      const datos = {
+        valor: totalAbonos,
+        fecha: today1,
+        ctabancoid: selectedCtaBanco,
+        cajaid: selectedCaja,
+        terceroid: selectedClient,
+        fuenteid: Number(fuenteId.para_valor),
+        items,
+        fpagos: [{ctabancoid: selectedCtaBanco,
+                  idformapago: forpagoid,
+                  valor: totalAbonos}],
+        detalles: "Cancelamos Factura"
+      };
+      try {
+        const result = await axios.post('api/tesoreria', datos, {
+          headers: {
+            token: token,
+          },
+        });
+        notify();
+        setFacturas([]);
+        setForpagoid(0);
+        setSaldoTotal(0);
+        setSelectedClient(0);
+        setTotalAbonos(0);        
+      } catch (error) {
+        console.log("Error al ejecutar Recibo");
+        setMessageError("¡Error al grabar Recibo!");
+        setShowModalError(true);
+        infoModalError.mensaje = messageError;
+        return;        
+      }
+
    };
 
-  //!abre modal de pago:
-  const handlePaymentMethod = (method) => {
-    setSelectedPaymentMethod(method);
-    if (method === "Credito") {
-      setPaymentModalOpen(true); //
-    } else
-      setPagoModalEfectivo(true);
-      setPaymentDetails([
-        { ctabancoid: 0, valor: totalAmount, idformapago: 1 },
-      ]);
-  };
-
-  //!cierra modal
-  const handleClosePaymentModal = () => {
-      setPaymentModalOpen(false);
-  };
+  
 
    return (
     <div className="mx-auto mt-10 max-w-[80%]">
         {showModalError ? <ModalError infoModalError={infoModalError} /> : ""}
-        {paymentModalOpen ? (
-          <ModalForpagos
-              isOpen={paymentModalOpen}
-              onClose={handleClosePaymentModal}
-              totalAmount={totalAbonos}
-              ctaBancarias={ctaBanco} /> ) : ( "" )}
         <h2 className="text-2xl bg-customBlue p-2 rounded-md text-white">Recibo de Caja</h2>
+        <label>Caja : </label>
+        <select name="cajaid"
+                value={selectedCaja}
+                onChange={(e)=>handleCaja(e)}>
+           <option value="0">Seleccione</option>
+           {cajas.map(ele =>
+              <option value={ele.id}>{ele.caj_detalles}</option>
+           )}
+        </select><br/>
         <h2>Fecha : {formattedDate}</h2>
         <div className="flex flex-row items-center gap-3">
             <h2 className="text-l">Cliente : </h2>
@@ -212,6 +284,7 @@ function Recibos() {
                     )}
            </select>
         </div>
+        <br/>
         <hr/>
         <table className="w-3/4 text-sm text-left text-gray-700 dark:text-gray-700">
             <thead>
@@ -235,38 +308,47 @@ function Recibos() {
                 )}
             </tbody>
         </table>
+        <br/>
         <hr/>
-        <h2>Saldo Cliente : {saldoTotal}</h2><br/>
-        <h2>Total abonos  : {totalAbonos}</h2><br/>
+        <h2>Saldo Cliente : {saldoTotal}</h2>
+        <h2>Total abonos  : {totalAbonos}</h2>
         <h2>Nuevo Saldo   : {saldoTotal-totalAbonos}</h2>
         <hr/>
-        <div className="flex flex-col gap-3  items-center">
-              <div>Seleccionar metodo de pago</div>
-              <div className="flex flex-row gap-2 justify-around items-center">
-                  <button
-                      onClick={() => handlePaymentMethod("Efectivo")}
-                      className={`border-2 border-customBlue rounded-2xl px-2 py-1 ${
-                      selectedPaymentMethod === "Efectivo"
-                      ? "bg-customBlue text-white"
-                      : "" }`}
-                  >Efectivo
-                  </button>
-                  <button
-                      onClick={() => handlePaymentMethod("Credito")}
-                      className={`border-2 border-customBlue rounded-2xl px-2 py-1 ${
-                      selectedPaymentMethod === "Credito"
-                         ? "bg-customBlue text-white"
-                         : "" }`}
-                  >Formas de Pago
-                  </button>
-              </div>
-        </div><br/>
-        <button className="bg-blue-500 px-4 py-2 rounded-md mx-2"
+        <label>Forma de Pago : </label>
+        <select name="forpagoid"
+                value={forpagoid}
+                onChange={(e)=>handleFormaPago(e)}>
+           <option value="0">Seleccione</option>
+           {formasPago.map(ele =>
+              <option value={ele.id}>{ele.fpag_detalles}</option>
+           )}
+        </select><br/>
+        <label>Cta Bancaria Destino : </label>
+        <select name="ctabancaria"
+                value={selectedCtaBanco}
+                onChange={(e)=>handleCtaBanco(e)}>
+           <option value="0">Seleccione</option>
+           {ctaBanco.map(ele =>
+              <option value={ele.id}>{ele.cue_banco} {ele.cue_numero}</option>
+           )}
+        </select><br/>
+        <button className="bg-blue-500 px-4 py-2 rounded-md mt-4"
                 onClick={() => {
                 handleGrabar();
                 }}>Guardar Recibo
         </button>
-
+        <ToastContainer
+                position="top-right"
+                autoClose={2000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss={false}
+                draggable
+                pauseOnHover
+                theme="colored"
+        />
     </div>
    )
 };

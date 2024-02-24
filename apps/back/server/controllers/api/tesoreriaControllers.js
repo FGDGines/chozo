@@ -83,7 +83,7 @@ const devuelveConsecutivo = async(anual, fuente) => {
     numero = anual.toString()+'-'+numero;
     return numero;
  };
-
+ 
 //graba un nuevo registro en tesoreria 
 const addTesoreria = async(datos) => {
    const {valor, fecha, ctabancoid, cajaid, terceroid, fuenteid, items, fpagos, detalles} = datos;
@@ -173,6 +173,9 @@ const grabaContable = async(fuenteid, num, fechaC, terceroid, items, fpagos, val
    };
    const newRegistro = await contable.create(registro);
    console.log("Cabecera contable grabada");
+
+   //traemos el detalle de la caja enviada
+   const cuecaja = await cajas.findByPk(cajaid);
    
    //capturamos en el parametro "009" predefinido el id de la Fuente de Egresos
    let parametro = await parametros.findOne({where: {para_codigo: '009'}});
