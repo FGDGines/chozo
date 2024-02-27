@@ -31,6 +31,7 @@ import CuentasBancarias from "./views/treasury/CuentasBancarias";
 import Consecutivos from "./views/Config/Consecutivos";
 import Recibos from "./views/treasury/Recibos";
 import Egresos from "./views/treasury/Egresos";
+import BalancePrueba from "./views/Accounting/BalancePrueba";
 import { ToastContainer, toast } from "react-toastify";
 
 function App() {
@@ -420,7 +421,19 @@ function App() {
               <Navigate to="/" />
             )
           }
-        />                                                                                                                                                                                                                                     
+        />  
+        <Route
+          path="/balanceprueba"
+          element={
+            isAuthenticated ? (
+              <MainLayout showSidebar={true}>
+                <BalancePrueba handleLogout={handleLogout} />
+              </MainLayout>
+            ) : (
+              <Navigate to="/" />
+            )
+          }
+        />                                                                                                                                                                                                                                                   
       </Routes>
     </div>
   );

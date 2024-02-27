@@ -143,8 +143,14 @@ function SideBar() {
     ],
     accounting: [
       { icon: <MdHome />, text: "Inicio", to: "/home" },
-      { icon: <LuPackage />, text: "Puc", to: "/puc" },
-      { icon: <LuPackage />, text: "Balance", to: "/balance" },
+      { icon: <LuPackage />, text: "Puc", to: "/accounting" },
+      { icon: <LuPackage />, text: "Balance", to: "/balanceprueba" },
+      { icon: <LuPackagePlus />, text: "Auxiliares", to: "/auxiliares" },
+    ],
+    balanceprueba: [
+      { icon: <MdHome />, text: "Inicio", to: "/home" },
+      { icon: <LuPackage />, text: "Puc", to: "/accounting" },
+      { icon: <LuPackage />, text: "Balance", to: "/balanceprueba" },
       { icon: <LuPackagePlus />, text: "Auxiliares", to: "/auxiliares" },
     ],
     lineas: [
