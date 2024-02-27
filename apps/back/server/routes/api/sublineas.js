@@ -2,7 +2,7 @@ const express = require("express");
 const { check } = require('express-validator');
 const { validarCampos }  = require('../../middlewares/validar-campos');
 const { security_post } = require("../../middlewares/security");
-const {getSublineas, getSublineaById,
+const {getSublineas, getSublineaById, deleteSublinea,
        addSublinea, updateSublinea,
        getSublineasByIdLinea, bulkSublineas} = require("../../controllers/api/sublineasControllers");
 const server = express();
@@ -79,6 +79,18 @@ async(req, res) => {
         console.log(error.message);
         res.status(500).json({message: error.message});       
     }
+});
+
+//eliminar sublinea
+server.delete('/:id', [security_post], async(req, res) => {
+   const {id} = req.params;
+   try {
+       const result = await deleteSublinea(id);
+       res.status(200).json(result);
+   } catch (error) {
+       console.log(error.message);
+       res.status(500).json({message: error.message});         
+   }
 });
 
 server.post('/bulk',  [security_post] ,  async(req, res) => {

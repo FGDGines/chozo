@@ -57,8 +57,22 @@ function Stock() {
         >
           Editar
         </button>
+        
       ),
     },
+    {
+      header: "acciones",
+      accessorKey: "",
+      cell: (row) => (
+        <button
+          className="px-2 py-1 bg-black text-white rounded-md hover:scale-105 transition"
+          onClick={() => buttonDelete(row)}
+        >
+          Eliminar
+        </button>
+        
+      ),
+    },    
     {
       header: "activo",
       accessorKey: "art_activo",
@@ -80,7 +94,19 @@ function Stock() {
     const selected = articles.find((article) => article.id === articleId);
     setSelectedArticle(selected);
     setShowModal(true);
-  }
+  };
+
+  const  buttonDelete = async(row)=>{
+    const articleId = row.row.original.id;
+    const response = await axios.delete(`api/articulos/${articleId}`, {
+      headers: {
+        token: token,
+      },
+    });
+    getArticles();
+  };
+
+
   return (
     <>
       <Table

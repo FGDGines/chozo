@@ -1,4 +1,4 @@
-const {lineas} = require("../../models/DbConex");
+const {lineas, sublineas} = require("../../models/DbConex");
 
 //devuelve todas las lineas
 const getLineas = async() => {
@@ -26,6 +26,16 @@ const updateLinea = async(datos, id) => {
    return result;
 };
 
+//eliminar linea
+const deleteLinea = async(id) => {
+   const idL = Number(id);
+   //verificamos que no tenga sublineas creadas
+   const subl = await sublineas.findOne({where: {linea_id: idL}});
+   if(subl) throw Error("Linea contiene sublineas creadas");
+   await lineas.destroy({where: {id: idL}});
+   return {message: "Linea Eliminada"};
+};
+
 //bulk create lineas
 const bulkLineas = async(info) => {
    const {datos} = info;
@@ -39,4 +49,5 @@ module.exports = {
     addLinea,
     updateLinea,
     bulkLineas,
+    deleteLinea,
 };

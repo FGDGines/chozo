@@ -38,6 +38,15 @@ function Sublineas() {
       setRecord(registro);
       setModalSublineas(true);
     };
+
+    const handleEliminar = async(e, registro) => {
+      const result = await axios.delete(`api/sublineas/${registro}`, {
+         headers: {
+            token: token,
+         },
+      });
+      cargarSublineas(); 
+    };
   
     const closeModal = () => {
       setModalSublineas(false);
@@ -112,7 +121,7 @@ function Sublineas() {
            <h2 className="text-2xl bg-customBlue p-2 rounded-md text-white">Maestro de Sublineas</h2>
            <table className="w-1/2 text-sm text-left text-gray-700 dark:text-gray-700">
               <thead>
-                 <tr><th>Id</th><th>Detalles</th><th>Linea</th><th>Accion</th></tr>
+                 <tr><th>Id</th><th>Detalles</th><th>Linea</th><th>Accion</th><th>Accion</th></tr>
               </thead>
               <tbody>
               {sublineas.map(ele =>
@@ -124,6 +133,10 @@ function Sublineas() {
                          className="px-4 py-1 bg-blue-500 text-white rounded hover:bg-blue-600"
                          onClick={(e)=>handleEditar(e, ele.id)}
                          >Editar</button></td>
+                     <td><button 
+                         className="px-4 py-1 bg-red-500 text-white rounded hover:bg-red-600"
+                         onClick={(e)=>handleEliminar(e, ele.id)}
+                         >Eliminar</button></td>    
                   </tr>
                )}
                </tbody>

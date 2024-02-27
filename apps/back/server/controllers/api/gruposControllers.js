@@ -1,4 +1,4 @@
-const {grupos, sublineas} = require("../../models/DbConex");
+const {grupos, sublineas, articulos} = require("../../models/DbConex");
 
 //devuelve todos los grupos
 const getGrupos = async() => {
@@ -37,6 +37,16 @@ const getGrupos = async() => {
     return result;
  };
 
+ //eliminar un grupo
+ const deleteGrupo = async(id) => {
+    const idA = Number(id);
+    //verificamos que no tenga articulos 
+    const arti = await articulos.findOne({where: {grupo_id: idA}});
+    if(arti) throw Error("Grupo tiene articulos creados");
+    await grupos.destroy({where: {id: idA}});
+    return {message: "Grupo eliminado"};
+ };
+
  //bulkcreate grupos
  const bulkGrupos = async(info) => {
    const {datos} = info;
@@ -51,4 +61,5 @@ const getGrupos = async() => {
     addGrupo,
     updateGrupo,
     bulkGrupos,
+    deleteGrupo,
  };

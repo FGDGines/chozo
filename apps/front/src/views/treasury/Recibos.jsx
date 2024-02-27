@@ -145,6 +145,7 @@ function Recibos() {
           cxc_saldo: element.cxc_saldo,
           abonar: 0,
           saldo: element.cxc_saldo,
+          puc_id: element.puc_id,
        };
        array.push(newreg);
        sal+=element.cxc_saldo;
@@ -167,7 +168,8 @@ function Recibos() {
               cxc_abonos: element.cxc_abonos,
               cxc_saldo: element.cxc_saldo,
               abonar: value>element.cxc_saldo ?element.cxc_saldo : value,
-              saldo: value>element.cxc_saldo ? 0 : element.cxc_saldo-Number(value),               
+              saldo: value>element.cxc_saldo ? 0 : element.cxc_saldo-Number(value),   
+              puc_id: element.puc_id,            
             };
             array.push(reg);
             abo+=Number(reg.abonar);
@@ -288,12 +290,13 @@ function Recibos() {
         <hr/>
         <table className="w-3/4 text-sm text-left text-gray-700 dark:text-gray-700">
             <thead>
-              <tr><th>Numero</th><th>Fecha</th><th>Valor</th><th>Abonos</th>
+              <tr><th>Id</th><th>Numero</th><th>Fecha</th><th>Valor</th><th>Abonos</th>
               <th>Saldo Ant.</th><th>Abonar</th><th>Nuevo Saldo</th></tr>
             </thead>
             <tbody>
                 {facturas.map(ele =>
                    <tr key={ele.id}>
+                     <td>{ele.id}</td>
                      <td>{ele.cxc_numero}</td>
                      <td>{ele.cxc_fechafac}</td>
                      <td>{ele.cxc_valor}</td>

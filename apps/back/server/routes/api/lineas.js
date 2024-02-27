@@ -3,7 +3,7 @@ const { check } = require('express-validator');
 const { validarCampos }  = require('../../middlewares/validar-campos');
 const { security_post } = require("../../middlewares/security");
 
-const {getLineas, getLineaById, bulkLineas,
+const {getLineas, getLineaById, bulkLineas, deleteLinea,
        addLinea, updateLinea} = require("../../controllers/api/lineasControllers");
 const server = express();
 
@@ -58,6 +58,18 @@ server.put('/:id',  [security_post] ,
         console.log(error.message);
         res.status(500).json({message: error.message});       
     }
+});
+
+//eliminar una linea
+server.delete('/:id', [security_post], async(req, res) => {
+   const {id} = req.params;
+   try {
+       const resul = await deleteLinea(id);
+       res.status(200).json(resul);
+   } catch (error) {
+       console.log(error.message);
+       res.status(500).json({message: error.message});          
+   };
 });
 
 //bulk create lineas

@@ -2,7 +2,7 @@ const express = require("express");
 const { check } = require('express-validator');
 const { validarCampos }  = require('../../middlewares/validar-campos');
 const { security_post } = require("../../middlewares/security");
-const {getArticulos, getArticuloById,
+const {getArticulos, getArticuloById, deleteArticulo,
        getArticulosByIdGrupo, addArticulo,
        updateArticulo, bulkArticulos} = require("../../controllers/api/articulosControllers");
 const server = express();
@@ -92,6 +92,18 @@ server.get('/grupo/:id',  [security_post] , async(req, res) => {
       console.log(error.message);
       res.status(500).json({message: error.message});
    }
+});
+
+//eliminacion de articulo
+server.delete('/:id', [security_post], async(req, res) => {
+   const {id} = req.params;
+   try {
+      const result = await deleteArticulo(id);
+      res.status(200).json(result);
+   } catch (error) {
+      console.log(error.message);
+      res.status(500).json({message: error.message});      
+   };
 });
 
 module.exports = server;

@@ -98,6 +98,7 @@ const addTesoreria = async(datos) => {
    const num = await devuelveConsecutivo(anual, fuenteid);
 
    //invocamos la funcion que grabara la contabilidad
+
    const contab = await grabaContable(fuenteid, num, fechaC, terceroid, items, fpagos, valor, codUsuario, cajaid, detalles);
    console.log("Contabilidad Grabada");
 
@@ -128,7 +129,7 @@ const addTesoreria = async(datos) => {
        //afectamos cartera
        if(ele.tipo == 1) {
           const xcartera = await carteraxcobrar.findByPk(ele.carteraid);
-          const abo = xcartera.cxc_abonos + ele.valor;
+          const abo = xcartera.cxc_abonos + Number(ele.valor);
           await carteraxcobrar.update({cxc_abonos: abo}, {where: {id: xcartera.id}});
        } else {
           const xcartera = await carteraxpagar.findByPk(ele.carteraid);

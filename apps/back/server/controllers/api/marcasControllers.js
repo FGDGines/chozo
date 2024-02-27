@@ -1,4 +1,4 @@
-const {marcas} = require("../../models/DbConex");
+const {marcas, articulos} = require("../../models/DbConex");
 
 //devuelve todas las marcas
 const getMarcas = async() => {
@@ -28,9 +28,20 @@ const updateMarca = async(datos, id) => {
     return result;
 };
 
+//eliminar una marca
+const deleteMarca = async(id) => {
+   const idM = Number(id);
+   //verificamos q no existan articulos con esta marca
+   const arti = await articulos.findOne({where: {marca_id: idM}});
+   if(arti) throw Error("Existen articulos con esta marca");
+   await marcas.destroy({where: {id: idM}});
+   return {message: "Marca eliminada"};
+};
+
 module.exports = {
    getMarcas,
    getMarcaById,
    addMarca,
-   updateMarca
+   updateMarca,
+   deleteMarca
 };

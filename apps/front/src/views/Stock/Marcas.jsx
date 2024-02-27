@@ -38,6 +38,15 @@ function Marcas() {
       setModalMarcas(true);
     };
 
+   const handleEliminar = async(e, registro) => {
+      const result = await axios.delete(`api/marcas/${registro}`, {
+         headers: {
+           token: token,
+         },
+      });
+      cargarMarcas(); 
+    };
+
     const cargarMarcas = async() => {
        const result = await axios('api/marcas', {
           headers: {
@@ -59,7 +68,7 @@ function Marcas() {
            <h2 className="text-2xl bg-customBlue p-2 rounded-md text-white">Maestros de Marcas</h2>
            <table className="w-1/2 text-sm text-left text-gray-700 dark:text-gray-700">
               <thead>
-                 <tr><th>Id</th><th>Detalles</th><th>Estado</th><th>Accion</th></tr>
+                 <tr><th>Id</th><th>Detalles</th><th>Estado</th><th>Accion</th><th>Accion</th></tr>
               </thead>
               <tbody>
               {marcas.map(ele =>
@@ -71,6 +80,10 @@ function Marcas() {
                          className="px-4 py-1 bg-blue-500 text-white rounded hover:bg-blue-600"
                          onClick={(e)=>handleEditar(e, ele.id)}
                          >Editar</button></td>
+                     <td><button 
+                         className="px-4 py-1 bg-red-500 text-white rounded hover:bg-red-600"
+                         onClick={(e)=>handleEliminar(e, ele.id)}
+                         >Eliminar</button></td>                         
                   </tr>
                )}
                </tbody>

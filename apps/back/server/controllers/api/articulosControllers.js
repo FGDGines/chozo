@@ -1,4 +1,4 @@
-const {articulos, grupos, marcas, 
+const {articulos, grupos, marcas, kardex, itempedidos, existencias,
       unidades, sublineas, conex} = require("../../models/DbConex");
 
 
@@ -64,6 +64,26 @@ const updateArticulo = async(datos, id) => {
    return registro;
 };
 
+//eliminar un articulo
+const deleteArticulo = async(id) => {
+   const idA = Number(id);
+   //verificamos que no tiene movimientos en el kardex ni en items de pedidos
+   const movim = await kardex.findOne({where:{articulo_id: idA}});
+   if(movim) throw Error("Articulo tiene Movimientos en el Kardex");
+   //verificamos si tiene movimiento en pedidos
+   const pedidos = await itempedidos.findOne({where: {articulo_id: idA}});
+   if(pedidos) throw Error("Articulo tiene movimiento en pedidos");
+   //verificamos que no tenga registros en existencias
+   const existe = await existencias.findOne({where: {articulo_id: idA}});
+   if(existe) {
+      //eliminamos primero de la tabla de existencias
+      await existencias.destroy({where: {articulo_id: idA}});
+   };
+   //procedemos a eliminar el registro
+   await articulos.destroy({where: {id: idA}});
+   return {message: "Registro Eliminado"};
+};
+
 //creacion masiva de articulos
 const bulkArticulos = async(info) => {
    const {datos} = info;
@@ -79,4 +99,5 @@ module.exports = {
    addArticulo,
    updateArticulo,
    bulkArticulos,
+   deleteArticulo,
 };

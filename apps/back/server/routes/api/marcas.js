@@ -2,7 +2,7 @@ const express = require("express");
 const { check } = require('express-validator');
 const { validarCampos }  = require('../../middlewares/validar-campos');
 const { security_post } = require("../../middlewares/security");
-const {getMarcas, getMarcaById,
+const {getMarcas, getMarcaById, deleteMarca,
        addMarca, updateMarca} = require("../../controllers/api/marcasControllers");
 const server = express();
 
@@ -43,6 +43,18 @@ server.get('/:id',  [security_post] , async(req, res) => {
         res.status(500).json({message: error.message});
      }
  });
+
+ //elimina una marca
+ server.delete('/:id',  [security_post] , async(req, res) => {
+   const {id} = req.params;
+   try {
+      const result = await deleteMarca(id);
+      res.status(200).json(result);
+   } catch (error) {
+      console.log(error.message);
+      res.status(500).json({message: error.message});
+   }
+});
 
  //actualiza una marca
  server.put('/:id',  [security_post] , 

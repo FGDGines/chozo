@@ -1,4 +1,4 @@
-const {sublineas, lineas, puc, conex} = require("../../models/DbConex");
+const {sublineas, lineas, puc, conex, grupos} = require("../../models/DbConex");
 
 //devuelve todas las sublineas
 const getSublineas = async() => {
@@ -46,6 +46,16 @@ const updateSublinea = async(datos, id) => {
    return result;
 };
 
+//elimina sublinea
+const deleteSublinea = async(id) => {
+   const idS = Number(id);
+   //revisamos que no contenga grupos
+   const grup = await grupos.findOne({where: {sublinea_id: idS}});
+   if(grup) throw Error("Sublinea tiene grupos creados");
+   await sublineas.destroy({where: {id: idS}});
+   return {message: "Sublinea eliminada"};
+};
+
 //bulk create sublineas
 const bulkSublineas = async(info) => {
    const {datos} = info;
@@ -60,4 +70,5 @@ module.exports = {
    updateSublinea,
    getSublineasByIdLinea,
    bulkSublineas,
+   deleteSublinea,
 };
