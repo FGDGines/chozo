@@ -276,7 +276,7 @@ function Buy() {
 
   return (
     <>
-      <div className="ml-[80px] font-SFRegular h-screen w-[92%] flex flex-col">
+      <div className="ml-[90px] font-SFRegular h-screen w-[92%] flex flex-col">
         <HeaderSale formattedDate={formattedDate} infoHeader={infoHeader} />
         {showModalError ? <ModalError infoModalError={infoModalError} /> : ""}
 

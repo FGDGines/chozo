@@ -431,7 +431,7 @@ function Sales() {
 
   return (
     <>
-      <div className="ml-[80px] font-SFRegular h-screen w-[92%] flex flex-col">
+      <div className="ml-[90px] font-SFRegular h-screen w-[92%] flex flex-col">
         <HeaderVenta formattedDate={formattedDate} 
                      infoHeader={infoHeader} 
                      handleOpenModalClientes={handleOpenModalClientes}

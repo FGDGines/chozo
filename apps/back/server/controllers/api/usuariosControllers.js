@@ -58,9 +58,7 @@ const addUsuario = async(datos) => {
       usu_admin,
       tercero_id: idter,
    };
-
-
-   
+  
    const result = await usuarios.create(newUsu);
    return result;
 };
@@ -69,13 +67,12 @@ const addUsuario = async(datos) => {
 const editaUsuario = async(datos, id) => {
     const {usu_nombre, usu_password, usu_admin, usu_activo} = datos;
     const nombre = usu_nombre;
-    const clave = usu_password;
     const admin = Number(usu_admin);
     const activo = Number(usu_activo);
     const idU = Number(id);
     const result = await usuarios.update({
         usu_nombre: nombre,
-        usu_password: clave,
+        usu_password: bcryptjs.hashSync( usu_password , bcryptjs.genSaltSync() ),
         usu_admin: admin,
         usu_activo: activo}, {where: {id: idU}});
     return result;    
@@ -113,7 +110,8 @@ const usuarioAdmin = async(datos) => {
    };
    const ter = await terceros.create(newTercero);
    //ahora procedemos a crear el usuario nuevo
-   const nuevoUser = {usu_nombre, usu_password, usu_admin: 1, tercero_id: ter.id};
+   const clave = bcryptjs.hashSync( usu_password , bcryptjs.genSaltSync() );
+   const nuevoUser = {usu_nombre, usu_password: clave, usu_admin: 1, tercero_id: ter.id};
    const result = await addUsuario(nuevoUser);
    return result;
 

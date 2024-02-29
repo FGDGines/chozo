@@ -221,6 +221,7 @@ function SideBar() {
       { icon: <MdHome />, text: "Inicio", to: "/home" },
       { icon: <FaPeopleGroup />, text: "Fuentes", to: "/config" },
       { icon: <IoPersonAdd />, text: "Consecutivos", to: "/consecutivos" },
+      { icon: <FaPeopleGroup />, text: "Usuarios", to: "/usuarios" },
     ], 
     cuentasbancarias: [
       { icon: <MdHome />, text: "Inicio", to: "/home" },
@@ -231,8 +232,13 @@ function SideBar() {
     consecutivos: [
       { icon: <MdHome />, text: "Inicio", to: "/home" },
       { icon: <FaPeopleGroup />, text: "Fuentes", to: "/config" },
-      { icon: <IoPersonAdd />, text: "Consecutivos", to: "/consecutivos" },
+      { icon: <IoPersonAdd />, text: "Usuarios", to: "/usuarios" },
     ],  
+    usuarios: [
+      { icon: <MdHome />, text: "Inicio", to: "/home" },
+      { icon: <FaPeopleGroup />, text: "Fuentes", to: "/config" },
+      { icon: <IoPersonAdd />, text: "Consecutivos", to: "/consecutivos" },
+    ],      
     recibos: [
       { icon: <MdHome />, text: "Inicio", to: "/home" },
       { icon: <FaPeopleGroup />, text: "Cuentasbancarias", to: "/cuentasbancarias" },
@@ -253,7 +259,7 @@ function SideBar() {
 
   const currentViewItems = views[activeView] || [];
   return (
-    <div className="z-10 fixed ml-1 flex flex-col justify-center gap-10 items-center w-[65px] min-h-[97%] max-h-screen bg-customBlue text-black rounded-l-[40px] rounded-r-[40px] shadow-lg overflow-auto">
+    <div className="z-10 fixed ml-1 flex flex-col justify-center gap-10 items-center w-[85px] min-h-[97%] max-h-screen bg-customBlue text-black rounded-l-[30px] rounded-r-[30px] shadow-lg overflow-auto">
       {currentViewItems.map((item, index) => (
         <Link
           to={item.to}

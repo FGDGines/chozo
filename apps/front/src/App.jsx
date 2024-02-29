@@ -32,6 +32,7 @@ import Consecutivos from "./views/Config/Consecutivos";
 import Recibos from "./views/treasury/Recibos";
 import Egresos from "./views/treasury/Egresos";
 import BalancePrueba from "./views/Accounting/BalancePrueba";
+import Users from "./views/Config/Users";
 import { ToastContainer, toast } from "react-toastify";
 
 function App() {
@@ -433,7 +434,19 @@ function App() {
               <Navigate to="/" />
             )
           }
-        />                                                                                                                                                                                                                                                   
+        />      
+        <Route
+          path="/usuarios"
+          element={
+            isAuthenticated ? (
+              <MainLayout showSidebar={true}>
+                <Users handleLogout={handleLogout} />
+              </MainLayout>
+            ) : (
+              <Navigate to="/" />
+            )
+          }
+        />                                                                                                                                                                                                                                                                               
       </Routes>
     </div>
   );
