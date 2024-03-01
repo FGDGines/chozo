@@ -30,7 +30,7 @@ function Sales() {
   const [messageError, setMessageError] = useState("");
   const [selectedCaja, setSelectedCaja] = useState("");
   const [clientes, setClientes] = useState([]);
-  const [selectedClient1, setselectedClient1] = useState("");
+  const [selectedClient1, setselectedClient1] = useState(0);
   // pagos
   const [paymentModalOpen, setPaymentModalOpen] = useState(false);
   const [paymentMethods, setPaymentMethods] = useState([]);
@@ -63,6 +63,18 @@ function Sales() {
     } catch (error) {
       console.error("Error:", error);
     }
+  };
+
+  //traigo el id de clientes varios de la tabla de parametros
+  const getClientesVarios = async() => {
+    const response = await axios.get("api/parametros/11", {
+        headers: {
+          token: token,
+        },
+     });
+     const datos = response.data;
+     const reg = Number(datos.para_valor);
+     setselectedClient1(reg);   
   };
 
   //se trae los clientes para vista VENTA
@@ -117,6 +129,7 @@ function Sales() {
     getPaymentMethods();
     getCuentaBancaria();
     getClient();
+    getClientesVarios();
     const storedCajero = localStorage.getItem("selectedCajero");
     if (storedCajero) {
       setSelectedCaja(JSON.parse(storedCajero));
@@ -284,7 +297,7 @@ function Sales() {
         impuesto: 123,
         total: parseFloat(totalAmount.toFixed(2)),
         metodopago: selectedPaymentMethod === "Efectivo" ? 1 : 2,
-        terceroid: selectedClient1,
+        terceroid: selectedClient1==0 ? idCliVarios : selectedClient1,
         cajaid: selectedCaja.value,
         items: shoppingCart.map((item) => ({
           articuloId: item.id,
@@ -306,9 +319,6 @@ function Sales() {
         !saleData.fpagos ||
         saleData.items.length === 0
       ) {
-        if (!selectedClient1) {
-          setMessageError("¡Falta elegir Cliente!");
-        }
         if (!saleData.terceroid) {
           setMessageError("¡Falta elegir Cliente...!");
         }
@@ -323,6 +333,7 @@ function Sales() {
         infoModalError.mensaje = messageError;
         return;
       };
+
       const response = await axios.post(
         "api/carteraxcobrar",
         saleData
