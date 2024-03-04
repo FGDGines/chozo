@@ -44,28 +44,28 @@ function Table({ data, columns, name, props }) {
     <>
       {props.showModal ? <Modal props={props} data={data} /> : ""}
       {columns && data && props && name ? (
-        <div className="ml-[100px] font-SFRegular flex flex-col max-h-[530px] h-screen ">
-          <div className="text-[35px]">Listado de {name}</div>
+        <div className=" font-SFRegular flex flex-col max-h-[530px] h-screen mx-auto mt-10 max-w-[80%]">
+          <div className="text-2xl bg-customBlue p-2 rounded-[30px] text-white px-5">Listado de {name}</div>
           <input
             type="text"
             value={filtering.globalFilter}
             onChange={(e) =>
               setFiltering({ ...filtering, globalFilter: e.target.value })
             }
-            className="bg-gray-300 w-[300px] rounded-xl mb-1 pl-3 "
-            placeholder="Buscar"
+            className=" w-[300px] rounded-xl mb-1 pl-3 mt-24 mb-2 p-1 border rounded-xl mx-1 text-center"
+            placeholder="Buscar producto..."
           />
 
-          <div className="flex-grow overflow-y-auto">
-            <table className="border-collapse border border-gray-300 w-full ">
-              <thead className="sticky top-0 text-gray-200 bg-customBlue">
+          <div className="flex-grow overflow-y-auto border">
+            <table className="border-collapse border-gray-300 w-full ">
+              <thead className="sticky top-0  text-gray-200 bg-customBlue">
                 {table.getHeaderGroups().map((headerGroup) => (
                   <tr key={headerGroup.id} className="bg-custoBlue">
                     {headerGroup.headers.map((header) => (
                       <th
                         key={header.id}
                         onClick={header.column.getToggleSortingHandler()}
-                        className="hover:cursor-pointer"
+                        className="hover:cursor-pointer text-white"
                       >
                         <div>
                           {flexRender(
@@ -106,7 +106,7 @@ function Table({ data, columns, name, props }) {
           </div>
           <div
             id="botones-paginado"
-            className="p-2 flex justify-center items-center "
+            className="p-2 flex justify-center items-center pt-10"
           >
             <button
               id="primer-pagina"
