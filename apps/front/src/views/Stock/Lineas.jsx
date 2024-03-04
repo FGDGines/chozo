@@ -65,8 +65,9 @@ function Lineas() {
        <div className="mx-auto mt-10 max-w-[80%]">
            {modalLineas 
            ? (<ModalLineas onClose={closeModal} record={record}/>) : ("")}
-           <h2 className="text-2xl bg-customBlue p-2 rounded-md text-white">Maestros de Lineas</h2>
-           <table className="w-1/2 text-sm text-left text-gray-700 dark:text-gray-700">
+           <h2 className="text-2xl bg-customBlue p-2 rounded-[30px] text-white px-5">Maestros de Lineas</h2>
+           <div className="py-10 pt-16 flex justify-center">
+           <table className="w-1/2 text-md text-left text-gray-700 dark:text-gray-700">
               <thead>
                  <tr><th>Id</th><th>Detalles</th><th>Estado</th><th>Accion</th><th>Accion</th></tr>
               </thead>
@@ -88,15 +89,17 @@ function Lineas() {
                )}
                </tbody>
            </table>
-           <h1 className="bg-gray-800 text-white">Nueva Linea</h1>
+           </div>
+           <h1 className="bg-gray-800 text-white rounded-[30px] px-5 p-2 text-xl">Nueva Linea</h1>
            <form>
                <hr/><br/>
                <input type="text" 
                       name="detalle"
                       onChange={handleChange}
                       placeholder="Digite nombre Linea"
-                      value={nlinea}/>
-               <button className="bg-blue-800 text-white text-center p-2 rounded-md" onClick={handleGrabar}>Agregar Linea</button>
+                      value={nlinea}
+                      className="mt-1 p-2 border rounded-xl mx-5 text-center"/>
+               <button className="bg-blue-800 text-white text-center p-2 rounded-xl " onClick={handleGrabar}>Agregar Linea</button>
            </form>
            <ToastContainer
             position="top-right"

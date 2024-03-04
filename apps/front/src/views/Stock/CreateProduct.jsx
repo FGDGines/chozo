@@ -138,12 +138,12 @@ function CreateProduct() {
 
   return (
     <div className="mx-auto mt-10 max-w-[80%]">
-      <h2 className="text-2xl bg-customBlue p-2 rounded-md text-white">
+      <h2 className="text-2xl bg-customBlue p-2 px-5 rounded-[30px] text-white">
         CREAR PRODUCTO
       </h2>
-      <form className="bg-gray-200 rounded-md mt-4 p-4" onSubmit={handleSubmit}>
-        <div className="grid grid-cols-2 ">
-          <div>
+      <form className="bg-gray-200 rounded-[30px] mt-24 p-4" onSubmit={handleSubmit}>
+        <div className="grid grid-cols-2 mt-5 mb-5">
+          <div className="ml-[50px]">
             <div className="mb-4 flex flex-row  justify-start gap-5 items-center">
               <label
                 htmlFor="nombre"
@@ -158,7 +158,7 @@ function CreateProduct() {
                 placeholder="Nombre del articulo"
                 value={product.art_detalles}
                 onChange={(e) => handleInputChange(e, "art_detalles")}
-                className="mt-1 p-2 border rounded-md w-[70%]"
+                className="mt-1 p-2 border rounded-xl w-[70%]"
               />
             </div>
             <div className="mb-4 flex flex-row  justify-start gap-5 items-center">
@@ -171,7 +171,7 @@ function CreateProduct() {
                 name="ref"
                 value={product.art_referencia}
                 onChange={(e) => handleInputChange(e, "art_referencia")}
-                className="mt-1 p-2 border rounded-md w-[30%]"
+                className="mt-1 p-2 border rounded-xl w-[30%]"
               />
             </div>
             <div className="mb-4 flex flex-row  justify-start gap-5 items-center">
@@ -235,7 +235,7 @@ function CreateProduct() {
               </select>
             </div>
           </div>
-          <div>
+          <div className="ml-16">
             <div className="mb-4 flex flex-row  justify-start gap-5 items-center">
               <label
                 htmlFor="ultimo-costo"
@@ -319,10 +319,10 @@ function CreateProduct() {
           </div>
         </div>
 
-        <div className=" w-full flex justify-center items-center">
+        <div className=" w-full flex justify-center items-center mt-5">
           <button
             type="submit"
-            className="bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600"
+            className="bg-green-500 text-white py-2 px-5 rounded-md hover:bg-green-600 mb-4"
           >
             Crear Producto
           </button>
