@@ -65,22 +65,35 @@ function Marcas() {
        <div className="mx-auto mt-10 max-w-[80%]">
            {modalMarcas
            ? (<ModalMarcas onClose={closeModal} record={record}/>) : ("")}
-           <h2 className="text-2xl bg-customBlue p-2 rounded-md text-white">Maestros de Marcas</h2>
-           <table className="w-1/2 text-sm text-left text-gray-700 dark:text-gray-700">
+           <h2 className="text-2xl bg-customBlue p-2 rounded-[30px] text-white px-5 ">Maestros de Marcas</h2>
+           <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto pt-20 pb-16">
+            <div className="inline-block min-w-full shadow rounded-lg overflow-hidden">
+           <table className="min-w-full leading-normal">
               <thead>
-                 <tr><th>Id</th><th>Detalles</th><th>Estado</th><th>Accion</th><th>Accion</th></tr>
+                 <tr>
+                 <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Id</th>
+                 <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Detalles</th>
+                 <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Estado</th>
+                 <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Accion</th>
+                 <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Accion</th>
+                 </tr>
               </thead>
               <tbody>
               {marcas.map(ele =>
                   <tr key={ele.id}>
-                     <td>{ele.id}</td>
-                     <td>{ele.mar_detalles}</td>
-                     <td>{ele.mar_activa==1 ? "Activa" : "Inactiva"}</td>
-                     <td><button 
-                         className="px-4 py-1 bg-blue-500 text-white rounded hover:bg-blue-600"
+                     <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">{ele.id}</td>
+                     <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">{ele.mar_detalles}</td>
+                     <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm"><span
+                                        class="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
+                                        <span aria-hidden
+                                            class="absolute inset-0 bg-blue-200 opacity-50 rounded-full"></span>
+									<span class="relative">{ele.mar_activa===1 ? "Activa" : "Inactiva"}</span>
+									</span></td>
+                     <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm"><button 
+                         className="px-4 py-1 bg-customBlue text-white rounded hover:bg-blue-600"
                          onClick={(e)=>handleEditar(e, ele.id)}
                          >Editar</button></td>
-                     <td><button 
+                     <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm"><button 
                          className="px-4 py-1 bg-red-500 text-white rounded hover:bg-red-600"
                          onClick={(e)=>handleEliminar(e, ele.id)}
                          >Eliminar</button></td>                         
@@ -88,15 +101,18 @@ function Marcas() {
                )}
                </tbody>
            </table>
-           <h1 className="bg-gray-800 text-white">Nueva Marca</h1>
+           </div>
+           </div>
+           <h1 className="bg-gray-800 text-white rounded-[30px] px-5 p-1 text-xl">Nueva Marca</h1>
            <form>
                <hr/><br/>
                <input type="text" 
                       name="detalle"
                       onChange={handleChange}
                       placeholder="Digite nombre Marca"
-                      value={nmarca}/>
-               <button className="bg-blue-800 text-white text-center p-2 rounded-md" onClick={handleGrabar}>Agregar Marca</button>
+                      value={nmarca}
+                      className="mt-1 p-2 border rounded-xl mx-5 text-center"/>
+               <button className="bg-gray-800 text-white text-center p-2 rounded-xl " onClick={handleGrabar}>Agregar Marca</button>
            </form>
            <ToastContainer
             position="top-right"
