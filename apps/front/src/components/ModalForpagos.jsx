@@ -12,6 +12,7 @@ function ModalForpagos({
     const [fpagos, setFpagos] = useState(xforpagos);
     const [xsuma, setXsuma] = useState(0);
     //ctabancoid: 0, valor: totalAmount, idformapago:
+
    const handleChangeBanco = (e) => {
         const indice = Number(e.target.id);
         const value = Number(e.target.value);
@@ -29,7 +30,7 @@ function ModalForpagos({
 
     const handleChangeValor= (e) => {
       const indice = Number(e.target.id);
-      const value = Number(e.target.value);
+      let value = Number(e.target.value);
       if(value<0) value=0;
       let suma = 0;
       for(let i=0;i<xforpagos.length;i++) {
@@ -39,11 +40,12 @@ function ModalForpagos({
           suma += xforpagos[i].valor;
       };
       setXsuma(suma);
-      //localStorage.clear("forpagos");
+
       const updatedItemsJSON = JSON.stringify(xforpagos);
       localStorage.setItem("forpagos", updatedItemsJSON);
       //ahora actualizamos el estado local
       setFpagos(xforpagos);
+      console.log(xforpagos);
     };
 
     useEffect(() => {
@@ -104,7 +106,7 @@ function ModalForpagos({
                    } px-4 py-2 rounded-md`}
                    onClick={() => {
                        if (totalAmount == xsuma) {
-                          onClose();
+                           onClose();
                        }
                    }}
                    disabled={!(totalAmount == xsuma)}

@@ -52,6 +52,8 @@ const getCarteraById = async(id) => {
  //consulta cartera x un tercero
  const getCarteraByTerceroId = async(id) => {
     const idter = Number(id);
+    let query1="UPDATE carteraxpagar SET cxc_saldo=cxc_valor-cxc_abonos WHERE tercero_id=?";
+    await conex.query(`${query1}`, {replacements: [idter]});
     const result = await carteraxcobrar.findAll({where: {tercero_id: idter}},{
        include: [
           {model: cajas, attributes: { exclude: ['createdAt','updatedAt']}}

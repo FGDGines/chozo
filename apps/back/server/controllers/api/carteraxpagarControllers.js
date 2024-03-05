@@ -5,7 +5,7 @@ const {carteraxpagar, item_carteraxpagar, itempedidos, conex,
 
 //devuelve todos los registros de cartera x pagar
 const getCartera = async(query) => {
-   let query1="UPDATE carteraxpagar set cxp_saldo=cxp_total-cxp_abonos";
+   let query1="UPDATE carteraxpagar SET cxp_saldo=cxp_total-cxp_abonos";
    await conex.query(`${query1}`, {replacements: []});
    const result = await carteraxpagar.findAll({
       include: [
@@ -32,9 +32,11 @@ const getCarteraById = async(id) => {
    return registro;
 };
 
-//devuelve todos los registrso de cartera de un tercero
+//devuelve todos los registros de cartera de un tercero
 const getCarteraByTercero = async(id) => {
     const idC = Number(id); 
+    let query1="UPDATE carteraxpagar SET cxp_saldo=cxp_total-cxp_abonos WHERE tercero_id=?";
+    await conex.query(`${query1}`, {replacements: [idC]});
     const registros = await carteraxpagar.findAll({where: {tercero_id: idC}});
     return registros;
  };

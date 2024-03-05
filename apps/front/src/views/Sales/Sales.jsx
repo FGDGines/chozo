@@ -268,13 +268,12 @@ function Sales() {
   };
 
   const handleSale = async () => {
-  
     try {
       if(selectedPaymentMethod=="Efectivo") {
 
       } else {
         let localStorageItems = JSON.parse(localStorage.getItem("forpagos"));
-        let xforpagos = localStorageItems || [];
+        let xforpagos = localStorageItems;
         setPaymentDetails(xforpagos);
         let suma = 0;
         for(let i=0;i<xforpagos.length;i++) {

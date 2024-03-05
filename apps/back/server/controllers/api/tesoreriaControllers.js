@@ -2,7 +2,7 @@ const Consecutivos = require("../../models/Consecutivos");
 const {tesoreria, terceros, cajas, consecutivos,
        carteraxcobrar, carteraxpagar, parametros,
        contable, itemcontable, fuentes, cuentas_bancarias,
-       items_tesoreria, formasdepago,
+       items_tesoreria, formasdepago, conex,
        items_formasdepago} = require("../../models/DbConex");
 
 //devuelve todos los registros de tesoreria
@@ -130,11 +130,13 @@ const addTesoreria = async(datos) => {
        if(ele.tipo == 1) {
           const xcartera = await carteraxcobrar.findByPk(ele.carteraid);
           const abo = xcartera.cxc_abonos + Number(ele.valor);
-          await carteraxcobrar.update({cxc_abonos: abo}, {where: {id: xcartera.id}});
+          const sal = xcartera.cxc_saldo-Number(ele.valor);
+          await carteraxcobrar.update({cxc_abonos: abo, cxc_saldo: sal}, {where: {id: xcartera.id}});
        } else {
           const xcartera = await carteraxpagar.findByPk(ele.carteraid);
           const abo = xcartera.cxp_abonos + ele.valor;
-          await carteraxpagar.update({cxp_abonos: abo}, {where: {id: xcartera.id}});
+          const sal = xcartera.cxp_saldo-Number(ele.valor);
+          await carteraxpagar.update({cxp_abonos: abo, cxp_saldo: sal}, {where: {id: xcartera.id}});
        };
    });
 
