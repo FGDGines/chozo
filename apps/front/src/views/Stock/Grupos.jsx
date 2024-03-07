@@ -79,10 +79,10 @@ function Grupos() {
            {modalGrupos
            ? (<ModalGrupos onClose={closeModal} record={record}/>) : ("")}
            <h2 className="text-2xl bg-customBlue p-2 rounded-[30px] text-white px-5 ">Maestros de Grupos</h2>
-           <div className="pt-16 flex justify-end mr-[130px] ">
+           <div className="pt-16 flex justify-center">
            <h1 className=" text-gray-800  rounded-[30px] px-5 text-2xl font-bold"> Crear nuevo grupo</h1>
            </div>
-           <div className="flex items-center justify-end pt-3">
+           <div className="flex items-center justify-center pt-3">
            <form>
                <div className="flex items-center justify-between gap-2">
                <input type="text" 
@@ -90,18 +90,21 @@ function Grupos() {
                       onChange={handleChange}
                       placeholder="Digite nombre Grupo"
                       value={objeto.ngrupo}
-                      className="mt-1 p-1 border-2 border-gray-800 rounded-xl mx-2 text-center"/>
-               <select name="idSublinea" onChange={(e)=>handleChange(e)} className="border-2 border-gray-800 text-gray-800 text-center p-[5px] rounded-xl font-bold ">
+                      className="mt-1 p-1 border-[0.5px] border-gray-800 rounded-xl mx-2 text-center"/>
+               <select name="idSublinea" onChange={(e)=>handleChange(e)} className=" border-[0.5px] border-gray-800 text-gray-800 text-center p-[5px] rounded-xl font-bold ">
                    <option value="0">Sublinea</option>
                    {sublineas.map(elemen => 
                       <option value={elemen.id}>{elemen.sub_detalles}</option>
                    )}
                </select><br/>       
+               
+               </div>
+               <div className="flex justify-center pt-2">
                <button className="bg-gray-800 text-white text-center p-[5px] px-5 rounded-md font-medium" onClick={handleGrabar}>Agregar</button>
                </div>
            </form>
            </div>
-           <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto pt-16 pb-16">
+           <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto pt-10 pb-16">
             <div className="inline-block min-w-full shadow rounded-lg overflow-hidden">
            <table className="min-w-full leading-normal">
               <thead>

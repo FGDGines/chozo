@@ -40,11 +40,13 @@ function Table({ data, columns, name, props }) {
       setFiltering({ ...filtering, globalFilter: value }),
   });
 
+  const singleResult = table.getRowModel().rows.length <= 6;
+  const noResults = table.getRowModel().rows.length === 0;
   return (
     <>
       {props.showModal ? <Modal props={props} data={data} /> : ""}
       {columns && data && props && name ? (
-        <div className=" font-SFRegular flex flex-col max-h-[530px] h-screen mx-auto mt-10 max-w-[80%]">
+        <div className={`font-SFRegular flex flex-col mx-auto mt-10 max-w-[80%] ${singleResult ? 'h-auto' : 'max-h-[530px] h-screen'}`}>
           <div className="text-2xl bg-customBlue p-2 rounded-[30px] text-white px-5">Listado de {name}</div>
           <input
             type="text"
@@ -55,7 +57,6 @@ function Table({ data, columns, name, props }) {
             className=" w-[300px] rounded-xl mb-1 pl-3 mt-24 mb-2 p-1 border rounded-xl mx-1 text-center"
             placeholder="Buscar producto..."
           />
-
           <div className="flex-grow overflow-y-auto border">
             <table className="border-collapse border-gray-300 w-full ">
               <thead className="sticky top-0  text-gray-200 bg-customBlue">
@@ -84,6 +85,7 @@ function Table({ data, columns, name, props }) {
                 ))}
               </thead>
               <tbody>
+            
                 {table.getRowModel().rows.map((row, index) => (
                   <tr
                     key={row.id}
@@ -101,43 +103,12 @@ function Table({ data, columns, name, props }) {
                     ))}
                   </tr>
                 ))}
+                
               </tbody>
             </table>
           </div>
-          <div
-            id="botones-paginado"
-            className="p-2 flex justify-center items-center pt-10"
-          >
-            <button
-              id="primer-pagina"
-              className="px-3 py-0.5 bg-customBlue rounded-md text-gray-100 mx-1 hover:scale-105 transition "
-              onClick={() => table.setPageIndex(0)}
-            >
-              1
-            </button>
-            <button
-              id="pagina-anterior"
-              className="px-3 py-1.5 bg-customBlue rounded-md text-gray-100 mx-1 hover:scale-105 transition "
-              onClick={() => table.previousPage()}
-            >
-              <FaArrowLeft />
-            </button>
-            <button
-              id="pagina-siguiente"
-              className="px-3 py-1.5 bg-customBlue rounded-md text-gray-100 mx-1 hover:scale-105 transition "
-              onClick={() => table.nextPage()}
-            >
-              {" "}
-              <FaArrowRight />
-            </button>
-            <button
-              id="ultima-pagina"
-              className="px-3 py-0.5 bg-customBlue rounded-md text-gray-100 mx-1 hover:scale-105 transition "
-              onClick={() => table.setPageIndex(table.getPageCount() - 1)}
-            >
-              {table.getPageCount()}
-            </button>
-          </div>
+          
+          
         </div>
       ) : (
         <div className="text-gray-600 flex justify-center items-center w-full h-screen">
@@ -147,6 +118,40 @@ function Table({ data, columns, name, props }) {
           </div>
         </div>
       )}
+      <div
+            id="botones-paginado"
+            className="fixed bottom-10 left-0 right-0 bg-white p-2 flex justify-center items-center"
+          >
+            <button
+              id="primer-pagina"
+              className="px-3 py-0.5 bg-customBlue rounded-md text-gray-100 mx-1 hover:bg-blue-600 "
+              onClick={() => table.setPageIndex(0)}
+            >
+              1
+            </button>
+            <button
+              id="pagina-anterior"
+              className="px-3 py-1.5 bg-customBlue rounded-md text-gray-100 mx-1 hover:bg-blue-600 "
+              onClick={() => table.previousPage()}
+            >
+              <FaArrowLeft />
+            </button>
+            <button
+              id="pagina-siguiente"
+              className="px-3 py-1.5 bg-customBlue rounded-md text-gray-100 mx-1 hover:bg-blue-600 "
+              onClick={() => table.nextPage()}
+            >
+              {" "}
+              <FaArrowRight />
+            </button>
+            <button
+              id="ultima-pagina"
+              className="px-3 py-0.5 bg-customBlue rounded-md text-gray-100 mx-1 hover:bg-blue-600 "
+              onClick={() => table.setPageIndex(table.getPageCount() - 1)}
+            >
+              {table.getPageCount()}
+            </button>
+          </div>
     </>
   );
 }

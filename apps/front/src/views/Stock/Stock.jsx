@@ -52,7 +52,7 @@ function Stock() {
       accessorKey: "",
       cell: (row) => (
         <button
-          className="px-2 py-1 bg-customBlue text-white rounded-md hover:scale-105 transition"
+          className="px-2 py-1 bg-customBlue text-white rounded-md hover:bg-blue-600"
           onClick={() => buttonAction(row)}
         >
           Editar
@@ -65,7 +65,7 @@ function Stock() {
       accessorKey: "",
       cell: (row) => (
         <button
-          className="px-2 py-1 bg-black text-white rounded-md hover:scale-105 transition"
+          className="px-2 py-1 bg-red-500 text-white rounded-md hover:bg-red-600"
           onClick={() => buttonDelete(row)}
         >
           Eliminar

@@ -138,18 +138,19 @@ function CreateProduct() {
 
   return (
     <div className="mx-auto mt-10 max-w-[80%]">
-      <h2 className="text-2xl bg-customBlue p-2 px-5 rounded-[30px] text-white">
+      <div className="pb-7 ">
+      <h2 className="text-2xl bg-customBlue  p-2 rounded-[30px] text-white px-5">
         CREAR PRODUCTO
       </h2>
-      <form className="bg-gray-200 rounded-[30px] mt-24 p-4" onSubmit={handleSubmit}>
-        <div className="grid grid-cols-2 mt-5 mb-5">
-          <div className="ml-[50px]">
-            <div className="mb-4 flex flex-row  justify-start gap-5 items-center">
+      </div>
+      <div className="bg-white shadow-lg rounded px-8   mb-4 flex flex-col my-2 ">
+      <form className="" onSubmit={handleSubmit}>
+        <div className="grid grid-cols-3 mt-5 mb-5 gap-5">
+            <div className="mb-4  gap-4 items-center">
               <label
                 htmlFor="nombre"
-                className="block text-lg font-semibold mb-1"
-              >
-                Nombre:
+                className="block tracking-wide text-grey text-md font-bold mb-2">
+                Nombre
               </label>
               <input
                 type="text"
@@ -158,12 +159,12 @@ function CreateProduct() {
                 placeholder="Nombre del articulo"
                 value={product.art_detalles}
                 onChange={(e) => handleInputChange(e, "art_detalles")}
-                className="mt-1 p-2 border rounded-xl w-[70%]"
+                className="appearance-none block w-full bg-grey-lighter text-grey-darker border-[0.5px] border-gray-400 rounded-lg py-3 px-4 mb-3"
               />
             </div>
-            <div className="mb-4 flex flex-row  justify-start gap-5 items-center">
-              <label htmlFor="ref" className="block text-lg font-semibold mb-1">
-                Referencia:
+            <div className="mb-4  gap-4 items-center">
+              <label htmlFor="ref" className="block tracking-wide text-grey text-md font-bold mb-2">
+                Referencia
               </label>
               <input
                 type="text"
@@ -171,18 +172,18 @@ function CreateProduct() {
                 name="ref"
                 value={product.art_referencia}
                 onChange={(e) => handleInputChange(e, "art_referencia")}
-                className="mt-1 p-2 border rounded-xl w-[30%]"
+                className="appearance-none block w-full bg-grey-lighter text-grey-darker border-[0.5px] border-gray-400 rounded-lg py-3 px-4 mb-3"
               />
             </div>
-            <div className="mb-4 flex flex-row  justify-start gap-5 items-center">
+            <div className="mb-4  gap-5 items-center">
               <label
                 htmlFor="unidad"
-                className="block text-lg font-semibold mb-1"
+                className="block tracking-wide text-grey text-md font-bold mb-2"
               >
-                Unidad:
+                Unidad
               </label>
               <select
-                className="border border-1 px-2 rounded-xl w-[50%] border-gray-300"
+                className=" block w-full bg-grey-lighter text-grey-darker border-[0.5px] border-gray-400 rounded-lg py-3 px-4 mb-3"
                 value={product.unidad_id || ""}
                 onChange={(e) => handleInputChange(e, "unidad_id")}
               >
@@ -194,15 +195,15 @@ function CreateProduct() {
                 ))}
               </select>
             </div>
-            <div className="mb-4 flex flex-row  justify-start gap-5 items-center">
+            <div className="mb-4  gap-5 items-center">
               <label
                 htmlFor="marca"
-                className="block text-lg font-semibold mb-1"
+                className="block tracking-wide text-grey text-md font-bold mb-2"
               >
-                Marca:
+                Marca
               </label>
               <select
-                className="border border-1 px-2 rounded-xl w-[50%] border-gray-300"
+                className="block w-full bg-grey-lighter text-grey-darker border-[0.5px] border-gray-400 rounded-lg py-3 px-4 mb-3"
                 value={product.marca_id || ""}
                 onChange={(e) => handleInputChange(e, "marca_id")}
               >
@@ -214,15 +215,15 @@ function CreateProduct() {
                 ))}
               </select>
             </div>
-            <div className="mb-4 flex flex-row  justify-start gap-5 items-center">
+            <div className="mb-4  gap-5 items-center">
               <label
                 htmlFor="grupo"
-                className="block text-lg font-semibold mb-1"
+                className="block tracking-wide text-grey text-md font-bold mb-2"
               >
-                Grupo:
+                Grupo
               </label>
               <select
-                className="border border-1 px-2 rounded-xl w-[50%] border-gray-300"
+                className="block w-full bg-grey-lighter text-grey-darker border-[0.5px] border-gray-400 rounded-lg py-3 px-4 mb-3"
                 value={product.grupo_id || ""}
                 onChange={(e) => handleInputChange(e, "grupo_id")}
               >
@@ -234,14 +235,14 @@ function CreateProduct() {
                 ))}
               </select>
             </div>
-          </div>
-          <div className="ml-16">
-            <div className="mb-4 flex flex-row  justify-start gap-5 items-center">
+          
+          
+            <div className="mb-4  gap-5 items-center">
               <label
                 htmlFor="ultimo-costo"
-                className="block text-lg -mr-3 font-semibold mb-1"
+                className="block tracking-wide text-grey text-md font-bold mb-2"
               >
-                Costo: €
+                Costo (€)
               </label>
               <input
                 type="text"
@@ -249,15 +250,15 @@ function CreateProduct() {
                 name="ultimo-costo"
                 value={product.art_ultimocosto}
                 onChange={(e) => handleInputChange(e, "art_ultimocosto")}
-                className="border border-1 p-1.5 text-center rounded-xl w-[20%] border-gray-300"
+                className="appearance-none block w-full bg-grey-lighter text-grey-darker border-[0.5px] border-gray-400 rounded-lg py-3 px-4 mb-3"
               />
             </div>
-            <div className="mb-4 flex flex-row  justify-start gap-5 items-center">
+            <div className="mb-4  gap-5 items-center">
               <label
                 htmlFor="precio"
-                className="block text-lg font-semibold mb-1 -mr-3"
+                className="block tracking-wide text-grey text-md font-bold mb-2"
               >
-                Precio: €
+                Precio (€)
               </label>
               <input
                 type="number"
@@ -265,15 +266,15 @@ function CreateProduct() {
                 name="precio"
                 value={product.art_precioventa}
                 onChange={(e) => handleInputChange(e, "art_precioventa")}
-                className="border border-1 p-1.5 text-center rounded-xl w-[20%] border-gray-300"
+                className="appearance-none block w-full bg-grey-lighter text-grey-darker border-[0.5px] border-gray-400 rounded-lg py-3 px-4 mb-3"
               />
             </div>
-            <div className="mb-4 flex flex-row  justify-start gap-5 items-center">
+            <div className="mb-4  gap-5 items-center">
               <label
                 htmlFor="impuesto"
-                className="block text-lg font-semibold mb-1 -mr-3"
+                className="block tracking-wide text-grey text-md font-bold mb-2"
               >
-                Impuesto Venta: % 
+                Impuesto Venta (%) 
               </label>
               <input
                 type="number"
@@ -281,15 +282,15 @@ function CreateProduct() {
                 name="impuesto"
                 value={product.art_impuestoventa}
                 onChange={(e) => handleInputChange(e, "art_impuestoventa")}
-                className="border border-1 p-1.5 text-center rounded-xl w-[20%] border-gray-300"
+                className="appearance-none block w-full bg-grey-lighter text-grey-darker border-[0.5px] border-gray-400 rounded-lg py-3 px-4 mb-3"
               />
             </div>                        
-            <div className="mb-4 flex flex-row  justify-start gap-5 items-center">
+            <div className="mb-4  gap-5 items-center">
               <label
                 htmlFor="codbarra"
-                className="block text-lg font-semibold mb-1 -mr-3"
+                className="block tracking-wide text-grey text-md font-bold mb-2"
               >
-                Codigo Barra: 
+                Codigo Barra 
               </label>
               <input
                 type="text"
@@ -297,15 +298,15 @@ function CreateProduct() {
                 name="codbarra"
                 value={product.art_codbarra}
                 onChange={(e) => handleInputChange(e, "art_codbarra")}
-                className="border border-1 p-1.5 text-center rounded-xl w-[40%] border-gray-300"
+                className="appearance-none block w-full bg-grey-lighter text-grey-darker border-[0.5px] border-gray-400 rounded-lg py-3 px-4 mb-3"
               />
             </div>  
-            <div className="mb-4 flex flex-row  justify-start gap-5 items-center">
+            <div className="mb-4 gap-5 items-center">
               <label
                 htmlFor="factor"
-                className="block text-lg font-semibold mb-1 -mr-3"
+                className="block tracking-wide text-grey text-md font-bold mb-2"
               >
-                Factor Conversion: 
+                Factor Conversion 
               </label>
               <input
                 type="number"
@@ -313,16 +314,15 @@ function CreateProduct() {
                 name="factor"
                 value={product.art_factorconversion}
                 onChange={(e) => handleInputChange(e, "art_factorconversion")}
-                className="border border-1 p-1.5 text-center rounded-xl w-[20%] border-gray-300"
+                className="appearance-none block w-full bg-grey-lighter text-grey-darker border-[0.5px] border-gray-400 rounded-lg py-3 px-4 mb-3"
               />
             </div>                      
           </div>
-        </div>
 
         <div className=" w-full flex justify-center items-center mt-5">
           <button
             type="submit"
-            className="bg-green-500 text-white py-2 px-5 rounded-md hover:bg-green-600 mb-4"
+            className="bg-gray-900 text-white py-2 px-5 rounded-md hover:bg-gray-800 mb-4"
           >
             Crear Producto
           </button>
@@ -340,6 +340,7 @@ function CreateProduct() {
           />
         </div>
       </form>
+      </div>
     </div>
   );
 }

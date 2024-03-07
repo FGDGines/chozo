@@ -66,7 +66,21 @@ function Marcas() {
            {modalMarcas
            ? (<ModalMarcas onClose={closeModal} record={record}/>) : ("")}
            <h2 className="text-2xl bg-customBlue p-2 rounded-[30px] text-white px-5 ">Maestros de Marcas</h2>
-           <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto pt-20 pb-16">
+           <div className="pt-10 flex justify-center">
+           <h1 className=" text-gray-800  rounded-[30px] px-5 text-[23px] font-bold"> Nueva Marca</h1>
+           </div>
+           <div className="flex items-center justify-center">
+           <form>
+               <input type="text" 
+                      name="detalle"
+                      onChange={handleChange}
+                      placeholder="Digite nombre Marca"
+                      value={nmarca}
+                      className="mt-1 p-1 border-[0.5px] border-gray-800 rounded-xl mx-5 text-center"/>
+               <button className="bg-gray-800 text-white text-center p-[5px] px-5 rounded-md font-medium " onClick={handleGrabar}>Agregar Marca</button>
+           </form>
+           </div>
+           <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto pb-10">
             <div className="inline-block min-w-full shadow rounded-lg overflow-hidden">
            <table className="min-w-full leading-normal">
               <thead>
@@ -90,7 +104,7 @@ function Marcas() {
 									<span class="relative">{ele.mar_activa===1 ? "Activa" : "Inactiva"}</span>
 									</span></td>
                      <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm"><button 
-                         className="px-4 py-1 bg-customBlue text-white rounded hover:bg-blue-600"
+                         className="px-4 py-1 bg-customBlue text-white rounded  "
                          onClick={(e)=>handleEditar(e, ele.id)}
                          >Editar</button></td>
                      <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm"><button 
@@ -103,17 +117,7 @@ function Marcas() {
            </table>
            </div>
            </div>
-           <h1 className="bg-gray-800 text-white rounded-[30px] px-5 p-1 text-xl">Nueva Marca</h1>
-           <form>
-               <hr/><br/>
-               <input type="text" 
-                      name="detalle"
-                      onChange={handleChange}
-                      placeholder="Digite nombre Marca"
-                      value={nmarca}
-                      className="mt-1 p-2 border rounded-xl mx-5 text-center"/>
-               <button className="bg-gray-800 text-white text-center p-2 rounded-xl " onClick={handleGrabar}>Agregar Marca</button>
-           </form>
+           
            <ToastContainer
             position="top-right"
             autoClose={1000}
