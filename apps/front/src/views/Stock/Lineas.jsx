@@ -66,10 +66,10 @@ function Lineas() {
            {modalLineas 
            ? (<ModalLineas onClose={closeModal} record={record}/>) : ("")}
            <h2 className="text-2xl bg-customBlue p-2 rounded-[30px] text-white px-5">Maestros de Lineas</h2>
-           <div className="pt-10 flex justify-end mr-10 ">
+           <div className="pt-10 flex justify-center">
            <h1 className=" text-gray-800  rounded-[30px] px-5 text-[23px] font-bold"> Crear nueva linea</h1>
            </div>
-           <div className="flex items-center justify-end mx-2">
+           <div className="flex items-center justify-center mx-2">
            <form>
                <div>
                <input type="text" 
@@ -77,7 +77,7 @@ function Lineas() {
                       onChange={handleChange}
                       placeholder="Digite nombre Linea"
                       value={nlinea}
-                      className=" mt-1 p-1 border-2 border-gray-800 rounded-xl mx-5 text-center"/>
+                      className=" mt-1 p-1 border-[0.5px] border-gray-800 rounded-xl mx-5 text-center"/>
                <button className="bg-gray-800 text-white text-center p-[5px] px-5 rounded-md font-medium" onClick={handleGrabar}>Agregar Linea</button>
                </div>
            </form>
