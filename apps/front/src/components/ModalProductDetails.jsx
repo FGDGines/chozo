@@ -159,7 +159,7 @@ function ModalProductDetails({ props }) {
           className="w-full clear-start text-xl font-bold text-center p-2"
         >
           <input
-            className="border border-1 px-3 rounded-xl"
+            className="border border-1 px-3 rounded-xl w-full"
             type="text"
             value={editedArticle.art_detalles}
             onChange={(e) => handleInputChange(e, "art_detalles")}
