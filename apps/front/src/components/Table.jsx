@@ -40,21 +40,22 @@ function Table({ data, columns, name, props }) {
       setFiltering({ ...filtering, globalFilter: value }),
   });
 
-  const singleResult = table.getRowModel().rows.length <= 6;
-  const noResults = table.getRowModel().rows.length === 0;
   return (
     <>
       {props.showModal ? <Modal props={props} data={data} /> : ""}
       {columns && data && props && name ? (
-        <div className={`font-SFRegular flex flex-col mx-auto mt-10 max-w-[80%] ${singleResult ? 'h-auto' : 'max-h-[530px] h-screen'}`}>
-          <div className="text-2xl bg-customBlue p-2 rounded-[30px] text-white px-5">Listado de {name}</div>
+        <div>
+        <div className="mx-auto mt-10 max-w-[80%]">
+            <h2 className="text-2xl bg-customBlue p-2 rounded-[30px] text-white px-5 mt-10">Listado de {name}</h2>
+        </div>
+        <div className="font-SFRegular flex flex-col max-h-[530px] h-screen mx-auto max-w-[90%] ml-[110px]">
           <input
             type="text"
             value={filtering.globalFilter}
             onChange={(e) =>
               setFiltering({ ...filtering, globalFilter: e.target.value })
             }
-            className=" w-[300px] rounded-xl mb-1 pl-3 mt-24 mb-2 p-1 border rounded-xl mx-1 text-center"
+            className=" w-[300px] rounded-xl mb-1 pl-3 mt-10 mb-2 p-1 border-[0.5px] border-gray-800  rounded-xl mx-1 text-center"
             placeholder="Buscar producto..."
           />
           <div className="flex-grow overflow-y-auto border">
@@ -107,7 +108,7 @@ function Table({ data, columns, name, props }) {
               </tbody>
             </table>
           </div>
-          
+          </div>
           
         </div>
       ) : (
@@ -117,7 +118,9 @@ function Table({ data, columns, name, props }) {
             Cargando...
           </div>
         </div>
+        
       )}
+      
       <div
             id="botones-paginado"
             className="fixed bottom-10 left-0 right-0 bg-white p-2 flex justify-center items-center"

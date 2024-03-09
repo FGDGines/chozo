@@ -264,45 +264,59 @@ function Recibos() {
    return (
     <div className="mx-auto mt-10 max-w-[80%]">
         {showModalError ? <ModalError infoModalError={infoModalError} /> : ""}
-        <h2 className="text-2xl bg-customBlue p-2 rounded-md text-white">Recibo de Caja</h2>
-        <label>Caja : </label>
+        <h2 className="text-2xl bg-customBlue p-2 rounded-[30px] text-white px-5 ">Recibo de Caja</h2>
+        <div className="flex flex-col gap-3 pt-10">
+          <div className="flex flex-row items-center gap-3">
+        <label className=" tracking-wide text-grey text-md font-bold mb-2">Caja : </label>
         <select name="cajaid"
                 value={selectedCaja}
-                onChange={(e)=>handleCaja(e)}>
+                onChange={(e)=>handleCaja(e)}
+                className=" border-[0.5px] border-gray-800 text-gray-800 text-center p-[5px] rounded-xl font-bold w-[200px]">
            <option value="0">Seleccione</option>
            {cajas.map(ele =>
               <option value={ele.id}>{ele.caj_detalles}</option>
            )}
-        </select><br/>
-        <h2>Fecha : {formattedDate}</h2>
+        </select>
+        </div>
         <div className="flex flex-row items-center gap-3">
-            <h2 className="text-l">Cliente : </h2>
+            <label className=" tracking-wide text-grey text-md font-bold mb-2">Cliente : </label>
             <select name="cliente" 
-                    className="w-[400px] border-solid"
-                    onChange={(e)=>handleClientChange(e)}>
+                    // className="w-[400px] border-solid"
+                    onChange={(e)=>handleClientChange(e)}
+                    className=" border-[0.5px] border-gray-800 text-gray-800 text-center p-[5px] rounded-xl font-bold w-[200px] ">
                     <option value="0">Selecione Cliente</option>
                     {clientes.map(ele =>
                        <option value={ele.id}>{ele.ter_tercero} - {ele.ter_documento}</option>
                     )}
            </select>
         </div>
-        <br/>
-        <hr/>
-        <table className="w-3/4 text-sm text-left text-gray-700 dark:text-gray-700">
+        <h2 className="tracking-wide text-grey text-md font-bold mb-5">Fecha : {formattedDate}</h2>
+        </div>
+        <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto pt-5 pb-16">
+          <div className="inline-block min-w-full shadow rounded-lg max-h-[330px]">
+        <table className="min-w-full leading-normal">
             <thead>
-              <tr><th>Id</th><th>Numero</th><th>Fecha</th><th>Valor</th><th>Abonos</th>
-              <th>Saldo Ant.</th><th>Abonar</th><th>Nuevo Saldo</th></tr>
+              <tr>
+                <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Id</th>
+                <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Numero</th>
+                <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Fecha</th>
+                <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Valor</th>
+                <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Abonos</th>
+              <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Saldo Ant.</th>
+              <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Abonar</th>
+              <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Nuevo Saldo</th>
+              </tr>
             </thead>
             <tbody>
                 {facturas.map(ele =>
                    <tr key={ele.id}>
-                     <td>{ele.id}</td>
-                     <td>{ele.cxc_numero}</td>
-                     <td>{ele.cxc_fechafac}</td>
-                     <td>{ele.cxc_valor}</td>
-                     <td>{ele.cxc_abonos}</td>
-                     <td>{ele.cxc_saldo}</td>
-                     <td><input type="number" 
+                     <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">{ele.id}</td>
+                     <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">{ele.cxc_numero}</td>
+                     <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">{ele.cxc_fechafac}</td>
+                     <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">{ele.cxc_valor}</td>
+                     <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">{ele.cxc_abonos}</td>
+                     <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">{ele.cxc_saldo}</td>
+                     <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm"><input type="number" 
                          name="abonar" 
                          onChange={(e)=>handleChange(e, ele.id)}
                          value={ele.abonar}/></td>
@@ -311,35 +325,50 @@ function Recibos() {
                 )}
             </tbody>
         </table>
-        <br/>
-        <hr/>
-        <h2>Saldo Cliente : {saldoTotal}</h2>
-        <h2>Total abonos  : {totalAbonos}</h2>
-        <h2>Nuevo Saldo   : {saldoTotal-totalAbonos}</h2>
-        <hr/>
-        <label>Forma de Pago : </label>
+        </div>
+        </div>
+        
+        <div className="grid grid-cols-3 bg-customBlue rounded-[30px] text-white pl-10">
+        <h2 className="tracking-wide text-grey text-md font-bold mb-2 mt-2">Saldo Cliente: {saldoTotal}</h2>
+        <h2 className="tracking-wide text-grey text-md font-bold mb-2 mt-2">Total abonos: {totalAbonos}</h2>
+        <h2 className="tracking-wide text-grey text-md font-bold mb-2 mt-2">Nuevo Saldo: {saldoTotal-totalAbonos}</h2>
+        </div>
+        
+        <div className="flex flex-col ">
+          <div className="flex justify-end mt-10 gap-4">
+          <div className="flex flex-row items-center gap-3">
+        <label htmlFor="forpagoid" className=" block tracking-wide text-grey text-md font-bold">Forma de Pago: </label>
         <select name="forpagoid"
                 value={forpagoid}
-                onChange={(e)=>handleFormaPago(e)}>
+                onChange={(e)=>handleFormaPago(e)}
+                className=" border-[0.5px] border-gray-800 text-gray-800 text-center p-[5px] rounded-xl font-bold w-[200px]">
            <option value="0">Seleccione</option>
            {formasPago.map(ele =>
               <option value={ele.id}>{ele.fpag_detalles}</option>
            )}
-        </select><br/>
-        <label>Cta Bancaria Destino : </label>
+        </select>
+        </div>
+        <div className="flex flex-row items-center gap-3">
+        <label htmlFor="ctabancaria" className=" block tracking-wide text-grey text-md font-bold">Cta Bancaria Destino: </label>
         <select name="ctabancaria"
                 value={selectedCtaBanco}
-                onChange={(e)=>handleCtaBanco(e)}>
+                onChange={(e)=>handleCtaBanco(e)}
+                className=" border-[0.5px] border-gray-800 text-gray-800 text-center p-[5px] rounded-xl font-bold w-[200px]">
            <option value="0">Seleccione</option>
            {ctaBanco.map(ele =>
               <option value={ele.id}>{ele.cue_banco} {ele.cue_numero}</option>
            )}
-        </select><br/>
-        <button className="bg-blue-500 px-4 py-2 rounded-md mt-4"
+        </select>
+        </div>
+        </div>
+        </div>
+        <div className="flex justify-end py-5">
+        <button className="bg-gray-900 text-white py-2 px-5 rounded-md hover:bg-gray-800 mb-4"
                 onClick={() => {
                 handleGrabar();
                 }}>Guardar Recibo
         </button>
+        </div>
         <ToastContainer
                 position="top-right"
                 autoClose={2000}
