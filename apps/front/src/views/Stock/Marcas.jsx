@@ -69,7 +69,7 @@ function Marcas() {
            <div className="pt-10 flex justify-center">
            <h1 className=" text-gray-800  rounded-[30px] px-5 text-[23px] font-bold"> Nueva Marca</h1>
            </div>
-           <div className="flex items-center justify-center">
+           <div className="flex items-center justify-center pb-10">
            <form>
                <input type="text" 
                       name="detalle"
@@ -81,7 +81,7 @@ function Marcas() {
            </form>
            </div>
            <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto pb-10">
-            <div className="inline-block min-w-full shadow rounded-lg overflow-hidden">
+            <div className="inline-block min-w-full shadow rounded-lg max-h-[530px]">
            <table className="min-w-full leading-normal">
               <thead>
                  <tr>

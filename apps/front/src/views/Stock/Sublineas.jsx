@@ -119,7 +119,7 @@ function Sublineas() {
            {modalSublineas 
            ? (<ModalSublineas onClose={closeModal} record={record}/>) : ("")}
            <h2 className="text-2xl bg-customBlue p-2 rounded-[30px] text-white px-5">Maestro de Sublineas</h2>
-           <div className="pt-16 flex justify-center">
+           <div className="pt-10 flex justify-center">
            <h1 className=" text-gray-800  rounded-[30px] px-5 text-2xl font-bold"> Nueva Sublinea</h1>
            </div>
            <div className="flex items-center justify-center ">
@@ -173,13 +173,13 @@ function Sublineas() {
                </select>  
                </div>
                </div>          
-               <div className="flex justify-center">                         
+               <div className="flex justify-center pb-5">                         
                <button className="bg-gray-800 text-white text-center p-[5px] px-5 rounded-md font-medium-blue-800 text-white text-center p-2 rounded-md" onClick={handleGrabar}>Agregar Subinea</button>
                </div> 
            </form>
            </div>
-           <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto pt-10 pb-16">
-            <div className="inline-block min-w-full shadow rounded-lg overflow-hidden">
+           <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto pt-5 pb-16">
+            <div className="inline-block min-w-full shadow rounded-lg max-h-[250px]">
            <table className="min-w-full leading-normal">
               <thead>
                  <tr>

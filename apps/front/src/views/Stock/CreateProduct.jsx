@@ -139,11 +139,11 @@ function CreateProduct() {
   return (
     <div className="mx-auto mt-10 max-w-[80%]">
       <div className="pb-7 ">
-      <h2 className="text-2xl bg-customBlue  p-2 rounded-[30px] text-white px-5">
+      <h2 className="text-2xl bg-customBlue p-2 rounded-[30px] text-white px-5">
         CREAR PRODUCTO
       </h2>
       </div>
-      <div className="bg-white shadow-lg rounded px-8   mb-4 flex flex-col my-2 ">
+      <div className="bg-gray-100 shadow-lg border-[1.5px]  border-bg-gray-100 rounded px-8   mb-4 flex flex-col my-2 ">
       <form className="" onSubmit={handleSubmit}>
         <div className="grid grid-cols-3 mt-5 mb-5 gap-5">
             <div className="mb-4  gap-4 items-center">
@@ -183,7 +183,7 @@ function CreateProduct() {
                 Unidad
               </label>
               <select
-                className=" block w-full bg-grey-lighter text-grey-darker border-[0.5px] border-gray-400 rounded-lg py-3 px-4 mb-3"
+                className=" block w-full bg-grey-lighter text-grey-darker border-[0.5px] border-gray-400 rounded-lg py-3 px-4 mb-3 font-medium"
                 value={product.unidad_id || ""}
                 onChange={(e) => handleInputChange(e, "unidad_id")}
               >
@@ -203,7 +203,7 @@ function CreateProduct() {
                 Marca
               </label>
               <select
-                className="block w-full bg-grey-lighter text-grey-darker border-[0.5px] border-gray-400 rounded-lg py-3 px-4 mb-3"
+                className="block w-full bg-grey-lighter text-grey-darker font-medium border-[0.5px] border-gray-400 rounded-lg py-3 px-4 mb-3"
                 value={product.marca_id || ""}
                 onChange={(e) => handleInputChange(e, "marca_id")}
               >
@@ -223,7 +223,7 @@ function CreateProduct() {
                 Grupo
               </label>
               <select
-                className="block w-full bg-grey-lighter text-grey-darker border-[0.5px] border-gray-400 rounded-lg py-3 px-4 mb-3"
+                className="block w-full bg-grey-lighter text-grey-darker font-medium border-[0.5px] border-gray-400 rounded-lg py-3 px-4 mb-3"
                 value={product.grupo_id || ""}
                 onChange={(e) => handleInputChange(e, "grupo_id")}
               >
