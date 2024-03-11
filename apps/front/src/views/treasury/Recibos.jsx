@@ -22,6 +22,7 @@ function Recibos() {
    const [forpagoid, setForpagoid] = useState(0);
    const [fuenteId, setFuenteId] = useState(0);
    const [selectedCtaBanco, setSelectedCtaBanco] = useState(0);
+   const [idPagoCredito, setIdPagoCredito] = useState(0);
 
    const cargarClientes = async() => {
       const result = await axios.get('api/terceros', {
@@ -42,6 +43,19 @@ function Recibos() {
     const datos = result.data
     setFuenteId(datos);  
    };
+
+  //traigo el id de forma de pago credito de la tabla de parametros
+  const getFpagoCredito = async() => {
+    const response = await axios.get("api/parametros/8", {
+        headers: {
+          token: token,
+        },
+     });
+     const datos = response.data;
+     const reg = Number(datos.para_valor);
+     setIdPagoCredito(reg);  
+     return reg; 
+  };
 
    const cargarCajas = async() => {
     const result = await axios.get('api/cajas', {
@@ -95,6 +109,7 @@ function Recibos() {
 
    //formas de pago
    const getPaymentMethods = async () => {
+      const fpagCredito = await getFpagoCredito();
       const response = await axios.get(
         "api/formasdepago",
         {
@@ -104,7 +119,7 @@ function Recibos() {
         }
       );
       const xdatos = response.data;
-      const datos = xdatos.filter(ele => ele.fpag_manejabanco>0);
+      const datos = xdatos.filter(ele => ele.id!==fpagCredito);
       setFormasPago(datos);
   };
 
@@ -115,6 +130,7 @@ function Recibos() {
      getPaymentMethods();
      cargarFuente();
      cargarCajas();
+
    }, []);
 
    const handleClientChange = (e) => {
