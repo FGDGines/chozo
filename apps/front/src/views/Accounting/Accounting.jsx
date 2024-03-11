@@ -28,7 +28,6 @@ function Accounting() {
    };
 
    const columns = [
-      { header: "ID", accessorKey: "id" },
       { header: "Codigo", accessorKey: "puc_codigo" },
       { header: "Cuenta", accessorKey: "puc_cuenta" },
       { header: "Nivel", accessorKey: "puc_nivel" },

@@ -467,6 +467,44 @@ function Sales() {
     },
   };
 
+  //funcion para imprimir tiquete usando el plugin
+  const imprimir = async() => {
+    let nombreImpresora = "SAM4S ELLIX20II";
+    let api_key = "12345";
+   
+    const conector = new connetor_plugin()
+                conector.fontsize("2")
+                conector.textaling("center")
+                conector.text("Ferreteria El Chozo")
+                conector.fontsize("1")
+                conector.text("Calle de las margaritas #45854")
+                conector.text("PEC7855452SCC")
+                conector.feed("3")
+                conector.textaling("left")
+                conector.text(`Fecha : ${formattedDate}`)                        
+                conector.text("Descripcion         Cant.       Importe")
+                conector.text("------------------------------------------")
+                shoppingCart.map(ele => {
+                   conector.text(`${ele.nombre}  ${ele.cantidad}  ${ele.total} €`)
+                })
+                conector.feed("1")
+                conector.fontsize("2")
+                conector.textaling("center")
+                conector.text(`Total : ${totalAmount} €`)
+                conector.qr("https://abrazasoft.com")
+                conector.feed("5")
+                conector.cut("0") 
+
+            const resp = await conector.imprimir(nombreImpresora, api_key);
+            if (resp === true) {              
+            
+            } else {
+                 console.log("Problema al imprimir: "+resp)                    
+            }
+  };
+
+
+  /////////////////////////////////////////////////////////////////////////////////////
   return (
     <>
       <div className="ml-[90px] font-SFRegular h-screen w-[92%] flex flex-col">

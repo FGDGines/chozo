@@ -31,7 +31,6 @@ function Customers() {
     setCustomers,
   };
   const columns = [
-    { header: "ID", accessorKey: "id" },
     { header: "nombre", accessorKey: "ter_tercero" },
     { header: "Documento", accessorKey: "ter_documento" },
     { header: "Direccion", accessorKey: "ter_direccion" },

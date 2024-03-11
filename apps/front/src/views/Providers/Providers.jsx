@@ -38,7 +38,6 @@ function Providers() {
   }, []);
 
   const columns = [
-    { header: "ID", accessorKey: "id" },
     { header: "nombre", accessorKey: "tercero.ter_tercero" },
     { header: "documento", accessorKey: "tercero.ter_documento" },
     { header: "dirección", accessorKey: "tercero.ter_direccion" },

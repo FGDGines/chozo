@@ -40,7 +40,6 @@ function Stock() {
   };
 
   const columns = [
-    { header: "ID", accessorKey: "id" },
     { header: "ref", accessorKey: "art_referencia" },
     { header: "nombre", accessorKey: "art_detalles" },
     { header: "marca", accessorKey: "marca.mar_detalles" },
