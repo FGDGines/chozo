@@ -2,7 +2,9 @@ const {grupos, sublineas, articulos} = require("../../models/DbConex");
 
 //devuelve todos los grupos
 const getGrupos = async() => {
-    const result = await grupos.findAll();
+    const result = await grupos.findAll({
+      order: [['gru_detalles', 'ASC']],
+    });
     return result;
  };
  

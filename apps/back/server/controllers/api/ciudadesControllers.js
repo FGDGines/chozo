@@ -6,7 +6,8 @@ const getAll = async() => {
     const array = await ciudades.findAll({
         include:[
            {model: departamentos, attributes: { exclude: ['createdAt','updatedAt']}}
-        ]
+        ],
+        order: [['ciu_nombre', 'ASC']],
     });
     return array;
 };
@@ -14,7 +15,10 @@ const getAll = async() => {
 //devuelve todas las ciudades de un departamento indicado por el id
 const getAllByDpto = async(id) => {
    const idD = Number(id);
-   const array = await ciudades.findAll({ where: {departamento_id: idD}});
+   const array = await ciudades.findAll({
+       where: {departamento_id: idD},
+       order: [['ciu_nombre', 'ASC']],
+      });
    return array;
 };
 

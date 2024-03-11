@@ -5,7 +5,8 @@ const getAll = async() => {
     const array = await departamentos.findAll({
         include:[
            {model: paises, attributes: { exclude: ['createdAt','updatedAt']}}
-        ]
+        ],
+        order: [['dpt_nombre', 'ASC']],
     });
     return array;
 };

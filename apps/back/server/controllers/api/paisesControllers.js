@@ -2,7 +2,9 @@ const { paises} = require("../../models/DbConex");
 
 //devuelve todos los paises creados
 const getAll = async() => {
-    const array = await paises.findAll();
+    const array = await paises.findAll({
+        order: [['pai_nombre', 'ASC']],
+    });
     return array;
 };
 

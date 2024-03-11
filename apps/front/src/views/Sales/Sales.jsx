@@ -38,6 +38,7 @@ function Sales() {
   const [paymentDetails, setPaymentDetails] = useState([]);
   const [pagoModalEfectivo, setPagoModalEfectivo] = useState(false);
   const [creaClienteModal, setCreaClienteModal] = useState(false);
+  const [idPagoCredito, setIdPagoCredito] = useState(0);
 
   const getCuentaBancaria = async() => {
     try {
@@ -75,6 +76,18 @@ function Sales() {
      const datos = response.data;
      const reg = Number(datos.para_valor);
      setselectedClient1(reg);   
+  };
+
+  //traigo el id de forma de pago credito de la tabla de parametros
+  const getFpagoCredito = async() => {
+    const response = await axios.get("api/parametros/8", {
+        headers: {
+          token: token,
+        },
+     });
+     const datos = response.data;
+     const reg = Number(datos.para_valor);
+     setIdPagoCredito(reg);   
   };
 
   //se trae los clientes para vista VENTA
@@ -130,6 +143,7 @@ function Sales() {
     getCuentaBancaria();
     getClient();
     getClientesVarios();
+    getFpagoCredito();
     const storedCajero = localStorage.getItem("selectedCajero");
     if (storedCajero) {
       setSelectedCaja(JSON.parse(storedCajero));
@@ -220,6 +234,9 @@ function Sales() {
   //!cierra modal
   const handleClosePaymentModal = () => {
     setPaymentModalOpen(false);
+    let localStorageItems = JSON.parse(localStorage.getItem("forpagos"));
+    let xforpagos = localStorageItems;
+    setPaymentDetails(xforpagos);
   };
 
   //cierra modal pago efectivo
@@ -269,22 +286,34 @@ function Sales() {
 
   const handleSale = async () => {
     try {
-      if(selectedPaymentMethod=="Efectivo") {
-
-      } else {
-        let localStorageItems = JSON.parse(localStorage.getItem("forpagos"));
-        let xforpagos = localStorageItems;
-        setPaymentDetails(xforpagos);
-        let suma = 0;
-        for(let i=0;i<xforpagos.length;i++) {
-            suma += xforpagos[i].valor;
-        };
-        if(suma !== totalAmount) {
+      const formasdePago = paymentDetails.filter(ele=>ele.valor>0);
+      let suma = 0;
+      formasdePago.forEach(ele => {
+         suma+=ele.valor;
+      });
+      if(suma !== totalAmount) {
           setMessageError("¡Formas de pago no definidas Correctamente!");
           infoModalError.mensaje = messageError;
           return;
-        };   
-      };
+      };  
+      //buscamos si dentrod e las formas de pago hay credito o cargo a cuenta
+      const credito = formasdePago.find(ele=>ele.idformapago==idPagoCredito);
+      if(credito) {
+         //averiguamos si el cliente tiene permitido comprar a credito
+         const response = await axios.get(`api/terceros/${selectedClient1}`,
+          {
+            headers: {
+              token: token,
+            },
+          }); 
+          const clien = response.data;
+          if(clien.ter_credito==0) {
+              setMessageError("¡Cliente No tiene permitido Cargo a Cuenta...!");
+              setShowModalError(true);
+              infoModalError.mensaje = messageError;
+              return;
+          };
+      }; 
       const date = new Date();
       const today1 = date.toISOString();
       const venceFac = date.setFullYear(date.getFullYear() + 1);
@@ -305,10 +334,10 @@ function Sales() {
           preciocosto: item.preciocosto,
           cantidad: parseFloat(item.cantidad),
         })),
-        fpagos: paymentDetails,
+        fpagos: formasdePago,
         token: token,
       };
-
+      console.log(saleData);
       if (
         !selectedClient1 ||
         !saleData.fecha ||
@@ -332,7 +361,6 @@ function Sales() {
         infoModalError.mensaje = messageError;
         return;
       };
-
       const response = await axios.post(
         "api/carteraxcobrar",
         saleData

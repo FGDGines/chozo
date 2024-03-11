@@ -9,7 +9,8 @@ const getArticulos = async() => {
          {model: marcas, attributes: {exclude: ['createdAt','updatedAt']}},
          {model: unidades, attributes: {exclude: ['createdAt','updatedAt']}},
          {model: grupos, attributes: {exclude: ['createdAt','updatedAt']}},
-      ]
+      ],
+      order: [['art_detalles', 'ASC']],
    });
    return result;
 };

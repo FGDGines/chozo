@@ -2,7 +2,9 @@ const {marcas, articulos} = require("../../models/DbConex");
 
 //devuelve todas las marcas
 const getMarcas = async() => {
-    const array = await marcas.findAll();
+    const array = await marcas.findAll({
+      order: [['mar_detalles', 'ASC']],
+    });
     return array;
 };
 

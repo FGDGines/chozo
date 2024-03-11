@@ -45,7 +45,6 @@ function ModalForpagos({
       localStorage.setItem("forpagos", updatedItemsJSON);
       //ahora actualizamos el estado local
       setFpagos(xforpagos);
-      console.log(xforpagos);
     };
 
     useEffect(() => {

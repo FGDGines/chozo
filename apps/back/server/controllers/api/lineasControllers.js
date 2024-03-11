@@ -2,7 +2,9 @@ const {lineas, sublineas} = require("../../models/DbConex");
 
 //devuelve todas las lineas
 const getLineas = async() => {
-   const result = await lineas.findAll();
+   const result = await lineas.findAll({
+      order: [['lin_detalles', 'ASC']],
+   });
    return result;
 };
 
