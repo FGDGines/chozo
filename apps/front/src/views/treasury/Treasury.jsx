@@ -94,7 +94,7 @@ function Treasury() {
            ? (<ModalCajas onClose={closeModal} record={record}/>) : ("")}      
     <h2 className="text-2xl bg-customBlue p-2 rounded-[30px] text-white px-5 ">Maestros de Cajas</h2>
     <div className="pt-16 flex justify-center">
-    <h1 className="text-gray-800  rounded-[30px] px-5 text-2xl font-bold">Nuevo Usuario</h1>
+    <h1 className="text-gray-800  rounded-[30px] px-5 text-2xl font-bold">Nueva Caja</h1>
     </div>
     <div className="flex items-center justify-center pt-3">
     <form>

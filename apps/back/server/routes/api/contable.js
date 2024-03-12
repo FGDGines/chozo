@@ -59,19 +59,13 @@ server.get('/tercero/:id',  [security_post] , async(req, res) => {
  server.get('/auxiliar/:id',  [security_post] , async(req, res) => {
     const query = req.query;
     const {id} = req.params;
-    const {fechaInicio, fechaCorte} = query;
     try {
-      if(fechaInicio) {
-         const result = await getItemsRangoFecha(query, id);
-         res.status(200).json(result);
-      } else {
          const result = await getItemsContables(query, id);
          res.status(200).json(result);
-      }
-   } catch (error) {
-      console.log(error.message);
-      res.status(500).json({message: error.message});
-   }   
+     } catch (error) {
+         console.log(error.message);
+         res.status(500).json({message: error.message});
+     }   
  });
 
  //devuelve el balance de prueba

@@ -27,8 +27,15 @@ function BalancePrueba() {
 
    const handleBalance = async(e) => {
       e.preventDefault();
-      const fecha1="2024-01-01";
-      const fecha2="2024-12-31";
+      let mmes = mes > 9 ? mes : '0'+ mes;
+      let fecha1 = anual + "-" + mmes + "-01";
+      let dia = "31";
+      if(mes==4 || mes==6 || mes==9 || mes==11) dia = "30";
+      if(mes==2) {
+         dia = "28";
+         if(anual % 4 == 0) dia = "29";
+      };
+      let fecha2 = anual + "-" + mmes + "-" +dia;
       const result = await axios(`api/contable/balance/${anual}?fechaInicio=${fecha1}&&fechaCorte=${fecha2}`, {
          headers: {
          token: token,
@@ -38,9 +45,29 @@ function BalancePrueba() {
       setBalance(datos);
    };
 
+   //definimos formato de numeros
+   const options = {
+      style: 'currency',
+      currency: 'EUR',
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+   };
+   const formatterDolar = new Intl.NumberFormat('en-US', options);
+
+   let sum_ant = 0;
+   let sum_deb = 0;
+   let sum_cre = 0;
+   let sum_sal = 0;
+   balance.forEach(ele => {
+      sum_ant+=ele.anterior;
+      sum_deb+=ele.debitos;
+      sum_cre+=ele.creditos;
+      sum_sal+=ele.saldo;
+   });
+
   return (
     <>
-      <div className="ml-[80px] font-SFRegular h-screen w-[92%] flex flex-col">
+      <div className="ml-[97px] font-SFRegular h-screen w-[98%] flex flex-col mt-5">
       <h2 className="text-2xl bg-customBlue p-2 rounded-md text-white">Balance de Prueba</h2>
       <div className="flex flex-row items-center gap-3">
          <label>Año : </label>
@@ -74,23 +101,36 @@ function BalancePrueba() {
          >Actualizar</button>
       </div>
       <hr/>
-      <table className="w-3/4 text-sm text-left text-gray-700 dark:text-gray-700">
+      <table className="w-[90%] text-sm text-left text-gray-700 dark:text-gray-700">
           <thead>
              <tr>
-                <th>Codigo</th><th>Cuenta</th><th>Anterior</th><th>Debitos</th><th>Creditos</th><th>Saldo</th>
+                <th>Codigo</th><th>Cuenta</th>
+                <th className="text-right">Anterior</th>
+                <th className="text-right">Debitos</th>
+                <th className="text-right">Creditos</th>
+                <th className="text-right">Saldo</th>
              </tr>
-          </thead>
+           </thead>
           <tbody>
              {balance.map(ele =>
                 <tr>
                     <td>{ele.puc_codigo}</td>
                     <td>{ele.puc_cuenta}</td>
-                    <td>{ele.anterior}</td>
-                    <td>{ele.debitos}</td>
-                    <td>{ele.creditos}</td>
-                    <td>{ele.saldo}</td>
+                    <td className="text-right">{formatterDolar.format(ele.anterior)}</td>
+                    <td className="text-right">{formatterDolar.format(ele.debitos)}</td>
+                    <td className="text-right">{formatterDolar.format(ele.creditos)}</td>
+                    <td className="text-right">{formatterDolar.format(ele.saldo)}</td>
                 </tr>
              )}
+             <tr><td></td><td></td>
+             <td className="text-right">-------------------</td><td className="text-right">-------------------</td>
+             <td className="text-right">-------------------</td><td className="text-right">-------------------</td></tr>
+             <tr><td></td><td>TOTALES</td>
+                 <td className="text-right">{formatterDolar.format(sum_ant)}</td>
+                 <td className="text-right">{formatterDolar.format(sum_deb)}</td>
+                 <td className="text-right">{formatterDolar.format(sum_cre)}</td>
+                 <td className="text-right">{formatterDolar.format(sum_sal)}</td>
+             </tr>
           </tbody>
       </table>
       </div>

@@ -31,6 +31,11 @@ module.exports = (sequelize) => {
             defaultValue: 0,
             allowNull: false,
         },  
+        ite_saldo: {
+            type: DataTypes.DOUBLE(14,2),
+            defaultValue: 0,
+            allowNull: false,
+        },  
         ite_detalles: {
             type: DataTypes.STRING,
             allowNull: true,

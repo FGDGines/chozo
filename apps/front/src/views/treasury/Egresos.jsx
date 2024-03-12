@@ -6,6 +6,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 function Egresos() {
    const token = localStorage.getItem("token");
+   const notify = () => toast.success("¡Egreso realizado!");
    const [showModalError, setShowModalError] = useState(false); 
    const [ctaBanco, setCtaBanco] = useState([]);
    const [cajas, setCajas] = useState([]);
@@ -253,8 +254,8 @@ function Egresos() {
       setSelectedProvider(0);
       setTotalAbonos(0);        
     } catch (error) {
-      console.log("Error al ejecutar Recibo");
-      setMessageError("¡Error al grabar Recibo!");
+      console.log("Error al ejecutar Egreso");
+      setMessageError("¡Error al grabar Egreso!");
       setShowModalError(true);
       infoModalError.mensaje = messageError;
       return;        

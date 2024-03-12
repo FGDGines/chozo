@@ -32,6 +32,7 @@ import Consecutivos from "./views/Config/Consecutivos";
 import Recibos from "./views/treasury/Recibos";
 import Egresos from "./views/treasury/Egresos";
 import BalancePrueba from "./views/Accounting/BalancePrueba";
+import Auxiliares from "./views/Accounting/Auxiliares";
 import Users from "./views/Config/Users";
 import { ToastContainer, toast } from "react-toastify";
 
@@ -446,7 +447,19 @@ function App() {
               <Navigate to="/" />
             )
           }
-        />                                                                                                                                                                                                                                                                               
+        />   
+        <Route
+          path="/Auxiliares"
+          element={
+            isAuthenticated ? (
+              <MainLayout showSidebar={true}>
+                <Auxiliares handleLogout={handleLogout} />
+              </MainLayout>
+            ) : (
+              <Navigate to="/" />
+            )
+          }
+        />                                                                                                                                                                                                                                                                                                 
       </Routes>
     </div>
   );

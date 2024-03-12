@@ -150,8 +150,12 @@ function SideBar() {
     balanceprueba: [
       { icon: <MdHome />, text: "Inicio", to: "/home" },
       { icon: <LuPackage />, text: "Puc", to: "/accounting" },
-      { icon: <LuPackage />, text: "Balance", to: "/balanceprueba" },
       { icon: <LuPackagePlus />, text: "Auxiliares", to: "/auxiliares" },
+    ],
+    auxiliares: [
+      { icon: <MdHome />, text: "Inicio", to: "/home" },
+      { icon: <LuPackage />, text: "Puc", to: "/accounting" },
+      { icon: <LuPackagePlus />, text: "Balance", to: "/balanceprueba" },
     ],
     lineas: [
       { icon: <MdHome />, text: "Inicio", to: "/home" },

@@ -83,7 +83,7 @@ const getContableById = async(id) => {
 
 //devuelve los items contables de una cuenta hasta una fecha de corte
 const getItemsContables = async(query, id) => {
-   const {fechaCorte } = query;
+   const {fechaInicio, fechaCorte} = query;
    const fCorte = new Date(fechaCorte);
    const registros = await itemcontable.findAll({
       where: {puc_id: id}, 
