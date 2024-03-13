@@ -2,12 +2,21 @@ const {existencias, articulos, unidades, grupos} = require("../../models/DbConex
 
 //devuelve todas las existencias de todos los articulos
 const getExistencias = async() => {
+   //primero debemos asegurarnos de que todos los articulos tengan items de existencias
+   const arti = await articulos.findAll();
+   arti.forEach(async(ele) => {
+      const existe = await existencias.findOne({where: {articulo_id: ele.id}});
+      if(!existe) {
+         await existencias.create({articulo_id: ele.id, exi_cantidad: 0});
+      };
+   });
    const result = await articulos.findAll({
       include: [
         {model: unidades, attributes: {exclude: ['createdAt','updatedAt']}},
         {model: existencias, attributes: {exclude: ['createdAt','updatedAt']}},
         {model: grupos, attributes: {exclude: ['createdAt','updatedAt']}},
-      ]
+      ],
+      order: [['art_detalles', 'ASC']],
    });
    return result;
 };

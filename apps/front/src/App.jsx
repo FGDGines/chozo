@@ -34,6 +34,7 @@ import Egresos from "./views/treasury/Egresos";
 import BalancePrueba from "./views/Accounting/BalancePrueba";
 import Auxiliares from "./views/Accounting/Auxiliares";
 import Users from "./views/Config/Users";
+import Inventory from "./views/Stock/Inventory";
 import { ToastContainer, toast } from "react-toastify";
 
 function App() {
@@ -459,7 +460,19 @@ function App() {
               <Navigate to="/" />
             )
           }
-        />                                                                                                                                                                                                                                                                                                 
+        /> 
+        <Route
+          path="/Inventario"
+          element={
+            isAuthenticated ? (
+              <MainLayout showSidebar={true}>
+                <Inventory handleLogout={handleLogout} />
+              </MainLayout>
+            ) : (
+              <Navigate to="/" />
+            )
+          }
+        />                                                                                                                                                                                                                                                                                                                
       </Routes>
     </div>
   );

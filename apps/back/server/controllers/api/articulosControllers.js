@@ -1,4 +1,4 @@
-const {articulos, grupos, marcas, kardex, itempedidos, existencias,
+const {articulos, grupos, marcas, kardex, itempedidos, existencias, contable,
       unidades, sublineas, conex} = require("../../models/DbConex");
 
 
@@ -38,6 +38,22 @@ const getArticuloById = async(id) => {
       ]
    })
    return registro;
+};
+
+//devuelve el kardex detallado de un articulo
+const getKardex = async(id, query) => {
+   const idArt = Number(id);
+   const {fechaInicio, fechaCorte } = query;
+   const fCorte = new Date(fechaCorte);
+   let query1 = "SELECT FUE.fue_iniciales as fuente,CON.con_numero as numero,CON.con_fecha as fecha,";
+   query1+="CON.con_detalles as concepto,KAR.kar_valorunitario as valoruni,IF(KAR.kar_anulado=1,0,KAR.kar_entradas) as entradas,";
+   query1+="IF(KAR.kar_anulado=1,0,KAR.kar_salidas) as salidas,KAR.kar_anulado as anulado,KAR.kar_salidas as saldo ";
+   query1+="FROM kardex KAR LEFT JOIN contable CON on CON.id=KAR.contable_id ";
+   query1+="LEFT JOIN fuentes FUE on FUE.id=CON.fuente_id ";
+   query1+="WHERE KAR.articulo_id=? and CON.con_fecha<=? order by CON.con_fecha";
+   const registros = await conex.query(`${query1}`, {replacements: [idArt, fCorte]});
+   const array0 = registros[0];
+   return array0;
 };
 
 //agrega un nuevo articulo
@@ -101,4 +117,5 @@ module.exports = {
    updateArticulo,
    bulkArticulos,
    deleteArticulo,
+   getKardex,
 };

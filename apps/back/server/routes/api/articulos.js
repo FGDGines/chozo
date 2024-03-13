@@ -3,7 +3,7 @@ const { check } = require('express-validator');
 const { validarCampos }  = require('../../middlewares/validar-campos');
 const { security_post } = require("../../middlewares/security");
 const {getArticulos, getArticuloById, deleteArticulo,
-       getArticulosByIdGrupo, addArticulo,
+       getArticulosByIdGrupo, addArticulo, getKardex,
        updateArticulo, bulkArticulos} = require("../../controllers/api/articulosControllers");
 const server = express();
 
@@ -104,6 +104,19 @@ server.delete('/:id', [security_post], async(req, res) => {
       console.log(error.message);
       res.status(500).json({message: error.message});      
    };
+});
+
+//devuelve el kardex detallado de un articulo en un rango de fechas
+server.get('/kardex/:id',  [security_post] , async(req, res) => {
+   const {id} = req.params;
+   const query = req.query;
+   try {
+      const result = await getKardex(id, query);
+      res.status(200).json(result);
+   } catch (error) {
+      console.log(error.message);
+      res.status(500).json({message: error.message});
+   }
 });
 
 module.exports = server;
