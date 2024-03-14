@@ -130,63 +130,61 @@ function ModalShopping({ props, closeWin }) {
   };
 
   return (
-    <div className="h-full w-full overflow-auto flex justify-between items-center flex-col">
+    <>
       {Object.keys(order).length > 0 ? (
-        <div className="px-5 rounded-xl w-full ">
-          <div className="bg-customBlue text-white px-6 py-2 rounded">
+        <div className="">
+          <div className="bg-customBlue text-white text-lg font-semibold rounded-t-md py-4 px-6 flex justify-between items-center">
             <h2 className="text-2xl font-bold">Pedido </h2>
+            <div>
             <p className="text-sm">Número de Pedido: {order.ped_numero}</p>
             <p className="text-sm">
               Fecha: {new Date(order.ped_fecha).toLocaleDateString()}
             </p>
+            </div>
           </div>
 
-          <div className="bg-gray-300 px-2 rounded text-gray-">
-            <h3 className="text-lg font-bold mt-1">Proveedor</h3>
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <strong>Nombre:</strong> {order?.proveedore.tercero.ter_tercero}
+          <div className="bg-gray-100 px-2 rounded text-gray pb-2 ">
+            <h3 className="text-lg font-bold mt-1 text-center py-2">Proveedor</h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 ">
+              <div className="gap-4 items-center text-center ">
+                <span className="text-black font-bold pt-2 mr-2">Nombre:</span> 
+                <p>{order?.proveedore.tercero.ter_tercero}</p>
               </div>
-              <div>
-                <strong>Dirección:</strong>{" "}
-                {order?.proveedore.tercero.ter_direccion}
+              <div className="gap-4 items-center text-center ">
+                <span className="text-black font-bold pt-2 mr-2">Dirección:</span>
+              <p>{order?.proveedore.tercero.ter_direccion}</p>
               </div>
             </div>
           </div>
 
-          <div className="flex flex-col mt-4">
-            <h3 className="text-lg font-bold ml-4 mb-3">Artículos Pedidos</h3>
-            <div className="border border-1 border-gray-200 ">
-              <table className="min-w-full divide-y divide-gray-200">
-                <thead className="bg-gray-50">
+          <div className="flex flex-col mt-10">
+            <h3 className="text-lg font-bold ml-4 pb-2">Artículos Pedidos</h3>
+            <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 overflow-x-auto pb-5">
+            <div className="inline-block min-w-full shadow rounded-lg max-h-[280px]">
+              <table className="border-collapse  min-w-full leading-normal">
+                <thead className="sticky top-0">
                   <tr>
                     <th
                       scope="col"
-                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                    >
-                      ID
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                      className="py-3 border-b-2 border-gray-200 bg-gray-100 text-center text-xs font-semibold text-gray-600 uppercase tracking-wider"
                     >
                       Nombre
                     </th>
                     <th
                       scope="col"
-                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                      className=" py-3 border-b-2 border-gray-200 bg-gray-100 text-center text-xs font-semibold text-gray-600 uppercase tracking-wider"
                     >
                       Precio
                     </th>
                     <th
                       scope="col"
-                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                      className=" py-3 border-b-2 border-gray-200 bg-gray-100 text-center text-xs font-semibold text-gray-600 uppercase tracking-wider"
                     >
                       Cantidad
                     </th>
                     <th
                       scope="col"
-                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                      className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-center text-xs font-semibold text-gray-600 uppercase tracking-wider"
                     >
                       Confirmar
                     </th>
@@ -198,47 +196,46 @@ function ModalShopping({ props, closeWin }) {
                       key={item.id}
                       className={checkedItems[item.id] ? "bg-green-200" : ""}
                     >
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="text-sm text-gray-900">{item.id}</div>
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="text-sm text-gray-900">
+                      <td className="px-2 py-2 border-b border-gray-200 bg-white text-sm text-center">
+                        
                           {item.articulo.art_detalles}
-                        </div>
+    
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
+                      <td className="px-5 py-2 border-b border-gray-200 bg-white text-sm">
                         <input
                           type="text"
                           value={item.articulo.art_ultimocosto}
                           onChange={(e) =>
                             handleCostoChange(item.id, e.target.value)
                           }
-                          className="border border-gray-300 rounded px-2 py-1"
+                          className="border border-gray-300 rounded  py-1 text-center w-16 "
                           disabled={checkedItems[item.id]}
                         />
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
+                      <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                         <input
                           type="text"
                           value={item.ite_cantidad}
                           onChange={(e) =>
                             handleCantidadChange(item.id, e.target.value)
                           }
-                          className="border border-gray-300 rounded px-2 py-1"
+                          className="border border-gray-300 rounded  py-1 text-center w-16"
                           disabled={checkedItems[item.id]}
                         />
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
+                      <td className="px-5 py-5  bg-white text-sm flex justify-center items-center">
                         <input
                           type="checkbox"
                           checked={checkedItems[item.id]}
                           onChange={() => handleCheckChange(item.id)}
+
                         />
                       </td>
                     </tr>
                   ))}
                 </tbody>
               </table>
+              </div>
             </div>
           </div>
 
@@ -266,7 +263,7 @@ function ModalShopping({ props, closeWin }) {
           </div>
         </div>
       )}
-    </div>
+    </>
   );
 }
 

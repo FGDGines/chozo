@@ -103,8 +103,8 @@ function Grupos() {
                </div>
            </form>
            </div>
-           <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto pt-10 pb-16">
-            <div className="inline-block min-w-full shadow rounded-lg md:max-h-[330px]">
+           <div className="-mx-4 sm:-mx-8 px-4 sm:px-8  overflow-x-auto pb-10">
+            <div className="inline-block min-w-full shadow rounded-lg md:max-h-[350px]">
            <table className="min-w-full leading-normal">
               <thead>
                  <tr>

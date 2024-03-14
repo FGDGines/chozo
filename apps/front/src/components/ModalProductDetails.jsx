@@ -148,40 +148,32 @@ function ModalProductDetails({ props }) {
   };
 
   return (
-    <div className="w-[99%] h-[95%] flex justify-between items-center flex-col">
-      <div
-        className={` ${
-          isActivo ? "" : "bg-white  opacity-40 hover:cursor-default absolute"
-        }`}
-      >
+    <div className="flex justify-between items-center flex-col">
         <div
           id="nombre"
-          className="w-full clear-start text-xl font-bold text-center p-2"
+          className="w-full clear-start text-3xl font-bold text-center p-2 pb-6"
         >
           <input
-            className="border border-1 px-3 rounded-xl w-full"
+            className="px-3 rounded-xl w-full text-center text-gray-800"
             type="text"
             value={editedArticle.art_detalles}
             onChange={(e) => handleInputChange(e, "art_detalles")}
           />
         </div>
-        <div className="grid grid-cols-2 gap-4 p-2">
-          <div id="id">
-            <strong>ID:</strong> {props.selectedArticle.id}
-          </div>
-          <div id="referencia">
-            <strong>Referencia:</strong>{" "}
+        <div className="grid grid-cols-1 gap-2 mt-4 sm:grid-cols-2 md:grid-cols-3">
+          <div id="referencia" className="">
+            <label className="block text-black font-bold">Referencia:</label>
             <input
-              className="border border-1 px-2 w-[100px] rounded-xl"
+              className="block w-full text-center font-bold py-2 text-gray-700 bg-white border-[0.5px] border-gray-400 rounded-md  focus:border-blue-500  focus:outline-none focus:ring"
               type="text"
               value={editedArticle.art_referencia}
               onChange={(e) => handleInputChange(e, "art_referencia")}
             />
           </div>
           <div id="unidad">
-            <strong>Unidad:</strong> <strong>Unidad:</strong>{" "}
+            <label className="block text-black font-bold">Unidad:</label>
             <select
-              className="border border-1 px-2 rounded-xl border-gray-300"
+              className="block w-full text-center font-bold py-2  text-gray-700 bg-white border-[0.5px] border-gray-400 rounded-md  focus:border-blue-500  focus:outline-none focus:ring"
               value={editedArticle.unidad_id}
               onChange={(e) => handleInputChange(e, "unidad_id")}
             >
@@ -193,9 +185,9 @@ function ModalProductDetails({ props }) {
             </select>
           </div>
           <div id="codigo-barra">
-            <strong>Código de Barra:</strong>
+            <label className="block text-black font-bold">Código de Barra:</label>
             <input
-              className="border border-1 px- rounded-xl border-red-700"
+              className="block w-full text-center py-2 text-black bg-white border-[0.5px] border-gray-400 rounded-md  focus:border-blue-500  focus:outline-none focus:ring"
               type="text"
               placeholder="codigo de barra"
               value={editedArticle.art_codbarra}
@@ -205,9 +197,9 @@ function ModalProductDetails({ props }) {
 
           {props.selectedArticle.marca && (
             <div id="marca">
-              <strong>Marca:</strong>{" "}
+              <label className="block text-black font-bold">Marca:</label>
               <select
-                className="border border-1 px-2 w-[200px] rounded-xl border-gray-300"
+                className="block w-full px-4 py-2  text-gray-700 bg-white border-[0.5px] border-gray-400 rounded-md  focus:border-blue-500  focus:outline-none focus:ring"
                 value={editedArticle.marca_id}
                 onChange={(e) => handleInputChange(e, "marca_id")}
               >
@@ -222,9 +214,9 @@ function ModalProductDetails({ props }) {
 
           {props.selectedArticle.grupo && (
             <div id="grupo">
-              <strong>Grupo:</strong>{" "}
+              <label className="block text-black font-bold">Grupo:</label>
               <select
-                className="border border-1 px-2 w-[200px] rounded-xl border-gray-300"
+                className="block w-full px-4 py-2  text-gray-700 bg-white border-[0.5px] border-gray-400 rounded-md  focus:border-blue-500  focus:outline-none focus:ring"
                 value={editedArticle.grupo_id}
                 onChange={(e) => handleInputChange(e, "grupo_id")}
               >
@@ -238,10 +230,9 @@ function ModalProductDetails({ props }) {
           )}
 
           <div id="impuesto">
-            <strong>Impuesto:</strong>{" "}
-            {props.selectedArticle.art_impuestoventa}
+            <label className="block text-black font-bold">Impuesto:</label>
             <input
-              className="border border-1 border-red-600 px-2 w-[200px] rounded-xl"
+              className="block w-full px-4 py-2  text-gray-700 bg-white border-[0.5px] border-gray-400 rounded-md  focus:border-blue-500  focus:outline-none focus:ring"
               type="select"
               placeholder="Impuesto"
               value={editedArticle.art_impuestoventa}
@@ -249,9 +240,9 @@ function ModalProductDetails({ props }) {
             />
           </div>
           <div id="factor">
-            <strong>Factor Conversion:</strong>
+            <label className="block text-black font-bold">Factor Conversion:</label>
             <input
-              className="border border-1 px-2 w-[100px] rounded-xl border-gray-300"
+              className="block w-full px-4 py-2  text-gray-700 bg-white border-[0.5px] border-gray-400 rounded-md  focus:border-blue-500  focus:outline-none focus:ring"
               type="select"
               value={editedArticle.art_factorconversion}
               onChange={(e) => handleInputChange(e, "art_factorconversion")}
@@ -259,36 +250,37 @@ function ModalProductDetails({ props }) {
           </div>
 
           <div id="costo">
-            <strong>Costo:</strong>
+            <label className="block text-black font-bold">Costo:</label>
             <input
-              className="border border-1 px-2 w-[100px] rounded-xl border-gray-300"
+              className="block w-full px-4 py-2  text-gray-700 bg-white border-[0.5px] border-gray-400 rounded-md  focus:border-blue-500  focus:outline-none focus:ring"
               type="select"
               value={editedArticle.art_ultimocosto}
               onChange={(e) => handleInputChange(e, "art_ultimocosto")}
             />
           </div>
           <div id="precio">
-            <strong>Precio:</strong>
+            <label className="block text-black font-bold">Precio:</label>
             <input
-              className="border border-1 px-2 w-[100px] rounded-xl border-gray-300"
+              className="block w-full px-4 py-2  text-gray-700 bg-white border-[0.5px] border-gray-400 rounded-md  focus:border-blue-500  focus:outline-none focus:ring"
               type="text"
               value={editedArticle.art_precioventa}
               onChange={(e) => handleInputChange(e, "art_precioventa")}
             />
           </div>
-          <div id="fecha-creacion" className="flex flex-col text-center">
-            <strong>Fecha Creación:</strong>{" "}
+          </div>
+          <div id="fecha-creacion" className="flex justify-center gap-8 pt-6">
+            <div>
+            <label className="block text-black font-bold text-center">Fecha Creación:</label>
             {formatDateString(props.selectedArticle.createdAt)}
           </div>
-          <div id="fecha-modificacion" className="flex flex-col text-center">
-            <strong>Última Modificación:</strong>{" "}
+          <div id="fecha-modificacion" className="">
+            <label className="block text-black font-bold text-center">Última Modificación:</label>
             {formatDateString(props.selectedArticle.updatedAt)}
           </div>
-        </div>
-      </div>
-      <div className="w-full h-full  flex justify-around p-2 relative items-end">
-        <div className="flex flex-row items-center ">
-          <strong className="mr-1 mb-0.5">Activo:</strong>{" "}
+          </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 pt-6">
+        <div className="flex flex-row items-center gap-3 ">
+          <lavel className=" text-black font-bold text-center">Activo:</lavel>
           <input
             type="checkbox"
             checked={isActivo}
@@ -296,6 +288,7 @@ function ModalProductDetails({ props }) {
               setIsActivo(!isActivo);
               handleInputChange(e, "art_activo");
             }}
+            className=""
           />
         </div>
         <button className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition">
@@ -322,7 +315,7 @@ function ModalProductDetails({ props }) {
             draggable
             pauseOnHover
             theme="colored"
-          />{" "}
+          />
         </div>
       </div>
     </div>

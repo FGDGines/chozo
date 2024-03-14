@@ -85,7 +85,7 @@ function Unidades() {
                </div> 
            </form>
            
-           <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto pt-10 ">
+           <div className="-mx-4 sm:-mx-8 px-4 sm:px-8  overflow-x-auto ">
             <div className="inline-block min-w-full shadow rounded-lg max-h-[530px]">
            <table className="min-w-full leading-normal">
               <thead>

@@ -151,16 +151,18 @@ function CreateCustomer() {
 
   return (
     <div className="mx-auto mt-10 max-w-[80%]">
-      <h2 className="text-2xl bg-customBlue p-2 rounded-md text-white">
+      <div className="pb-6 ">
+      <h2 className="text-2xl bg-customBlue p-2 rounded-[30px] text-white px-5">
         CREAR CLIENTE
       </h2>
-      <form className="bg-gray-200 rounded-md mt-4 p-4" onSubmit={handleSubmit}>
-        <div className="grid grid-cols-2 ">
-          <div>
-            <div className="mb-4 flex flex-row justify-start items-center">
+      </div>
+      <div className="bg-gray-100 shadow-lg border-[1.5px]  border-bg-gray-100 rounded px-8   mb-4 flex flex-col my-2 ">
+      <form onSubmit={handleSubmit}>
+        <div className="grid grid-cols-3 mt-5 mb-5 gap-5">
+            <div className="mb-4  gap-4 items-center">
               <label
                 htmlFor="nombre-compl"
-                className="block font-semibold w-[30%] mb-1"
+                className="block tracking-wide text-grey text-md font-bold mb-2"
               >
                 Nombre completo:
               </label>
@@ -171,11 +173,11 @@ function CreateCustomer() {
                 name="nombre-completo"
                 value={client.ter_tercero}
                 onChange={(e) => handleInputChange(e, "ter_tercero")}
-                className="mt-1 p-1 border  rounded-md  w-[60%]"
+                className="appearance-none block w-full bg-grey-lighter text-grey-darker border-[0.5px] border-gray-400 rounded-lg py-3 px-4 mb-3"
               />
             </div>
-            <div className="mb-4 flex flex-row justify-start gap-5 items-center">
-              <label htmlFor="nombre" className="block font-semibold mb-1">
+            <div className="mb-4  gap-4 items-center">
+              <label htmlFor="nombre" className="block tracking-wide text-grey text-md font-bold mb-2">
                 Nombre:
               </label>
               <input
@@ -184,11 +186,11 @@ function CreateCustomer() {
                 name="nombre"
                 value={client.ter_nombres}
                 onChange={(e) => handleInputChange(e, "ter_nombres")}
-                className="mt-1 p-1 border rounded-md w-[70%]"
+                className="appearance-none block w-full bg-grey-lighter text-grey-darker border-[0.5px] border-gray-400 rounded-lg py-3 px-4 mb-3"
               />
             </div>
-            <div className="mb-4 flex flex-row  justify-start gap-5 items-center">
-              <label htmlFor="apellido" className="block font-semibold mb-1">
+            <div className="mb-4  gap-4 items-center">
+              <label htmlFor="apellido" className="block tracking-wide text-grey text-md font-bold mb-2">
                 Apellido:
               </label>
               <input
@@ -197,12 +199,12 @@ function CreateCustomer() {
                 name="apellido"
                 value={client.ter_apellidos}
                 onChange={(e) => handleInputChange(e, "ter_apellidos")}
-                className="mt-1 p-1 border rounded-md w-[70%]"
+                className="appearance-none block w-full bg-grey-lighter text-grey-darker border-[0.5px] border-gray-400 rounded-lg py-3 px-4 mb-3"
               />
             </div>
 
-            <div className="mb-4 flex flex-row  justify-start gap-5 items-center">
-              <label htmlFor="documento" className="block font-semibold mb-1">
+            <div className="mb-4  gap-4 items-center">
+              <label htmlFor="documento" className="block tracking-wide text-grey text-md font-bold mb-2">
                 Documento:
               </label>
               <input
@@ -211,16 +213,16 @@ function CreateCustomer() {
                 name="documento"
                 value={client.ter_documento}
                 onChange={(e) => handleInputChange(e, "ter_documento")}
-                className="mt-1 p-1 border rounded-md w-[70%]"
+                className="appearance-none block w-full bg-grey-lighter text-grey-darker border-[0.5px] border-gray-400 rounded-lg py-3 px-4 mb-3"
               />
             </div>
 
-            <div className="mb-4 flex flex-row  justify-start gap-5 items-center">
-              <label htmlFor="ciudad" className="block font-semibold mb-1">
+            <div className="mb-4  gap-4 items-center">
+              <label htmlFor="ciudad" className="block tracking-wide text-grey text-md font-bold mb-2">
                 Ciudad:
               </label>
               <select
-                className="border border-1 px-2 rounded-xl w-[50%] border-gray-300"
+                className="block w-full bg-grey-lighter text-grey-darker border-[0.5px] border-gray-400 rounded-lg py-3 px-4 mb-3 font-medium"
                 value={client.ciudad_id || ""}
                 onChange={(e) => handleInputChange(e, "ciudad_id")}
               >
@@ -232,12 +234,12 @@ function CreateCustomer() {
                 ))}
               </select>
             </div>
-            <div className="mb-4 flex flex-row  justify-start gap-5 items-center">
-              <label htmlFor="tipoDoc" className="block font-semibold mb-1">
+            <div className="mb-4  gap-5 items-center">
+              <label htmlFor="tipoDoc" className="block tracking-wide text-grey text-md font-bold mb-2">
                 Tipo documento:
               </label>
               <select
-                className="border border-1 px-2 rounded-xl w-[50%] border-gray-300"
+                className="block w-full bg-grey-lighter text-grey-darker border-[0.5px] border-gray-400 rounded-lg py-3 px-4 mb-3 font-medium"
                 value={client.tipodocumento_id || ""}
                 onChange={(e) => handleInputChange(e, "tipodocumento_id")}
               >
@@ -249,12 +251,12 @@ function CreateCustomer() {
                 ))}
               </select>
             </div>
-            <div className="mb-4 flex flex-row  justify-start gap-5 items-center">
+            <div className="mb-4  gap-5 items-center">
               <label htmlFor="tipoTercero" className="block font-semibold mb-1">
                 Tipo tercero:
               </label>
               <select
-                className="border border-1 px-2 rounded-xl w-[50%] border-gray-300"
+                className="block w-full bg-grey-lighter text-grey-darker border-[0.5px] border-gray-400 rounded-lg py-3 px-4 mb-3 font-medium"
                 value={client.tipotercero_id || ""}
                 onChange={(e) => handleInputChange(e, "tipotercero_id")}
               >
@@ -266,10 +268,7 @@ function CreateCustomer() {
                 ))}
               </select>
             </div>
-          </div>
-          <div>
-            {" "}
-            <div className="mb-4 flex flex-row  justify-start gap-5 items-center">
+            <div className="mb-4  gap-5 items-center">
               <label htmlFor="direccion" className="block font-semibold mb-1">
                 Direccion:
               </label>
@@ -279,10 +278,10 @@ function CreateCustomer() {
                 name="direccion"
                 value={client.ter_direccion}
                 onChange={(e) => handleInputChange(e, "ter_direccion")}
-                className="mt-1 p-1 border rounded-md w-[70%]"
+                className="appearance-none block w-full bg-grey-lighter text-grey-darker border-[0.5px] border-gray-400 rounded-lg py-3 px-4 mb-3"
               />
             </div>
-            <div className="mb-4 flex flex-row  justify-start gap-5 items-center">
+            <div className="mb-4  gap-5 items-center">
               <label htmlFor="telefono" className="block font-semibold mb-1">
                 Telefono:
               </label>
@@ -292,10 +291,10 @@ function CreateCustomer() {
                 name="telefono"
                 value={client.ter_telefono}
                 onChange={(e) => handleInputChange(e, "ter_telefono")}
-                className="mt-1 p-1 border rounded-md w-[70%]"
+                className="appearance-none block w-full bg-grey-lighter text-grey-darker border-[0.5px] border-gray-400 rounded-lg py-3 px-4 mb-3"
               />
             </div>
-            <div className="mb-4 flex flex-row  justify-start gap-5 items-center">
+            <div className="mb-4  gap-5 items-center">
               <label htmlFor="celular" className="block font-semibold mb-1">
                 Celular:
               </label>
@@ -305,11 +304,11 @@ function CreateCustomer() {
                 name="celular"
                 value={client.ter_celular}
                 onChange={(e) => handleInputChange(e, "ter_celular")}
-                className="mt-1 p-1 border rounded-md w-[70%]"
+                className="appearance-none block w-full bg-grey-lighter text-grey-darker border-[0.5px] border-gray-400 rounded-lg py-3 px-4 mb-3"
               />
             </div>
-            <div className="mb-4 flex flex-row  justify-start gap-5 items-center">
-              <label htmlFor="email" className="block font-semibold mb-1">
+            <div className="mb-4  gap-5 items-center">
+              <label htmlFor="email" className="block tracking-wide text-grey text-md font-bold mb-2">
                 Email:
               </label>
               <input
@@ -318,28 +317,27 @@ function CreateCustomer() {
                 name="email"
                 value={client.ter_email}
                 onChange={(e) => handleInputChange(e, "ter_email")}
-                className="mt-1 p-1 border rounded-md w-[70%]"
+                className="appearance-none block w-full bg-grey-lighter text-grey-darker border-[0.5px] border-gray-400 rounded-lg py-3 px-4 mb-3"
               />
             </div>
-            <div className="mb-4 flex flex-row  justify-start gap-5 items-center">
-            <label htmlFor="credito" className="block font-semibold mb-1">
+            <div className="mb-4  gap-5 items-center">
+            <label htmlFor="credito" className="block tracking-wide text-grey text-md font-bold mb-2">
                 Cargo a Cuenta:
               </label>
               <select name="ter_credito"
                  value={client.ter_credito || ""}
                  onChange={(e) => handleInputChange(e, "ter_credito")}
+                 className=" block w-full bg-grey-lighter text-grey-darker border-[0.5px] border-gray-400 rounded-lg py-3 px-4 mb-3 font-medium"
               >
                   <option value="0">No</option>
                   <option value="1">Si</option>
               </select>
             </div>
           </div>
-        </div>
-
-        <div className=" w-full flex justify-center items-center">
+        <div className="w-full flex justify-center items-center mt-5">
           <button
             type="submit"
-            className="bg-green-500 text-white text-xl py-2 px-4 rounded-md hover:bg-green-600"
+            className="bg-gray-900 text-white py-2 px-5 rounded-md hover:bg-gray-800 mb-4"
           >
             Crear Cliente
           </button>
@@ -357,6 +355,7 @@ function CreateCustomer() {
           />
         </div>
       </form>
+      </div>
     </div>
   );
 }

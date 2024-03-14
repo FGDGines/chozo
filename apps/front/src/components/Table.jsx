@@ -48,7 +48,7 @@ function Table({ data, columns, name, props }) {
         <div className="mx-auto mt-10 max-w-[80%]">
             <h2 className="text-2xl bg-customBlue p-2 rounded-[30px] text-white px-5 mt-10">Listado de {name}</h2>
         </div>
-        <div className="font-SFRegular flex flex-col max-h-[530px] h-screen mx-auto max-w-[90%] ml-[110px]">
+        <div className="tracking-wider flex flex-col max-h-[530px] h-screen mx-auto max-w-[90%] ml-[110px]">
           <input
             type="text"
             value={filtering.globalFilter}

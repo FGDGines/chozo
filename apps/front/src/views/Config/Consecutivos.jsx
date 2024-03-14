@@ -73,27 +73,44 @@ function Consecutivos() {
 
   return (
     <div className="mx-auto mt-10 max-w-[80%]">
-    <h2 className="text-2xl bg-customBlue p-2 rounded-md text-white">Consecutivos Contables</h2>
-    <label>Año : </label>
-    <input type="number" name="anual" value={anual} onChange={(e)=>handleCambioAnual(e)}/>
-    <table>
+    <h2 className="text-2xl bg-customBlue p-2 rounded-[30px] text-white px-5">Consecutivos Contables</h2>
+    <div className="pt-8 pb-5 flex items-center justify-center mx-2 gap-3">
+    <label className="tracking-wide text-grey text-lg font-bold ">Año: </label>
+    <input 
+    type="number" 
+    name="anual" 
+    value={anual} 
+    onChange={(e)=>handleCambioAnual(e)}
+    className="mt-1 p-1 border-[0.5px] border-gray-800 rounded-xl text-center w-[190px] "/>
+
+<form>
+        <button  className="bg-gray-800 text-white text-center p-[5px] px-5 rounded-md font-medium-blue-800 text-white text-center p-2 rounded-md" onClick={handleGrabar}>Actualizar</button>
+    </form>
+</div>
+<div className="-mx-4 sm:-mx-8 px-4 sm:px-8 overflow-x-auto  pb-16">
+            <div className="inline-block min-w-full shadow rounded-lg max-h-[450px]">
+    <table className="min-w-full leading-normal">
        <thead>
-          <tr><th>Id</th><th>Fuente</th><th>Iniciales</th><th>Consecutivo</th></tr>
+          <tr>
+            <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Id</th>
+            <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Fuente</th>
+            <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Iniciales</th>
+            <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Consecutivo</th>
+          </tr>
        </thead>
        <tbody>
        {consecu.map(ele =>
            <tr key={ele.id}>
-              <td>{ele.id}</td>
-              <td>{ele.fue_detalles}</td>
-              <td>{ele.fue_iniciales}</td>
-              <td>{ele.conse_ultimograbado}</td>
+              <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">{ele.id}</td>
+              <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">{ele.fue_detalles}</td>
+              <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">{ele.fue_iniciales}</td>
+              <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">{ele.conse_ultimograbado}</td>
            </tr>
         )}
         </tbody>
     </table>
-    <form>
-        <button  className="bg-blue-800 text-white text-center p-2 rounded-md" onClick={handleGrabar}>Actualizar</button>
-    </form>
+    </div>
+    </div>
     <ToastContainer
      position="top-right"
      autoClose={1000}

@@ -14,7 +14,12 @@ function Sell() {
     { header: "Numero", accessorKey: "cxc_numero" },
     { header: "fecha", accessorKey: "cxc_fechafac" },
     { header: "cliente", accessorKey: "tercero.ter_tercero" },
-    { header: "total", accessorKey: "cxc_valor" },
+    {header: "total", 
+    accessorKey: "cxc_valor", 
+    cell: (row) => (
+      <span>{row.row.original.cxc_valor} €</span>
+    ),
+  },
     {
       header: "credito",
       accessorKey: "cxc_metodopago",

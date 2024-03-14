@@ -69,7 +69,7 @@ function Lineas() {
            <div className="pt-10 flex justify-center">
            <h1 className=" text-gray-800  rounded-[30px] px-5 text-[23px] font-bold"> Crear nueva linea</h1>
            </div>
-           <div className="flex items-center justify-center mx-2">
+           <div className="flex items-center justify-center mx-2 pb-5 ">
            <form>
                <div>
                <input type="text" 
@@ -82,8 +82,8 @@ function Lineas() {
                </div>
            </form>
            </div>
-           <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto pt-10 ">
-            <div className="inline-block min-w-full shadow rounded-lg max-h-[530px] ">
+           <div className="-mx-4 sm:-mx-8 px-4 sm:px-8  overflow-x-auto ">
+            <div className="inline-block min-w-full shadow rounded-lg max-h-[430px] ">
            <table className="min-w-full leading-normal">
               <thead>
                  <tr>
