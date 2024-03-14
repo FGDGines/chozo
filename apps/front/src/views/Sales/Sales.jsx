@@ -293,6 +293,7 @@ function Sales() {
       });
       if(suma !== totalAmount) {
           setMessageError("¡Formas de pago no definidas Correctamente!");
+          setShowModalError(true);
           infoModalError.mensaje = messageError;
           return;
       };  
