@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import ModalKardex from "../../components/ModalKardex";
+import ModalError from "../../components/ModalError";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -13,10 +14,19 @@ function Inventory() {
    const [granTotal, setGranTotal] = useState(0);
    const [modalKardex, setModalKardex] = useState(false);
    const [record, setRecord] = useState(0);
+   const notify = () => toast.success("¡Ajuste Ejecutado!");
+   const [showModalError, setShowModalError] = useState(false);
+   const [messageError, setMessageError] = useState("");
 
    const closeModal = () => {
      setModalKardex(false);
    };
+
+   const infoModalError = {
+      showModalError,
+      setShowModalError,
+      mensaje: messageError,
+    };
 
    const cargarExistencias = async() => {
       const result = await axios('api/existencias', {
@@ -93,10 +103,36 @@ function Inventory() {
       setModalKardex(true);
    };
 
+   const handleAjustar = async(e) => {
+      e.preventDefault();
+      if(totalReal == totalSistema) {
+         setMessageError("¡No hay diferencias que ajustar!");
+         setShowModalError(true);
+         infoModalError.mensaje = messageError;
+         return;
+      };
+      const array = articulos.filter(ele => ele.sistema !== ele.real);
+      const datos = {
+         fecha : "2024-03-14",
+         codUsuario : 4,
+         items : array,
+      };
+      const result = await axios.post('api/existencias', datos, {
+         headers: {
+            token: token,
+         },
+      });
+      notify(); 
+      cargarExistencias();
+   };
+
+
+
    return (
        <div className="mx-auto mt-10 max-w-[80%]">
            {modalKardex
            ? (<ModalKardex onClose={closeModal} record={record}/>) : ("")}
+           {showModalError ? <ModalError infoModalError={infoModalError} /> : ""}
            <h2 className="text-2xl bg-customBlue p-2 rounded-[30px] text-white px-5">Inventario Fisico</h2>
            <table className="min-w-full leading-normal">
                <thead>
@@ -143,8 +179,21 @@ function Inventory() {
                </tbody>
            </table>
            <button className="bg-blue-500 px-4 py-2 rounded-md"
+               onClick={(e)=>handleAjustar(e)}
                >Ajustar Inventario
            </button>
+           <ToastContainer
+                position="top-right"
+                autoClose={2000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss={false}
+                draggable
+                pauseOnHover
+                theme="colored"
+            />
        </div>
    )
 };
