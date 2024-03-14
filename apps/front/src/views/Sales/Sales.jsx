@@ -459,11 +459,13 @@ function Sales() {
       padding: "2px",
       width: "100%",
       color: "#000000",
+      textAlign: "center",
       boxSizing: "border-box",
       "&:focus": {
         outline: "none",
         border: "2px solid blue",
       },
+
     },
   };
 
@@ -551,7 +553,7 @@ function Sales() {
           style={{ minHeight: 0 }}
         >
           <div className="flex flex-row gap-2 absolute bg-white">
-            <div className="flex flex-row gap-2 w-[650px] items-center">
+            <div className="flex flex-row gap-2 w-[650px] items-center ">
               <Autosuggest
                 suggestions={suggestions}
                 onSuggestionsFetchRequested={onSuggestionsFetchRequested}
@@ -561,11 +563,11 @@ function Sales() {
                 onSuggestionSelected={onSuggestionSelected}
                 theme={theme}
                 inputProps={{
-                  placeholder: "Buscar",
+                  placeholder: "Buscar producto",
                   value,
                   onChange,
                   onKeyDown: handleKeyDown,
-                  style: theme.input,
+                  style: theme.input, 
                   ref: inputBuscarRef,
                 }}
               />
@@ -637,7 +639,7 @@ function Sales() {
                     Descuento{" "}
                     <input
                       type="number"
-                      className="ml-3 w-[70px] border border-1 border-black rounded-lg"
+                      className="ml-3 w-[70px] border border-1 border-black rounded-lg text-center"
                       value={descuento}
                       onChange={handleDescuento}
                     />

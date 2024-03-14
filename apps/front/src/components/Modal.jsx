@@ -21,11 +21,11 @@ function Modal({ props }) {
   };
 
   return (
-    <div className="font-SFRegular h-screen w-screen  bg-transparent absolute z-10 left-0 top-0 flex justify-center items-center">
+    <div className="fixed top-0 left-0 w-full h-full bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
       <div
-        className={`bg-white border-gray-600 border-2 ${
+        className={`bg-white max-w-4xl p-6 mx-auto bg-white rounded-md shadow-md border-t-4 border-customBlue ${
           isShoppingRoute ? "h-[95%] w-[80%]" : "h-[80%] w-[70%]"
-        } flex-col flex p-1 rounded-xl`}
+        }`}
       >
         <div className="boton-eliminar">
           <button

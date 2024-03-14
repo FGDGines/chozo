@@ -48,7 +48,7 @@ const Login = ({ onLogin }) => {
       className="h-screen flex flex-col items-center pt-3 w-screen justify-start bg-gray-200"
       style={backgroundStyle}
     >
-      <div className="max-w-md mx-auto my-10 p-6 rounded-md shadow-md bg-blue-400">
+      <div className="max-w-md mx-auto my-10 mt-20 p-6 rounded-md shadow-md bg-blue-400">
         <img src={logo} alt="" className="mx-auto mb-4" />
         <h2 className="text-2xl font-semibold mb-4 text-center">Ingresar</h2>
         {error && (

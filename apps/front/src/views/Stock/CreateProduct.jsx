@@ -138,7 +138,7 @@ function CreateProduct() {
 
   return (
     <div className="mx-auto mt-10 max-w-[80%]">
-      <div className="pb-7 ">
+      <div className="pb-6 ">
       <h2 className="text-2xl bg-customBlue p-2 rounded-[30px] text-white px-5">
         CREAR PRODUCTO
       </h2>

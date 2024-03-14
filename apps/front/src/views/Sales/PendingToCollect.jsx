@@ -15,9 +15,20 @@ function PendingToCollect() {
     { header: "fecha", accessorKey: "cxc_fechafac" },
     { header: "vence", accessorKey: "cxc_fechavenc" },
     { header: "cliente", accessorKey: "tercero.ter_tercero" },
-    { header: "total", accessorKey: "cxc_valor" },
-    { header: "abonos", accessorKey: "cxc_abonos" },
-    { header: "saldo", accessorKey: "cxc_saldo" },
+    { header: "total", accessorKey: "cxc_valor", 
+    cell: (row) => (
+      <span>{row.row.original.cxc_valor} €</span>
+    ), },
+    { header: "abonos", accessorKey: "cxc_abonos", 
+    cell: (row) => (
+      <span>{row.row.original.cxc_abonos} €</span>
+    ), },
+    {header: "saldo", 
+    accessorKey: "cxc_saldo", 
+    cell: (row) => (
+      <span>{row.row.original.cxc_saldo} €</span>
+    ),
+  },
     {
       header: "credito",
       accessorKey: "cxc_metodopago",
