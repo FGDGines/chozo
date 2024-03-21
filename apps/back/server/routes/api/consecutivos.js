@@ -3,7 +3,7 @@ const { check } = require('express-validator');
 const { validarCampos }  = require('../../middlewares/validar-campos');
 const { security_post } = require("../../middlewares/security");
 const {getAll, getById, getConsecuByAnual,
-      getConsecuByFuente, addConsecu, 
+      getConsecuByFuente, addConsecu, updateConseAnual,
       generarConsecu, updateConsecu} = require("../../controllers/api/consecutivosControllers");
 const server = express();
 
@@ -101,6 +101,18 @@ server.get('/:id',  [security_post] , async(req, res) => {
    } catch (error) {
       console.log(error.message);
       res.status(500).json({message: error.message});   
+   }
+ });
+
+ //actualiza todos los consecutivos de un año
+ server.post('/updateAnual', [security_post] , async(req, res) => {
+   const datos = req.body;
+   try {
+     const result = await updateConseAnual (datos);
+     res.status(200).json(result);
+   } catch (error) {
+      console.log(error.message);
+      res.status(500).json({message: error.message});        
    }
  });
 

@@ -76,6 +76,25 @@ const getById = async(id) => {
     const registros = await consecutivos.findAll({where: {conse_anual: anual}});
     return registros;
  };
+
+ //actualizamos todos los consecutivos de un año
+ const updateConseAnual = async(datos) => {
+    const {anual, items} = datos;
+    items.forEach(async(ele) => {
+      const registro = await consecutivos.findOne({where: {fuente_id: ele.id, conse_anual: anual}});
+      if(registro) {
+         const result = await consecutivos.update(
+            {conse_ultimograbado: ele.conse_ultimograbado}, 
+            {where: {id: registro.id }});
+      } else {
+        await consecutivos.create(
+            {conse_anual: anual,
+            conse_ultimograbado: ele.conse_ultimograbado,
+            fuente_id: ele.id})
+      };
+    });
+    return {message: "Consecutivos actualizados"};
+ };
  
 
 module.exports = {
@@ -86,4 +105,5 @@ module.exports = {
    addConsecu,
    updateConsecu,
    generarConsecu,
+   updateConseAnual,
 };

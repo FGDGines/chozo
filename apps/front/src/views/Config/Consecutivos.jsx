@@ -32,11 +32,6 @@ function Consecutivos() {
     setFuentes(result.data);
   };
 
-  const handleChange = (e) => {
-    const value = e.target.value;
-    const property = e.target.name;
-    //setFuente({...fuente,[property]: value});
-  };
 
   const handleCambioAnual = async(e) => {
      e.preventDefault;
@@ -57,18 +52,32 @@ function Consecutivos() {
   }, []);
 
   const handleGrabar = async(e) => {
-    e.preventDefault();
-    if(consecu.length == 0) {
-        //generacion de consecutivos del año
-        const datos = {anual: anual};
-        const result = await axios.post('api/consecutivos/bulk', datos, {
+      e.preventDefault();
+      const datos = {anual: anual, items: consecu};
+      const result = await axios.post('api/consecutivos/updateAnual', datos, {
            headers: {
               token: token,
            },
-        });
-         setConsecu(result);
-         toast.success("¡Consecutivos Actualizados!");
-    };
+      });
+      toast.success("¡Consecutivos Actualizados!");
+   };
+  
+
+  const handleCambiar = async(e, reg) => {
+     e.preventDefault();
+     const idR = Number(reg);
+     const value = Number(e.target.value);
+     const array = [];
+     consecu.forEach(ele => {
+       const newreg = {
+          id: ele.id,
+          fue_detalles: ele.fue_detalles,
+          fue_iniciales: ele.fue_iniciales,
+          conse_ultimograbado: ele.id==reg ? value : ele.conse_ultimograbado,
+       };
+       array.push(newreg);
+     });
+     setConsecu(array);
   };
 
   return (
@@ -84,7 +93,7 @@ function Consecutivos() {
     className="mt-1 p-1 border-[0.5px] border-gray-800 rounded-xl text-center w-[190px] "/>
 
 <form>
-        <button  className="bg-gray-800 text-white text-center p-[5px] px-5 rounded-md font-medium-blue-800 text-white text-center p-2 rounded-md" onClick={handleGrabar}>Actualizar</button>
+    <button  className="bg-gray-800 text-white text-center p-[5px] px-5 rounded-md font-medium-blue-800 text-white text-center p-2 rounded-md" onClick={handleGrabar}>Actualizar</button>
     </form>
 </div>
 <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 overflow-x-auto  pb-16">
@@ -104,7 +113,12 @@ function Consecutivos() {
               <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">{ele.id}</td>
               <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">{ele.fue_detalles}</td>
               <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">{ele.fue_iniciales}</td>
-              <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">{ele.conse_ultimograbado}</td>
+              <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                  <input type="number" 
+                         value={ele.conse_ultimograbado} 
+                         className="w-20"
+                         onChange={(e)=>handleCambiar(e, ele.id)}/>
+              </td>
            </tr>
         )}
         </tbody>
