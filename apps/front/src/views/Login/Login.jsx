@@ -45,12 +45,13 @@ const Login = ({ onLogin }) => {
 
   return (
     <div
-      className="h-screen flex flex-col items-center pt-3 w-screen justify-start bg-gray-200"
-      style={backgroundStyle}
-    >
-      <div className="max-w-md mx-auto my-10 mt-20 p-6 rounded-md shadow-md bg-blue-400">
-        <img src={logo} alt="" className="mx-auto mb-4" />
-        <h2 className="text-2xl font-semibold mb-4 text-center">Ingresar</h2>
+      className="h-screen flex items-center justify-center w-screen bg-gray-200"
+      style={backgroundStyle}>
+      <div className="max-w-md mx-full p-6 rounded-lg shadow-lg bg-blue-400">
+        <div className="flex justify-center mb-5">
+        <img src={logo} alt="" className="mx-auto" />
+        </div>
+        <h2 className="text-2xl font-semibold mb-4 text-center text-gray-600">Ingresar</h2>
         {error && (
           <div className="text-red-500 text-sm mb-4 text-center">{error}</div>
         )}
@@ -60,7 +61,7 @@ const Login = ({ onLogin }) => {
               Nombre de Usuario:
             </label>
             <input
-              className="mt-1 p-2 w-full border rounded-md"
+              className="mt-1 p-2 w-full border rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500"
               type="text"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
@@ -71,7 +72,7 @@ const Login = ({ onLogin }) => {
               Contraseña:
             </label>
             <input
-              className="mt-1 p-2 w-full border rounded-md"
+              className="mt-1 p-2 w-full border rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500"
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
