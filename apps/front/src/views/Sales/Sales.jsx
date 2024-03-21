@@ -256,6 +256,26 @@ function Sales() {
      setTotalAmount(vtotal);
   };
 
+  const handleChangeCosto = (e, index) => {
+    const updatedCart = [...shoppingCart];
+    const value = Number(e.target.value);
+    updatedCart[index].precio = value; 
+    updatedCart[index].total = Number(updatedCart[index].cantidad) * value;
+    let totalQuantity = 0;
+    let totalAmount = 0;
+  
+    updatedCart.forEach((item) => {
+      totalQuantity += Number(item.cantidad);
+      totalAmount += Number(item.total);
+    });
+  
+    setShoppingCart(updatedCart); 
+    setTotalQuantity(totalQuantity); 
+    setTotalAmount(totalAmount); 
+  };
+  
+
+
   //!abre modal de pago:
   const handlePaymentMethod = (method) => {
     setSelectedPaymentMethod(method);
@@ -632,6 +652,7 @@ function Sales() {
             shoppingCart={shoppingCart}
             onDeleteFromCart={handleDeleteFromCart}
             onChangeCantidad={handleChangeCantidad}
+            onChangeCosto={handleChangeCosto}
           />
 
           <div
