@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import { MdDelete } from "react-icons/md";
 
-const ShoppingCartTable = ({ shoppingCart, onDeleteFromCart, infoHeader }) => {
+const ShoppingCartTable = ({ shoppingCart, onDeleteFromCart, infoHeader, onChangeCantidad}) => {
   const tableContainerRef = useRef(null);
 
   useEffect(() => {
@@ -92,7 +92,11 @@ const ShoppingCartTable = ({ shoppingCart, onDeleteFromCart, infoHeader }) => {
               <td className="border px-2 text-left">{item.nombre}</td>
               <td className="border px-2 text-left">{item.marca}</td>
 
-              <td className="border px-2 text-center">{item.cantidad}</td>
+              <td className="border px-2 text-center">
+                <input type="number" 
+                       value={item.cantidad} 
+                       onChange={(e)=>onChangeCantidad(e, index)}
+                       className="w-20"/></td>
               <td className="border px-2 text-center">
                 {item.precio.toFixed(2)} €
               </td>

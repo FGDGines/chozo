@@ -200,6 +200,7 @@ function Sales() {
     setValue(newValue);
   };
 
+  //eliminamos items del carrito
   const handleDeleteFromCart = (index) => {
     const updatedCart = [...shoppingCart];
     const deletedItem = updatedCart.splice(index, 1)[0];
@@ -217,6 +218,42 @@ function Sales() {
   };
   const onSuggestionSelected = (event, { suggestion }) => {
     setSelectedProduct(suggestion);
+    //agregamos directamente al carrito 
+    const newItem = {
+      id: suggestion.id,
+      nombre: suggestion.art_detalles,
+      marca: suggestion.marca.mar_detalles,
+      precio: suggestion.art_precioventa,
+      preciocosto: suggestion.art_ultimocosto,
+      impuesto: suggestion.art_impuestoventa,
+      cantidad: quantity,
+      total: suggestion.art_precioventa * quantity,
+    };
+    setShoppingCart([...shoppingCart, newItem]);
+    setTotalQuantity(totalQuantity + parseInt(quantity, 10));
+    setTotalAmount(totalAmount + newItem.total);
+    onSuggestionsClearRequested();
+    setValue("");
+    setSelectedProduct(null);
+    setQuantity(1);
+    inputBuscarRef.current.focus();
+  };
+
+  //cambiamos las cantidades
+  const handleChangeCantidad = (e, index) => {
+     const updatedCart = [...shoppingCart];
+     const value=Number(e.target.value);
+     updatedCart[index].cantidad = value;
+     updatedCart[index].total = Number(updatedCart[index].precio) * value;
+     let can = 0;
+     let vtotal = 0;
+     updatedCart.forEach(ele => {
+       can+=Number(ele.cantidad);
+       vtotal+=Number(ele.total);
+     });
+     setShoppingCart(updatedCart);
+     setTotalQuantity(can);
+     setTotalAmount(vtotal);
   };
 
   //!abre modal de pago:
@@ -419,9 +456,22 @@ function Sales() {
           infoModalError.mensaje = messageError;
           return;
        };
-       setSelectedProduct(buscado);
-       setArtCodbarra(buscado.art_detalles);
-       console.log(artCodbarra)
+       //agregamos directamente al carrito
+       const newItem = {
+          id: buscado.id,
+          nombre: buscado.art_detalles,
+          marca: buscado.marca.mar_detalles,
+          precio: buscado.art_precioventa,
+          preciocosto: buscado.art_ultimocosto,
+          impuesto: buscado.art_impuestoventa,
+          cantidad: quantity,
+          total: buscado.art_precioventa * quantity,
+       };
+       setShoppingCart([...shoppingCart, newItem]);
+       setTotalQuantity(totalQuantity + parseInt(quantity, 10));
+       setTotalAmount(totalAmount + newItem.total);
+       setSelectedProduct(null);
+       setQuantity(1);
        setCodbarra("");
     }
   };
@@ -573,34 +623,15 @@ function Sales() {
                 }}
               />
             </div>
-            <div className="flex flex-row gap-2">
-              <div className="flex flex-row items-center gap-3">
-                <h6>Cantidad</h6>
-                <input
-                  id="inputCantidad"
-                  className="text-center rounded-[17px] border-2 border-black p-[2px]"
-                  type="number"
-                  value={quantity}
-                  onChange={(e) => setQuantity(e.target.value)}
-                  onKeyDown={handleCantidadKeyDown}
-                  ref={inputCantidadRef}
-                />
-              </div>
-            </div>
-            <div>
-              <button
-                className="bg-customBlue text-white px-4 py-1 rounded-2xl"
-                onClick={handleAddToCart}
-              >
-                Agregar
-              </button>
-            </div>
+
+
           </div>
 
           <ShoppingCartTable
             infoHeader={infoHeader}
             shoppingCart={shoppingCart}
             onDeleteFromCart={handleDeleteFromCart}
+            onChangeCantidad={handleChangeCantidad}
           />
 
           <div
