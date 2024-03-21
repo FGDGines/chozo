@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { SlLogout } from "react-icons/sl";
 import logo from "../assets/logo/elChozo.png";
 import logoFGD from "../assets/logo/logoFGD.png";
 import background from "../assets/logo/background2.jpg";
@@ -21,27 +22,27 @@ function Home(props) {
   const toLogin = () => {
     props.handleLogout();
   };
+
   return (
-    <div
-      className="h-screen flex flex-col items-center pt-3 w-screen justify-start bg-gray-200"
-      style={backgroundStyle}
-    >
-      <img src={logo} alt="El Chozo Logo" className="mb-8 w-[300px]" />
-      <button
-        onClick={() => toLogin()}
-        className="absolute top-3 left-3 bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring focus:border-blue-300"
-      >
-        Salir
-      </button>{" "}
-      <div className="flex  flex-col gap-6 justify-center items-center">
-        <div className="flex gap-[100px] flex-row">
+    <div className="h-screen  w-screen "
+    style={backgroundStyle}>
+      
+         <button
+          onClick={() => toLogin()}
+          className="absolute top-5 left-10 p-2 hover:scale-105 transition text-gray-100 duration-300">{<SlLogout className="text-blue-500 h-8 w-8" />}
+          </button>
+
+    <div className="flex  items-center  justify-center">
+      <img src={logo} alt="El Chozo Logo" className="pt-10 pb-10 w-[300px]" />
+      </div>
+      <div className="flex justify-center pt-10">
+        <div className="grid grid-cols-2 gap-4 place-content-center md:grid-cols-3 lg:grid-cols-4 md:gap-6 lg:gap-10">
           <Link
             className="p-4 w-[150px] text-lg font-bold flex justify-center items-center rounded-3xl bg-blue-500 hover:scale-105 transition text-gray-100 duration-300"
             to="/sales"
           >
             Ventas
           </Link>
-
           <Link
             className="p-4 w-[150px] text-lg font-bold flex justify-center items-center rounded-3xl bg-blue-500 hover:scale-105 transition text-gray-100 duration-300"
             to="/shopping"
@@ -61,10 +62,6 @@ function Home(props) {
           >
             Clientes
           </Link>
-        </div>
-        <div className="flex gap-[100px] flex-row">
-
-
           <Link
             className="p-4 w-[150px] text-lg font-bold flex justify-center items-center rounded-3xl bg-blue-500 hover:scale-105 transition text-gray-100 duration-300"
             to="/providers"
@@ -92,12 +89,13 @@ function Home(props) {
             Configuracion
           </Link>
         </div>
-      </div>
+        </div>
       <img
         src={logoFGD}
-        className="w-[100px] px-2 absolute bottom-3 bg-white rounded-2xl right-[50px]"
+        className="w-[100px] px-2 mb-5 absolute bottom-3 bg-white rounded-2xl right-[50px]"
         alt=""
       />
+    
     </div>
   );
 }
