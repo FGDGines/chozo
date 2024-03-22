@@ -129,7 +129,7 @@ function Inventory() {
 
 
    return (
-       <div className="mx-auto mt-10 max-w-[80%]">
+       <div className="mx-auto mt-10 max-w-[85%]">
            {modalKardex
            ? (<ModalKardex onClose={closeModal} record={record}/>) : ("")}
            {showModalError ? <ModalError infoModalError={infoModalError} /> : ""}
@@ -140,7 +140,7 @@ function Inventory() {
                      <th>Detalles</th>
                      <th>Referencia</th>
                      <th>Grupo</th>
-                     <th>Unidad</th>
+                     <th>Und</th>
                      <th className="text-right">Sistema</th>
                      <th className="text-center">Real</th>
                      <th className="text-right">Costo</th>
@@ -160,8 +160,8 @@ function Inventory() {
                              type="number" 
                              onChange={(e)=>handleChange(e, ele.id)}
                              value={ele.real} /></td>
-                        <td className="text-right">{ele.costo}</td>
-                        <td className="text-right">{ele.totales}</td>
+                        <td className="text-right">{ele.costo.toFixed(2)}{" "}€</td>
+                        <td className="text-right w-20">{ele.totales.toFixed(2)}{" "}€</td>
                         <th><button 
                             className="bg-blue-500 px-2 py-1 rounded-md"
                             onClick={(e)=>handleKardex(e, ele.id)}
@@ -172,8 +172,8 @@ function Inventory() {
                      <th>TOTALES</th>
                      <th></th><th></th><th></th>
                      <th className="text-right">{totalSistema}</th>
-                     <th className="text-center">{totalReal}</th><th></th>
-                     <th className="text-right">{granTotal}</th>
+                     <th className="text-right">{totalReal}</th><th></th>
+                     <th className="text-right">{granTotal.toFixed(2)} €</th>
 
                   </tr>
                </tbody>

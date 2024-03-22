@@ -106,6 +106,40 @@ function Buy() {
     setTotalAmount(totalAmount - deletedItem.total);
   };
 
+  //cambiamos las cantidades
+  const handleChangeCantidad = (e, index) => {
+      const updatedCart = [...shoppingCart];
+      const value=Number(e.target.value);
+      updatedCart[index].cantidad = value;
+      updatedCart[index].total = Number(updatedCart[index].precio) * value;
+      let can = 0;
+      let vtotal = 0;
+      updatedCart.forEach(ele => {
+        can+=Number(ele.cantidad);
+        vtotal+=Number(ele.total);
+      });
+      setShoppingCart(updatedCart);
+      setTotalQuantity(can);
+      setTotalAmount(vtotal);
+  };
+
+  const handleChangeCosto = (e, index) => {
+     const value = Number(e.target.value);
+     const updatedCart = [...shoppingCart];
+     updatedCart[index].precio = value; 
+     updatedCart[index].total = Number(updatedCart[index].cantidad) * value;
+     let totalQuantity = 0;
+     let totalAmount = 0;
+     updatedCart.forEach((item) => {
+       totalQuantity += Number(item.cantidad);
+       totalAmount += Number(item.total);
+     });
+  
+     setShoppingCart(updatedCart); 
+     setTotalQuantity(totalQuantity); 
+     setTotalAmount(totalAmount); 
+  };
+
   const onSuggestionsFetchRequested = ({ value }) => {
     setSuggestions(getSuggestions(value));
   };
@@ -114,6 +148,24 @@ function Buy() {
   };
   const onSuggestionSelected = (event, { suggestion }) => {
     setSelectedProduct(suggestion);
+    const newItem = {
+      id: suggestion.id,
+      nombre: suggestion.art_detalles,
+      marca: suggestion.marca.mar_detalles,
+      precio: suggestion.art_ultimocosto,
+      impuesto: suggestion.art_impuestoventa,
+      cantidad: quantity,
+      total: suggestion.art_ultimocosto * quantity,
+    };
+    setShoppingCart([...shoppingCart, newItem]);
+    setTotalQuantity(totalQuantity + parseInt(quantity, 10));
+
+    setTotalAmount(totalAmount + newItem.total);
+    onSuggestionsClearRequested();
+    setValue("");
+    setSelectedProduct(null);
+    setQuantity(1);
+    inputBuscarRef.current.focus();
   };
 
   const handleAddToCart = () => {
@@ -307,38 +359,15 @@ function Buy() {
                 }}
               />
             </div>
-            <div className="flex flex-row gap-2">
-              <div className="flex flex-row items-center gap-3">
-                <h6>Cantidad</h6>
-                <input
-                  id="inputCantidad"
-                  className="text-center rounded-[17px] border-2 border-black p-[2px]"
-                  type="number"
-                  value={quantity}
-                  onChange={(e) => setQuantity(e.target.value)}
-                  onKeyDown={handleCantidadKeyDown}
-                  ref={inputCantidadRef}
-                />
-              </div>
-            </div>
-            <div>
-              <button
-                className={`px-4 py-1 rounded-2xl ${
-                  infoHeader.isViewSale
-                    ? "bg-customBlue text-white"
-                    : "bg-gray-600 text-white"
-                }`}
-                onClick={handleAddToCart}
-              >
-                Agregar
-              </button>
-            </div>
+
           </div>
 
           <ShoppingCartTable
             infoHeader={infoHeader}
             shoppingCart={shoppingCart}
             onDeleteFromCart={handleDeleteFromCart}
+            onChangeCantidad={handleChangeCantidad}
+            onChangeCosto={handleChangeCosto}
           />
 
           <div

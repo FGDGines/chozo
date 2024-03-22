@@ -48,7 +48,7 @@ function Accounting() {
          accessorKey: "",
          cell: (row) => (
            <button
-             className="px-2 py-1 bg-customBlue text-white rounded-md hover:scale-105 transition"
+             className="px-2 py-1 bg-red-400 text-white rounded-md hover:scale-105 transition"
              onClick={() => handleEliminar(row)}
            >
              Eliminar
