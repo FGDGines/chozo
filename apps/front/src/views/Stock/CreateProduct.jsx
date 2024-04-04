@@ -112,10 +112,11 @@ function CreateProduct() {
       ) {
         notifyError();
       } else {
-        const response = await axios.post(
-          "api/articulos",
-          product
-        );
+        const response = await axios.post("api/articulos",product, {
+          headers: {
+            token: token,
+          },
+        });
         setProduct({
           art_detalles: "",
           art_referencia: "",
@@ -144,7 +145,7 @@ function CreateProduct() {
       </h2>
       </div>
       <div className="bg-gray-100 shadow-lg border-[1.5px]  border-bg-gray-100 rounded px-8   mb-4 flex flex-col my-2 ">
-      <form className="" onSubmit={handleSubmit}>
+      <form>
         <div className="grid grid-cols-3 mt-5 mb-5 gap-5">
             <div className="mb-4  gap-4 items-center">
               <label
@@ -321,7 +322,7 @@ function CreateProduct() {
 
         <div className=" w-full flex justify-center items-center mt-5">
           <button
-            type="submit"
+            onClick={(e)=>handleSubmit(e)}
             className="bg-gray-900 text-white py-2 px-5 rounded-md hover:bg-gray-800 mb-4"
           >
             Crear Producto
