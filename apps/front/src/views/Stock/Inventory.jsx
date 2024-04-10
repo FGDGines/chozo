@@ -4,6 +4,9 @@ import ModalKardex from "../../components/ModalKardex";
 import ModalError from "../../components/ModalError";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { RiLoader2Fill } from "react-icons/ri";
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
 
 
 function Inventory() {
@@ -17,6 +20,7 @@ function Inventory() {
    const notify = () => toast.success("¡Ajuste Ejecutado!");
    const [showModalError, setShowModalError] = useState(false);
    const [messageError, setMessageError] = useState("");
+   const doc = new jsPDF();
 
    const closeModal = () => {
      setModalKardex(false);
@@ -103,6 +107,26 @@ function Inventory() {
       setModalKardex(true);
    };
 
+   const imprimir = () => {
+      
+      autoTable(doc, {
+         html: "#my-table",
+         bodyStyles: { fillColor: "#b5e4d4" },
+         columnStyles: {
+           0: { halign: "left" },
+           1: { halign: "center" },
+           4: { halign: "right" },
+           5: { halign: "right" },
+           6: { halign: "right" },
+           7: { halign: "right"},
+
+         },
+         theme: "striped",
+         StyleDef: {fontSize: 6},
+       }),
+       doc.save("articulos.pdf")
+   };
+
    const handleAjustar = async(e) => {
       e.preventDefault();
       if(totalReal == totalSistema) {
@@ -133,8 +157,21 @@ function Inventory() {
            {modalKardex
            ? (<ModalKardex onClose={closeModal} record={record}/>) : ("")}
            {showModalError ? <ModalError infoModalError={infoModalError} /> : ""}
-           <h2 className="text-2xl bg-customBlue p-2 rounded-[30px] text-white px-5">Inventario Fisico</h2>
-           <table className="min-w-full leading-normal">
+           <div className="flex bg-customBlue p-2 rounded-[30px] justify-between">
+              <h2 className="text-2xl text-white px-5">Inventario Fisico</h2>
+              <button className="text-l text-white bg-green-400 rounded-xl px-2 hover:bg-green-600"
+                      onClick={()=>imprimir()}>Generar PDF</button>
+           </div>
+            {articulos.length==0 ? (
+               <div className="text-gray-600 flex justify-center items-center w-full h-screen">
+                  <div className="flex flex-col justify-center items-center">
+                  <RiLoader2Fill className="text-[60px] mr-5 text-customBlue" />
+                   Cargando...
+                 </div>
+              </div>
+           ) : (
+           <div> 
+           <table className="min-w-full leading-normal" id="my-table">
                <thead>
                   <tr>
                      <th>Detalles</th>
@@ -182,6 +219,8 @@ function Inventory() {
                onClick={(e)=>handleAjustar(e)}
                >Ajustar Inventario
            </button>
+           </div>
+           )}
            <ToastContainer
                 position="top-right"
                 autoClose={2000}

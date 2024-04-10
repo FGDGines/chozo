@@ -28,7 +28,7 @@ function Sales() {
   const [descuento, setDescuento] = useState(0);
   const [showModalError, setShowModalError] = useState(false);
   const [messageError, setMessageError] = useState("");
-  const [selectedCaja, setSelectedCaja] = useState("");
+  const [selectedCaja, setSelectedCaja] = useState({});
   const [clientes, setClientes] = useState([]);
   const [selectedClient1, setselectedClient1] = useState(0);
   // pagos
@@ -39,6 +39,19 @@ function Sales() {
   const [pagoModalEfectivo, setPagoModalEfectivo] = useState(false);
   const [creaClienteModal, setCreaClienteModal] = useState(false);
   const [idPagoCredito, setIdPagoCredito] = useState(0);
+  
+
+  const cargarCaja = async() => {
+    const idUsuario = localStorage.getItem("idUsuario");
+    const response = await axios.get("api/cajas", {
+      headers: {
+        token: token,
+      },      
+    });
+    const datos = response.data;
+    const datoscaja = datos.find(ele=>ele.usuario_id==idUsuario && ele.caj_activa==1);
+    setSelectedCaja(datoscaja);
+  };
 
   const getCuentaBancaria = async() => {
     try {
@@ -144,10 +157,11 @@ function Sales() {
     getClient();
     getClientesVarios();
     getFpagoCredito();
-    const storedCajero = localStorage.getItem("selectedCajero");
-    if (storedCajero) {
-      setSelectedCaja(JSON.parse(storedCajero));
-    };
+    cargarCaja();
+    //const storedCajero = localStorage.getItem("selectedCajero");
+    //if (storedCajero) {
+    //  setSelectedCaja(JSON.parse(storedCajero));
+    //};
   }, []);
 
   const date = new Date();
@@ -162,7 +176,7 @@ function Sales() {
     person1: "Cajero",
     person2: "Cliente",
     isViewSale: true,
-    setSelectedCaja,
+    selectedCaja,
     setselectedClient1,
   };
 
@@ -384,7 +398,7 @@ function Sales() {
         total: parseFloat(totalAmount.toFixed(2)),
         metodopago: selectedPaymentMethod === "Efectivo" ? 1 : 2,
         terceroid: selectedClient1==0 ? idCliVarios : selectedClient1,
-        cajaid: selectedCaja.value,
+        cajaid: selectedCaja.id,
         items: shoppingCart.map((item) => ({
           articuloId: item.id,
           valoruni: item.precio,
@@ -395,7 +409,7 @@ function Sales() {
         fpagos: formasdePago,
         token: token,
       };
-      console.log(saleData);
+
       if (
         !selectedClient1 ||
         !saleData.fecha ||
@@ -616,7 +630,7 @@ function Sales() {
           onChange={(e) => setCodbarra(e.target.value)}
           onKeyDown={handleCodbarraKeyDown}
           />
-          <div className="text-lg ml-2 mt-0">{artCodbarra}</div>
+
         </div>
         <div
           id="conteiner"

@@ -101,43 +101,32 @@ const HeaderVenta = ({ formattedDate, infoHeader, handleOpenModalClientes, clien
 
   
   return (
-    <div className="pl-2 flex flex-row w-full justify-between items-center pr-5">
-        <div>
+    <div className="pl-2 flex flex-row w-full justify-between items-center pr-5 bg-gray-100 rounded-xl">
+ 
+        <div className="flex flex-col gap-3 justify-center items-start w-[30%]">
             <h2 className="text-[30px] font-SFMedium">{infoHeader.title}</h2>
-            <div className="text-gray-500 mt-1">
-                Fecha de la orden: {formattedDate}
-            </div>
-            <div className="text-gray-500 mt-1">Punto de venta: Dirección</div>
-        </div>
-
-  
-        <div className="flex flex-col gap-3 justify-center items-end w-[30%]">
-            <div className="flex flex-row items-center gap-3">
-                {infoHeader.person1}
-                <Select
-                 value={selectedCajero}
-                 onChange={handleUserChange}
-                 options={cajas}
-                 isSearchable
-                 placeholder="Seleccione un usuario..."
-                 className="w-[250px]"
-                />
-            </div>
             <div className="flex flex-row items-center gap-3">
                 <button onClick={handleOpenModalClientes}>
                     <IoPersonAdd className="text-sky-500 text-lg" />
                 </button>
                 {infoHeader.person2}
                 <select name="cliente" 
-                    className="w-[400px] border-solid"
+                    className="w-[400px] border-solid bg-blue-100 py-2"
                     onChange={(e)=>handleClientChange(e)}>
-                    <option value="0">Selecione Cliente</option>
+                    <option value="0">Seleccione Cliente</option>
                     {clientes.map(ele =>
                        <option value={ele.id}>{ele.ter_tercero} - {ele.ter_documento}</option>
                     )}
                 </select>
             </div>
         </div>
+        <div>
+            <div className="text-gray-500 mt-1">
+                Fecha de la orden: {formattedDate}
+            </div>
+            <div className="text-gray-500 mt-1">Caja : {infoHeader.selectedCaja.caj_detalles}</div>
+        </div>
+
         <div>
             <img src={logo} className="w-[200px]" alt="" />
         </div>
