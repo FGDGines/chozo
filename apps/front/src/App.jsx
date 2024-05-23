@@ -35,6 +35,7 @@ import BalancePrueba from "./views/Accounting/BalancePrueba";
 import Auxiliares from "./views/Accounting/Auxiliares";
 import Users from "./views/Config/Users";
 import Inventory from "./views/Stock/Inventory";
+import Etiquetas from "./views/Stock/Etiquetas";
 import { ToastContainer, toast } from "react-toastify";
 
 function App() {
@@ -472,7 +473,19 @@ function App() {
               <Navigate to="/" />
             )
           }
-        />                                                                                                                                                                                                                                                                                                                
+        />     
+        <Route
+          path="/Etiquetas"
+          element={
+            isAuthenticated ? (
+              <MainLayout showSidebar={true}>
+                <Etiquetas handleLogout={handleLogout} />
+              </MainLayout>
+            ) : (
+              <Navigate to="/" />
+            )
+          }
+        />                                                                                                                                                                                                                                                                                                                            
       </Routes>
     </div>
   );
