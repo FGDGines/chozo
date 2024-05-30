@@ -2,12 +2,14 @@ import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import jsBarcode from 'jsbarcode';
 import {useReactToPrint} from 'react-to-print';
-
+import Etiqueta from "../../components/Etiqueta";
 
 function Etiquetas() {
    const token = localStorage.getItem("token");
    const [articulos, setArticulos] = useState([]);
    const printRef = useRef();
+   const [filas, setFilas] = useState(1);
+   const [columnas, setColumnas] = useState(2);
    const [selectedArt, setSelectedArt] = useState({
      id: 0,
      detalles: "",
@@ -54,6 +56,16 @@ function Etiquetas() {
       content: () => printRef.current,
    });
 
+   const handleCambiar = (e, tipo) => {
+     e.preventDefault();
+     const value= e.target.value;
+     if(tipo==1) {
+       setFilas(value);
+     } else {
+       setColumnas(value);
+     };
+   };
+
    return (
      <div className="mx-auto mt-10 max-w-[80%]">
         <h2 className="text-2xl bg-customBlue p-2 rounded-[30px] text-white px-5">Impresión Etiquetas</h2>
@@ -65,8 +77,8 @@ function Etiquetas() {
                 )}
             </select>
         </div>
-        <div className="flex">
-           <div className=" shadow-xl w-[50%] mt-5 p-5">
+        <div className="flex justify-center">
+           <div className=" shadow-xl w-[50%] p-5">
               <h1 className="w-full bg-blue-400 text-white text-center" >Detalles del Articulo</h1>   
               <div className="grid grid-cols-2 gap-2">
                 <div>Articulo</div>
@@ -79,28 +91,215 @@ function Etiquetas() {
                 <div>{selectedArt.codbarra}</div>
                 <div>Precio</div>
                 <div>{selectedArt.precio.toFixed(2)}</div>
+                <div className="flex justify-start">
+                  <h1>Filas :</h1>
+                  <input type="number" value={filas} min="1" max="6" className="w-20 text-right"
+                   onChange={(e)=>handleCambiar(e, 1)}
+                  />
+                </div>
+                <div className="flex justify-start">
+                  <h1>Columnas :</h1>
+                  <input type="number" value={columnas} min="1" max="3" className="w-20 text-right"
+                   onChange={(e)=>handleCambiar(e, 2)}
+                  />
+                </div>
               </div>
            </div>
-           <div className="shadow-xl w-[50%] mt-5 p-5">
+        </div>
+        <div className="flex justify-center">
+           <div className="shadow-xl w-full  p-3">
               <h1 className="w-full bg-blue-400 text-white text-center" >Etiqueta</h1>
-              <div ref={printRef}>
-                 <h1 className="text-center">{selectedArt.detalles}</h1>
-                 <h1 className="text-center">Ref: {selectedArt.referen}</h1>
-                 <div className="flex justify-center">
-                    <img src="" id="BarCode" alt="barcode"/>
-                 </div>
-                 <h1 className="text-center text-lg">{selectedArt.precio.toFixed(2)}{" "}€</h1>
-              </div> 
-              <div className="flex justify-center">
-                 <button className="bg-blue-400 px-3 py-1 text-white rounded-xl hover:blue-700"
-                  onClick={()=>handlePrint()}
-                 >
-                  Imprimir Etiqueta
-                 </button>
-              </div>
- 
+              <div ref={printRef} className="">
+                <div id="fila1" className="flex justify-between">
+                   <div id="col1">
+                      <h1 className="text-center">{selectedArt.detalles}</h1>
+                      <h1 className="text-center">Ref: {selectedArt.referen}</h1>
+                      <div className="flex justify-center">
+                         <img src="" id="BarCode" alt="barcode"/>
+                      </div>
+                      <h1 className="text-center text-lg">{selectedArt.precio.toFixed(2)}{" "}€</h1>
+                   </div>
+                   {columnas>1 ? (
+                   <div id="col2">
+                      <h1 className="text-center">{selectedArt.detalles}</h1>
+                      <h1 className="text-center">Ref: {selectedArt.referen}</h1>
+                      <div className="flex justify-center">
+                         <img src="" id="BarCode" alt="barcode"/>
+                      </div>
+                      <h1 className="text-center text-lg">{selectedArt.precio.toFixed(2)}{" "}€</h1>
+                   </div> ) : (" ")}
+                   {columnas==3 ? (
+                   <div id="col3">
+                      <h1 className="text-center">{selectedArt.detalles}</h1>
+                      <h1 className="text-center">Ref: {selectedArt.referen}</h1>
+                      <div className="flex justify-center">
+                         <img src="" id="BarCode" alt="barcode"/>
+                      </div>
+                      <h1 className="text-center text-lg">{selectedArt.precio.toFixed(2)}{" "}€</h1>
+                   </div> ) : (" ") }
+                </div>
+
+                {filas>1 ? (
+                <div id="fila2" className="flex justify-between">
+                <div id="col21">
+                   <h1 className="text-center">{selectedArt.detalles}</h1>
+                   <h1 className="text-center">Ref: {selectedArt.referen}</h1>
+                   <div className="flex justify-center">
+                      <img src="" id="BarCode" alt="barcode"/>
+                   </div>
+                   <h1 className="text-center text-lg">{selectedArt.precio.toFixed(2)}{" "}€</h1>
+                </div>
+                {columnas>1 ? (
+                <div id="col22">
+                   <h1 className="text-center">{selectedArt.detalles}</h1>
+                   <h1 className="text-center">Ref: {selectedArt.referen}</h1>
+                   <div className="flex justify-center">
+                      <img src="" id="BarCode" alt="barcode"/>
+                   </div>
+                   <h1 className="text-center text-lg">{selectedArt.precio.toFixed(2)}{" "}€</h1>
+                </div> ) : (" ")}
+                {columnas==3 ? (
+                <div id="col23">
+                   <h1 className="text-center">{selectedArt.detalles}</h1>
+                   <h1 className="text-center">Ref: {selectedArt.referen}</h1>
+                   <div className="flex justify-center">
+                      <img src="" id="BarCode" alt="barcode"/>
+                   </div>
+                   <h1 className="text-center text-lg">{selectedArt.precio.toFixed(2)}{" "}€</h1>
+                </div> ) : (" ") }
+             </div> ): (" ")}
+
+             {filas>2 ? (
+                <div id="fila3" className="flex justify-between">
+                <div id="col31">
+                   <h1 className="text-center">{selectedArt.detalles}</h1>
+                   <h1 className="text-center">Ref: {selectedArt.referen}</h1>
+                   <div className="flex justify-center">
+                      <img src="" id="BarCode" alt="barcode"/>
+                   </div>
+                   <h1 className="text-center text-lg">{selectedArt.precio.toFixed(2)}{" "}€</h1>
+                </div>
+                {columnas>1 ? (
+                <div id="col32">
+                   <h1 className="text-center">{selectedArt.detalles}</h1>
+                   <h1 className="text-center">Ref: {selectedArt.referen}</h1>
+                   <div className="flex justify-center">
+                      <img src="" id="BarCode" alt="barcode"/>
+                   </div>
+                   <h1 className="text-center text-lg">{selectedArt.precio.toFixed(2)}{" "}€</h1>
+                </div> ) : (" ")}
+                {columnas==3 ? (
+                <div id="col33">
+                   <h1 className="text-center">{selectedArt.detalles}</h1>
+                   <h1 className="text-center">Ref: {selectedArt.referen}</h1>
+                   <div className="flex justify-center">
+                      <img src="" id="BarCode" alt="barcode"/>
+                   </div>
+                   <h1 className="text-center text-lg">{selectedArt.precio.toFixed(2)}{" "}€</h1>
+                </div> ) : (" ") }
+             </div> ): (" ")}
+
+             {filas>3 ? (
+                <div id="fila4" className="flex justify-between">
+                <div id="col41">
+                   <h1 className="text-center">{selectedArt.detalles}</h1>
+                   <h1 className="text-center">Ref: {selectedArt.referen}</h1>
+                   <div className="flex justify-center">
+                      <img src="" id="BarCode" alt="barcode"/>
+                   </div>
+                   <h1 className="text-center text-lg">{selectedArt.precio.toFixed(2)}{" "}€</h1>
+                </div>
+                {columnas>1 ? (
+                <div id="col42">
+                   <h1 className="text-center">{selectedArt.detalles}</h1>
+                   <h1 className="text-center">Ref: {selectedArt.referen}</h1>
+                   <div className="flex justify-center">
+                      <img src="" id="BarCode" alt="barcode"/>
+                   </div>
+                   <h1 className="text-center text-lg">{selectedArt.precio.toFixed(2)}{" "}€</h1>
+                </div> ) : (" ")}
+                {columnas==3 ? (
+                <div id="col43">
+                   <h1 className="text-center">{selectedArt.detalles}</h1>
+                   <h1 className="text-center">Ref: {selectedArt.referen}</h1>
+                   <div className="flex justify-center">
+                      <img src="" id="BarCode" alt="barcode"/>
+                   </div>
+                   <h1 className="text-center text-lg">{selectedArt.precio.toFixed(2)}{" "}€</h1>
+                </div> ) : (" ") }
+             </div> ): (" ")}
+
+             {filas>4 ? (
+                <div id="fila5" className="flex justify-between">
+                <div id="col51">
+                   <h1 className="text-center">{selectedArt.detalles}</h1>
+                   <h1 className="text-center">Ref: {selectedArt.referen}</h1>
+                   <div className="flex justify-center">
+                      <img src="" id="BarCode" alt="barcode"/>
+                   </div>
+                   <h1 className="text-center text-lg">{selectedArt.precio.toFixed(2)}{" "}€</h1>
+                </div>
+                {columnas>1 ? (
+                <div id="col52">
+                   <h1 className="text-center">{selectedArt.detalles}</h1>
+                   <h1 className="text-center">Ref: {selectedArt.referen}</h1>
+                   <div className="flex justify-center">
+                      <img src="" id="BarCode" alt="barcode"/>
+                   </div>
+                   <h1 className="text-center text-lg">{selectedArt.precio.toFixed(2)}{" "}€</h1>
+                </div> ) : (" ")}
+                {columnas==3 ? (
+                <div id="col53">
+                   <h1 className="text-center">{selectedArt.detalles}</h1>
+                   <h1 className="text-center">Ref: {selectedArt.referen}</h1>
+                   <div className="flex justify-center">
+                      <img src="" id="BarCode" alt="barcode"/>
+                   </div>
+                   <h1 className="text-center text-lg">{selectedArt.precio.toFixed(2)}{" "}€</h1>
+                </div> ) : (" ") }
+             </div> ): (" ")}
+
+             {filas>5 ? (
+                <div id="fila6" className="flex justify-between">
+                <div id="col61">
+                   <h1 className="text-center">{selectedArt.detalles}</h1>
+                   <h1 className="text-center">Ref: {selectedArt.referen}</h1>
+                   <div className="flex justify-center">
+                      <img src="" id="BarCode" alt="barcode"/>
+                   </div>
+                   <h1 className="text-center text-lg">{selectedArt.precio.toFixed(2)}{" "}€</h1>
+                </div>
+                {columnas>1 ? (
+                <div id="col62">
+                   <h1 className="text-center">{selectedArt.detalles}</h1>
+                   <h1 className="text-center">Ref: {selectedArt.referen}</h1>
+                   <div className="flex justify-center">
+                      <img src="" id="BarCode" alt="barcode"/>
+                   </div>
+                   <h1 className="text-center text-lg">{selectedArt.precio.toFixed(2)}{" "}€</h1>
+                </div> ) : (" ")}
+                {columnas==3 ? (
+                <div id="col63">
+                   <h1 className="text-center">{selectedArt.detalles}</h1>
+                   <h1 className="text-center">Ref: {selectedArt.referen}</h1>
+                   <div className="flex justify-center">
+                      <img src="" id="BarCode" alt="barcode"/>
+                   </div>
+                   <h1 className="text-center text-lg">{selectedArt.precio.toFixed(2)}{" "}€</h1>
+                </div> ) : (" ") }
+             </div> ): (" ")}
+
+             </div> 
            </div>
-           
+        </div>  
+
+
+        <div className="flex justify-center">
+             <button className="bg-blue-400 px-3 py-1 text-white rounded-xl hover:blue-700"
+              onClick={()=>handlePrint()}
+             >
+               Imprimir Etiquetas
+             </button>
         </div>
      </div>
    )
