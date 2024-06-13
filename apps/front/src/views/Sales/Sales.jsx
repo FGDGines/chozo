@@ -39,7 +39,9 @@ function Sales() {
   const [pagoModalEfectivo, setPagoModalEfectivo] = useState(false);
   const [creaClienteModal, setCreaClienteModal] = useState(false);
   const [idPagoCredito, setIdPagoCredito] = useState(0);
-  
+
+  //https://v2.chakra-ui.com/getting-started
+  //https://tailwindcomponents.com/search?query=card&page=4
 
   const cargarCaja = async() => {
     const idUsuario = localStorage.getItem("idUsuario");

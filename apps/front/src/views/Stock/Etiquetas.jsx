@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import {Link} from 'react-router-dom';
 import axios from "axios";
 import jsBarcode from 'jsbarcode';
 import {useReactToPrint} from 'react-to-print';
@@ -68,8 +69,12 @@ function Etiquetas() {
 
    return (
      <div className="mx-auto mt-10 max-w-[80%]">
-        <h2 className="text-2xl bg-customBlue p-2 rounded-[30px] text-white px-5">Impresión Etiquetas</h2>
-        <div className="flex justify-center mt-5">
+        <div className="flex justyfy-between w-full bg-customBlue rounded-lg p-2">
+           <h2 className="text-2xl bg-customBlue rounded-[30px] text-white px-3">Impresión Etiquetas</h2>
+           <Link to="/Labels">
+           <button className="bg-green-500 text-white px-2 py-1 rounded-lg">Labels</button></Link>
+        </div>
+           <div className="flex justify-center mt-5">
             <select onChange={(e)=>handleSeleccion(e)}>
                 <option value="0">Seleccione artículo...</option>
                 {articulos.map(ele=>

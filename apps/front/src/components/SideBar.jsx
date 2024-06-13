@@ -149,6 +149,13 @@ function SideBar() {
       { icon: <LuPackage />, text: "Lineas", to: "/lineas" },
       { icon: <LuPackage />, text: "Inventario", to: "/inventario" },
     ],
+    Labels: [
+      { icon: <MdHome />, text: "Inicio", to: "/home" },
+      { icon: <LuPackage />, text: "Stock", to: "/stock" },
+      { icon: <LuPackagePlus />, text: "Nuevo", to: "/createProduct" },
+      { icon: <LuPackage />, text: "Lineas", to: "/lineas" },
+      { icon: <LuPackage />, text: "Inventario", to: "/inventario" },
+    ],
     createProduct: [
       { icon: <MdHome />, text: "Inicio", to: "/home" },
       { icon: <LuPackage />, text: "Stock", to: "/stock" },

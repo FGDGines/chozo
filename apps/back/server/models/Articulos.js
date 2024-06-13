@@ -57,6 +57,10 @@ module.exports = (sequelize) => {
                 key: 'id'
             },
         },
+        etiqueta: {
+            type: DataTypes.STRING,
+            allowNull: true,
+        },
         marca_id: {
             type: DataTypes.BIGINT(20),
             defaultValue: 0,

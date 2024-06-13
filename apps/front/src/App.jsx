@@ -36,6 +36,7 @@ import Auxiliares from "./views/Accounting/Auxiliares";
 import Users from "./views/Config/Users";
 import Inventory from "./views/Stock/Inventory";
 import Etiquetas from "./views/Stock/Etiquetas";
+import Labels from "./views/Stock/Labels";
 import { ToastContainer, toast } from "react-toastify";
 
 function App() {
@@ -485,7 +486,19 @@ function App() {
               <Navigate to="/" />
             )
           }
-        />                                                                                                                                                                                                                                                                                                                            
+        /> 
+        <Route
+          path="/Labels"
+          element={
+            isAuthenticated ? (
+              <MainLayout showSidebar={true}>
+                <Labels handleLogout={handleLogout} />
+              </MainLayout>
+            ) : (
+              <Navigate to="/" />
+            )
+          }
+        />                                                                                                                                                                                                                                                                                                                                                  
       </Routes>
     </div>
   );
