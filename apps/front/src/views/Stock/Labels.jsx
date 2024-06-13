@@ -159,7 +159,6 @@ function Labels() {
             {array.map(h=>
                 <div className="shadow-lg p-4">
                     <h1 className="text-center">{h.art_detalles}</h1>
-                    <h1 className="text-center">Ref : {h.art_referencia}</h1>
                     <h1 className="text-center text-xl font-semibold">PVP : {h.precio.toFixed(2)}€</h1>
                     <h1 className="text-center">{h.etiqueta}</h1>
                 </div>    
