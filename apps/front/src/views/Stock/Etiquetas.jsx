@@ -298,7 +298,7 @@ function Etiquetas() {
            </div>
         </div>  
 
-
+  
         <div className="flex justify-center">
              <button className="bg-blue-400 px-3 py-1 text-white rounded-xl hover:blue-700"
               onClick={()=>handlePrint()}

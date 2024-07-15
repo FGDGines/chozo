@@ -47,7 +47,7 @@ function Labels() {
       const filtro = array.filter(ele=>ele.registro!==id);
       setArray(filtro);
    };
-
+   
    const handleAdd = (e, id) => {
       const filtro = array.find(ele=>ele.id==id);
       const newreg = {
