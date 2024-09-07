@@ -108,6 +108,13 @@ const bulkArticulos = async(info) => {
    return result;
 };
 
+//actualiza registro
+const updateEtiqueta = async(datos, id) => {
+   const idA = Number(id);
+   await articulos.update(datos, {where: {id: idA}});
+   const registro = getArticuloById(id);
+   return registro;
+};
 
 module.exports = {
    getArticulos,
@@ -118,4 +125,5 @@ module.exports = {
    bulkArticulos,
    deleteArticulo,
    getKardex,
+   updateEtiqueta,
 };

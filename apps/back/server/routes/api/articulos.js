@@ -4,7 +4,8 @@ const { validarCampos }  = require('../../middlewares/validar-campos');
 const { security_post } = require("../../middlewares/security");
 const {getArticulos, getArticuloById, deleteArticulo,
        getArticulosByIdGrupo, addArticulo, getKardex,
-       updateArticulo, bulkArticulos} = require("../../controllers/api/articulosControllers");
+       updateArticulo, updateEtiqueta,
+       bulkArticulos} = require("../../controllers/api/articulosControllers");
 const server = express();
 
 //devuelve todas los articulos
@@ -117,6 +118,21 @@ server.get('/kardex/:id',  [security_post] , async(req, res) => {
       console.log(error.message);
       res.status(500).json({message: error.message});
    }
+});
+
+//actualiza un articulo
+server.put('/etiqueta/:id',  [security_post] , 
+   [ check('etiqueta', 'La etiqueta del articulo es obligatoria').not().isEmpty() ,validarCampos] ,
+   async(req, res) => {
+   const datos = req.body;
+   const {id} = req.params;
+   try {
+       const result = await updateEtiqueta(datos, id);
+       res.status(200).json(result);
+    } catch (error) {
+       console.log(error.message);
+       res.status(500).json({message: error.message});
+    }
 });
 
 module.exports = server;

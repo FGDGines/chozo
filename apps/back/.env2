@@ -17,3 +17,23 @@ DB_PORT=3306
 DB_NAME=chozodb
 SECRET=
 SECRETORPRIVATEKEY=salkfhaslkjdfhasldjkfh
+
+#nueva BD
+DB_HOST= db5015687886.hosting-data.io
+DB_USER=dbu461617
+DB_PASS=4i3ReYh,Wd3_2024
+DB_PORT=3306
+DB_NAME=dbs12803387
+SECRET=
+SECRETORPRIVATEKEY=salkfhaslkjdfhasldjkfh
+
+#BD deivis
+DB_HOST=mysql-deivistm.alwaysdata.net
+DB_USER=deivistm_fran
+DB_PASS=Deivis31892*
+DB_PORT=3306
+DB_NAME=deivistm_chozo
+SECRET=
+SECRETORPRIVATEKEY=salkfhaslkjdfhasldjkfh
+
+

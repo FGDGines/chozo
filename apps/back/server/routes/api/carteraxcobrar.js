@@ -5,6 +5,7 @@ const { security_post } = require("../../middlewares/security");
 
 const {getCartera, getCarteraByTerceroId,
        getCarteraById, getCarteraxCaja,
+       devuelveConsecutivo, getCarteraMes,
        anulaCartera, addCartera} = require("../../controllers/api/carteraxcobrarControllers");
 const server = express();
 
@@ -19,6 +20,32 @@ server.get('/',  [security_post] , async(req, res) => {
         res.status(500).json({message: error.message});
     }
 });
+
+//consulta todos los registros de cartera
+server.get('/mensual',  [security_post] , async(req, res) => {
+    const {mensual, anual} = req.query;
+    try {
+        const result = await getCarteraMes(mensual, anual);
+        res.status(200).json(result);
+    } catch (error) {
+        console.log(error.message);
+        res.status(500).json({message: error.message});
+    }
+});
+
+
+//devuelve el proximo consecutivo de una fuente
+server.get('/consecutivo',  [security_post] , async(req, res) => {
+    const {fuente, anual} = req.query;
+    try {
+        const result = await devuelveConsecutivo(anual, fuente);
+        res.status(200).json(result);
+    } catch (error) {
+        console.log(error.message);
+        res.status(500).json({message: error.message});
+    }
+});
+
 
 //consulta registro de cartera x el id
 server.get('/:id',  [security_post] , async(req, res) => {

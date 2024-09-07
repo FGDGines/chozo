@@ -22,6 +22,16 @@ const getCartera = async(query) => {
    return result;
 };
 
+//consulta todas las facturas de un mes
+const getCarteraMes = async(mensual, anual) => {
+   let query1="SELECT A.id,A.cxc_numero as numero,A.cxc_fechafac as fecha,B.ter_tercero as tercero,";
+   query1+="A.cxc_valor as valor FROM carteraxcobrar A LEFT JOIN terceros B ON B.id=A.tercero_id ";
+   query1+="WHERE YEAR(A.cxc_fechafac)=? AND MONTH(A.cxc_fechafac)=? ORDER BY A.cxc_numero";
+   const resp = await conex.query(`${query1}`, {replacements: [anual, mensual]});
+   const resul = resp[0];
+   return resul;
+};
+
 //consulta todas las cuentas x cobrar generadas desde una caja
 const getCarteraxCaja = async(id) => {
     const idC = Number(id);
@@ -376,4 +386,6 @@ module.exports = {
    getCarteraxCaja,
    addCartera,
    anulaCartera,
+   devuelveConsecutivo,
+   getCarteraMes,
 };

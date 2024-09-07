@@ -39,8 +39,8 @@ function Sales() {
   const [pagoModalEfectivo, setPagoModalEfectivo] = useState(false);
   const [creaClienteModal, setCreaClienteModal] = useState(false);
   const [idPagoCredito, setIdPagoCredito] = useState(0);
-  
 
+ 
   const cargarCaja = async() => {
     const idUsuario = localStorage.getItem("idUsuario");
     const response = await axios.get("api/cajas", {
@@ -753,6 +753,10 @@ function Sales() {
           </div>
         </div>
       </div>
+      
+      <div className="h-screen w-[20%] bg-blue-300">
+        <h2>Tiquete de Venta</h2>
+      </div>  
     </>
   );
 };

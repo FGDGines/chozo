@@ -39,7 +39,7 @@ function Home(props) {
         <div className="grid grid-cols-2 gap-4 place-content-center md:grid-cols-3 lg:grid-cols-4 md:gap-6 lg:gap-10">
           <Link
             className="p-4 w-[150px] text-lg font-bold flex justify-center items-center rounded-3xl bg-blue-500 hover:scale-105 transition text-gray-100 duration-300"
-            to="/sales"
+            to="/salesNew"
           >
             Ventas
           </Link>
