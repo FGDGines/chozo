@@ -3,18 +3,22 @@ import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import logo from "../../assets/logo/elchozo.png";
 import { MdDeleteSweep } from "react-icons/md";
-import { FaSave } from "react-icons/fa";
 import { MdOutlineCreateNewFolder, MdPrint } from "react-icons/md";
 import { IoLogOutOutline } from "react-icons/io5";
-import { FaSearch } from "react-icons/fa";
+import { FaSearch, FaEdit, FaSave } from "react-icons/fa";
 import { useReactToPrint } from 'react-to-print';
 import { useNavigate } from "react-router-dom";
 import ModalCrearCliente from "../../components/ModalCrearCliente";
 import { ColorRing } from 'react-loader-spinner';
 import ModalBuscarFacturas from "../../components/ModalBuscarFacturas";
+import ModalEditRegistro from "../../components/ModalEditRegistro";
+
 
 function SalesNew(){
     const token = localStorage.getItem("token");
+    let localStorageItems = JSON.parse(localStorage.getItem("Carrito"));
+    const [carrito, setCarrito] = useState(localStorageItems || []);
+
     const date = new Date();
     const navigate = useNavigate();
     const printRef = useRef();
@@ -23,7 +27,6 @@ function SalesNew(){
     const [clientes, setClientes] = useState([]);
     const [selectedClient, setSelectedClient] = useState({id: 0, ter_tercero: ""});
     const [articles, setArticles] = useState([]);
-    const [carrito, setCarrito] = useState([]);
     const [xitem, setXitem] = useState(0);
     const [ctaBanco, setCtaBanco] = useState([]);
     const [totales, setTotales] = useState({bruto: 0, impuesto: 0, total: 0, fpagos: 0, efectivo: 0, entregado: 0, cambio: 0});
@@ -38,6 +41,8 @@ function SalesNew(){
     const [modalClientes, setModalClientes] = useState(false);
     const [viewSpinner, setViewSpinner] = useState(false);
     const [viewBuscar, setViewBuscar] = useState(false);
+    const [viewEditar, setViewEditar] = useState(false);
+    const [record, setRecord] = useState(0);
 
     const formattedDate = `${date.getDate()}/${
       date.getMonth() + 1
@@ -46,7 +51,29 @@ function SalesNew(){
 
     const handleCloseModalClientes = () => setModalClientes(false);
 
+    const handleCloseEditar = () => {
+      setViewEditar(false);
+      const StorageItems = JSON.parse(localStorage.getItem("Carrito"));
+      setCarrito(StorageItems);
+      let bru = 0;
+      let imp = 0;
+      let tot = 0;
+      StorageItems.forEach(i=>{
+        bru+=i.vtotal;
+        imp+=(i.vtotal * i.impuesto)/100;
+      });
+      tot = bru + imp;
+      setTotales({bruto: bru, impuesto: imp, total: tot, fpagos: 0});
+    };
+
+    const closeEditarSinCambios = () => setViewEditar(false);
+
     const openModalClientes = () => setModalClientes(true);
+
+    const handleEditar = (e, reg) => {
+      setRecord(reg);
+      setViewEditar(true);
+    };
   
     //carga las cajs del usuarios activo
     const getCajeros = async() => {
@@ -69,6 +96,9 @@ function SalesNew(){
        setTotales({bruto: 0, impuesto: 0, total: 0, fpagos: 0, efectivo: 0, entregado: 0, cambio: 0});
        setXitem(0);
        setCodbarra("");
+       //localSorage.removeItem("Carrito");
+       const updatedItemsJSON = JSON.stringify([]);
+       localStorage.setItem("Carrito", updatedItemsJSON);
        setSelectedArticulo(0);
     };
 
@@ -147,7 +177,10 @@ function SalesNew(){
        let tot = bru + imp;
        setTotales({bruto: bru, impuesto: imp, total: tot, fpagos: 0, efectivo: 0, entregado: 0, cambio: 0})
        setSelectedArticulo(0);
-      };
+       //localSorage.removeItem("Carrito");
+       const updatedItemsJSON = JSON.stringify([...carrito, newReg]);
+       localStorage.setItem("Carrito", updatedItemsJSON);
+   };
 
     //carga de clientes
     const getClient = async () => {
@@ -204,7 +237,10 @@ function SalesNew(){
       let tot = bru + imp;
       setCarrito(elementos);
       setTotales({bruto: bru, impuesto: imp, total: tot, fpagos: 0, efectivo: 0, entregado: 0, cambio: 0})
-    };
+      //localSorage.removeItem("Carrito");
+      const updatedItemsJSON = JSON.stringify(elementos);
+      localStorage.setItem("Carrito", updatedItemsJSON);
+   };
   
     //seleccionar cliente
     const seleccionarCliente = (e) => {
@@ -243,7 +279,10 @@ function SalesNew(){
       let tot = bru + imp;
       setTotales({bruto: bru, impuesto: imp, total: tot, fpagos: 0, efectivo: 0, entregado: 0, cambio: 0})
       setCodbarra("");
-    };
+      //localSorage.removeItem("Carrito");
+      const updatedItemsJSON = JSON.stringify([...carrito, newReg]);
+      localStorage.setItem("Carrito", updatedItemsJSON);
+   };
     
     //eliminar item
     const handleEliminar = (e, reg) => {
@@ -259,6 +298,9 @@ function SalesNew(){
       });
       tot = bru + imp;
       setTotales({bruto: bru, impuesto: imp, total: tot, fpagos: 0});
+      //localSorage.removeItem("Carrito");
+      const updatedItemsJSON = JSON.stringify(nuevo);
+      localStorage.setItem("Carrito", updatedItemsJSON);
     };
 
     useEffect(() => {
@@ -433,6 +475,7 @@ function SalesNew(){
           setViewSpinner(false);
           return;
        };
+       setSwnuevo(false);
        handlePrint();
        blanquear();
        getConsecutivo();
@@ -452,6 +495,12 @@ function SalesNew(){
         }
         {viewBuscar &&
            <ModalBuscarFacturas onClose={closeBuscarFacturas} />
+        }
+        {viewEditar &&
+           <ModalEditRegistro onClose={handleCloseEditar}
+                              closeSinCambios = {closeEditarSinCambios}
+                              record={record} 
+                              carrito={carrito} />
         }
         <div className="flex">
             <div  ref={printRef} className="w-[30%] border-2 h-screen p-5 bg-white">
@@ -480,8 +529,8 @@ function SalesNew(){
                           <th className="text-left">Detalles</th>
                           <th className="text-center">Cantidad</th>
                           <th className="text-right">Total</th>
+                          {swnuevo && <th classNem="text-rigth">Edit</th> }
                           {swnuevo && <th classNem="text-rigth">Borrar</th> }
-
                        </tr> 
                     </thead>
                     <tbody>
@@ -494,6 +543,11 @@ function SalesNew(){
                                        value={car.cantidad}
                                        onChange={(e)=>handleCantidad(e, car.nitem)}/></td>
                             <td className="text-right">{car.vtotal}€</td>
+                            {swnuevo &&
+                              <td className="px-3 cursor-pointer hover:text-red-700"
+                              onClick={(e)=>handleEditar(e, car.nitem)}><FaEdit size="14"/></td>
+                            }
+
                             {swnuevo &&
                               <td className="px-3 cursor-pointer hover:text-red-700"
                               onClick={(e)=>handleEliminar(e, car.nitem)}><MdDeleteSweep size="14"/></td>
@@ -667,12 +721,12 @@ function SalesNew(){
                        :
                        <div className="flex justify-center shadow-lg p-2 bg-gray-100 border-black border rounded-md">
                           <div className="p-2 bg-gray-300 rounded-lg border border-gray-950 ml-2 cursor-pointer"
-                             onClick={handleBuscar}>
+                             onClick={()=>handleBuscar()}>
                              <FaSearch size="24"/>
                              <h2 className="font-semibold text-[14px]">Buscar</h2>
                           </div>
                           <div className="p-2 bg-gray-300 rounded-lg border border-gray-950 ml-2 cursor-pointer"
-                            onClick={handleNuevo}>
+                            onClick={()=>handleNuevo()}>
                             <MdOutlineCreateNewFolder size="24" />
                              <h2 className="font-semibold text-[14px]">Nuevo</h2>
                           </div>
