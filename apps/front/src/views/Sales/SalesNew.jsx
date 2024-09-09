@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
-import logo from "../../assets/logo/elchozo.png";
+import logo from "../../assets/logo/elChozo.png";
 import { MdDeleteSweep } from "react-icons/md";
 import { MdOutlineCreateNewFolder, MdPrint } from "react-icons/md";
 import { IoLogOutOutline } from "react-icons/io5";
