@@ -754,9 +754,7 @@ function Sales() {
         </div>
       </div>
       
-      <div className="h-screen w-[20%] bg-blue-300">
-        <h2>Tiquete de Venta</h2>
-      </div>  
+
     </>
   );
 };

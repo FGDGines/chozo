@@ -93,11 +93,18 @@ function App() {
           }
         />
         <Route
-          path="/salesNew"
+          path="/SalesNew"
           element={
             isAuthenticated ? <SalesNew />  : (<Navigate to="/" /> )
           }
         />
+        <Route
+          path="/Sales"
+          element={
+            isAuthenticated ? <Sales />  : (<Navigate to="/" /> )
+          }
+        />
+
         <Route
           path="/sell"
           element={

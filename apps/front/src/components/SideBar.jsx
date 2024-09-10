@@ -54,7 +54,7 @@ function SideBar() {
     ],
     customers: [
       { icon: <MdHome />, text: "Inicio", to: "/home" },
-      // { icon: <RiMoneyDollarCircleFill />, text: "Vender", to: "/sales" },
+      { icon: <RiMoneyDollarCircleFill />, text: "Vender", to: "/sales" },
       // { icon: <FcStatistics />, text: "Ventas", to: "/sell" },
       { icon: <FaPeopleGroup />, text: "Clientes", to: "/customers" },
       { icon: <IoPersonAdd />, text: "Nuevo", to: "/createCustomer" },

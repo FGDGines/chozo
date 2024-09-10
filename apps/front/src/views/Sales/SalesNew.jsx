@@ -158,25 +158,31 @@ function SalesNew(){
        e.preventDefault();
        const id = e.target.value;
        const ele = articles.find(ele=>ele.id==id);
+       const vau = Number(ele.art_precioventa)/(1+Number(ele.art_impuestoventa)/100);
+       const vimp = Number(ele.art_precioventa) - vau;
        const newReg =  {
            id: ele.id,
            detalles: ele.art_detalles,
            cantidad: 1,
-           valoruni: Number(ele.art_precioventa),
+           valoruni: vau,
            vtotal: Number(ele.art_precioventa),
            nitem: xitem + 1,
            impuesto: Number(ele.art_impuestoventa),
+           vimpuesto: vimp,
            preciocosto: Number(ele.art_ultimocosto),
+           precioventa: Number(ele.art_precioventa),
+           vtotal_str: ele.art_precioventa.toFixed(2),
        };
        setCarrito([...carrito, newReg]);
        setXitem(xitem + 1);
-       let bru = totales.bruto + newReg.vtotal;
-       bru = bru;
-       let imp = totales.impuesto + (newReg.vtotal * newReg.impuesto)/100;
-       imp = imp;
-       let tot = bru + imp;
+       let bru = totales.bruto + newReg.valoruni;
+       let imp = totales.impuesto + vimp;
+       bru = Number(bru.toFixed(2));
+       imp = Number(imp.toFixed(2));
+       let tot = totales.total + newReg.vtotal;
        setTotales({bruto: bru, impuesto: imp, total: tot, fpagos: 0, efectivo: 0, entregado: 0, cambio: 0})
        setSelectedArticulo(0);
+       setValorFpago(tot);
        //localSorage.removeItem("Carrito");
        const updatedItemsJSON = JSON.stringify([...carrito, newReg]);
        localStorage.setItem("Carrito", updatedItemsJSON);
@@ -205,14 +211,16 @@ function SalesNew(){
     //cambiar cantidades
     const handleCantidad = (e, reg) => {
       if(!swnuevo) return;
-      let can = e.target.value;
+      let can = Number(e.target.value);
       let bru = 0;
       let imp = 0;
+      let tot = 0;
       if(can<0) can = 0;
       const elementos = [];
       carrito.forEach(ele=>{
         if(ele.nitem==reg){
-            const vt = ele.valoruni * can;
+            const vt = Number(ele.precioventa) * can;
+            const vimp = vt - Number(ele.valoruni) * can;
             const k = {
                 id: ele.id,
                 detalles: ele.detalles,
@@ -221,23 +229,28 @@ function SalesNew(){
                 vtotal: vt,
                 nitem: ele.nitem,
                 impuesto: ele.impuesto,
+                vimpuesto: vimp,
                 preciocosto: ele.preciocosto,
+                precioventa: ele.precioventa,
+                vtotal_str: vt.toFixed(2),
             };
-            bru+= k.vtotal;
-            imp+= k.vtotal * k.impuesto / 100;
+            bru+= k.valoruni * can;
+            imp+= k.vimpuesto;
+            tot+= vt;
             elementos.push(k);
         } else {
-            bru+= ele.vtotal;
-            imp+= ele.vtotal * ele.impuesto /100;
+            bru+= ele.valoruni * ele.cantidad;
+            imp+= ele.vimpuesto;
+            tot+= ele.vtotal;
             elementos.push(ele);
         };
       });
-      bru = bru;
-      imp = imp;
-      let tot = bru + imp;
+      bru = Number(bru.toFixed(2));
+      imp = Number(imp.toFixed(2));
       setCarrito(elementos);
       setTotales({bruto: bru, impuesto: imp, total: tot, fpagos: 0, efectivo: 0, entregado: 0, cambio: 0})
       //localSorage.removeItem("Carrito");
+      setValorFpago(tot);
       const updatedItemsJSON = JSON.stringify(elementos);
       localStorage.setItem("Carrito", updatedItemsJSON);
    };
@@ -262,21 +275,30 @@ function SalesNew(){
          toast.warning("Codigo de barra inexistente");
          return;
       };
+      const vau = Number(ele.art_precioventa)/(1+Number(ele.art_impuestoventa)/100);
+      const vimp = Number(ele.art_precioventa) - vau;
       const newReg =  {
           id: ele.id,
           detalles: ele.art_detalles,
           cantidad: 1,
-          valoruni: Number(ele.art_precioventa),
+          valoruni: vau,
           vtotal: Number(ele.art_precioventa),
           nitem: xitem + 1,
           impuesto: Number(ele.art_impuestoventa),
+          vimpuesto: vimp,
           preciocosto: Number(ele.art_ultimocosto),
+          precioventa: Number(ele.art_precioventa),
+          vtotal_str: ele.art_precioventa.toFixed(2),
       };
+
       setCarrito([...carrito, newReg]);
       setXitem(xitem + 1);
-      let bru = totales.bruto + newReg.vtotal;
-      let imp = totales.impuesto + (newReg.vtotal * newReg.impuesto)/100;
-      let tot = bru + imp;
+      let bru = totales.bruto + newReg.valoruni;
+      let imp = totales.impuesto + vimp;
+      let tot = totales.total + newReg.vtotal;
+      bru = Number(bru.toFixed(2));
+      imp = Number(imp.toFixed(2));
+
       setTotales({bruto: bru, impuesto: imp, total: tot, fpagos: 0, efectivo: 0, entregado: 0, cambio: 0})
       setCodbarra("");
       //localSorage.removeItem("Carrito");
@@ -293,12 +315,15 @@ function SalesNew(){
       let imp = 0;
       let tot = 0;
       nuevo.forEach(i=>{
-        bru+=i.vtotal;
-        imp+=(i.vtotal * i.impuesto)/100;
+        bru+=i.valoruni*i.cantidad;
+        tot+=i.vtotal;
+        imp+=i.vimpuesto;
       });
-      tot = bru + imp;
+      bru = Number(bru.toFixed(2));
+      imp = Number(imp.toFixed(2));
       setTotales({bruto: bru, impuesto: imp, total: tot, fpagos: 0});
       //localSorage.removeItem("Carrito");
+      setValorFpago(tot);
       const updatedItemsJSON = JSON.stringify(nuevo);
       localStorage.setItem("Carrito", updatedItemsJSON);
     };
@@ -476,14 +501,18 @@ function SalesNew(){
           return;
        };
        setSwnuevo(false);
-       handlePrint();
-       blanquear();
-       getConsecutivo();
-       setSwnuevo(true);
        setViewSpinner(false);
     };  //aqui termina la fase de guardado de la factura de venta
 
     //funcion de impresion tiquete de venta
+    const handleImprimir = () => {
+      if(swnuevo) {
+        toast.warning("La factura debe estar salvada en el sistema");
+        return;
+      };
+      handlePrint();
+    };
+
     const handlePrint = useReactToPrint({
       content: () => printRef.current,
     });
@@ -503,7 +532,7 @@ function SalesNew(){
                               carrito={carrito} />
         }
         <div className="flex">
-            <div  ref={printRef} className="w-[30%] border-2 h-screen p-5 bg-white">
+            <div  ref={printRef} className="w-[30%] border-2 h-screen py-5 px-2 bg-white">
                 <div className="flex">
                   <img src={logo} className="w-14 h-14"/>
                   <div className="ml-3">
@@ -536,13 +565,13 @@ function SalesNew(){
                     <tbody>
                        {carrito.map(car=>
                          <tr className="text-[10px]">
-                            <td className="text-left">{car.detalles}</td>
+                            <td className="text-left w-60">{car.detalles}</td>
                             <td><input type="number"
                                        name="cantidad"
-                                       className="w-20 text-right"
+                                       className="w-12 text-right"
                                        value={car.cantidad}
                                        onChange={(e)=>handleCantidad(e, car.nitem)}/></td>
-                            <td className="text-right">{car.vtotal}€</td>
+                            <td className="text-right w-20">{car.vtotal_str}€</td>
                             {swnuevo &&
                               <td className="px-3 cursor-pointer hover:text-red-700"
                               onClick={(e)=>handleEditar(e, car.nitem)}><FaEdit size="14"/></td>
@@ -679,7 +708,7 @@ function SalesNew(){
                           </div>
                           <div className="w-[30%]">
                              <h2 className="bg-blue-400 text-white rounded-md text-center">Digite Valor</h2>
-                             <input type="number" name="valorFP" className="w-36 mt-2 text-right" value={valorFpago} onChange={(e)=>cambiaValorFpago(e)}/>
+                             <input type="number" name="valorFP" className="w-24 mt-2 text-right" value={valorFpago} onChange={(e)=>cambiaValorFpago(e)}/>
                           </div>
                        </div>
                        <button className="bg-blue-400 rounded-lg p-1 text-white w-[50%]"
@@ -736,7 +765,7 @@ function SalesNew(){
                              <h2 className="font-semibold text-[14px]">Salvar</h2>
                           </div>
                           <div className="p-2 bg-gray-300 rounded-lg border border-gray-950 ml-2 cursor-pointer"
-                              onClick={()=>handlePrint()}>
+                              onClick={()=>handleImprimir()}>
                              <MdPrint size="24"/>
                              <h2 className="font-semibold text-[14px]">Imprimir</h2>
                           </div>
