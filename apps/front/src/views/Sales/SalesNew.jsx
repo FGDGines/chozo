@@ -59,11 +59,14 @@ function SalesNew(){
       let imp = 0;
       let tot = 0;
       StorageItems.forEach(i=>{
-        bru+=i.vtotal;
-        imp+=(i.vtotal * i.impuesto)/100;
+        tot+=i.vtotal;
+        imp+=i.vimpuesto;
       });
-      tot = bru + imp;
+      bru = tot - imp;
+      bru = Number(bru.toFixed(2));
+      imp = Number(imp.toFixed(2));
       setTotales({bruto: bru, impuesto: imp, total: tot, fpagos: 0});
+      setValorFpago(tot);
     };
 
     const closeEditarSinCambios = () => setViewEditar(false);

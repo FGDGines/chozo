@@ -9,34 +9,34 @@ function ModalEditRegistro({onClose, closeSinCambios, record, carrito}){
         id: reg.id,
         nitem: reg.nitem,
         detalles: reg.detalles,
-        valoruni: Number(reg.valoruni),
+        valoruni: Number(reg.valoruni.toFixed(2)),
         cantidad: Number(reg.cantidad),
         impuesto: Number(reg.impuesto),
-        vtotal: Number(reg.vtotal),
-        vimpuesto: Number(reg.vtotal) * Number(reg.impuesto)/100,
-        total: Number(reg.vtotal) * (1 + Number(reg.impuesto)/100),
+        vtotal: Number(reg.vtotal.toFixed(2)),
+        vimpuesto: Number(reg.vimpuesto.toFixed(2)),
+        preciocosto: Number(reg.preciocosto.toFixed(2)),
+        precioventa: Number(reg.precioventa.toFixed(2)),
      });
    }, []);
 
    const handleCambios = (e) => {
      const propiedad = e.target.name;
      const value= Number(e.target.value);
-     if(propiedad=="valoruni"){
-        const vt = registro.cantidad * value;
-        const vimp = vt * registro.impuesto/100;
-        const tot = vt + vimp;
-        setRegistro({...registro, valoruni: value, vtotal:vt, vimpuesto:vimp, total: tot});
+     if(propiedad=="precioventa"){
+        const vau = value/(1+Number(registro.impuesto)/100);
+        const vimp = value - vau ;
+        const tot = value * registro.cantidad;
+        setRegistro({...registro, valoruni: vau, vtotal:tot, vimpuesto:vimp, precioventa: value, total: tot});
      };
      if(propiedad=="impuesto"){
-        const vimp = registro.vtotal * value/100;
-        const tot = registro.vtotal + vimp;
-        setRegistro({...registro, impuesto: value, vimpuesto:vimp, total: tot});
+        const vau = Number(registro.precioventa)/(1 + Number(value/100));
+        const vimp = registro.vtotal - vau * registro.cantidad;
+        setRegistro({...registro, impuesto: value, vimpuesto:vimp, valoruni: vau});
      };
      if(propiedad=="cantidad"){
-        const vt = registro.valoruni * value;
+        const vt = Number(registro.precioventa) * value;
         const vimp = vt * registro.impuesto/100;
-        const tot = vt + vimp;
-        setRegistro({...registro, cantidad: value, vtotal:vt, vimpuesto:vimp, total: tot});
+        setRegistro({...registro, cantidad: value, vtotal:vt, vimpuesto:vimp, total: vt});
      };
    };
 
@@ -53,6 +53,9 @@ function ModalEditRegistro({onClose, closeSinCambios, record, carrito}){
             nitem: record,
             impuesto: registro.impuesto,
             preciocosto: ele.preciocosto,
+            precioventa: registro.precioventa,
+            vimpuesto: registro.vimpuesto,
+            vtotal_str: registro.vtotal.toFixed(2),
           };
           nuevo.push(nreg);
         } else {
@@ -74,18 +77,18 @@ function ModalEditRegistro({onClose, closeSinCambios, record, carrito}){
             <h2>{record}</h2>
             <h2>Artículo</h2>
             <h2>{registro.detalles}</h2>
-            <h2>Valor Unitario</h2>
-            <input type="number" name="valoruni" value={registro.valoruni} className="border border-black" onChange={(e)=>handleCambios(e)}/>
+            <h2>Precio Venta</h2>
+            <input type="number" name="precioventa" value={registro.precioventa} className="border border-black" onChange={(e)=>handleCambios(e)}/>
             <h2>Cantidad</h2>
             <input type="number" name="cantidad" value={registro.cantidad} className="border border-black" onChange={(e)=>handleCambios(e)}/>
             <h2>Impuesto %</h2>
             <input type="number" name="impuesto" value={registro.impuesto} className="border border-black" onChange={(e)=>handleCambios(e)}/>
             <h2>Bruto</h2>
-            <h2>{registro.vtotal}</h2>
+            <h2>{registro.valoruni * registro.cantidad}</h2>
             <h2>Impuesto</h2>
             <h2>{Number(registro.vimpuesto)}</h2>
             <h2>Total</h2>
-            <h2>{registro.total}</h2>
+            <h2>{registro.vtotal}</h2>
           </div>
           <div className="flex justify-center mt-5">
               <button className="bg-blue-500 px-4 py-1 rounded-md mx-2 text-white"
